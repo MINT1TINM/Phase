@@ -20,3 +20,36 @@
   border-bottom-width: 1px;
   border-bottom-color: rgba(0, 0, 0, 0.12) !important;
 }
+
+.text-field-dense.v-text-field--outlined > .v-input__control > .v-input__slot {
+  min-height: 36px;
+}
+
+.text-field-dense.v-text-field--outlined .v-label {
+  top: 8px;
+  font-size: 14px;
+}
+
+.text-field-dense.v-text-field.v-text-field--enclosed .v-input__prepend-inner {
+  margin-top: 7px;
+}
+
+.v-slide-group.v-item-group > .v-slide-group__next,
+.v-slide-group.v-item-group > .v-slide-group__prev {
+  display: none;
+}
+
+.v-slide-group__wrapper {
+  overflow: scroll;
+}
+
+.inner-sidebar {
+  padding: 15px 15px 15px 20px !important;
+  box-shadow: 5px 0 10px -5px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.v-list-item--active.theme--dark {
+  color: white;
+}

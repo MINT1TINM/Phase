@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <v-navigation-drawer expand-on-hover mini-variant-width="56" app clipped>
+  <v-app dark>
+    <v-navigation-drawer expand-on-hover mini-variant-width="56" app clipped permanent>
       <v-list nav dense>
         <v-list-item link v-for="(item,i) in appList" :key="i" :to="item.route">
           <v-list-item-icon>
