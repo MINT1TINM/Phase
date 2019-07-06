@@ -11,7 +11,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app fixed style="z-index:9" clipped-left>
+    <v-app-bar flat app fixed clipped-left class="navbar">
       <v-btn icon>
         <v-icon>mdi-apps</v-icon>
       </v-btn>
@@ -24,8 +24,9 @@
         <span class="white--text">M</span>
       </v-avatar>
     </v-app-bar>
-
-    <router-view></router-view>
+    <v-content>
+      <router-view></router-view>
+    </v-content>
   </v-app>
 </template>
 
@@ -41,7 +42,7 @@ export default {
         },
         {
           icon: "mdi-file-document-outline",
-          name: "项目",
+          name: "项目栏",
           route: "/dashboard/project"
         },
         {

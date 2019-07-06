@@ -1,45 +1,61 @@
 <template>
-  <v-content style="overflow:scroll">
-    <v-container fluid fill-height grid-list-xl style="padding:0 10px">
-      <div class="project-column" v-for="(item,i) in projectList" :key="i">
-        <v-hover v-slot:default="{ hover }">
-          <v-card min-width="400px" height="100%" :elevation="hover ? 12 : 2">
-            <project-column :projectId="item.projectId"></project-column>
-          </v-card>
-        </v-hover>
-      </div>
-
-      <div class="project-column">
-        <v-hover v-slot:default="{ hover }">
-          <v-card min-width="400px" height="100%" :elevation="hover ? 12 : 2" ripple>
-            <v-container fill-height>
-              <v-layout justify-center>
-                <v-icon size="50">mdi-plus</v-icon>
-              </v-layout>
-            </v-container>
-          </v-card>
-        </v-hover>
-      </div>
-    </v-container>
-  </v-content>
+  <v-container fluid grid-list-xl fill-height>
+    <v-layout row>
+      <v-sheet width="100%" height="100%" color="transparent">
+        <v-slide-group center-active show-arrows style="height:100%">
+          <v-slide-item>
+            <v-card class="ma-2" width="100" @click="createProject()">
+              <v-container fill-height>
+                <v-layout align-center justify-center>
+                  <v-icon size="30">mdi-plus</v-icon>
+                </v-layout>
+              </v-container>
+            </v-card>
+          </v-slide-item>
+          <v-slide-item v-for="(item,i) in projectList" :key="i">
+            <v-card class="ma-2" width="400">
+              <project-column-detail :projectId="item.projectId"></project-column-detail>
+            </v-card>
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-import projectColumn from "./ProjectColumn";
+import projectColumnDetail from "./ProjectColumnDetail";
 export default {
   components: {
-    projectColumn: projectColumn
+    projectColumnDetail: projectColumnDetail
   },
   data() {
     return {
       projectList: [
         {
           projectId: 1
+        },
+        {
+          projectId: 1
+        },
+        {
+          projectId: 1
+        },
+        {
+          projectId: 1
+        },
+        {
+          projectId: 1
+        },
+        {
+          projectId: 1
         }
       ]
     };
   },
-  methods: {}
+  methods: {
+    async createProject() {}
+  }
 };
 </script>
 

@@ -5,6 +5,18 @@
 }
 
 .project-column {
-  padding: 20px 10px;
+  padding: 10px;
   height: 100%;
+}
+
+.v-toolbar__content,
+.v-toolbar__extension {
+  padding: 4px 20px;
+}
+
+.navbar {
+  z-index: 9;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgba(0, 0, 0, 0.12) !important;
 }
