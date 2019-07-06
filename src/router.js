@@ -12,7 +12,21 @@ export default new Router({
     },
     {
       path: "/dashboard",
-      component: () => import("./views/Dashboard")
+      component: () => import("./views/Dashboard"),
+      children: [
+        {
+          path: "/dashboard/timeline",
+          component: () => import("./components/timeline/Timeline")
+        },
+        {
+          path: "/dashboard/project",
+          component: () => import("./components/project/Project")
+        },
+        {
+          path: "/dashboard/contact",
+          component: () => import("./components/contact/Contact")
+        }
+      ]
     }
   ]
 });
