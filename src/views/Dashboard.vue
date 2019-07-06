@@ -1,16 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar style="z-index:9">
-      <v-btn icon>
-        <v-icon>mdi-apps</v-icon>
-      </v-btn>
-      <span class="font-weight-black navbar-logo ml-1">PHASE</span>
-      <v-spacer></v-spacer>
-      <v-avatar color="primary" size="36">
-        <span class="white--text">M</span>
-      </v-avatar>
-    </v-app-bar>
-    <v-navigation-drawer expand-on-hover mini-variant-width="56" permanent clipped>
+    <v-navigation-drawer expand-on-hover mini-variant-width="56" app clipped>
       <v-list nav dense>
         <v-list-item link v-for="(item,i) in appList" :key="i" :to="item.route">
           <v-list-item-icon>
@@ -20,9 +10,22 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-content>
-      <router-view></router-view>
-    </v-content>
+
+    <v-app-bar app fixed style="z-index:9" clipped-left>
+      <v-btn icon>
+        <v-icon>mdi-apps</v-icon>
+      </v-btn>
+      <span class="font-weight-black navbar-logo ml-1">
+        PHASE
+        <span class="grey--text font-weight-regular">{{$route.meta}}</span>
+      </span>
+      <v-spacer></v-spacer>
+      <v-avatar color="primary" size="36">
+        <span class="white--text">M</span>
+      </v-avatar>
+    </v-app-bar>
+
+    <router-view></router-view>
   </v-app>
 </template>
 

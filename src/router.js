@@ -16,14 +16,17 @@ export default new Router({
       children: [
         {
           path: "/dashboard/timeline",
+          meta: "时间线",
           component: () => import("./components/timeline/Timeline")
         },
         {
           path: "/dashboard/project",
+          meta: "项目栏",
           component: () => import("./components/project/Project")
         },
         {
           path: "/dashboard/contact",
+          meta: "通讯录",
           component: () => import("./components/contact/Contact")
         }
       ]
