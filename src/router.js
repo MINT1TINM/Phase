@@ -4,7 +4,6 @@ import Router from "vue-router";
 Vue.use(Router);
 
 export default new Router({
-  mode: "history",
   routes: [
     {
       path: "/",
@@ -23,6 +22,11 @@ export default new Router({
           path: "/dashboard/project",
           meta: "项目栏",
           component: () => import("./components/project/Project")
+        },
+        {
+          path: "/dashboard/project/:projectId",
+          meta: "项目栏",
+          component: () => import("./components/project/ProjectColumnDetail")
         },
         {
           path: "/dashboard/contact",

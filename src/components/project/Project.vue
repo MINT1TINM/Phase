@@ -2,7 +2,7 @@
   <v-container fluid grid-list-md fill-height style="padding:0">
     <v-layout row wrap>
       <v-flex style="padding: 0" xs2>
-        <v-navigation-drawer class="inner-sidebar">
+        <v-navigation-drawer permanent class="inner-sidebar">
           <v-text-field
             prepend-inner-icon="mdi-magnify"
             single-line
@@ -16,7 +16,7 @@
           </v-toolbar>
           <v-divider></v-divider>
           <v-list nav dense color="transparent" style="padding:8px 0px">
-            <v-list-item-group v-model="item" color="primary">
+            <v-list-item-group color="primary">
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title>工作</v-list-item-title>
@@ -27,7 +27,7 @@
                   </v-btn>
                 </v-list-item-action>
               </v-list-item>
-              <v-btn block flat color="primary" dark>
+              <v-btn block color="primary" dark>
                 <v-icon size="17">mdi-plus</v-icon>
               </v-btn>
             </v-list-item-group>
@@ -46,7 +46,7 @@
                 </v-container>
               </v-card>
             </v-slide-item>
-            <v-slide-item v-for="(item,i) in projectList" :key="i">
+            <v-slide-item v-for="(item,i) in projectList" :key="item.projectId">
               <v-card class="mx-2 my-3" width="400">
                 <project-column :projectId="item.projectId"></project-column>
               </v-card>
@@ -68,22 +68,7 @@ export default {
     return {
       projectList: [
         {
-          projectId: 1
-        },
-        {
-          projectId: 1
-        },
-        {
-          projectId: 1
-        },
-        {
-          projectId: 1
-        },
-        {
-          projectId: 1
-        },
-        {
-          projectId: 1
+          projectId: 999
         }
       ]
     };
