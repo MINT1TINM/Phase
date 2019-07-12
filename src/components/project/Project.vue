@@ -46,7 +46,7 @@
                 </v-container>
               </v-card>
             </v-slide-item>
-            <v-slide-item v-for="(item,i) in projectList" :key="item.projectId">
+            <v-slide-item v-for="(item,i) in projectList" :key="`project-${i}`">
               <v-card class="mx-2 my-3" width="400">
                 <project-column :projectId="item.projectId"></project-column>
               </v-card>

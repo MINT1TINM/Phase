@@ -10,7 +10,10 @@
     <v-list two-line style="height:calc(100vh - 162px);overflow:scroll" color="transaprent">
       <v-list-item-group>
         <template v-for="(item, index) in items">
-          <v-list-item :key="index" :to="`/dashboard/project/${projectId}/task/${item.id}`">
+          <v-list-item
+            :key="`task-${index}`"
+            :to="`/dashboard/project/${projectId}/task/${item.id}`"
+          >
             <template v-slot:default="{ active, toggle }">
               <v-list-item-content>
                 <v-list-item-title v-text="item.title"></v-list-item-title>
