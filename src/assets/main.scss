@@ -50,6 +50,12 @@
   z-index: 1;
 }
 
+.inner-sidebar-withoutpadding {
+  box-shadow: 5px 0 10px -5px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
 .v-list-item--active.theme--dark {
   color: white;
 }

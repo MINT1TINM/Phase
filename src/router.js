@@ -26,7 +26,14 @@ export default new Router({
         {
           path: "/dashboard/project/:projectId",
           meta: "项目栏",
-          component: () => import("./components/project/ProjectColumnDetail")
+          component: () => import("./components/project/ProjectColumnDetail"),
+          children: [
+            {
+              path: "/dashboard/project/:projectId/task/:taskId",
+              meta: "项目栏",
+              component: () => import("./components/project/ProjectTaskDetail")
+            }
+          ]
         },
         {
           path: "/dashboard/contact",
