@@ -7,20 +7,17 @@
         <v-icon>mdi-arrow-right</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-list two-line style="height:calc(100vh - 162px);overflow:scroll" color="transaprent">
+    <v-list style="height:calc(100vh - 162px);overflow:scroll" color="transaprent">
       <v-list-item-group>
-        <template v-for="(item, index) in taskList">
-          <v-list-item
-            :key="`task-${index}`"
-            :to="`/dashboard/project/${projectId}/task/${item.id}`"
-          >
+        <template v-for="(item, i) in taskList">
+          <v-list-item :key="`task-${i}`" :to="`/dashboard/project/${projectId}/task/${item.id}`">
             <template v-slot:default="{ active, toggle }">
               <v-list-item-content>
                 <v-list-item-title v-text="item.title"></v-list-item-title>
-                <v-list-item-subtitle class="grey--text" v-text="item.summary"></v-list-item-subtitle>
               </v-list-item-content>
             </template>
           </v-list-item>
+          <v-divider v-if="i + 1 < taskList.length" :key="i"></v-divider>
         </template>
       </v-list-item-group>
     </v-list>
@@ -37,8 +34,11 @@ export default {
       taskList: [
         {
           id: 1,
-          title: "test",
-          summary: "test"
+          title: "test"
+        },
+        {
+          id: 2,
+          title: "test 2"
         }
       ]
     };

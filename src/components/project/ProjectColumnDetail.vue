@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar flat class="navbar" dense>
+    <v-toolbar flat class="navbar" dense style="z-index:2">
       <v-tabs v-model="tab">
         <v-tab key="1">任务清单</v-tab>
         <v-tab key="2">项目设置</v-tab>
