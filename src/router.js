@@ -10,6 +10,14 @@ export default new Router({
       component: () => import("./views/Landing")
     },
     {
+      path: "/login",
+      component: () => import("./views/Login")
+    },
+    {
+      path: "/register",
+      component: () => import("./views/Register")
+    },
+    {
       path: "/dashboard",
       component: () => import("./views/Dashboard"),
       children: [
