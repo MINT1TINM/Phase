@@ -1,7 +1,8 @@
 <template>
   <v-app>
     <v-layout row>
-      <v-flex class="hidden-sm-and-down" md9 style="background-color:#000"></v-flex>
+      <v-flex class="hidden-sm-and-down" md9 style="background-color:#000">
+      </v-flex>
       <v-flex xs12 md3>
         <v-container fill-height>
           <v-layout row wrap align-center justify-start>
@@ -22,7 +23,7 @@
               <v-btn class="mt-3" block color="green" dark @click="wechatLogin()">微信登录</v-btn>
               <v-btn class="mt-3" block text color="primary">忘记密码?</v-btn>
               <v-divider class="my-3"></v-divider>
-              <v-btn block text color="primary">注册新用户</v-btn>
+              <v-btn block text color="primary" :to="'/register'">注册新用户</v-btn>
             </v-flex>
           </v-layout>
         </v-container>
