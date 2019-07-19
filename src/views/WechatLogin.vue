@@ -8,7 +8,7 @@ export default {
   },
   methods: {
     async getAccessToken() {
-      let code = this.$route.params.code;
+      let code = this.$route.query.code;
       await wechatService.getAccessToken(code);
     }
   },
