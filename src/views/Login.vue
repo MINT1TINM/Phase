@@ -1,8 +1,7 @@
 <template>
   <v-app>
     <v-layout row>
-      <v-flex class="hidden-sm-and-down" md9 style="background-color:#000">
-      </v-flex>
+      <v-flex class="hidden-sm-and-down" md9 style="background-color:#000"></v-flex>
       <v-flex xs12 md3>
         <v-container fill-height>
           <v-layout row wrap align-center justify-start>
@@ -40,11 +39,13 @@ export default {
   methods: {
     wechatLogin() {
       let appid = "wxdfa1c9397935814c";
-      let redirect_uri = "https://phase.insdim.com";
+      let redirect_uri = "https://phase.insdim.com/wechat/login";
       let response_type = "code";
       let scope = "snsapi_login";
       let state = "state";
-      window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${appid}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}&state=${state}#wechat_redirect`;
+      window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${appid}&redirect_uri=${encodeURIComponent(
+        redirect_uri
+      )}&response_type=${response_type}&scope=${scope}&state=${state}#wechat_redirect`;
     }
   },
   mounted() {}

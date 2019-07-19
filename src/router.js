@@ -14,6 +14,10 @@ export default new Router({
       component: () => import("./views/Login")
     },
     {
+      path: "/wechat/login",
+      component: () => import("./views/WechatLogin")
+    },
+    {
       path: "/register",
       component: () => import("./views/Register")
     },
