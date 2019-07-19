@@ -39,7 +39,7 @@ export default {
   methods: {
     wechatLogin() {
       let appid = "wxdfa1c9397935814c";
-      let redirect_uri = "https://phase.insdim.com/wechat/login";
+      let redirect_uri = "https://phase.insdim.com/#/wechat/login";
       let response_type = "code";
       let scope = "snsapi_login";
       let state = "state";
