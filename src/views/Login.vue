@@ -14,11 +14,22 @@
                   hide-details
                   outlined
                   single-line
-                  label="邮箱"
+                  label="用户名"
+                  v-model="loginForm.username"
+                  :rules="[v => !!v || '请填写用户名']"
                 ></v-text-field>
-                <v-text-field class="text-field-dense" outlined single-line label="密码"></v-text-field>
+                <v-text-field
+                  class="text-field-dense"
+                  type="password"
+                  outlined
+                  single-line
+                  label="密码"
+                  v-model="loginForm.password"
+                  :rules="[v => !!v || '请填写密码']"
+                  @keyup.enter="standardLogin()"
+                ></v-text-field>
               </v-form>
-              <v-btn block color="primary" dark>登录</v-btn>
+              <v-btn block color="primary" dark @click="standardLogin()">登录</v-btn>
               <v-btn class="mt-3" block color="green" dark @click="wechatLogin()">微信登录</v-btn>
               <v-btn class="mt-3" block text color="primary">忘记密码?</v-btn>
               <v-divider class="my-3"></v-divider>
@@ -32,9 +43,15 @@
 </template>
 
 <script>
+import authService from "../service/AuthService";
 export default {
   data() {
-    return {};
+    return {
+      loginForm: {
+        username: "",
+        password: ""
+      }
+    };
   },
   methods: {
     wechatLogin() {
@@ -46,6 +63,15 @@ export default {
       window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${appid}&redirect_uri=${encodeURIComponent(
         redirect_uri
       )}&response_type=${response_type}&scope=${scope}&state=${state}#wechat_redirect`;
+    },
+    async standardLogin() {
+      if (this.$refs.loginForm.validate()) {
+        await authService.standardLogin(
+          this.loginForm.username,
+          this.loginForm.password
+        );
+        this.$router.push({path:"/dashboard/timeline"})
+      }
     }
   },
   mounted() {}
