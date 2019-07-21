@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import authService from "../service/AuthService";
-import userService from "../service/UserService";
+import authService from "../../service/AuthService";
+import userService from "../../service/UserService";
 import { mapGetters } from "vuex";
 import { setTimeout } from "timers";
 export default {
@@ -93,7 +93,7 @@ export default {
       }
     },
     async autoLogin() {
-      if (this.authorization.userID != 0) {
+      if (this.authorization.userID) {
         this.autoLoginProgress = true;
         let userID = this.authorization.userID;
         await userService.getUserInfo(userID);

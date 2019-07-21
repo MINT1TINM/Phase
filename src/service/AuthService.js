@@ -2,7 +2,7 @@ import basicService from "./BasicService";
 import store from "../store/store";
 
 class authService {
-  static async getWechatAccessToken(code) {
+  static async wechatLogin(code) {
     const rsp = await basicService.postRequest("/wechat/login", {
       code: code
     });

@@ -20,9 +20,25 @@
         <span class="grey--text font-weight-regular">{{$route.meta}}</span>
       </span>
       <v-spacer></v-spacer>
-      <v-avatar color="primary" size="36">
-        <span class="white--text">M</span>
-      </v-avatar>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on">
+            <v-avatar color="primary" size="36">
+              <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL" />
+              <span v-else-if="userInfo.nickname" class="white--text">{{nickName}}</span>
+              <span v-else class="white--text">{{userInfo.username}}</span>
+            </v-avatar>
+          </v-btn>
+        </template>
+        <v-list dense>
+          <v-list-item v-for="(item, i) in userMenu" :key="`userMenu-${i}`">
+            <v-list-item-avatar>
+              <v-icon size="25">{{item.icon}}</v-icon>
+            </v-list-item-avatar>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-content>
       <router-view></router-view>
@@ -31,6 +47,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -50,10 +67,29 @@ export default {
           name: "通讯录",
           route: "/dashboard/contact"
         }
+      ],
+      userMenu: [
+        {
+          icon: "mdi-settings",
+          title: "设置"
+        },
+        {
+          icon: "mdi-exit-to-app",
+          title: "注销"
+        }
       ]
     };
   },
-  methods: {}
+  methods: {},
+  computed: {
+    ...mapGetters({
+      userInfo: "user/userInfo"
+    }),
+    nickName: function() {
+      return this.userInfo.nickname.substring(0, 1);
+    }
+  },
+  mounted() {}
 };
 </script>
 

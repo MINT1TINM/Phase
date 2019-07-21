@@ -11,11 +11,11 @@ export default new Router({
     },
     {
       path: "/login",
-      component: () => import("./views/Login")
+      component: () => import("./views/login/Login")
     },
     {
       path: "/wechat/login",
-      component: () => import("./views/WechatLogin")
+      component: () => import("./views/login/WechatLogin")
     },
     {
       path: "/register",

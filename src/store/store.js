@@ -7,7 +7,7 @@ import user from "./modules/user";
 Vue.use(Vuex);
 
 const vuexSession = new VuexPersistence({
-  storage: window.sessionStorage,
+  storage: window.localStorage,
   reducer: state => ({
     user: state.user
   }),
