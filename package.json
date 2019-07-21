@@ -14,7 +14,7 @@
     "fibers": "^4.0.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
-    "vuetify": "^2.0.0-beta.7",
+    "vuetify": "^2.0.0-beta.9",
     "vuex": "^3.0.1",
     "vuex-persist": "^2.0.1"
   },

@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <v-layout row>
+    <v-layout>
       <v-flex class="hidden-sm-and-down" md9 style="background-color:#000"></v-flex>
       <v-flex xs12 md3>
         <v-container fill-height>
-          <v-layout row wrap align-center justify-start>
+          <v-layout wrap align-center justify-start>
             <v-flex xs12>
               <div class="display-1 font-weight-black mt-2 mb-4" style="color:#A64ED1">登录</div>
 
@@ -32,8 +32,8 @@
               <v-btn block color="primary" dark @click="standardLogin()">登录</v-btn>
               <v-btn class="mt-3" block color="green" dark @click="wechatLogin()">微信登录</v-btn>
               <v-btn class="mt-3" block text color="primary">忘记密码?</v-btn>
-              <v-divider class="my-3"></v-divider>
-              <v-btn block text color="primary" :to="'/register'">注册新用户</v-btn>
+              <!-- <v-divider class="my-3"></v-divider>
+              <v-btn block text color="primary" :to="'/register'">注册新用户</v-btn>-->
             </v-flex>
           </v-layout>
         </v-container>
@@ -44,6 +44,8 @@
 
 <script>
 import authService from "../service/AuthService";
+import userService from "../service/UserService";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -66,15 +68,28 @@ export default {
     },
     async standardLogin() {
       if (this.$refs.loginForm.validate()) {
-        await authService.standardLogin(
+        const rsp = await authService.standardLogin(
           this.loginForm.username,
           this.loginForm.password
         );
-        this.$router.push({path:"/dashboard/timeline"})
+        if (rsp.msg == "success") {
+          this.$router.push({ path: "/dashboard/timeline" });
+        }
       }
+    },
+    async autoLogin() {
+      let userID = this.authorization.userID;
+      await userService.getUserInfo(userID);
     }
   },
-  mounted() {}
+  computed: {
+    ...mapGetters({
+      authorization: "user/authorization"
+    })
+  },
+  mounted() {
+    this.autoLogin();
+  }
 };
 </script>
 
