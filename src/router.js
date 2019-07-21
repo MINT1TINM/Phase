@@ -19,7 +19,24 @@ export default new Router({
     },
     {
       path: "/register",
-      component: () => import("./views/Register")
+      component: () => import("./views/user/Register")
+    },
+    {
+      path: "/settings",
+      meta: "设置",
+      component: () => import("./views/settings/Settings"),
+      children: [
+        {
+          path: "/settings/profile",
+          meta: "个人信息",
+          component: () => import("./views/settings/Profile")
+        },
+        {
+          path: "/settings/notification",
+          meta: "通知",
+          component: () => import("./views/settings/Notification")
+        }
+      ]
     },
     {
       path: "/dashboard",

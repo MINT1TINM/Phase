@@ -25,6 +25,17 @@
   min-height: 36px;
 }
 
+.text-field-semidense.v-text-field--outlined
+  > .v-input__control
+  > .v-input__slot {
+  min-height: 48px;
+}
+
+.text-field-semidense.v-text-field--outlined .v-label {
+  top: 14px;
+  font-size: 14px;
+}
+
 .text-field-dense.v-text-field--outlined .v-label {
   top: 8px;
   font-size: 14px;
