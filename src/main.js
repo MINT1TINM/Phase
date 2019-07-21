@@ -19,6 +19,12 @@ axios.interceptors.request.use(config => {
   return config;
 });
 
+// http -> https for m***g wechat avatar
+Vue.filter("httpsfy", url => {
+  var realUrl = url.substring(4);
+  return "https" + realUrl;
+});
+
 new Vue({
   router,
   store,

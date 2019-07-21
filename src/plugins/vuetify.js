@@ -4,12 +4,15 @@ import zhHans from "vuetify/es5/locale/zh-Hans";
 import colors from "vuetify/lib/util/colors";
 Vue.use(Vuetify);
 
+import "./confirm-dialog/index";
+import "./snackbar/index";
+
 export default new Vuetify({
   theme: {
     options: {
       customProperties: true
     },
-    
+
     themes: {
       light: {
         primary: "#a64ed1",

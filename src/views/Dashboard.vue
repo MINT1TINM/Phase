@@ -24,14 +24,18 @@
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
             <v-avatar color="primary" size="36">
-              <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL" />
+              <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
               <span v-else-if="userInfo.nickname" class="white--text">{{nickName}}</span>
               <span v-else class="white--text">{{userInfo.username}}</span>
             </v-avatar>
           </v-btn>
         </template>
         <v-list dense>
-          <v-list-item v-for="(item, i) in userMenu" :key="`userMenu-${i}`">
+          <v-list-item
+            v-for="(item, i) in userMenu"
+            :key="`userMenu-${i}`"
+            @click="userMenuActions(i)"
+          >
             <v-list-item-avatar>
               <v-icon size="25">{{item.icon}}</v-icon>
             </v-list-item-avatar>
@@ -47,7 +51,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -80,7 +84,29 @@ export default {
       ]
     };
   },
-  methods: {},
+  methods: {
+    ...mapActions({
+      logOut: "user/logOut"
+    }),
+    async userMenuActions(num) {
+      switch (num) {
+        case 0:
+          // setting
+          break;
+        case 1:
+          // exit
+          try {
+            await this.$confirm("确认注销吗?");
+            this.logOut();
+            this.$router.push({ path: "/" });
+          } catch (err) {
+            break;
+          }
+          // this.$router.push({ path: "/" });
+          break;
+      }
+    }
+  },
   computed: {
     ...mapGetters({
       userInfo: "user/userInfo"

@@ -8,7 +8,7 @@ const state = {
   userInfo: {
     city: "",
     country: "",
-    headimgurl: "",
+    headImgURL: "",
     nickname: "",
     openid: "",
     privilege: [],
@@ -31,6 +31,27 @@ const mutations = {
   },
   updateUserAuth: (state, authorization) => {
     state.authorization = authorization;
+  },
+  clearUserInfo: state => {
+    state.userInfo = {
+      city: "",
+      country: "",
+      headImgURL: "",
+      nickname: "",
+      openid: "",
+      privilege: [],
+      province: "",
+      sex: "",
+      unionid: ""
+    };
+  },
+  clearAuthorization: state => {
+    state.authorization = {
+      access_token: "",
+      refresh_token: "",
+      token: "",
+      userID: null
+    };
   }
 };
 const actions = {
@@ -39,6 +60,10 @@ const actions = {
   },
   async getUserInfo(context, userInfo) {
     context.commit("updateUserInfo", userInfo);
+  },
+  async logOut(context) {
+    context.commit("clearUserInfo");
+    context.commit("clearAuthorization");
   }
 };
 

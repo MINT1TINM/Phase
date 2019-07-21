@@ -3,7 +3,7 @@
     <v-layout>
       <v-flex class="hidden-sm-and-down" md9 style="background-color:#000"></v-flex>
       <v-flex xs12 md3>
-        <v-container fill-height>
+        <v-container fill-height style="padding:20px">
           <v-layout wrap align-center justify-start>
             <v-flex xs12>
               <div class="display-1 font-weight-black mt-2 mb-4" style="color:#A64ED1">登录</div>
@@ -87,6 +87,7 @@ export default {
           this.loginForm.username,
           this.loginForm.password
         );
+        await userService.getUserInfo(await rsp.authorization.userID);
         if (rsp.msg == "success") {
           this.$router.push({ path: "/dashboard/timeline" });
         }
