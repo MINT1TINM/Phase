@@ -37,20 +37,24 @@
       <v-flex xs10 style="padding:0">
         <v-sheet width="100%" height="100%" color="transparent">
           <v-slide-group center-active show-arrows style="height:100%">
-            <v-slide-item>
-              <v-card class="ml-3 mr-2 my-3" width="100" @click="createProject()">
-                <v-container fill-height>
-                  <v-layout align-center justify-center>
-                    <v-icon size="30">mdi-plus</v-icon>
-                  </v-layout>
-                </v-container>
-              </v-card>
-            </v-slide-item>
-            <v-slide-item v-for="(item,i) in projectList" :key="`project-${i}`">
-              <v-card class="mx-2 my-3" width="400">
-                <project-column :projectId="item.projectId"></project-column>
-              </v-card>
-            </v-slide-item>
+            <transition appear appear-active-class="fade-left-enter">
+              <v-slide-item>
+                <v-card class="ml-3 mr-2 my-3" width="100" @click="createProject()">
+                  <v-container fill-height>
+                    <v-layout align-center justify-center>
+                      <v-icon size="30">mdi-plus</v-icon>
+                    </v-layout>
+                  </v-container>
+                </v-card>
+              </v-slide-item>
+            </transition>
+            <transition-group appear appear-active-class="fade-left-enter">
+              <v-slide-item v-for="(item,i) in projectList" :key="`project-${i}`">
+                <v-card class="mx-2 my-3" width="400">
+                  <project-column :projectId="item.projectId"></project-column>
+                </v-card>
+              </v-slide-item>
+            </transition-group>
           </v-slide-group>
         </v-sheet>
       </v-flex>

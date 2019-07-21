@@ -4,21 +4,23 @@
       <v-flex xs3 class="inner-sidebar-withoutpadding">
         <v-list>
           <v-list-item-group v-model="selectedTasks" multiple>
-            <template v-for="(item,i) in taskList">
-              <v-list-item
-                :key="`task-${i}`"
-                :to="`/dashboard/project/${$route.params.projectId}/task/${item.id}`"
-              >
-                <v-list-item-action>
-                  <v-checkbox color="primary"></v-checkbox>
-                </v-list-item-action>
+            <transition-group appear appear-active-class="fade-up-enter">
+              <template v-for="(item,i) in taskList">
+                <v-list-item
+                  :key="`task-${i}`"
+                  :to="`/dashboard/project/${$route.params.projectId}/task/${item.id}`"
+                >
+                  <v-list-item-action>
+                    <v-checkbox color="primary"></v-checkbox>
+                  </v-list-item-action>
 
-                <v-list-item-content>
-                  <v-list-item-title>{{item.title}}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-divider v-if="i + 1 < taskList.length" :key="i"></v-divider>
-            </template>
+                  <v-list-item-content>
+                    <v-list-item-title>{{item.title}}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-divider v-if="i + 1 < taskList.length" :key="i"></v-divider>
+              </template>
+            </transition-group>
           </v-list-item-group>
         </v-list>
       </v-flex>

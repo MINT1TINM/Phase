@@ -1,0 +1,50 @@
+.fade-enter {
+  animation: fade 0.5s;
+}
+
+.fade-up-enter {
+  animation: fade-up 0.4s;
+}
+
+.fade-up-enter-2 {
+  animation: fade-up 0.6s;
+}
+
+.fade-up-enter-3 {
+  animation: fade-up 0.8s;
+}
+
+.fade-left-enter {
+  animation: fade-left 0.4s;
+}
+
+@keyframes fade {
+  from {
+    color: rgba(39, 39, 39, 0);
+  }
+  to {
+    color: rgb(32, 32, 32);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fade-left {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
