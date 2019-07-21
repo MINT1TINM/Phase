@@ -6,7 +6,7 @@ class authService {
     const rsp = await basicService.postRequest("/wechat/login", {
       code: code
     });
-    store.dispatch("user/wechatLogin", rsp.authorization);
+    store.dispatch("user/login", rsp.authorization);
     return rsp;
   }
 
