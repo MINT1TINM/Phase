@@ -7,7 +7,7 @@
         <v-icon>mdi-arrow-right</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-list style="height:calc(100vh - 162px);overflow:scroll" color="transaprent">
+    <v-list style="height:calc(100vh - 153px);overflow:scroll" color="transparent">
       <v-list-item-group>
         <template v-for="(item, i) in taskList">
           <v-list-item :key="`task-${i}`" :to="`/dashboard/project/${projectId}/task/${item.id}`">

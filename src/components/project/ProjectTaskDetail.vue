@@ -55,6 +55,7 @@
               v-model="taskInfo.status"
               outlined
               hide-details
+              dense
               :items="statusList"
               item-text="text"
               item-value="value"
@@ -136,12 +137,12 @@
               disabled
               v-model="taskInfo.creator"
               text-field-semidense
-              class="text-field-semidense"
+              class="text-field-semidense mb-5"
               label="创建人"
               outlined
               hide-details
             ></v-text-field>
-            <v-textarea outlined></v-textarea>
+            <v-textarea class="text-field-semidense mb-5" outlined label="备注"></v-textarea>
           </v-form>
         </v-container>
       </v-flex>

@@ -40,6 +40,7 @@
                   :items="item.list"
                   v-model="userInfo[item.content]"
                   outlined
+                  dense
                   hide-details
                   style="line-height:14px"
                   item-text="title"

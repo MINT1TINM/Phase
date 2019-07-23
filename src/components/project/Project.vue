@@ -22,7 +22,7 @@
                   <v-list-item-title>工作</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <v-btn icon>
+                  <v-btn icon small>
                     <v-icon size="17">mdi-pencil-outline</v-icon>
                   </v-btn>
                 </v-list-item-action>
