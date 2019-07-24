@@ -1,19 +1,15 @@
 <template>
-  <div>
-    <v-container fluid grid-list-md>
+  <v-container fluid grid-list-md>
+    <transition appear appear-active-class="fade-up-enter">
       <v-layout row wrap>
-        <template v-for="(item, i) in taskList">
-          <v-flex xs12 :key="`task-${i}`">
-            <v-card :to="`/dashboard/project/${projectId}/task/${item.id}`">
-              <v-card-text
-                class="body-2 font-weight-black black--text text-uppercase"
-              >{{item.title}}</v-card-text>
-            </v-card>
-          </v-flex>
-        </template>
+        <v-flex xs12 v-for="(item, i) in taskList" :key="`task-${i}`">
+          <v-card :to="`/dashboard/project/${projectId}/task/${item.id}`">
+            <v-card-text class="body-2 font-weight-black black--text text-uppercase">{{item.title}}</v-card-text>
+          </v-card>
+        </v-flex>
       </v-layout>
-    </v-container>
-  </div>
+    </transition>
+  </v-container>
 </template>
 
 <script>

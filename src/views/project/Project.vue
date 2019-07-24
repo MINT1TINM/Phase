@@ -37,7 +37,7 @@
       <v-flex xs10 style="padding:0">
         <v-sheet width="100%" height="100%" color="transparent">
           <v-slide-group center-active show-arrows style="height:100%">
-            <transition appear appear-active-class="fade-left-enter">
+            <transition appear appear-active-class="fade-up-enter">
               <v-slide-item>
                 <v-card class="ml-3 mr-2 my-3" width="100" @click="createProject()">
                   <v-container fill-height>
@@ -48,7 +48,7 @@
                 </v-card>
               </v-slide-item>
             </transition>
-            <transition-group appear appear-active-class="fade-left-enter">
+            <transition-group appear appear-active-class="fade-up-enter">
               <v-slide-item v-for="(item,i) in projectList" :key="`project-${i}`">
                 <div class="mx-2 my-3" style="width:300px">
                   <project-column :projectId="item.projectId"></project-column>

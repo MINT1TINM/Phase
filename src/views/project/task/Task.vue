@@ -2,7 +2,7 @@
   <div style="height:calc(100vh - 113px)">
     <v-layout fill-height>
       <v-flex xs3 class="inner-sidebar-withoutpadding">
-        <task-list :projectId="$route.params.projectId"></task-list>
+        <task-list :projectId="projectId"></task-list>
       </v-flex>
       <v-flex xs9>
         <router-view></router-view>
@@ -20,7 +20,11 @@ export default {
   data() {
     return {};
   },
-
+  computed: {
+    projectId: function() {
+      return Number(this.$route.params.projectId);
+    }
+  },
   mounted() {}
 };
 </script>
