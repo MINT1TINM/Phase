@@ -6,7 +6,7 @@
         <span class="grey--text font-weight-regular">{{$route.meta}}</span>
       </span>
       <v-spacer></v-spacer>
-      <v-btn icon :to="'/dashboard/timeline'">
+      <v-btn icon :to="lastPage">
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-app-bar>
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -60,6 +61,9 @@ export default {
         { text: "二次验证", icon: "mdi-shield-lock" }
       ]
     };
+  },
+  computed: {
+    ...mapGetters({ lastPage: "system/lastPage" })
   }
 };
 </script>

@@ -50,9 +50,9 @@
             </transition>
             <transition-group appear appear-active-class="fade-left-enter">
               <v-slide-item v-for="(item,i) in projectList" :key="`project-${i}`">
-                <v-card class="mx-2 my-3" width="400">
+                <div class="mx-2 my-3" style="width:300px">
                   <project-column :projectId="item.projectId"></project-column>
-                </v-card>
+                </div>
               </v-slide-item>
             </transition-group>
           </v-slide-group>

@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -100,10 +100,14 @@ export default {
     ...mapActions({
       logOut: "user/logOut"
     }),
+    ...mapMutations({
+      updateLastPage: "system/updateLastPage"
+    }),
     async userMenuActions(num) {
       switch (num) {
         case 0:
           // setting
+          this.updateLastPage(this.$route.fullPath);
           this.$router.push({ path: "/settings/profile" });
           break;
         case 1:
