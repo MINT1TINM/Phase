@@ -68,6 +68,11 @@ export default new Router({
                   component: () => import("@/components/task/TaskDetail")
                 }
               ]
+            },
+            {
+              path: "/dashboard/project/:projectId/settings",
+              meta: "项目栏",
+              component: () => import("@/views/project/settings/Settings")
             }
           ]
         },

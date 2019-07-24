@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuetify from "vuetify/lib";
-import zhHans from "vuetify/es5/locale/zh-Hans";
+import zhHans from "./zhHans";
 import colors from "vuetify/lib/util/colors";
 Vue.use(Vuetify);
 
@@ -27,7 +27,7 @@ export default new Vuetify({
   },
   lang: {
     locales: { zhHans },
-    current: "zh-Hans"
+    current: "zhHans"
   },
   icons: {
     iconfont: "mdi"

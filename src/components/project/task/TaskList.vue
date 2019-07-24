@@ -3,8 +3,15 @@
     <transition appear appear-active-class="fade-up-enter">
       <v-layout row wrap>
         <v-flex xs12 v-for="(item, i) in taskList" :key="`task-${i}`">
-          <v-card :to="`/dashboard/project/${projectId}/task/${item.id}`">
-            <v-card-text class="body-2 font-weight-black black--text text-uppercase">{{item.title}}</v-card-text>
+          <v-card
+            v-if="$route.params.taskId==item.id"
+            class="card-active"
+            :to="`/dashboard/project/${projectId}/task/${item.id}`"
+          >
+            <v-card-text class="body-2 font-weight-black text-uppercase text-active">{{item.title}}</v-card-text>
+          </v-card>
+          <v-card v-else :to="`/dashboard/project/${projectId}/task/${item.id}`">
+            <v-card-text class="body-2 font-weight-black text-uppercase">{{item.title}}</v-card-text>
           </v-card>
         </v-flex>
       </v-layout>
