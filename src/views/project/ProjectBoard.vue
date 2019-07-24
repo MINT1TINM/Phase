@@ -12,7 +12,7 @@
     </v-toolbar>
     <v-tabs-items v-model="tab">
       <v-tab-item key="1">
-        <project-task-list></project-task-list>
+        <router-view></router-view>
       </v-tab-item>
       <v-tab-item key="2"></v-tab-item>
     </v-tabs-items>
@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import projectTaskList from "./ProjectTaskList";
+import taskList from "@/components/project/task/TaskList";
 export default {
   components: {
-    projectTaskList: projectTaskList
+    taskList: taskList
   },
   data() {
     return {

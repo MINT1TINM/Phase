@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import projectColumn from "./ProjectColumn";
+import projectColumn from "@/components/project/ProjectColumn";
 export default {
   components: {
     projectColumn: projectColumn

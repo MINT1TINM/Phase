@@ -1,5 +1,5 @@
-import basicService from "./BasicService";
-import store from "../store/store";
+import basicService from "@/service/BasicService";
+import store from "@/store/store";
 
 class userService {
   static async getUserInfo(userID) {

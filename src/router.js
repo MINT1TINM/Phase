@@ -7,67 +7,74 @@ export default new Router({
   routes: [
     {
       path: "/",
-      component: () => import("./views/Landing")
+      component: () => import("@/views/Landing")
     },
     {
       path: "/login",
-      component: () => import("./views/login/Login")
+      component: () => import("@/views/login/Login")
     },
     {
       path: "/wechat/login",
-      component: () => import("./views/login/WechatLogin")
+      component: () => import("@/views/login/WechatLogin")
     },
     {
       path: "/register",
-      component: () => import("./views/user/Register")
+      component: () => import("@/views/user/Register")
     },
     {
       path: "/settings",
       meta: "设置",
-      component: () => import("./views/settings/Settings"),
+      component: () => import("@/views/settings/Settings"),
       children: [
         {
           path: "/settings/profile",
           meta: "个人信息",
-          component: () => import("./views/settings/Profile")
+          component: () => import("@/components/settings/Profile")
         },
         {
           path: "/settings/notification",
           meta: "通知",
-          component: () => import("./views/settings/Notification")
+          component: () => import("@/components/settings/Notification")
         }
       ]
     },
     {
       path: "/dashboard",
-      component: () => import("./views/Dashboard"),
+      component: () => import("@/views/Dashboard"),
       children: [
         {
           path: "/dashboard/timeline",
           meta: "时间线",
-          component: () => import("./components/timeline/Timeline")
+          component: () => import("@/components/timeline/Timeline")
         },
         {
           path: "/dashboard/project",
           meta: "项目栏",
-          component: () => import("./components/project/Project")
+          component: () => import("@/views/project/Project")
         },
         {
           path: "/dashboard/project/:projectId",
           meta: "项目栏",
-          component: () => import("./components/project/ProjectColumnDetail"),
+          component: () => import("@/views/project/ProjectBoard"),
           children: [
             {
-              path: "/dashboard/project/:projectId/task/:taskId",
+              path: "/dashboard/project/:projectId/task",
               meta: "项目栏",
-              component: () => import("./components/project/ProjectTaskDetail")
+              component: () => import("@/views/project/task/Task"),
+              children: [
+                {
+                  path: "/dashboard/project/:projectId/task/:taskId",
+                  meta: "项目栏",
+                  component: () => import("@/components/task/TaskDetail")
+                }
+              ]
             }
           ]
         },
         {
           path: "/dashboard/contact",
           meta: "通讯录",
-          component: () => import("./components/contact/Contact")
+          component: () => import("@/components/contact/Contact")
         }
       ]
     }
