@@ -6,7 +6,7 @@
         <v-tab :to="`/dashboard/project/${$route.params.projectId}/settings`">项目设置</v-tab>
       </v-tabs>
       <v-spacer></v-spacer>
-      <v-btn icon :to="`/dashboard/project`">
+      <v-btn icon @click="close">
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-toolbar>
@@ -19,6 +19,11 @@ import taskList from "@/components/project/task/TaskList";
 export default {
   components: {
     taskList: taskList
+  },
+  methods: {
+    close() {
+      this.$router.push({ path: "/dashboard/project" });
+    }
   },
   data() {
     return {

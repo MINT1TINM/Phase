@@ -59,19 +59,19 @@ export default new Router({
           children: [
             {
               path: "/dashboard/project/:projectId/task",
-              meta: "项目栏",
+              meta: "任务清单",
               component: () => import("@/views/project/task/Task"),
               children: [
                 {
                   path: "/dashboard/project/:projectId/task/:taskId",
-                  meta: "项目栏",
+                  meta: "任务清单",
                   component: () => import("@/components/task/TaskDetail")
                 }
               ]
             },
             {
               path: "/dashboard/project/:projectId/settings",
-              meta: "项目栏",
+              meta: "项目设置",
               component: () => import("@/views/project/settings/Settings")
             }
           ]
