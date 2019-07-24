@@ -1,35 +1,15 @@
-import Vue from "vue";
-import Vuetify from "vuetify/lib";
-import zhHans from "vuetify/es5/locale/zh-Hans";
-import colors from "vuetify/lib/util/colors";
+import Vue from 'vue';
+import Vuetify from 'vuetify/lib';
+import zhHans from 'vuetify/es5/locale/zh-Hans';
+
 Vue.use(Vuetify);
 
-import "./confirm-dialog/index";
-import "./snackbar/index";
-
 export default new Vuetify({
-  theme: {
-    options: {
-      customProperties: true
+    lang: {
+      locales: { zhHans },
+      current: 'zh-Hans',
     },
-
-    themes: {
-      light: {
-        primary: "#a64ed1",
-        secondary: "#424242",
-        accent: "#82B1FF",
-        error: "#FF5252",
-        info: "#2196F3",
-        success: "#4CAF50",
-        warning: "#FFC107"
-      }
-    }
-  },
-  lang: {
-    locales: { zhHans },
-    current: "zh-Hans"
-  },
   icons: {
-    iconfont: "mdi"
-  }
+    iconfont: 'mdi',
+  },
 });
