@@ -65,7 +65,7 @@ export default new Router({
                 {
                   path: "/dashboard/project/:projectId/task/:taskId",
                   meta: "任务清单",
-                  component: () => import("@/components/task/TaskDetail")
+                  component: () => import("@/components/project/task/TaskDetail")
                 }
               ]
             },

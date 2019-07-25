@@ -11,7 +11,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar flat app fixed clipped-left class="navbar">
+    <v-app-bar flat app fixed clipped-left class="navbar hidden-sm-and-down">
       <v-btn icon>
         <v-icon>mdi-apps</v-icon>
       </v-btn>
@@ -56,6 +56,7 @@
         </v-list>
       </v-menu>
     </v-app-bar>
+
     <v-content>
       <router-view></router-view>
     </v-content>

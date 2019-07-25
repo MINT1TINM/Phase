@@ -21,14 +21,18 @@
         </v-list>
       </v-flex>
       <v-flex xs9>
-        
+        <project-info v-if="settingItem == 'info'"></project-info>
       </v-flex>
     </v-layout>
   </div>
 </template>
 
 <script>
+import projectInfo from "@/components/project/settings/ProjectInfo";
 export default {
+  components: {
+    projectInfo: projectInfo
+  },
   data() {
     return {
       settingsItems: [

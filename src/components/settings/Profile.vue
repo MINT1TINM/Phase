@@ -47,40 +47,12 @@
                   item-value="value"
                 ></v-select>
                 <!-- date -->
-                <v-menu
-                  ref="menu"
-                  v-if="item.type=='date'"
-                  v-model="dateMenu[i]"
-                  :close-on-content-click="false"
-                  transition="scale-transition"
-                  offset-y
-                  full-width
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-text-field
-                      class="text-field-semidense"
-                      outlined
-                      v-model="userInfo[item.content]"
-                      readonly
-                      hide-details
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker
-                    ref="picker"
-                    v-model="userInfo[item.content]"
-                    :max="new Date().toISOString().substr(0, 10)"
-                    min="1900-01-01"
-                    @change="dateMenu[i]=false"
-                  ></v-date-picker>
-                </v-menu>
               </v-flex>
             </v-layout>
           </v-form>
           <v-layout justify-center class="pt-5">
             <v-flex xs6>
-              <v-btn block rounded depressed color="primary">保存</v-btn>
+              <v-btn block rounded depressed color="primary" @click="updateUserInfo()">保存</v-btn>
             </v-flex>
           </v-layout>
         </v-flex>
@@ -91,6 +63,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import userService from "../../service/UserService";
 export default {
   data() {
     return {
@@ -121,16 +94,16 @@ export default {
               title: "女"
             }
           ]
-        },
-        {
-          type: "date",
-          title: "生日",
-          content: "birthday"
         }
       ]
     };
   },
-  methods: {},
+  methods: {
+    async updateUserInfo() {
+      // console.log(this.userInfo);
+      await userService.updateUserInfo(this.userInfo);
+    }
+  },
   mounted() {},
   computed: {
     ...mapGetters({

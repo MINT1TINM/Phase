@@ -54,8 +54,16 @@ export default {
     return {
       settingsItems: [
         { title: "通用" },
-        { text: "个人信息", icon: "mdi-account-circle-outline", route: "/settings/profile" },
-        { text: "通知", icon: "mdi-bell-outline", route: "/settings/notification" },
+        {
+          text: "个人信息",
+          icon: "mdi-account-circle-outline",
+          route: "/settings/profile"
+        },
+        {
+          text: "通知",
+          icon: "mdi-bell-outline",
+          route: "/settings/notification"
+        },
         { title: "安全" },
         { text: "密码", icon: "mdi-textbox-password" },
         { text: "二次验证", icon: "mdi-key-outline" }

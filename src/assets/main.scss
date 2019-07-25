@@ -82,3 +82,8 @@
 .card-active {
   background-color: #f5eafa !important;
 }
+
+.v-progress-linear--absolute,
+.v-progress-linear--fixed {
+  z-index: 999;
+}
