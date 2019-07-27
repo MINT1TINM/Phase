@@ -1,7 +1,7 @@
 <template>
   <div style="height:calc(100vh - 113px)">
     <v-layout fill-height>
-      <v-flex xs3 class="inner-sidebar-withoutpadding">
+      <v-flex xs3 class="inner-sidebar-withoutpadding" style="overflow-y:auto">
         <task-list :processId="processId"></task-list>
       </v-flex>
       <v-flex xs9>

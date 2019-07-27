@@ -63,6 +63,11 @@ export default new Router({
           component: () => import("@/views/process/ProcessBoard"),
           children: [
             {
+              path: "/dashboard/process/:processId/timeline",
+              meta: "任务清单",
+              component: () => import("@/views/process/timeline/Timeline")
+            },
+            {
               path: "/dashboard/process/:processId/task",
               meta: "任务清单",
               component: () => import("@/views/process/task/Task"),

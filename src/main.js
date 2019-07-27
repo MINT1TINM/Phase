@@ -9,8 +9,9 @@ import "./assets/animation.css";
 import dimForm from "@/plugins/dim-form/Index";
 Vue.use(dimForm);
 Vue.component("dim-form", dimForm);
-import "@/plugins/confirm-dialog/index";
-import "@/plugins/snackbar/index";
+import "@/plugins/confirm-dialog/Index";
+import "@/plugins/snackbar/Index";
+import DateHelper from "./utils/DateHelper";
 
 Vue.config.productionTip = false;
 
@@ -32,12 +33,17 @@ Vue.filter("httpsfy", url => {
   return "https" + realUrl;
 });
 
+// format date
+Vue.filter("format", (date, fmt) => {
+  return DateHelper.format(date, fmt);
+});
+
 new Vue({
   router,
   store,
   vuetify,
   component: {
-    dimForm,
+    dimForm
   },
-  render: h => h(App),
+  render: h => h(App)
 }).$mount("#app");
