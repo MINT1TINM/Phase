@@ -89,7 +89,7 @@ export default {
         );
         await userService.getUserInfo(await rsp.authorization.userID);
         if (rsp.msg == "success") {
-          this.$router.push({ path: "/dashboard/timeline" });
+          this.$router.push({ path: "/home" });
         }
       }
     },
@@ -101,7 +101,7 @@ export default {
 
         setTimeout(() => {
           this.autoLoginProgress = false;
-          this.$router.push({ path: "/dashboard/timeline" });
+          this.$router.push({ path: "/home" });
         }, 500);
       }
     }

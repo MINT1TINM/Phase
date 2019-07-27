@@ -22,6 +22,11 @@ export default new Router({
       component: () => import("@/views/user/Register")
     },
     {
+      path: "/home",
+      meta: "主页",
+      component: () => import("@/views/Home")
+    },
+    {
       path: "/settings",
       meta: "设置",
       component: () => import("@/views/settings/Settings"),
@@ -65,7 +70,8 @@ export default new Router({
                 {
                   path: "/dashboard/process/:processId/task/:taskId",
                   meta: "任务清单",
-                  component: () => import("@/components/process/task/TaskDetail")
+                  component: () =>
+                    import("@/components/process/task/TaskDetail")
                 }
               ]
             },

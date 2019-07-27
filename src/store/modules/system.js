@@ -1,5 +1,6 @@
 const state = {
   lastPage: "",
+  currentProject: "",
   loading: false
 };
 
@@ -10,6 +11,9 @@ const getters = {
   },
   loading: state => {
     return state.loading;
+  },
+  currentProject: state => {
+    return state.currentProject;
   }
 };
 
@@ -19,6 +23,9 @@ const mutations = {
   },
   toggleLoading: (state, toggle) => {
     state.loading = toggle;
+  },
+  updateCurrentProject: (state, currentProject) => {
+    state.currentProject = currentProject;
   }
 };
 

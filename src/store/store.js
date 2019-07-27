@@ -21,7 +21,8 @@ const vuexSession = new VuexPersistence({
   reducer: state => ({
     system: state.system
   }),
-  filter: mutation => mutation.type == "system/updateLastPage"
+  filter: mutation =>
+    mutation.type == "system/updateLastPage" || "system/updateCurrentProject"
 });
 
 export default new Vuex.Store({
