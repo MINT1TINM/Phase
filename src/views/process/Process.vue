@@ -16,6 +16,7 @@
         <v-navigation-drawer
           permanent
           class="inner-sidebar"
+          style="width:100%"
         >
           <v-text-field
             prepend-inner-icon="mdi-magnify"
