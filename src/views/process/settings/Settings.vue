@@ -7,7 +7,7 @@
             <transition-group appear appear-active-class="fade-up-enter">
               <div v-for="(item, i) in settingsItems" :key="i">
                 <v-subheader class="mt-3" v-if="item.title">{{item.title}}</v-subheader>
-                <v-list-item v-else :to="`/dashboard/project/${projectId}/settings/#${item.route}`">
+                <v-list-item v-else :to="`/dashboard/process/${processId}/settings/#${item.route}`">
                   <v-list-item-icon>
                     <v-icon v-text="item.icon"></v-icon>
                   </v-list-item-icon>
@@ -21,17 +21,17 @@
         </v-list>
       </v-flex>
       <v-flex xs9>
-        <project-info v-if="settingItem == 'info'"></project-info>
+        <process-info v-if="settingItem == 'info'"></process-info>
       </v-flex>
     </v-layout>
   </div>
 </template>
 
 <script>
-import projectInfo from "@/components/project/settings/ProjectInfo";
+import processInfo from "@/components/process/settings/ProcessInfo";
 export default {
   components: {
-    projectInfo: projectInfo
+    processInfo: processInfo
   },
   data() {
     return {
@@ -43,8 +43,8 @@ export default {
     };
   },
   computed: {
-    projectId: function() {
-      return Number(this.$route.params.projectId);
+    processId: function() {
+      return Number(this.$route.params.processId);
     },
     settingItem: function() {
       return this.$route.hash.slice(1);

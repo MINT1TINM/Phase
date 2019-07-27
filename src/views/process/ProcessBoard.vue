@@ -2,8 +2,8 @@
   <div>
     <v-toolbar flat class="navbar" dense style="z-index:2">
       <v-tabs v-model="tab">
-        <v-tab :to="`/dashboard/project/${$route.params.projectId}/task`">任务清单</v-tab>
-        <v-tab :to="`/dashboard/project/${$route.params.projectId}/settings`">项目设置</v-tab>
+        <v-tab :to="`/dashboard/process/${$route.params.processId}/task`">任务清单</v-tab>
+        <v-tab :to="`/dashboard/process/${$route.params.processId}/settings`">项目设置</v-tab>
       </v-tabs>
       <v-spacer></v-spacer>
       <v-btn icon @click="close">
@@ -15,14 +15,14 @@
 </template>
 
 <script>
-import taskList from "@/components/project/task/TaskList";
+import taskList from "@/components/process/task/TaskList";
 export default {
   components: {
     taskList: taskList
   },
   methods: {
     close() {
-      this.$router.push({ path: "/dashboard/project" });
+      this.$router.push({ path: "/dashboard/process" });
     }
   },
   data() {

@@ -77,7 +77,7 @@ export default {
         {
           icon: "mdi-file-document-outline",
           name: "项目栏",
-          route: "/dashboard/project"
+          route: "/dashboard/process"
         },
         {
           icon: "mdi-account-box-outline",

@@ -48,31 +48,31 @@ export default new Router({
           component: () => import("@/components/timeline/Timeline")
         },
         {
-          path: "/dashboard/project",
+          path: "/dashboard/process",
           meta: "项目栏",
-          component: () => import("@/views/project/Project")
+          component: () => import("@/views/process/Process")
         },
         {
-          path: "/dashboard/project/:projectId",
+          path: "/dashboard/process/:processId",
           meta: "项目栏",
-          component: () => import("@/views/project/ProjectBoard"),
+          component: () => import("@/views/process/ProcessBoard"),
           children: [
             {
-              path: "/dashboard/project/:projectId/task",
+              path: "/dashboard/process/:processId/task",
               meta: "任务清单",
-              component: () => import("@/views/project/task/Task"),
+              component: () => import("@/views/process/task/Task"),
               children: [
                 {
-                  path: "/dashboard/project/:projectId/task/:taskId",
+                  path: "/dashboard/process/:processId/task/:taskId",
                   meta: "任务清单",
-                  component: () => import("@/components/project/task/TaskDetail")
+                  component: () => import("@/components/process/task/TaskDetail")
                 }
               ]
             },
             {
-              path: "/dashboard/project/:projectId/settings",
+              path: "/dashboard/process/:processId/settings",
               meta: "项目设置",
-              component: () => import("@/views/project/settings/Settings")
+              component: () => import("@/views/process/settings/Settings")
             }
           ]
         },

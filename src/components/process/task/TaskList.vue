@@ -6,11 +6,11 @@
           <v-card
             v-if="$route.params.taskId==item.id"
             class="card-active"
-            :to="`/dashboard/project/${projectId}/task/${item.id}`"
+            :to="`/dashboard/process/${processId}/task/${item.id}`"
           >
             <v-card-text class="body-2 font-weight-black text-uppercase text-active">{{item.title}}</v-card-text>
           </v-card>
-          <v-card v-else :to="`/dashboard/project/${projectId}/task/${item.id}`">
+          <v-card v-else :to="`/dashboard/process/${processId}/task/${item.id}`">
             <v-card-text class="body-2 font-weight-black text-uppercase">{{item.title}}</v-card-text>
           </v-card>
         </v-flex>
@@ -22,7 +22,7 @@
 <script>
 export default {
   props: {
-    projectId: Number
+    processId: Number
   },
   data() {
     return {

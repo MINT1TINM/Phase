@@ -2,7 +2,7 @@
   <div style="height:calc(100vh - 113px)">
     <v-layout fill-height>
       <v-flex xs3 class="inner-sidebar-withoutpadding">
-        <task-list :projectId="projectId"></task-list>
+        <task-list :processId="processId"></task-list>
       </v-flex>
       <v-flex xs9>
         <router-view></router-view>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import taskList from "@/components/project/task/TaskList";
+import taskList from "@/components/process/task/TaskList";
 export default {
   components: {
     taskList: taskList
@@ -21,8 +21,8 @@ export default {
     return {};
   },
   computed: {
-    projectId: function() {
-      return Number(this.$route.params.projectId);
+    processId: function() {
+      return Number(this.$route.params.processId);
     }
   },
   mounted() {}

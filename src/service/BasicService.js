@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import Vue from "vue";
 class basicService {
   static async getData(rsp) {
     var rspData = rsp;
@@ -28,6 +28,7 @@ class basicService {
     } catch (err) {
       return await this.getData(err);
     }
+
     let json = rsp.data;
     let msg = { url: url, params: params, rsp: json };
     console.log(msg);
