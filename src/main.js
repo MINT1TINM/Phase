@@ -9,6 +9,8 @@ import "./assets/animation.css";
 import dimForm from "@/plugins/dim-form/Index";
 Vue.use(dimForm);
 Vue.component("dim-form", dimForm);
+import "@/plugins/confirm-dialog/index";
+import "@/plugins/snackbar/index";
 
 Vue.config.productionTip = false;
 
@@ -35,7 +37,7 @@ new Vue({
   store,
   vuetify,
   component: {
-    dimForm
+    dimForm,
   },
-  render: h => h(App)
+  render: h => h(App),
 }).$mount("#app");

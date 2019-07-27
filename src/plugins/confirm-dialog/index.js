@@ -1,5 +1,5 @@
 import Vue from "vue";
-import ConfirmDialog from "./main";
+import ConfirmDialog from "./Main";
 
 const confirm = Vue.extend(ConfirmDialog);
 let currentMsg = null;

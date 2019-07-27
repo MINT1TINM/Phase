@@ -4,13 +4,10 @@ import zhHans from "./zhHans";
 import colors from "vuetify/lib/util/colors";
 Vue.use(Vuetify);
 
-import "./confirm-dialog/index";
-import "./snackbar/index";
-
 export default new Vuetify({
   theme: {
     options: {
-      customProperties: true
+      customProperties: true,
     },
 
     themes: {
@@ -21,15 +18,16 @@ export default new Vuetify({
         error: "#FF5252",
         info: "#2196F3",
         success: "#4CAF50",
-        warning: "#FFC107"
-      }
-    }
+        warning: "#FFC107",
+      },
+    },
   },
   lang: {
     locales: { zhHans },
-    current: "zhHans"
+    current: "zhHans",
   },
   icons: {
-    iconfont: "mdi"
-  }
+    iconfont: "mdi",
+  },
+  breakpoint: {},
 });

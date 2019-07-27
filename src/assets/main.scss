@@ -4,6 +4,27 @@
   font-size: 1.25em;
 }
 
+/* width */
+::-webkit-scrollbar {
+  height: 6px; /* height of horizontal scrollbar ← You're missing this */
+  width: 6px; /* width of vertical scrollbar */
+  background: transparent;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar:hover {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e4e4e4;
+  border-radius: 3px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #b4b4b4;
+}
+
 .container {
   padding: 12px;
 }
@@ -19,7 +40,7 @@
 }
 
 .navbar {
-  // z-index: 9;
+  z-index: 9;
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: rgba(0, 0, 0, 0.12) !important;
@@ -58,8 +79,13 @@
   display: none;
 }
 
+.v-slide-group__content {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
 .v-slide-group__wrapper {
-  overflow: scroll;
+  overflow-x: auto;
 }
 
 .inner-sidebar {
