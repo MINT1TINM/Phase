@@ -49,12 +49,12 @@ export default new Router({
         },
         {
           path: "/dashboard/process",
-          meta: "项目栏",
+          meta: "过程",
           component: () => import("@/views/process/Process")
         },
         {
           path: "/dashboard/process/:processId",
-          meta: "项目栏",
+          meta: "过程",
           component: () => import("@/views/process/ProcessBoard"),
           children: [
             {

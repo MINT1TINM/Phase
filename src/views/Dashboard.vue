@@ -76,12 +76,12 @@ export default {
         },
         {
           icon: "mdi-file-document-outline",
-          name: "项目栏",
+          name: "过程",
           route: "/dashboard/process"
         },
         {
           icon: "mdi-account-box-outline",
-          name: "通讯录",
+          name: "人脉",
           route: "/dashboard/contact"
         }
       ],

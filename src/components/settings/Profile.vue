@@ -18,7 +18,7 @@
             </v-list>
             <v-divider class="my-3"></v-divider>
 
-            <dim-form keyName="profile" :formContent="profileList" :target="userInfo"></dim-form>
+            <dim-form class="mt-4" keyName="profile" :formContent="profileList" :target="userInfo"></dim-form>
           </v-form>
           <v-layout justify-center class="pt-5">
             <v-flex xs6>

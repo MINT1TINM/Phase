@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-layout class="my-4" row v-for="(item,i) in formContent" :key="`${keyName}-${i}`">
+    <v-layout row v-for="(item,i) in formContent" :key="`${keyName}-${i}`">
       <v-flex xs4>
         <v-subheader>{{item.title}}</v-subheader>
       </v-flex>

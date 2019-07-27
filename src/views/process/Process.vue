@@ -9,27 +9,19 @@
             outlined
             hide-details
             class="text-field-dense mt-1"
-            label="搜索项目"
+            label="搜索过程"
           ></v-text-field>
           <v-toolbar dense class="transparent mt-3" flat>
-            <h5 style="margin-left:-20px">项目分组</h5>
+            <h5 style="margin-left:-12px">分组</h5>
           </v-toolbar>
           <v-divider></v-divider>
           <v-list nav dense color="transparent" style="padding:8px 0px">
             <v-list-item-group color="primary">
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title>工作</v-list-item-title>
+                  <v-list-item-title>全部</v-list-item-title>
                 </v-list-item-content>
-                <v-list-item-action>
-                  <v-btn icon small>
-                    <v-icon size="17">mdi-pencil-outline</v-icon>
-                  </v-btn>
-                </v-list-item-action>
               </v-list-item>
-              <v-btn block color="primary" dark @click="createGroupDialog=true">
-                <v-icon size="17">mdi-plus</v-icon>
-              </v-btn>
             </v-list-item-group>
           </v-list>
         </v-navigation-drawer>
@@ -59,26 +51,14 @@
         </v-sheet>
       </v-flex>
     </v-layout>
-    <v-dialog v-model="createGroupDialog" width="300" persistent>
-      <v-card>
-        <v-card-title class="subtitle-1 font-weight-black">新建项目组</v-card-title>
-        <v-container>
-          <v-text-field v-model="groupName" outlined class="text-field-dense" label="项目组名称"></v-text-field>
-        </v-container>
-        <v-card-actions class="justify-center">
-          <v-btn rounded color="primary" depressed @click="createGroup">确认</v-btn>
-          <v-btn rounded text @click="createGroupDialog=false">取消</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
     <v-dialog v-model="createProcessDialog" width="300" persistent>
       <v-card>
-        <v-card-title class="subtitle-1 font-weight-black">新建项目</v-card-title>
+        <v-card-title class="subtitle-1 font-weight-black">新建过程</v-card-title>
         <v-container>
           <v-text-field outlined class="text-field-dense" label="项目名称"></v-text-field>
         </v-container>
         <v-card-actions class="justify-center">
-          <v-btn rounded color="primary" depressed>确认</v-btn>
+          <v-btn rounded color="primary" depressed @click="createProcess">确认</v-btn>
           <v-btn rounded text @click="createProcessDialog=false">取消</v-btn>
         </v-card-actions>
       </v-card>
@@ -88,7 +68,7 @@
 
 <script>
 import processColumn from "@/components/process/ProcessColumn";
-import groupService from "@/service/GroupService";
+import processService from "@/service/ProcessService";
 export default {
   components: {
     processColumn: processColumn
@@ -103,20 +83,13 @@ export default {
         }
       ],
       createProcessDialog: false,
-      createGroupDialog: false,
       groupName: ""
     };
   },
   methods: {
-    async createGroup() {
-      const rsp = await groupService.createGroup(this.groupName);
-      if (rsp.msg == "success") {
-        this.$snackbar.show("操作成功", "primary");
-      }
-      this.createGroupDialog = false;
-    },
     async createProcess() {
-      this.createProcessDialog = true;
+      await processService.createProcess(this.groupName);
+      this.createProcessDialog = false;
     }
   }
 };
