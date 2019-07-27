@@ -18,37 +18,7 @@
             </v-list>
             <v-divider class="my-3"></v-divider>
 
-            <v-layout class="my-4" row v-for="(item,i) in profileList" :key="`profile-${i}`">
-              <v-flex xs4>
-                <v-subheader>{{item.title}}</v-subheader>
-              </v-flex>
-              <v-flex xs8>
-                <!-- text-field -->
-                <v-text-field
-                  v-if="item.type=='text-field'"
-                  class="text-field-semidense"
-                  v-model="userInfo[item.content]"
-                  :disabled="item.disabled"
-                  single-line
-                  outlined
-                  hide-details
-                ></v-text-field>
-                <!-- select -->
-                <v-select
-                  v-else-if="item.type=='select'"
-                  class="text-field-semidense"
-                  :items="item.list"
-                  v-model="userInfo[item.content]"
-                  outlined
-                  dense
-                  hide-details
-                  style="line-height:14px"
-                  item-text="title"
-                  item-value="value"
-                ></v-select>
-                <!-- date -->
-              </v-flex>
-            </v-layout>
+            <dim-form keyName="profile" :formContent="profileList" :target="userInfo"></dim-form>
           </v-form>
           <v-layout justify-center class="pt-5">
             <v-flex xs6>
@@ -63,7 +33,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import userService from "../../service/UserService";
+import userService from "@/service/UserService";
+import dimForm from "@/plugins/dim-form/Index";
 export default {
   data() {
     return {

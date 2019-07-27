@@ -39,7 +39,7 @@
           <v-slide-group center-active show-arrows style="height:100%">
             <transition appear appear-active-class="fade-up-enter">
               <v-slide-item>
-                <v-card class="ml-3 mr-2 my-3" width="100" @click="createProject()">
+                <v-card class="ml-3 mr-2 my-3" width="100" @click="createProjectDialog=true">
                   <v-container fill-height>
                     <v-layout align-center justify-center>
                       <v-icon size="30">mdi-plus</v-icon>
@@ -59,6 +59,18 @@
         </v-sheet>
       </v-flex>
     </v-layout>
+    <v-dialog v-model="createProjectDialog" width="300" persistent>
+      <v-card>
+        <v-card-title class="subtitle-1 font-weight-black">新建项目</v-card-title>
+        <v-container>
+          <v-text-field outlined class="text-field-dense" label="项目名称"></v-text-field>
+        </v-container>
+        <v-card-actions class="justify-center">
+          <v-btn rounded color="primary" depressed>确认</v-btn>
+          <v-btn rounded text @click="createProjectDialog==false">取消</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -74,11 +86,14 @@ export default {
         {
           projectId: 999
         }
-      ]
+      ],
+      createProjectDialog: false
     };
   },
   methods: {
-    async createProject() {}
+    async createProject() {
+      this.createProjectDialog = true;
+    }
   }
 };
 </script>

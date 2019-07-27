@@ -6,6 +6,10 @@ import vuetify from "./plugins/vuetify";
 import axios from "axios";
 import "./assets/animation.css";
 
+import dimForm from "@/plugins/dim-form/Index";
+Vue.use(dimForm);
+Vue.component("dim-form", dimForm);
+
 Vue.config.productionTip = false;
 
 axios.interceptors.request.use(config => {
@@ -30,5 +34,8 @@ new Vue({
   router,
   store,
   vuetify,
+  component: {
+    dimForm
+  },
   render: h => h(App)
 }).$mount("#app");

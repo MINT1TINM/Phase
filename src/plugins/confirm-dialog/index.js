@@ -9,7 +9,7 @@ confirm.prototype.callBack = action => {
 };
 Vue.prototype.$confirm = (title, text) => {
   const newConfirm = new confirm().$mount();
-  document.body.appendChild(newConfirm.$el);
+  document.getElementById("app").appendChild(newConfirm.$el);
   newConfirm.show(title, text);
   return new Promise((resolve, reject) => {
     currentMsg = { resolve, reject };
