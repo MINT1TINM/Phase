@@ -34,7 +34,7 @@
 <script>
 import { mapGetters } from "vuex";
 import userService from "@/service/UserService";
-import dimForm from "@/plugins/dim-form/Index";
+import dimForm from "@/plugins/dim-form/Main";
 export default {
   data() {
     return {

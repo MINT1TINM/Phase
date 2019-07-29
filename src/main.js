@@ -6,11 +6,13 @@ import vuetify from "./plugins/vuetify";
 import axios from "axios";
 import "./assets/animation.css";
 
-import dimForm from "@/plugins/dim-form/Index";
+import dimForm from "@/plugins/dim-form/Main";
 Vue.use(dimForm);
 Vue.component("dim-form", dimForm);
-import "@/plugins/confirm-dialog/Index";
-import "@/plugins/snackbar/Index";
+
+import "@/plugins/confirm-dialog/index";
+import "@/plugins/snackbar/index";
+
 import DateHelper from "./utils/DateHelper";
 
 Vue.config.productionTip = false;
