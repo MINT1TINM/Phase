@@ -1,22 +1,4 @@
 class DateHelper {
-  static getDayCount(s, e) {
-    let startDate = new Date(s);
-    let endDate = new Date(e);
-    let dayCount = Math.abs(endDate - startDate) / 1000 / 60 / 60 / 24;
-    return dayCount;
-  }
-
-  static getAllDaysBetween(s, e) {
-    let dateArray = [];
-    let dayCount = this.getDayCount(s, e);
-    let startDate = new Date(s);
-    dateArray.push(new Date(startDate));
-    for (let i = 1; i <= dayCount; i++) {
-      dateArray.push(new Date(startDate.getTime() + i * 60 * 60 * 24 * 1000));
-    }
-    return dateArray;
-  }
-
   static format(date, fmt) {
     var o = {
       "M+": date.getMonth() + 1, //月份

@@ -30,8 +30,8 @@ export default {
       appList: [
         {
           icon: "mdi-chart-timeline",
-          name: "时间线",
-          route: "/dashboard/timeline"
+          name: "日历",
+          route: "/dashboard/calendar"
         },
         {
           icon: "mdi-file-document-outline",

@@ -9,7 +9,7 @@
         color="primary"
         v-if="authorization.token.length>=1"
         @click="autoLogin()"
-      >我的工作台</v-btn>
+      >我的主页</v-btn>
       <div v-else>
         <v-btn rounded text class="mr-2" :to="'/login'">登录</v-btn>
         <v-btn rounded outlined color="primary">开始</v-btn>
@@ -61,7 +61,7 @@ export default {
 
         setTimeout(() => {
           this.autoLoginProgress = false;
-          this.$router.push({ path: "/dashboard/timeline" });
+          this.$router.push({ path: "/home" });
         }, 500);
       }
     }

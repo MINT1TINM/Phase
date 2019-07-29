@@ -3,7 +3,8 @@
     :startDate="`10 6 2018`"
     :endDate="`10 20 2018`"
     :columnWidth="150"
-    style="height:calc(100ch - 108px)"
+    :taskList="taskList"
+    style="height:calc(100vh - 120px)"
   ></timeline>
 </template>
 
@@ -14,7 +15,22 @@ export default {
     timeline: timeline
   },
   data() {
-    return {};
+    return {
+      taskList: [
+        {
+          startDate: "10 6 2018",
+          endDate: "10 20 2018",
+          color: "primary",
+          name: "TEST"
+        },
+        {
+          startDate: "10 8 2018",
+          endDate: "10 9 2018",
+          color: "primary",
+          name: "TEST 2"
+        }
+      ]
+    };
   },
   methods: {},
   mounted() {}

@@ -48,9 +48,9 @@ export default new Router({
       component: () => import("@/views/Dashboard"),
       children: [
         {
-          path: "/dashboard/timeline",
-          meta: "时间线",
-          component: () => import("@/components/timeline/Timeline")
+          path: "/dashboard/calendar",
+          meta: "日历",
+          component: () => import("@/views/calendar/Calendar")
         },
         {
           path: "/dashboard/process",
@@ -90,7 +90,7 @@ export default new Router({
         {
           path: "/dashboard/contact",
           meta: "通讯录",
-          component: () => import("@/components/contact/Contact")
+          component: () => import("@/views/contact/Contact")
         }
       ]
     }

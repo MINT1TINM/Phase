@@ -10,8 +10,13 @@
                 <v-subheader style="padding:0">头像</v-subheader>
               </v-list-item>
               <v-list-item>
-                <v-avatar size="64">
-                  <img :src="userInfo.headImgURL" />
+                <v-avatar color="primary" size="64">
+                  <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL" />
+                  <span
+                    v-else-if="userInfo.nickname"
+                    class="white--text text-uppercase"
+                  >{{nickName | avatar}}</span>
+                  <span v-else class="white--text text-uppercase">{{userInfo.username | avatar}}</span>
                 </v-avatar>
                 <v-btn class="ml-5" outlined color="primary">修改</v-btn>
               </v-list-item>

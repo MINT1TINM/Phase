@@ -13,17 +13,17 @@
         <v-btn icon v-on="on">
           <v-avatar color="primary" size="36">
             <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
-            <span v-else-if="userInfo.nickname" class="white--text">{{nickName}}</span>
-            <span v-else class="white--text">{{userInfo.username}}</span>
+            <span v-else-if="userInfo.nickname" class="white--text">{{nickName | avatar}}</span>
+            <span v-else class="white--text">{{userInfo.username | avatar}}</span>
           </v-avatar>
         </v-btn>
       </template>
       <v-list dense>
         <v-list-item class="pb-2">
-          <v-list-item-avatar>
+          <v-list-item-avatar color="primary" size="36">
             <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
-            <span v-else-if="userInfo.nickname" class="white--text">{{nickName}}</span>
-            <span v-else class="white--text">{{userInfo.username}}</span>
+            <span v-else-if="userInfo.nickname" class="white--text text-uppercase">{{nickName | avatar}}</span>
+            <span v-else class="white--text text-uppercase">{{userInfo.username | avatar}}</span>
           </v-list-item-avatar>
           <v-list-item-title>
             <div v-if="userInfo.nickName">{{userInfo.nickName}}</div>

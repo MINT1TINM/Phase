@@ -40,6 +40,11 @@ Vue.filter("format", (date, fmt) => {
   return DateHelper.format(date, fmt);
 });
 
+// make avatar
+Vue.filter("avatar", v => {
+  return v.slice(0, 1);
+});
+
 new Vue({
   router,
   store,
