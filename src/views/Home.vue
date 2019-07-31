@@ -14,23 +14,25 @@
             </v-card-title>
             <v-container>
               <v-flex xs12 v-for="(item,i) in projectList" :key="`project-${i}`">
-                <v-card>
-                  <v-card-title class="body-2 font-weight-black text-uppercase">
-                    {{item.name}}
-                    <span
-                      class="grey--text ml-2"
-                    >{{item.createdAt| format("yyyy-MM-dd")}}</span>
-                    <v-spacer></v-spacer>
-                    <v-btn icon x-small @click="goToProject(item.id)">
-                      <v-icon>mdi-arrow-right</v-icon>
-                    </v-btn>
-                  </v-card-title>
-                  <v-container fluid>
-                    <v-layout row wrap>
-                      <v-card-text>{{item.description}}</v-card-text>
-                    </v-layout>
-                  </v-container>
-                </v-card>
+                <v-hover v-slot:default="{ hover }">
+                  <v-card :elevation="hover ? 8 : 2">
+                    <v-card-title class="body-2 font-weight-black text-uppercase">
+                      {{item.name}}
+                      <span
+                        class="grey--text ml-2"
+                      >{{item.createdAt| format("yyyy-MM-dd")}}</span>
+                      <v-spacer></v-spacer>
+                      <v-btn icon x-small @click="goToProject(item.id)">
+                        <v-icon>mdi-arrow-right</v-icon>
+                      </v-btn>
+                    </v-card-title>
+                    <v-container fluid>
+                      <v-layout row wrap>
+                        <v-card-text>{{item.description}}</v-card-text>
+                      </v-layout>
+                    </v-container>
+                  </v-card>
+                </v-hover>
               </v-flex>
             </v-container>
           </v-flex>

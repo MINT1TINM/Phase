@@ -54,7 +54,7 @@
       <v-card>
         <v-card-title class="subtitle-1 font-weight-black">新建过程</v-card-title>
         <v-container>
-          <v-text-field outlined class="text-field-dense" label="项目名称"></v-text-field>
+          <v-text-field outlined class="text-field-dense" label="项目名称" v-model="processName"></v-text-field>
         </v-container>
         <v-card-actions class="justify-center">
           <v-btn rounded color="primary" depressed @click="createProcess">确认</v-btn>
@@ -68,28 +68,38 @@
 <script>
 import processColumn from "@/components/process/ProcessColumn";
 import processService from "@/service/ProcessService";
+import { mapGetters } from "vuex";
 export default {
   components: {
     processColumn: processColumn
   },
   data() {
     return {
-      processList: [
-        {
-          id: 999,
-          name: "简单了解",
-          description: "简单"
-        }
-      ],
+      processList: [],
       createProcessDialog: false,
-      groupName: ""
+      processName: ""
     };
+  },
+  computed: {
+    ...mapGetters({
+      currentProjectID: "project/currentProjectID"
+    })
   },
   methods: {
     async createProcess() {
-      await processService.createProcess(this.groupName);
+      await processService.createProcess(
+        this.processName,
+        this.currentProjectID
+      );
       this.createProcessDialog = false;
+    },
+    async getProcessList() {
+      const rsp = await processService.getProcessList(this.currentProjectID);
+      this.processList = rsp.processList;
     }
+  },
+  mounted() {
+    this.getProcessList();
   }
 };
 </script>

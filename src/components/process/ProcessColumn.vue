@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar flat color="transparent">
-      <v-toolbar-title class="subtitle-1 font-weight-black">简单了解</v-toolbar-title>
+      <v-toolbar-title class="subtitle-1 font-weight-black text-uppercase">{{processName}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn style="margin-right:-20px" icon :to="`/dashboard/process/${processId}/timeline`">
         <v-icon>mdi-arrow-right</v-icon>
@@ -20,7 +20,8 @@ export default {
     taskList: taskList
   },
   props: {
-    processId: Number
+    processId: Number,
+    processName: String
   },
   data() {
     return {};

@@ -6,7 +6,8 @@
           <v-form ref="taskInfoForm">
             <v-text-field
               class="mb-5 text-field-semidense"
-              v-model="taskInfo.title"
+              v-model="taskInfo.name"
+              :autofocus="taskInfo.name?false:true"
               label="任务"
               outlined
               hide-details

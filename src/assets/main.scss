@@ -74,6 +74,10 @@
   margin-top: 7px;
 }
 
+.v-text-field.v-text-field--enclosed .v-input__append-outer {
+  margin-top: 12px;
+}
+
 .v-slide-group.v-item-group > .v-slide-group__next,
 .v-slide-group.v-item-group > .v-slide-group__prev {
   display: none;
