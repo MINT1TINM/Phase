@@ -2,9 +2,9 @@
   <div>
     <v-toolbar flat class="navbar" dense style="z-index:2">
       <v-tabs v-model="tab">
-        <v-tab :to="`/dashboard/process/${$route.params.processId}/timeline`">时间轴</v-tab>
-        <v-tab :to="`/dashboard/process/${$route.params.processId}/task`">任务清单</v-tab>
-        <v-tab :to="`/dashboard/process/${$route.params.processId}/settings`">过程设置</v-tab>
+        <v-tab :to="`/project/process/${$route.params.processId}/timeline`">时间轴</v-tab>
+        <v-tab :to="`/project/process/${$route.params.processId}/task`">任务清单</v-tab>
+        <v-tab :to="`/project/process/${$route.params.processId}/settings`">过程设置</v-tab>
       </v-tabs>
       <v-spacer></v-spacer>
       <v-btn icon @click="close">
@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     close() {
-      this.$router.push({ path: "/dashboard/process" });
+      this.$router.push({ path: "/project/process" });
     }
   },
   data() {

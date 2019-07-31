@@ -7,7 +7,7 @@
             <transition-group appear appear-active-class="fade-up-enter">
               <div v-for="(item, i) in settingsItems" :key="i">
                 <v-subheader class="mt-3" v-if="item.title">{{item.title}}</v-subheader>
-                <v-list-item v-else :to="`/dashboard/process/${processId}/settings/#${item.route}`">
+                <v-list-item v-else :to="`/project/process/${processId}/settings/#${item.route}`">
                   <v-list-item-icon>
                     <v-icon v-text="item.icon"></v-icon>
                   </v-list-item-icon>

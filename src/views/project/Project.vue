@@ -31,22 +31,27 @@ export default {
         {
           icon: "mdi-chart-timeline",
           name: "日历",
-          route: "/dashboard/calendar"
+          route: "/project/calendar"
         },
         {
-          icon: "mdi-file-document-outline",
+          icon: "mdi-view-dashboard-outline",
           name: "过程",
-          route: "/dashboard/process"
+          route: "/project/process"
         },
         {
           icon: "mdi-account-box-outline",
           name: "成员",
-          route: "/dashboard/member"
+          route: "/project/member"
+        },
+        {
+          icon: "mdi-file-document-outline",
+          name: "文件",
+          route: "/project/document"
         },
         {
           icon: "mdi-tune",
           name: "设置",
-          route: "/dashboard/contact"
+          route: "/project/settings"
         }
       ]
     };

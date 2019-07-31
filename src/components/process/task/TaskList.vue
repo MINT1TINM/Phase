@@ -26,7 +26,7 @@
             class="card-active"
             outlined
             flat
-            :to="`/dashboard/process/${processId}/task/${item.id}`"
+            :to="`/project/process/${processId}/task/${item.id}`"
           >
             <v-card-text class="body-2 text-uppercase text-active">{{item.name}}</v-card-text>
           </v-card>
@@ -35,7 +35,7 @@
               :elevation="hover ? 6 : 0"
               outlined
               flat
-              :to="`/dashboard/process/${processId}/task/${item.id}`"
+              :to="`/project/process/${processId}/task/${item.id}`"
             >
               <v-card-text class="body-2 text-uppercase">{{item.name}}</v-card-text>
             </v-card>

@@ -44,36 +44,37 @@ export default new Router({
       ]
     },
     {
-      path: "/dashboard",
-      component: () => import("@/views/Dashboard"),
+      path: "/project",
+      component: () => import("@/views/project/Project"),
       children: [
         {
-          path: "/dashboard/calendar",
+          path: "/project/calendar",
           meta: "日历",
-          component: () => import("@/views/calendar/Calendar")
+          component: () => import("@/views/project/calendar/Calendar")
         },
         {
-          path: "/dashboard/process",
+          path: "/project/process",
           meta: "过程",
-          component: () => import("@/views/process/Process")
+          component: () => import("@/views/project/process/Process")
         },
         {
-          path: "/dashboard/process/:processId",
+          path: "/project/process/:processId",
           meta: "过程",
-          component: () => import("@/views/process/ProcessBoard"),
+          component: () => import("@/views/project/process/ProcessBoard"),
           children: [
             {
-              path: "/dashboard/process/:processId/timeline",
+              path: "/project/process/:processId/timeline",
               meta: "任务清单",
-              component: () => import("@/views/process/timeline/Timeline")
+              component: () =>
+                import("@/views/project/process/Timeline")
             },
             {
-              path: "/dashboard/process/:processId/task",
+              path: "/project/process/:processId/task",
               meta: "任务清单",
-              component: () => import("@/views/process/task/Task"),
+              component: () => import("@/views/project/process/Task"),
               children: [
                 {
-                  path: "/dashboard/process/:processId/task/:taskId",
+                  path: "/project/process/:processId/task/:taskId",
                   meta: "任务清单",
                   component: () =>
                     import("@/components/process/task/TaskDetail")
@@ -81,16 +82,22 @@ export default new Router({
               ]
             },
             {
-              path: "/dashboard/process/:processId/settings",
+              path: "/project/process/:processId/settings",
               meta: "项目设置",
-              component: () => import("@/views/process/settings/Settings")
+              component: () =>
+                import("@/views/project/process/Settings")
             }
           ]
         },
         {
-          path: "/dashboard/member",
+          path: "/project/document",
           meta: "成员",
-          component: () => import("@/views/member/Member")
+          component: () => import("@/views/project/document/Document")
+        },
+        {
+          path: "/project/member",
+          meta: "成员",
+          component: () => import("@/views/project/member/Member")
         }
       ]
     }

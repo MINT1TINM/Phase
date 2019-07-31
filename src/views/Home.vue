@@ -19,7 +19,7 @@
                     <v-card-title class="body-2 font-weight-black text-uppercase">
                       {{item.name}}
                       <span
-                        class="grey--text ml-2"
+                        class="grey--text ml-2 font-weight-regular"
                       >{{item.createdAt| format("yyyy-MM-dd")}}</span>
                       <v-spacer></v-spacer>
                       <v-btn icon x-small @click="goToProject(item.id)">
@@ -90,7 +90,7 @@ export default {
     }),
     goToProject(projectId) {
       this.updateCurrentProjectID(projectId);
-      this.$router.push({ path: "/dashboard/process" });
+      this.$router.push({ path: "/project/process" });
     },
     async createProject() {
       const rsp = await projectService.createProject(
