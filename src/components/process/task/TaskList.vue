@@ -70,7 +70,6 @@ export default {
   methods: {
     createTask() {
       if (this.newTaskName) {
-        
       }
     }
   },

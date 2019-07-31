@@ -12,6 +12,7 @@ const state = {
     nickname: "",
     openid: "",
     privilege: [],
+    project: [],
     province: "",
     sex: "",
     unionid: ""
@@ -23,6 +24,22 @@ const getters = {
   },
   authorization: state => {
     return state.authorization;
+  },
+  projectIDList: state => {
+    /*
+      project:[
+        {
+          projectID Number
+          role []
+        }
+      ]
+    */
+    let projectIDList = [];
+    for (let i = 0; i < state.userInfo.project.length; i++) {
+      const e = state.userInfo.project[i];
+      projectIDList.push(e.projectID.toString());
+    }
+    return projectIDList;
   }
 };
 const mutations = {
@@ -40,6 +57,7 @@ const mutations = {
       nickName: "",
       openid: "",
       privilege: [],
+      project: [],
       province: "",
       sex: "",
       unionid: ""
@@ -52,6 +70,9 @@ const mutations = {
       token: "",
       userID: null
     };
+  },
+  insertProject: (state, project) => {
+    state.userInfo.project.push(project);
   }
 };
 const actions = {

@@ -92,6 +92,7 @@ export default {
         this.currentProjectID
       );
       this.createProcessDialog = false;
+      this.getProcessList();
     },
     async getProcessList() {
       const rsp = await processService.getProcessList(this.currentProjectID);
