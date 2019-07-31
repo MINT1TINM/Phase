@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import userService from '../service/UserService';
+import { mapGetters, mapMutations } from "vuex";
+import userService from "../service/UserService";
 export default {
   data() {
     return {
@@ -53,14 +53,17 @@ export default {
     };
   },
   methods: {
+    ...mapMutations({
+      toggleFullScreenLoading: "system/toggleFullScreenLoading"
+    }),
     async autoLogin() {
       if (this.authorization.userID != 0) {
-        this.autoLoginProgress = true;
+        this.toggleFullScreenLoading(true);
         let userID = this.authorization.userID;
         await userService.getUserInfo(userID);
 
         setTimeout(() => {
-          this.autoLoginProgress = false;
+          this.toggleFullScreenLoading(false);
           this.$router.push({ path: "/home" });
         }, 500);
       }

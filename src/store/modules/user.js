@@ -37,7 +37,7 @@ const mutations = {
       city: "",
       country: "",
       headImgURL: "",
-      nickname: "",
+      nickName: "",
       openid: "",
       privilege: [],
       province: "",

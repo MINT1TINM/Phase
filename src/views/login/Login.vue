@@ -58,7 +58,7 @@
 <script>
 import authService from "../../service/AuthService";
 import userService from "../../service/UserService";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import { setTimeout } from "timers";
 export default {
   data() {
@@ -71,6 +71,9 @@ export default {
     };
   },
   methods: {
+    ...mapMutations({
+      toggleFullScreenLoading: "system/toggleFullScreenLoading"
+    }),
     wechatLogin() {
       let appid = "wxdfa1c9397935814c";
       let redirect_uri = "https://phase.insdim.com/#/wechat/login";
@@ -83,24 +86,27 @@ export default {
     },
     async standardLogin() {
       if (this.$refs.loginForm.validate()) {
+        this.toggleFullScreenLoading(true);
+
         const rsp = await authService.standardLogin(
           this.loginForm.username,
           this.loginForm.password
         );
         await userService.getUserInfo(await rsp.authorization.userID);
-        if (rsp.msg == "success") {
+        if ((await rsp.msg) == "success") {
+          this.toggleFullScreenLoading(false);
           this.$router.push({ path: "/home" });
         }
       }
     },
     async autoLogin() {
       if (this.authorization.userID) {
-        this.autoLoginProgress = true;
+        this.toggleFullScreenLoading(true);
         let userID = this.authorization.userID;
         await userService.getUserInfo(userID);
 
         setTimeout(() => {
-          this.autoLoginProgress = false;
+          this.toggleFullScreenLoading(false);
           this.$router.push({ path: "/home" });
         }, 500);
       }

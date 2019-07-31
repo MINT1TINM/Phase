@@ -1,5 +1,5 @@
 import axios from "axios";
-import Vue from "vue";
+
 class basicService {
   static async getData(rsp) {
     var rspData = rsp;

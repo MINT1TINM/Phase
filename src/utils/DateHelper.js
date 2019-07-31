@@ -1,5 +1,6 @@
 class DateHelper {
   static format(date, fmt) {
+    date = new Date(date);
     var o = {
       "M+": date.getMonth() + 1, //月份
       "d+": date.getDate(), //日

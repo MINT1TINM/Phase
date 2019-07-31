@@ -1,7 +1,7 @@
 const state = {
   lastPage: "",
-  currentProject: "",
-  loading: false
+  loading: false,
+  fullScreenLoading: false
 };
 
 const getters = {
@@ -12,8 +12,8 @@ const getters = {
   loading: state => {
     return state.loading;
   },
-  currentProject: state => {
-    return state.currentProject;
+  fullScreenLoading: state => {
+    return state.fullScreenLoading;
   }
 };
 
@@ -24,8 +24,8 @@ const mutations = {
   toggleLoading: (state, toggle) => {
     state.loading = toggle;
   },
-  updateCurrentProject: (state, currentProject) => {
-    state.currentProject = currentProject;
+  toggleFullScreenLoading: (state, toggle) => {
+    state.fullScreenLoading = toggle;
   }
 };
 

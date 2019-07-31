@@ -40,7 +40,12 @@ export default {
         },
         {
           icon: "mdi-account-box-outline",
-          name: "人脉",
+          name: "成员",
+          route: "/dashboard/member"
+        },
+        {
+          icon: "mdi-tune",
+          name: "设置",
           route: "/dashboard/contact"
         }
       ]

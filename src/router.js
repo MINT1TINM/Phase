@@ -88,9 +88,9 @@ export default new Router({
           ]
         },
         {
-          path: "/dashboard/contact",
-          meta: "通讯录",
-          component: () => import("@/views/contact/Contact")
+          path: "/dashboard/member",
+          meta: "成员",
+          component: () => import("@/views/member/Member")
         }
       ]
     }

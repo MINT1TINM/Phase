@@ -2,7 +2,7 @@
   <v-app>
     <app-bar></app-bar>
     <v-content>
-      <v-container fill-height>
+      <v-container fill-height grid-list-md>
         <v-layout row wrap>
           <v-flex xs8>
             <v-card-title class="subtitle-1 font-weight-black">
@@ -12,21 +12,27 @@
                 <v-icon>mdi-plus</v-icon>&nbsp;新建项目
               </v-btn>
             </v-card-title>
-            <v-card v-for="(item,i) in projectList" :key="`project-${i}`">
-              <v-card-title class="subtitle-1 font-weight-black">
-                {{item.name}}
-                <span class="grey--text ml-2">{{item.createTime}}</span>
-                <v-spacer></v-spacer>
-                <v-btn icon small @click="goToProject(item.id)">
-                  <v-icon>mdi-arrow-right</v-icon>
-                </v-btn>
-              </v-card-title>
-              <v-container fluid>
-                <v-layout row wrap>
-                  <v-card-text>{{item.description}}</v-card-text>
-                </v-layout>
-              </v-container>
-            </v-card>
+            <v-container>
+              <v-flex xs12 v-for="(item,i) in projectList" :key="`project-${i}`">
+                <v-card>
+                  <v-card-title class="body-2 font-weight-black text-uppercase">
+                    {{item.name}}
+                    <span
+                      class="grey--text ml-2"
+                    >{{item.createdAt| format("yyyy-MM-dd")}}</span>
+                    <v-spacer></v-spacer>
+                    <v-btn icon x-small @click="goToProject(item.id)">
+                      <v-icon>mdi-arrow-right</v-icon>
+                    </v-btn>
+                  </v-card-title>
+                  <v-container fluid>
+                    <v-layout row wrap>
+                      <v-card-text>{{item.description}}</v-card-text>
+                    </v-layout>
+                  </v-container>
+                </v-card>
+              </v-flex>
+            </v-container>
           </v-flex>
         </v-layout>
         <v-dialog v-model="createProjectDialog" width="300" persistent>
@@ -77,11 +83,12 @@ export default {
   },
   methods: {
     ...mapMutations({
-      updateCurrentProject: "system/updateCurrentProject"
+      updateCurrentProjectID: "project/updateCurrentProjectID",
+      clearCurrentProjectID: "project/clearCurrentProjectID"
     }),
     goToProject(projectId) {
-      this.updateCurrentProject(projectId);
-      this.$router.push({ path: "/dashboard/timeline" });
+      this.updateCurrentProjectID(projectId);
+      this.$router.push({ path: "/dashboard/process" });
     },
     async createProject() {
       const rsp = await projectService.createProject(
@@ -89,10 +96,18 @@ export default {
       );
       if (rsp.msg == "success") {
         this.$snackbar.show("新建成功");
+        this.getProjectList();
       }
       this.createProjectDialog = false;
     },
-    async getProjectList() {}
+    async getProjectList() {
+      const rsp = await projectService.getProjectList();
+      this.projectList = rsp.projectList;
+    }
+  },
+  async mounted() {
+    this.getProjectList();
+    this.clearCurrentProjectID();
   }
 };
 </script>

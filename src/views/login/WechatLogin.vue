@@ -32,6 +32,7 @@ export default {
       try {
         const rsp = await authService.wechatLogin(code);
         await userService.getUserInfo(await rsp.authorization.userID);
+        
         this.$router.push({ path: "/home" });
       } catch (err) {
         this.$router.push({ path: "/login" });
