@@ -83,7 +83,6 @@ const actions = {
     context.commit("updateUserInfo", userInfo);
   },
   async logOut(context) {
-    context.commit("clearUserInfo");
     context.commit("clearAuthorization");
   }
 };
