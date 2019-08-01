@@ -14,12 +14,20 @@ class projectService {
   }
 
   static async getProjectList() {
-    const rsp = await basicService.getRequest("/project/getprojectlist", {
-      // use array as params
-      id: store.getters["user/projectIDList"]
-    });
-    store.commit("project/updateProjectList", rsp.projectList);
-    return rsp;
+    if (store.getters["user/projectIDList"].length >= 1) {
+      const rsp = await basicService.getRequest("/project/getprojectlist", {
+        // use array as params
+        id: store.getters["user/projectIDList"]
+      });
+      store.commit("project/updateProjectList", rsp.projectList);
+      return rsp;
+    } else {
+      const rsp = {
+        msg: "success",
+        projectList: []
+      };
+      return rsp;
+    }
   }
 }
 

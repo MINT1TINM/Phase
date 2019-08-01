@@ -11,7 +11,9 @@ class userService {
     const rsp = await basicService.putRequest("/user/info", {
       id: store.getters["user/authorization"].userID,
       nickName: userInfo.nickName,
-      sex: userInfo.sex
+      sex: userInfo.sex,
+      phone: userInfo.phone,
+      email: userInfo.email
     });
     store.dispatch("user/getUserInfo", await rsp.userInfo);
   }

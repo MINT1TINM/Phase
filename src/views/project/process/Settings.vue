@@ -3,30 +3,54 @@
     <v-layout fill-height justify-center>
       <v-flex md6>
         <v-card class="mt-5">
+          <v-card-title class="subtitle-1 font-weight-bold">信息</v-card-title>
           <v-container fluid>
-            <dim-form :formContent="settingsContent" :target="settings" keyName="process-settings"></dim-form>
-            <v-layout style="margin-top:70px">
-              <v-flex xs3>
-                <v-subheader>时间范围</v-subheader>
-              </v-flex>
-              <v-flex xs9>
-                <v-range-slider
-                  :max="max"
-                  :min="min"
-                  thumb-label="always"
-                  v-model="range"
-                  :thumb-size="64"
-                  hide-details
-                  class="align-center text-center"
+            <dim-form :formContent="settingsContent" :target="settings"></dim-form>
+          </v-container>
+        </v-card>
+        <v-card class="mt-5">
+          <v-card-title class="subtitle-1 font-weight-bold">成员</v-card-title>
+          <v-container fluid style="padding-top:0">
+            <v-autocomplete
+              v-model="processMember"
+              :items="projectMember"
+              outlined
+              single-line
+              chips
+              color="blue-grey lighten-2"
+              label="Select"
+              item-text="name"
+              item-value="name"
+              multiple
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  v-bind="data.attrs"
+                  :input-value="data.selected"
+                  :close="data.item.role==1?false:true"
+                  @click="data.select"
+                  @click:close="removeMember(data.item)"
                 >
-                  <template v-slot:thumb-label="props">
-                    <small class="font-weight-black">{{ props.value | format("yyyy") }}</small>
-                    <br />
-                    <small class="font-weight-black">{{ props.value | format("MM/dd") }}</small>
-                  </template>
-                </v-range-slider>
-              </v-flex>
-            </v-layout>
+                  <v-avatar left>
+                    <v-img :src="data.item.avatar"></v-img>
+                  </v-avatar>
+                  {{ data.item.name }}
+                </v-chip>
+              </template>
+              <template v-slot:item="data">
+                <template v-if="typeof data.item !== 'object'">
+                  <v-list-item-content v-text="data.item"></v-list-item-content>
+                </template>
+                <template v-else>
+                  <v-list-item-avatar size="30">
+                    <img :src="data.item.avatar" />
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title class="subtitle-1 font-weight-black" v-html="data.item.name"></v-list-item-title>
+                  </v-list-item-content>
+                </template>
+              </template>
+            </v-autocomplete>
           </v-container>
         </v-card>
       </v-flex>
@@ -40,38 +64,42 @@ export default {
     return {
       settingsContent: [
         {
-          subheader: "信息"
-        },
-        {
           type: "text-field",
           title: "名称",
           content: "name"
+        },
+        {
+          type: "select",
+          title: "标签",
+          content: "tags",
+          list: []
+        },
+        {
+          type: "date-range",
+          title: "时间范围",
+          content: "dateRange"
         }
       ],
+      projectMember: [{ name: "MINT", role: 1 }],
+      processMember: [{ name: "MINT", role: 1 }],
       settings: {
-        name: ""
+        name: "",
+        dateRange: [
+          Math.round(new Date().getTime()),
+          Math.round(new Date().getTime())
+        ]
       },
       range: []
     };
   },
-
-  computed: {
-    processId() {
-      return Number(this.$route.params.processId);
+  methods: {
+    async removeMember(item) {
+      const index = this.processMember.indexOf(item.name);
+      if (index >= 0) this.processMember.splice(index, 1);
     },
-    max() {
-      return this.range[1] + 500000000;
-    },
-    min() {
-      return this.range[0] - 500000000;
-    }
+    async addMember() {}
   },
-  mounted() {
-    this.range = [
-      Math.round(new Date().getTime()),
-      Math.round(new Date().getTime())
-    ];
-  }
+  computed: {}
 };
 </script>
 

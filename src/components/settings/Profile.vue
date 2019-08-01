@@ -70,6 +70,16 @@ export default {
               title: "女"
             }
           ]
+        },
+        {
+          type: "text-field",
+          title: "移动电话",
+          content: "phone"
+        },
+        {
+          type: "text-field",
+          title: "电子邮箱",
+          content: "email"
         }
       ]
     };

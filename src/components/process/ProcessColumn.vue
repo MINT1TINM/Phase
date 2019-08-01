@@ -3,7 +3,7 @@
     <v-toolbar flat color="transparent">
       <v-toolbar-title class="subtitle-1 font-weight-black text-uppercase">{{processName}}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn style="margin-right:-20px" icon :to="`/project/process/${processId}/timeline`">
+      <v-btn x-small icon :to="`/project/process/${processId}/timeline`">
         <v-icon>mdi-arrow-right</v-icon>
       </v-btn>
     </v-toolbar>

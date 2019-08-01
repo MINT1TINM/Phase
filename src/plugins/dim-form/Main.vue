@@ -38,9 +38,14 @@
             <v-divider class="mb-2"></v-divider>
           </v-flex>
         </v-layout>
-        <v-layout class="my-1" v-else>
+        <v-layout class="my-2" v-else>
           <v-flex xs3>
-            <v-subheader>{{item.title}}</v-subheader>
+            <v-subheader
+              v-if="item.type=='date-range'"
+              style="margin-top:70px"
+              class="mb-4"
+            >{{item.title}}</v-subheader>
+            <v-subheader v-else>{{item.title}}</v-subheader>
           </v-flex>
           <v-flex xs9>
             <!-- text-field -->
@@ -66,6 +71,13 @@
               item-text="title"
               item-value="value"
             ></v-select>
+            <!-- date-range -->
+            <date-range
+              style="margin-top:70px"
+              class="mb-4"
+              v-else-if="item.type=='date-range'"
+              :range="target[item.content]"
+            ></date-range>
           </v-flex>
         </v-layout>
       </v-layout>

@@ -9,7 +9,9 @@
             outlined
             label="+ 新任务"
             v-model="newTaskName"
+            single-line
           ></v-text-field>
+
           <v-btn
             v-if="newTaskName"
             @click="createTask"

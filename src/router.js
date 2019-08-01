@@ -49,24 +49,23 @@ export default new Router({
       children: [
         {
           path: "/project/calendar",
-          meta: "日历",
+          meta: "项目日历",
           component: () => import("@/views/project/calendar/Calendar")
         },
         {
           path: "/project/process",
-          meta: "过程",
+          meta: "项目过程",
           component: () => import("@/views/project/process/Process")
         },
         {
           path: "/project/process/:processId",
-          meta: "过程",
+          meta: "项目过程",
           component: () => import("@/views/project/process/ProcessBoard"),
           children: [
             {
               path: "/project/process/:processId/timeline",
               meta: "任务清单",
-              component: () =>
-                import("@/views/project/process/Timeline")
+              component: () => import("@/views/project/process/Timeline")
             },
             {
               path: "/project/process/:processId/task",
@@ -84,20 +83,24 @@ export default new Router({
             {
               path: "/project/process/:processId/settings",
               meta: "过程设置",
-              component: () =>
-                import("@/views/project/process/Settings")
+              component: () => import("@/views/project/process/Settings")
             }
           ]
         },
         {
           path: "/project/document",
-          meta: "成员",
+          meta: "项目文件",
           component: () => import("@/views/project/document/Document")
         },
         {
           path: "/project/member",
-          meta: "成员",
+          meta: "项目成员",
           component: () => import("@/views/project/member/Member")
+        },
+        {
+          path: "/project/settings",
+          meta: "项目设置",
+          component: () => import("@/views/project/settings/Settings")
         }
       ]
     }

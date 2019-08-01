@@ -25,7 +25,7 @@
             <v-list-item-avatar>
               <v-icon size="25">{{item.icon}}</v-icon>
             </v-list-item-avatar>
-            <v-list-item-title>{{ item.name }}</v-list-item-title>
+            <v-list-item-title class="text-uppercase">{{ item.name }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -64,7 +64,7 @@
           <v-list-item-avatar>
             <v-icon size="25">{{item.icon}}</v-icon>
           </v-list-item-avatar>
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <v-list-item-title class="text-uppercase">{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
