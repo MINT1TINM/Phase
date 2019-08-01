@@ -19,7 +19,7 @@
     </div>
     <div class="line-area" style="display:inline-flex">
       <v-layout wrap>
-        <v-flex xs12 wrap v-for="(item,i) in taskList" :key="i">
+        <v-flex xs12 wrap v-for="(item,i) in taskList" :key="`taskline-${i}`">
           <v-card
             class="my-1"
             color="primary"
@@ -28,7 +28,7 @@
             :style="`margin-left:${item.marginLeft}px;display:inline-block`"
             ripple
           >
-            <v-card-text class="text-left white--text body-2" style="padding:5px">{{item.name}}</v-card-text>
+            <v-card-text class="text-left white--text caption font-weight-black" style="padding:5px">{{item.name}}</v-card-text>
           </v-card>
         </v-flex>
       </v-layout>

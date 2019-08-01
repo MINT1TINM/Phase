@@ -37,7 +37,7 @@ const getters = {
     let projectIDList = [];
     for (let i = 0; i < state.userInfo.project.length; i++) {
       const e = state.userInfo.project[i];
-      projectIDList.push(e.projectID.toString());
+      projectIDList.push(e.projectID);
     }
     return projectIDList;
   }

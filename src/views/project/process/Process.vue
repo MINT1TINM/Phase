@@ -2,14 +2,27 @@
   <v-container fluid grid-list-md fill-height style="padding:0">
     <v-layout row wrap>
       <v-flex xs12 style="padding:0">
-        <v-toolbar dense>
-          <v-spacer></v-spacer>
-          <v-btn outlined color="primary" @click="createProcessDialog=true">+ 新过程</v-btn>
+        <v-toolbar flat class="transparent">
+          <v-layout>
+            <v-flex xs3>
+              <v-text-field
+                prepend-inner-icon="mdi-magnify"
+                hide-details
+                outlined
+                single-line
+                class="text-field-dense"
+                label="搜索过程"
+                v-model="searchProcessContent"
+              ></v-text-field>
+            </v-flex>
+            <v-spacer></v-spacer>
+            <v-btn outlined color="primary" @click="createProcessDialog=true">+ 新过程</v-btn>
+          </v-layout>
         </v-toolbar>
         <v-sheet color="transparent">
           <v-slide-group center-active show-arrows style="height:100%">
-            <v-slide-item v-for="(item,i) in processList" :key="`process-${i}`">
-              <div class="mx-2 my-3" style="width:300px">
+            <v-slide-item v-for="(item,i) in processListShow" :key="`process-${i}`">
+              <div :class="i==0?'ml-5 mr-2 my-3':`mx-2 my-3`" style="width:300px">
                 <process-column :processId="item.id" :processName="item.name"></process-column>
               </div>
             </v-slide-item>
@@ -43,14 +56,21 @@ export default {
   data() {
     return {
       processList: [],
+      processListShow: [],
       createProcessDialog: false,
-      processName: ""
+      processName: "",
+      searchProcessContent: ""
     };
   },
   computed: {
     ...mapGetters({
       currentProjectID: "project/currentProjectID"
     })
+  },
+  watch: {
+    searchProcessContent: function() {
+      this.searchProcess();
+    }
   },
   methods: {
     async createProcess() {
@@ -64,6 +84,18 @@ export default {
     async getProcessList() {
       const rsp = await processService.getProcessList(this.currentProjectID);
       this.processList = rsp.processList;
+      this.processListShow = rsp.processList;
+    },
+    searchProcess() {
+      this.processListShow = [];
+      let processList = this.processList;
+      let searchProcessContent = this.searchProcessContent;
+      for (let i = processList.length - 1; i >= 0; i--) {
+        const e = processList[i];
+        if (e.name.indexOf(searchProcessContent) != -1) {
+          this.processListShow.unshift(e);
+        }
+      }
     }
   },
   mounted() {

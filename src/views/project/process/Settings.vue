@@ -1,57 +1,77 @@
 <template>
   <div style="height:calc(100vh - 113px)">
-    <v-layout fill-height>
-      <v-flex xs3 class="inner-sidebar-withoutpadding">
-        <v-list color="transparent" dense shaped>
-          <v-list-item-group color="primary">
-            <transition-group appear appear-active-class="fade-up-enter">
-              <div v-for="(item, i) in settingsItems" :key="i">
-                <v-subheader class="mt-3" v-if="item.title">{{item.title}}</v-subheader>
-                <v-list-item v-else :to="`/project/process/${processId}/settings/#${item.route}`">
-                  <v-list-item-icon>
-                    <v-icon v-text="item.icon"></v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title v-text="item.text"></v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </div>
-            </transition-group>
-          </v-list-item-group>
-        </v-list>
-      </v-flex>
-      <v-flex xs9>
-        <process-info v-if="settingItem == 'info'"></process-info>
+    <v-layout fill-height justify-center>
+      <v-flex md6>
+        <v-card class="mt-5">
+          <v-container fluid>
+            <dim-form :formContent="settingsContent" :target="settings" keyName="process-settings"></dim-form>
+            <v-layout style="margin-top:70px">
+              <v-flex xs3>
+                <v-subheader>时间范围</v-subheader>
+              </v-flex>
+              <v-flex xs9>
+                <v-range-slider
+                  :max="max"
+                  :min="min"
+                  thumb-label="always"
+                  v-model="range"
+                  :thumb-size="64"
+                  hide-details
+                  class="align-center text-center"
+                >
+                  <template v-slot:thumb-label="props">
+                    <small class="font-weight-black">{{ props.value | format("yyyy") }}</small>
+                    <br />
+                    <small class="font-weight-black">{{ props.value | format("MM/dd") }}</small>
+                  </template>
+                </v-range-slider>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
       </v-flex>
     </v-layout>
   </div>
 </template>
 
 <script>
-import processInfo from "@/components/process/settings/ProcessInfo";
 export default {
-  components: {
-    processInfo: processInfo
-  },
   data() {
     return {
-      settingsItems: [
-        { text: "信息", icon: "mdi-information-outline", route: "info" },
-        { text: "通知", icon: "mdi-bell-outline", route: "notification" },
-        { text: "操作", icon: "mdi-settings-outline", route: "action" }
-      ]
+      settingsContent: [
+        {
+          subheader: "信息"
+        },
+        {
+          type: "text-field",
+          title: "名称",
+          content: "name"
+        }
+      ],
+      settings: {
+        name: ""
+      },
+      range: []
     };
   },
+
   computed: {
-    processId: function() {
+    processId() {
       return Number(this.$route.params.processId);
     },
-    settingItem: function() {
-      return this.$route.hash.slice(1);
+    max() {
+      return this.range[1] + 500000000;
+    },
+    min() {
+      return this.range[0] - 500000000;
     }
   },
-
-  mounted() {}
+  mounted() {
+    this.range = [
+      Math.round(new Date().getTime()),
+      Math.round(new Date().getTime())
+    ];
+  }
 };
 </script>
 

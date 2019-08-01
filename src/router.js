@@ -83,7 +83,7 @@ export default new Router({
             },
             {
               path: "/project/process/:processId/settings",
-              meta: "项目设置",
+              meta: "过程设置",
               component: () =>
                 import("@/views/project/process/Settings")
             }

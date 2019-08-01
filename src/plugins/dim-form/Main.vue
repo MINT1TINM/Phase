@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container fluid>
     <div v-if="dense">
       <v-layout v-for="(item,i) in formContent" :key="`${keyName}-${i}`">
         <!-- text-field -->
@@ -26,43 +26,51 @@
           item-text="title"
           item-value="value"
         ></v-select>
-        <!-- date -->
       </v-layout>
     </div>
     <div v-else>
       <v-layout row v-for="(item,i) in formContent" :key="`${keyName}-${i}`">
-        <v-flex xs4>
-          <v-subheader>{{item.title}}</v-subheader>
-        </v-flex>
-        <v-flex xs8>
-          <!-- text-field -->
-          <v-text-field
-            v-if="item.type=='text-field'"
-            class="text-field-semidense"
-            v-model="target[item.content]"
-            :disabled="item.disabled"
-            single-line
-            outlined
-            hide-details
-          ></v-text-field>
-          <!-- select -->
-          <v-select
-            v-else-if="item.type=='select'"
-            class="text-field-semidense"
-            :items="item.list"
-            v-model="target[item.content]"
-            outlined
-            dense
-            hide-details
-            style="line-height:14px"
-            item-text="title"
-            item-value="value"
-          ></v-select>
-          <!-- date -->
-        </v-flex>
+        <v-layout wrap v-if="item.subheader">
+          <v-flex xs12>
+            <v-subheader class="body-2 font-weight-black">{{item.subheader}}</v-subheader>
+          </v-flex>
+          <v-flex xs12>
+            <v-divider class="mb-2"></v-divider>
+          </v-flex>
+        </v-layout>
+        <v-layout class="my-1" v-else>
+          <v-flex xs3>
+            <v-subheader>{{item.title}}</v-subheader>
+          </v-flex>
+          <v-flex xs9>
+            <!-- text-field -->
+            <v-text-field
+              v-if="item.type=='text-field'"
+              class="text-field-semidense"
+              v-model="target[item.content]"
+              :disabled="item.disabled"
+              single-line
+              outlined
+              hide-details
+            ></v-text-field>
+            <!-- select -->
+            <v-select
+              v-else-if="item.type=='select'"
+              class="text-field-semidense"
+              :items="item.list"
+              v-model="target[item.content]"
+              outlined
+              dense
+              hide-details
+              style="line-height:14px"
+              item-text="title"
+              item-value="value"
+            ></v-select>
+          </v-flex>
+        </v-layout>
       </v-layout>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script>

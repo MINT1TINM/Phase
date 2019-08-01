@@ -17,12 +17,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #e4e4e4;
+  background: #b3b3b3;
   border-radius: 3px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #b4b4b4;
+  background: #8f8f8f;
 }
 
 .container {
@@ -124,4 +124,8 @@
 
 .v-btn-toggle > .v-btn.v-size--default {
   height: 36px;
+}
+
+.v-slider--horizontal {
+  min-height: 50px;
 }

@@ -10,6 +10,10 @@ import dimForm from "@/plugins/dim-form/Main";
 Vue.use(dimForm);
 Vue.component("dim-form", dimForm);
 
+import dateRangeSlider from "@/plugins/daterange-slider/Main";
+Vue.use(dateRangeSlider);
+Vue.component("daterange-slider", dateRangeSlider);
+
 import "@/plugins/confirm-dialog/index";
 import "@/plugins/snackbar/index";
 
