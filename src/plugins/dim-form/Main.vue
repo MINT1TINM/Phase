@@ -30,11 +30,9 @@
     </div>
     <div v-else>
       <v-layout row v-for="(item,i) in formContent" :key="`${keyName}-${i}`">
-        <v-layout wrap v-if="item.subheader">
+        <v-layout wrap v-if="item.subheader" class="mt-2">
           <v-flex xs12>
             <v-subheader class="body-2 font-weight-black">{{item.subheader}}</v-subheader>
-          </v-flex>
-          <v-flex xs12>
             <v-divider class="mb-2"></v-divider>
           </v-flex>
         </v-layout>
@@ -58,6 +56,14 @@
               outlined
               hide-details
             ></v-text-field>
+            <!-- text-area -->
+            <v-textarea
+              v-else-if="item.type=='text-area'"
+              v-model="target[item.content]"
+              :disabled="item.disabled"
+              outlined
+              hide-details
+            ></v-textarea>
             <!-- select -->
             <v-select
               v-else-if="item.type=='select'"

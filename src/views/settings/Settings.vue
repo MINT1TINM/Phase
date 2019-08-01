@@ -36,7 +36,9 @@
             <transition appear appear-active-class="fade-up-enter">
               <v-card>
                 <v-container fill-height fluid grid-list-lg style="padding:20px">
-                  <router-view></router-view>
+                  <v-flex xs8 offset-2>
+                    <router-view></router-view>
+                  </v-flex>
                 </v-container>
               </v-card>
             </transition>

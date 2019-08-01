@@ -68,8 +68,18 @@ export default {
     })
   },
   watch: {
-    searchProcessContent: function() {
-      this.searchProcess();
+    searchProcessContent() {
+      this.processListShow = [];
+      let processList = this.processList;
+      let searchProcessContent = this.searchProcessContent;
+      for (let i = processList.length - 1; i >= 0; i--) {
+        const e = processList[i];
+        if (
+          e.name.toLowerCase().indexOf(searchProcessContent.toLowerCase()) != -1
+        ) {
+          this.processListShow.unshift(e);
+        }
+      }
     }
   },
   methods: {
@@ -85,17 +95,6 @@ export default {
       const rsp = await processService.getProcessList(this.currentProjectID);
       this.processList = rsp.processList;
       this.processListShow = rsp.processList;
-    },
-    searchProcess() {
-      this.processListShow = [];
-      let processList = this.processList;
-      let searchProcessContent = this.searchProcessContent;
-      for (let i = processList.length - 1; i >= 0; i--) {
-        const e = processList[i];
-        if (e.name.indexOf(searchProcessContent) != -1) {
-          this.processListShow.unshift(e);
-        }
-      }
     }
   },
   mounted() {

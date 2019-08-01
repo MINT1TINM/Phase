@@ -30,7 +30,7 @@
             flat
             :to="`/project/process/${processId}/task/${item.id}`"
           >
-            <v-card-text class="body-2 text-uppercase text-active">{{item.name}}</v-card-text>
+            <v-card-text class="body-2 text-active">{{item.name}}</v-card-text>
           </v-card>
           <v-hover v-else v-slot:default="{hover}">
             <v-card
@@ -39,7 +39,7 @@
               flat
               :to="`/project/process/${processId}/task/${item.id}`"
             >
-              <v-card-text class="body-2 text-uppercase">{{item.name}}</v-card-text>
+              <v-card-text class="body-2">{{item.name}}</v-card-text>
             </v-card>
           </v-hover>
         </v-flex>

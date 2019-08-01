@@ -24,7 +24,15 @@ const vuexSession = new VuexPersistence({
     project: state.project
   }),
   filter: mutation =>
-    mutation.type == "system/updateLastPage" || "project/updateCurrentProject"
+    mutation.type == "system/updateLastPage" ||
+    "user/updateUserInfo" ||
+    "user/updateUserAuth" ||
+    "user/clearUserInfo" ||
+    "user/clearAuthorization" ||
+    "user/insertProject" ||
+    "project/updateCurrentProjectID" ||
+    "project/clearCurrentProjectID" ||
+    "project/updateProjectList"
 });
 
 export default new Vuex.Store({

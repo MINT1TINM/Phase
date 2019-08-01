@@ -7,29 +7,52 @@
       Phase
       <span class="grey--text font-weight-regular">{{$route.meta}}</span>
     </span>
-    <v-spacer></v-spacer>
-    <v-toolbar-items class="mr-2" v-if="currentProjectID">
-      <v-menu offset-y>
+
+    <!-- project switcher -->
+    <v-toolbar-items class="ml-2" v-if="currentProjectID">
+      <v-menu :close-on-content-click="false" offset-y :nudge-width="200">
         <template v-slot:activator="{on}">
-          <v-btn text v-on="on">
+          <v-btn text v-on="on" class="text-none">
             {{currentProjectName}}
             <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
-        <v-list dense>
-          <v-list-item
-            v-for="(item, i) in projectList"
-            :key="`project-${i}`"
-            @click="alterProject(item.id)"
-          >
-            <v-list-item-avatar>
-              <v-icon size="25">{{item.icon}}</v-icon>
-            </v-list-item-avatar>
-            <v-list-item-title class="text-uppercase">{{ item.name }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
+        <v-card tile>
+          <v-container fluid>
+            <v-text-field
+              outlined
+              single-line
+              hide-details
+              class="text-field-dense"
+              label="搜索项目"
+              v-model="searchProjectContent"
+            ></v-text-field>
+          </v-container>
+          <v-divider></v-divider>
+          <v-list dense>
+            <v-list-item
+              v-for="(item, i) in projectListShow"
+              :key="`project-${i}`"
+              @click="alterProject(item.id)"
+            >
+              <v-list-item-avatar>
+                <v-icon size="25">{{item.icon}}</v-icon>
+              </v-list-item-avatar>
+              <v-list-item-title>{{ item.name }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-card>
       </v-menu>
     </v-toolbar-items>
+
+    <v-spacer></v-spacer>
+
+    <!-- notification center -->
+    <v-btn icon class="mr-2">
+      <v-icon>mdi-bell-outline</v-icon>
+    </v-btn>
+
+    <!-- user menu -->
     <v-menu offset-y>
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
@@ -85,7 +108,9 @@ export default {
           icon: "mdi-exit-to-app",
           title: "注销"
         }
-      ]
+      ],
+      projectListShow: [],
+      searchProjectContent: ""
     };
   },
   methods: {
@@ -130,20 +155,38 @@ export default {
       }, 500);
     }
   },
+  watch: {
+    searchProjectContent() {
+      this.projectListShow = [];
+      for (let i = 0; i < this.projectList.length; i++) {
+        const e = this.projectList[i];
+        if (
+          e.name
+            .toLowerCase()
+            .indexOf(this.searchProjectContent.toLowerCase()) != -1
+        ) {
+          this.projectListShow.push(e);
+        }
+      }
+    }
+  },
   computed: {
     ...mapGetters({
       userInfo: "user/userInfo",
       currentProjectID: "project/currentProjectID",
       projectList: "project/projectList"
     }),
-    nickName: function() {
+    nickName() {
       return this.userInfo.nickname.substring(0, 1);
     },
-    currentProjectName: function() {
+    currentProjectName() {
       return this.projectList.find(e => {
         return e.id == this.currentProjectID;
       }).name;
     }
+  },
+  mounted() {
+    this.projectListShow = this.projectList;
   }
 };
 </script>
