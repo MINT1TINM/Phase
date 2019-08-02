@@ -74,10 +74,9 @@ export default {
     }),
     alterProject(projectID) {
       this.toggleFullScreenLoading(true);
-      
+
       // some loading content
       this.updateCurrentProjectID(projectID);
-
       setTimeout(() => {
         this.toggleFullScreenLoading(false);
       }, 500);

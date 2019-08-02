@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import taskList from "@/components/process/task/TaskList";
+import taskList from "@/components/project/process/task/TaskList";
 export default {
   components: {
     taskList: taskList

@@ -19,7 +19,8 @@
       <v-layout align-center justify-center row wrap>
         <v-card flat color="transparent">
           <h2 class="text-xs-center display-3 font-weight-black mt-2" style="color:#A64ED1">Phase</h2>
-          <h4 class="text-xs-center mt-2" style="color:#A64ED1">项目协作范式</h4>
+          <h3 class="text-xs-center mt-2" style="color:#A64ED1">项目协作范式</h3>
+          <h5 class="text-xs-center mt-2" style="color:#A64ED1">INSDIM&trade;  出品</h5>
         </v-card>
       </v-layout>
     </v-container>

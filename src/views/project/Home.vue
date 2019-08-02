@@ -17,6 +17,11 @@
                 <v-flex xs3 v-for="(item,i) in projectList" :key="`project-${i}`">
                   <v-hover v-slot:default="{ hover }">
                     <v-card :elevation="hover ? 8 : 2" @click="goToProject(item.id)">
+                      <v-img
+                        class="white--text"
+                        height="100"
+                        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                      ></v-img>
                       <v-card-title class="body-2 font-weight-black">
                         {{item.name}}
                         <span

@@ -23,7 +23,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import projectService from "../../../service/ProjectService";
+import projectService from "@/service/ProjectService";
 export default {
   data() {
     return {

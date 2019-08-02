@@ -36,7 +36,8 @@ export default [
               {
                 path: "/project/process/:processId/task/:taskId",
                 meta: "任务清单",
-                component: () => import("@/components/process/task/TaskDetail")
+                component: () =>
+                  import("@/components/project/process/task/TaskDetail")
               }
             ]
           },

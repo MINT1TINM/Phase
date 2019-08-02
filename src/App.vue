@@ -25,8 +25,9 @@
         </v-card-text>
       </v-card>
     </v-overlay>
-    <router-view />
 
+    <router-view />
+    
     <!-- app switcher -->
     <v-navigation-drawer v-model="appSwitcher" absolute temporary>
       <app-switcher style="height:cals(100vh - 48px);overflow:auto"></app-switcher>

@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import processColumn from "@/components/process/ProcessColumn";
+import processColumn from "@/components/project/process/ProcessColumn";
 import processService from "@/service/ProcessService";
 import { mapGetters } from "vuex";
 export default {

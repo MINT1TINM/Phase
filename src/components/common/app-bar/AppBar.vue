@@ -2,20 +2,15 @@
   <v-app-bar dense flat app fixed clipped-left class="navbar hidden-sm-and-down">
     <!-- app switcher toggle -->
     <v-toolbar-items text style="margin-left:-20px">
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on" width="62" icon @click="toggleAppSwitcher">
-            <v-icon size="23">mdi-apps</v-icon>
-          </v-btn>
-        </template>
-        <span class="caption">切换应用</span>
-      </v-tooltip>
+      <v-btn width="62" icon @click="toggleAppSwitcher">
+        <v-icon size="23">mdi-apps</v-icon>
+      </v-btn>
     </v-toolbar-items>
 
     <span class="font-weight-black navbar-logo ml-2 mr-4 app-bar-text">Phase</span>
     <v-divider vertical inset></v-divider>
 
-    <project-bar></project-bar>
+    <project-bar v-if="currentApp=='project'"></project-bar>
 
     <v-spacer></v-spacer>
 
@@ -77,7 +72,7 @@
 
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
-import projectBar from "./ProjectBar";
+import projectBar from "./modules/ProjectBar";
 export default {
   components: {
     projectBar: projectBar
@@ -102,7 +97,8 @@ export default {
     }),
     ...mapMutations({
       toggleFullScreenLoading: "system/toggleFullScreenLoading",
-      toggleAppSwitcher: "system/toggleAppSwitcher"
+      toggleAppSwitcher: "system/toggleAppSwitcher",
+      updateLastPage: "system/updateLastPage"
     }),
     async userMenuActions(num) {
       switch (num) {
