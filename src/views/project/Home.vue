@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import appBar from "@/components/common/AppBar";
+import appBar from "@/components/common/app-bar/AppBar";
 import projectService from "@/service/ProjectService";
 import { mapMutations } from "vuex";
 export default {

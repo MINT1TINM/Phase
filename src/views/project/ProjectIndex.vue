@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import appBar from "@/components/common/AppBar";
+import appBar from "@/components/common/app-bar/AppBar";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   components: {

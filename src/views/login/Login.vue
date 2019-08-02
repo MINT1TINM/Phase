@@ -96,7 +96,7 @@ export default {
         await userService.getUserInfo(await rsp.authorization.userID);
         if ((await rsp.msg) == "success") {
           this.toggleFullScreenLoading(false);
-          this.$router.push({ path: "/home" });
+          this.$router.push({ path: "/project" });
         }
       }
     },
@@ -108,9 +108,11 @@ export default {
           await userService.getUserInfo(userID);
           setTimeout(() => {
             this.toggleFullScreenLoading(false);
-            this.$router.push({ path: "/home" });
+            this.$router.push({ path: "/project" });
           }, 500);
         } catch (err) {
+          this.toggleFullScreenLoading(false);
+          this.$snackbar.show("身份过期, 请重新登录", "primary");
           this.clearAuthorization();
         }
       }
