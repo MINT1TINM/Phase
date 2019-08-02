@@ -32,7 +32,8 @@ const vuexSession = new VuexPersistence({
     "user/insertProject" ||
     "project/updateCurrentProjectID" ||
     "project/clearCurrentProjectID" ||
-    "project/updateProjectList"
+    "project/updateProjectList" ||
+    "project/updateCurrentProject"
 });
 
 export default new Vuex.Store({

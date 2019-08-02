@@ -9,11 +9,11 @@
     </span>
 
     <!-- project switcher -->
-    <v-toolbar-items class="ml-2" v-if="currentProjectID">
+    <v-toolbar-items class="ml-2" v-if="currentProject">
       <v-menu :close-on-content-click="false" offset-y :nudge-width="200">
         <template v-slot:activator="{on}">
           <v-btn text v-on="on" class="text-none">
-            {{currentProjectName}}
+            {{currentProject.name}}
             <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
@@ -155,34 +155,14 @@ export default {
       }, 500);
     }
   },
-  watch: {
-    searchProjectContent() {
-      this.projectListShow = [];
-      for (let i = 0; i < this.projectList.length; i++) {
-        const e = this.projectList[i];
-        if (
-          e.name
-            .toLowerCase()
-            .indexOf(this.searchProjectContent.toLowerCase()) != -1
-        ) {
-          this.projectListShow.push(e);
-        }
-      }
-    }
-  },
   computed: {
     ...mapGetters({
       userInfo: "user/userInfo",
-      currentProjectID: "project/currentProjectID",
+      currentProject: "project/currentProject",
       projectList: "project/projectList"
     }),
     nickName() {
       return this.userInfo.nickname.substring(0, 1);
-    },
-    currentProjectName() {
-      return this.projectList.find(e => {
-        return e.id == this.currentProjectID;
-      }).name;
     }
   },
   mounted() {

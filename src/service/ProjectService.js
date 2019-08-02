@@ -29,6 +29,28 @@ class projectService {
       return rsp;
     }
   }
+
+  static async getProjectMember(memberList) {
+    let memberIDList = [];
+    for (let i = 0; i < memberList.length; i++) {
+      const e = memberList[i];
+      memberIDList.push(e.userID);
+    }
+    const rsp = await basicService.getRequest("/project/getprojectmember", {
+      id: memberIDList
+    });
+    return rsp;
+  }
+
+  static async updateProjectInfo(projectInfo) {
+    const rsp = await basicService.postRequest("/project/updateprojectinfo", {
+      projectID: projectInfo.id,
+      name: projectInfo.name,
+      description: projectInfo.description
+    });
+    store.commit("project/updateCurrentProject", rsp.project);
+    return rsp;
+  }
 }
 
 export default projectService;

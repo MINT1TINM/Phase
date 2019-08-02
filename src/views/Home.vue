@@ -16,7 +16,7 @@
               <v-flex xs12 v-for="(item,i) in projectList" :key="`project-${i}`">
                 <v-hover v-slot:default="{ hover }">
                   <v-card :elevation="hover ? 8 : 2">
-                    <v-card-title class="body-2 font-weight-black text-uppercase">
+                    <v-card-title class="body-2 font-weight-black">
                       {{item.name}}
                       <span
                         class="grey--text ml-2 font-weight-regular"
