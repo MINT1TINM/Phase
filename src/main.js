@@ -1,15 +1,17 @@
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./router";
+import router from "./router/router";
 import store from "./store/store";
 import vuetify from "./plugins/vuetify";
 import axios from "axios";
 import "./assets/animation.css";
 
+// form component
 import dimForm from "@/plugins/dim-form/Main";
 Vue.use(dimForm);
 Vue.component("dim-form", dimForm);
 
+// datarange component
 import dataRange from "@/plugins/date-range/Main";
 Vue.use(dataRange);
 Vue.component("date-range", dataRange);
@@ -21,6 +23,7 @@ import DateHelper from "./utils/DateHelper";
 
 Vue.config.productionTip = false;
 
+// axios config
 axios.interceptors.request.use(config => {
   config.headers["Content-Type"] = "application/json;charset=UTF-8";
   try {
