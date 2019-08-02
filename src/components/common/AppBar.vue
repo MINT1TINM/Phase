@@ -1,9 +1,28 @@
 <template>
-  <v-app-bar flat app fixed clipped-left class="navbar hidden-sm-and-down">
-    <v-btn icon @click="backHome">
-      <v-icon>mdi-apps</v-icon>
-    </v-btn>
-    <span class="font-weight-black navbar-logo ml-1">
+  <v-app-bar dense flat app fixed clipped-left class="navbar hidden-sm-and-down">
+    <v-toolbar-items text style="margin-left:-20px">
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" width="62" icon @click="toggleAppSwitcher">
+            <v-icon size="23">mdi-apps</v-icon>
+          </v-btn>
+        </template>
+        <span class="caption">切换应用</span>
+      </v-tooltip>
+    </v-toolbar-items>
+
+    <v-toolbar-items text>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" icon @click="goToAppHome">
+            <v-icon size="23">mdi-home</v-icon>
+          </v-btn>
+        </template>
+        <span class="caption">所有项目</span>
+      </v-tooltip>
+    </v-toolbar-items>
+
+    <span class="font-weight-black navbar-logo ml-2 app-bar-text">
       Phase
       <span class="grey--text font-weight-regular">{{$route.meta}}</span>
     </span>
@@ -29,6 +48,7 @@
             ></v-text-field>
           </v-container>
           <v-divider></v-divider>
+          <v-subheader class="font-weight-black">切换项目</v-subheader>
           <v-list dense>
             <v-list-item
               v-for="(item, i) in projectListShow"
@@ -48,20 +68,29 @@
     <v-spacer></v-spacer>
 
     <!-- notification center -->
-    <v-btn icon class="mr-2">
-      <v-icon>mdi-bell-outline</v-icon>
-    </v-btn>
+    <v-toolbar-items>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" text class="app-bar-btn">
+            <v-icon size="20">mdi-bell-outline</v-icon>
+          </v-btn>
+        </template>
+        <span class="caption">通知</span>
+      </v-tooltip>
+    </v-toolbar-items>
 
     <!-- user menu -->
     <v-menu offset-y>
       <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on">
-          <v-avatar color="primary" size="36">
-            <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
-            <span v-else-if="userInfo.nickname" class="white--text">{{nickName | avatar}}</span>
-            <span v-else class="white--text">{{userInfo.username | avatar}}</span>
-          </v-avatar>
-        </v-btn>
+        <v-toolbar-items style="margin-right:-20px">
+          <v-btn class="app-bar-btn" text v-on="on">
+            <v-avatar color="primary" size="32">
+              <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
+              <span v-else-if="userInfo.nickname" class="white--text">{{nickName | avatar}}</span>
+              <span v-else class="white--text">{{userInfo.username | avatar}}</span>
+            </v-avatar>
+          </v-btn>
+        </v-toolbar-items>
       </template>
       <v-list dense>
         <v-list-item class="pb-2">
@@ -96,6 +125,7 @@
 
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -120,7 +150,8 @@ export default {
     ...mapMutations({
       updateLastPage: "system/updateLastPage",
       updateCurrentProjectID: "project/updateCurrentProjectID",
-      toggleFullScreenLoading: "system/toggleFullScreenLoading"
+      toggleFullScreenLoading: "system/toggleFullScreenLoading",
+      toggleAppSwitcher: "system/toggleAppSwitcher"
     }),
     async userMenuActions(num) {
       switch (num) {
@@ -142,8 +173,8 @@ export default {
           break;
       }
     },
-    backHome() {
-      this.$router.push({ path: "/home" });
+    goToAppHome() {
+      this.$router.push({ path: "/project" });
     },
     alterProject(projectID) {
       this.toggleFullScreenLoading(true);
@@ -171,5 +202,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+

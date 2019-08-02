@@ -4,36 +4,35 @@
     <v-content>
       <v-container fill-height grid-list-md>
         <v-layout row wrap>
-          <v-flex xs8>
+          <v-flex xs12>
             <v-card-title class="subtitle-1 font-weight-black">
-              项目
+              正在进行的项目
               <v-spacer></v-spacer>
               <v-btn rounded text @click="createProjectDialog=true">
                 <v-icon>mdi-plus</v-icon>&nbsp;新建项目
               </v-btn>
             </v-card-title>
             <v-container>
-              <v-flex xs12 v-for="(item,i) in projectList" :key="`project-${i}`">
-                <v-hover v-slot:default="{ hover }">
-                  <v-card :elevation="hover ? 8 : 2">
-                    <v-card-title class="body-2 font-weight-black">
-                      {{item.name}}
-                      <span
-                        class="grey--text ml-2 font-weight-regular"
-                      >{{item.createdAt| format("yyyy-MM-dd")}}</span>
-                      <v-spacer></v-spacer>
-                      <v-btn icon x-small @click="goToProject(item.id)">
-                        <v-icon>mdi-arrow-right</v-icon>
-                      </v-btn>
-                    </v-card-title>
-                    <v-container fluid>
-                      <v-layout row wrap>
-                        <v-card-text>{{item.description}}</v-card-text>
-                      </v-layout>
-                    </v-container>
-                  </v-card>
-                </v-hover>
-              </v-flex>
+              <v-layout row wrap>
+                <v-flex xs3 v-for="(item,i) in projectList" :key="`project-${i}`">
+                  <v-hover v-slot:default="{ hover }">
+                    <v-card :elevation="hover ? 8 : 2" @click="goToProject(item.id)">
+                      <v-card-title class="body-2 font-weight-black">
+                        {{item.name}}
+                        <span
+                          class="grey--text ml-2 font-weight-regular"
+                        >{{item.createdAt| format("yyyy-MM-dd")}}</span>
+                        <v-spacer></v-spacer>
+                      </v-card-title>
+                      <v-container fluid>
+                        <v-layout row wrap>
+                          <v-card-text>{{item.description}}</v-card-text>
+                        </v-layout>
+                      </v-container>
+                    </v-card>
+                  </v-hover>
+                </v-flex>
+              </v-layout>
             </v-container>
           </v-flex>
         </v-layout>

@@ -72,7 +72,8 @@ export default {
   },
   methods: {
     ...mapMutations({
-      toggleFullScreenLoading: "system/toggleFullScreenLoading"
+      toggleFullScreenLoading: "system/toggleFullScreenLoading",
+      clearAuthorization: "user/clearAuthorization"
     }),
     wechatLogin() {
       let appid = "wxdfa1c9397935814c";
@@ -103,12 +104,15 @@ export default {
       if (this.authorization.userID) {
         this.toggleFullScreenLoading(true);
         let userID = this.authorization.userID;
-        await userService.getUserInfo(userID);
-
-        setTimeout(() => {
-          this.toggleFullScreenLoading(false);
-          this.$router.push({ path: "/home" });
-        }, 500);
+        try {
+          await userService.getUserInfo(userID);
+          setTimeout(() => {
+            this.toggleFullScreenLoading(false);
+            this.$router.push({ path: "/home" });
+          }, 500);
+        } catch (err) {
+          this.clearAuthorization();
+        }
       }
     }
   },

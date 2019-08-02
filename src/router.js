@@ -21,11 +21,7 @@ export default new Router({
       path: "/register",
       component: () => import("@/views/user/Register")
     },
-    {
-      path: "/home",
-      meta: "主页",
-      component: () => import("@/views/Home")
-    },
+
     {
       path: "/settings",
       meta: "设置",
@@ -45,7 +41,12 @@ export default new Router({
     },
     {
       path: "/project",
-      component: () => import("@/views/project/Project"),
+      meta: "所有项目",
+      component: () => import("@/views/project/Home")
+    },
+    {
+      path: "/project/index",
+      component: () => import("@/views/project/ProjectIndex"),
       children: [
         {
           path: "/project/calendar",

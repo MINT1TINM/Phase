@@ -1,6 +1,7 @@
 const state = {
   lastPage: "",
   loading: false,
+  appSwitcher: false,
   fullScreenLoading: false
 };
 
@@ -11,6 +12,9 @@ const getters = {
   },
   loading: state => {
     return state.loading;
+  },
+  appSwitcher: state => {
+    return state.appSwitcher;
   },
   fullScreenLoading: state => {
     return state.fullScreenLoading;
@@ -26,6 +30,9 @@ const mutations = {
   },
   toggleFullScreenLoading: (state, toggle) => {
     state.fullScreenLoading = toggle;
+  },
+  toggleAppSwitcher: (state, toggle) => {
+    state.appSwitcher = toggle;
   }
 };
 

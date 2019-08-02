@@ -53,7 +53,7 @@
                           </template>
                           <span class="caption">编辑权限</span>
                         </v-tooltip>
-                        
+
                         <!-- project creator cannot remove himself -->
                         <v-tooltip bottom v-if="!currentProject.userID==userInfo.id">
                           <template v-slot:activator="{ on }">
@@ -67,6 +67,11 @@
                     </tr>
                   </tbody>
                 </v-simple-table>
+                <v-layout row justify-center class="pt-5">
+                  <v-flex xs6>
+                    <v-btn block rounded depressed color="primary" @click="updateProjectInfo()"><v-icon size="20">mdi-plus</v-icon>&nbsp;新增成员</v-btn>
+                  </v-flex>
+                </v-layout>
               </div>
             </v-container>
           </v-card>
@@ -109,8 +114,8 @@ export default {
       }
       this.memberList = rsp.memberList;
       this.memberListShow = this.memberList;
-      console.log(this.memberList);
-    }
+    },
+    async addMember() {}
   },
   computed: {
     ...mapGetters({
