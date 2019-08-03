@@ -1,18 +1,17 @@
 <template>
-  <timeline
+  <dim-timeline
     :startDate="`10 6 2018`"
     :endDate="`10 20 2018`"
     :columnWidth="150"
     :taskList="taskList"
     style="height:calc(100vh - 120px)"
-  ></timeline>
+  ></dim-timeline>
 </template>
 
 <script>
-import timeline from "@/plugins/timeline/Index";
 export default {
   components: {
-    timeline: timeline
+
   },
   data() {
     return {

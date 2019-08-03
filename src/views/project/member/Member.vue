@@ -69,7 +69,18 @@
                 </v-simple-table>
                 <v-layout row justify-center class="pt-5">
                   <v-flex xs6>
-                    <v-btn block rounded depressed color="primary" @click="updateProjectInfo()"><v-icon size="20">mdi-plus</v-icon>&nbsp;新增成员</v-btn>
+                    <v-bottom-sheet v-model="addMemberDialog" inset>
+                      <template v-slot:activator="{ on }">
+                        <v-btn block rounded depressed color="primary" v-on="on">
+                          <v-icon size="20">mdi-plus</v-icon>&nbsp;新增成员
+                        </v-btn>
+                      </template>
+                      <v-sheet class="text-center" height="800px">
+                        <v-container fluid>
+                          
+                        </v-container>
+                      </v-sheet>
+                    </v-bottom-sheet>
                   </v-flex>
                 </v-layout>
               </div>
@@ -97,7 +108,8 @@ export default {
           phone: "18101720295",
           role: ["c", "u", "d"]
         }
-      ]
+      ],
+      addMemberDialog: false
     };
   },
   methods: {

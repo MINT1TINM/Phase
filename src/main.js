@@ -16,6 +16,16 @@ import dataRange from "@/plugins/date-range/Main";
 Vue.use(dataRange);
 Vue.component("date-range", dataRange);
 
+// timeline component
+import timeline from "@/plugins/dim-timeline/Main";
+Vue.use(timeline);
+Vue.component("dim-timeline", timeline);
+
+// transfer component
+import transfer from "@/plugins/dim-transfer/Main";
+Vue.use(transfer);
+Vue.component("dim-transfer", transfer);
+
 import "@/plugins/confirm-dialog/index";
 import "@/plugins/snackbar/index";
 

@@ -7,7 +7,7 @@
       </v-btn>
     </v-toolbar-items>
 
-    <span class="font-weight-black navbar-logo ml-2 mr-4 app-bar-text">Phase</span>
+    <span class="font-weight-black navbar-logo ml-4 mr-4 app-bar-text">Phase</span>
     <v-divider vertical inset></v-divider>
 
     <project-bar v-if="currentApp=='project'"></project-bar>

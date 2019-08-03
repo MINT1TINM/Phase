@@ -17,7 +17,7 @@
         <template v-slot:activator="{on}">
           <v-btn style="padding:0 5px" text v-on="on" class="text-none">
             {{currentProject.name}}
-            <v-icon>mdi-chevron-down</v-icon>
+            <v-icon small>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
         <v-card tile>
