@@ -32,7 +32,7 @@
     <transition appear appear-active-class="fade-up-enter">
       <v-flex xs7 class="inner-sidebar-withoutpadding">
         <v-container fluid>
-          <sub-task></sub-task>
+          <sub-task @updateTaskInfo="getTaskInfo" :subTask="taskInfo.subTask"></sub-task>
           <related-sheet class="mt-3"></related-sheet>
           <operations class="mt-3"></operations>
         </v-container>
@@ -81,6 +81,9 @@ export default class TaskDetail extends Vue {
       data: []
     },
     member: {
+      data: []
+    },
+    subTask: {
       data: []
     },
     userID: "",

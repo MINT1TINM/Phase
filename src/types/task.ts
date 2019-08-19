@@ -13,6 +13,9 @@ interface Task {
   member?: {
     data: [];
   };
+  subTask?: {
+    data: SubTask[];
+  };
   userID: string;
   executorID: string;
   processID: string;
@@ -26,4 +29,13 @@ interface TaskMember {
   userID: string;
 }
 
-export { Task, Tags, TaskMember };
+interface SubTask {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  status: number;
+  file: [];
+}
+
+export { Task, Tags, TaskMember, SubTask };

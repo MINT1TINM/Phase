@@ -79,6 +79,13 @@ class TaskService {
     });
     return rsp;
   }
+
+  public static async createSubTask(taskID: string) {
+    const rsp = await basicService.postRequest("/task/subtask", {
+      taskID
+    });
+    return rsp;
+  }
 }
 
 export default TaskService;
