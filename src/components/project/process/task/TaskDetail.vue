@@ -1,185 +1,203 @@
 <template>
   <v-layout fill-height>
     <transition appear appear-active-class="fade-up-enter">
-      <v-flex xs5 class="inner-sidebar-withoutpadding">
-        <v-container fluid style="padding:30px">
+      <v-flex xs5 class="inner-sidebar-withoutpadding px-3" style="overflow-y:auto">
+        <v-toolbar flat color="transparent" class="font-weight-black">
+          任务信息
+          <v-spacer></v-spacer>
+          <v-btn rounded text @click="updateTaskInfo">
+            <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
+          </v-btn>
+        </v-toolbar>
+        <v-container fluid>
           <v-form ref="taskInfoForm">
-            <v-text-field
-              class="mb-5 text-field-semidense"
-              v-model="taskInfo.name"
-              :autofocus="taskInfo.name?false:true"
-              label="任务"
-              outlined
-              hide-details
-            ></v-text-field>
-            <v-autocomplete
-              v-model="taskInfo.tags"
-              :items="tagList"
-              outlined
-              chips
-              label="标签"
-              class="text-field-semidense mb-5"
-              hide-details
-              item-text="text"
-              item-value="text"
-              multiple
-              dense
-            >
-              <template v-slot:selection="data">
-                <v-chip
-                  v-bind="data.attrs"
-                  :input-value="data.selected"
-                  close
-                  @click="data.select"
-                  @click:close="remove(data.item)"
-                >
-                  <v-avatar size="16" left :color="data.item.color"></v-avatar>
-                  {{ data.item.text }}
-                </v-chip>
-              </template>
-              <template v-slot:item="data">
-                <template v-if="typeof data.item !== 'object'">
-                  <v-list-item-content v-text="data.item"></v-list-item-content>
-                </template>
-                <template v-else>
-                  <v-list-item-avatar>
-                    <v-avatar size="16" :color="data.item.color" />
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    <v-list-item-title v-html="data.item.text"></v-list-item-title>
-                  </v-list-item-content>
-                </template>
-              </template>
-            </v-autocomplete>
-            <v-divider class="mb-5"></v-divider>
-            <v-select
-              v-model="taskInfo.status"
-              outlined
-              hide-details
-              dense
-              :items="statusList"
-              item-text="text"
-              item-value="value"
-              label="状态"
-              class="mb-5 text-field-semidense"
-            ></v-select>
-            <v-layout class="mb-5">
-              <v-flex xs6 class="pr-2">
-                <v-dialog
-                  ref="deadlineDatePickerDialog"
-                  v-model="deadlineDatePicker"
-                  :return-value.sync="taskInfo.deadlineDate"
-                  persistent
-                  full-width
-                  width="290px"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-text-field
-                      outlined
-                      hide-details
-                      v-model="taskInfo.deadlineDate"
-                      class="text-field-semidense"
-                      label="截止日期"
-                      readonly
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker v-model="taskInfo.deadlineDate" scrollable>
-                    <v-spacer></v-spacer>
-                    <v-btn rounded text @click="deadlineDatePicker = false">取消</v-btn>
-                    <v-btn
-                      rounded
-                      text
-                      color="primary"
-                      @click="$refs.deadlineDatePickerDialog.save(taskInfo.deadlineDate)"
-                    >确认</v-btn>
-                  </v-date-picker>
-                </v-dialog>
-              </v-flex>
-              <v-flex xs6 class="pl-2">
-                <v-dialog
-                  ref="dialog"
-                  v-model="deadlineTimePicker"
-                  :return-value.sync="taskInfo.deadlineTime"
-                  persistent
-                  full-width
-                  width="290px"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-text-field
-                      outlined
-                      hide-details
-                      v-model="taskInfo.deadlineTime"
-                      label="截止时间"
-                      class="text-field-semidense"
-                      readonly
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-time-picker
-                    v-if="deadlineTimePicker"
-                    v-model="taskInfo.deadlineTime"
-                    full-width
-                    format="24hr"
-                  >
-                    <v-spacer></v-spacer>
-                    <v-btn text rounded @click="deadlineTimePicker = false">取消</v-btn>
-                    <v-btn
-                      text
-                      rounded
-                      color="primary"
-                      @click="$refs.dialog.save(taskInfo.deadlineTime)"
-                    >确认</v-btn>
-                  </v-time-picker>
-                </v-dialog>
-              </v-flex>
-            </v-layout>
-            <v-text-field
+            <!-- <v-text-field
               disabled
-              v-model="taskInfo.creator"
+              v-model="taskInfo.userID"
               text-field-semidense
-              class="text-field-semidense mb-5"
+              class="text-field-dense mb-5"
               label="创建人"
               outlined
               hide-details
-            ></v-text-field>
-            <v-textarea class="text-field-semidense mb-5" outlined label="备注"></v-textarea>
+            ></v-text-field>-->
+
+            <dim-form :formContent="taskInfoContent" :target="taskInfo"></dim-form>
           </v-form>
+          <v-layout justify-center>
+            <v-flex xs8></v-flex>
+          </v-layout>
         </v-container>
       </v-flex>
     </transition>
-    <v-flex xs7></v-flex>
+    <transition appear appear-active-class="fade-up-enter">
+      <v-flex xs7 class="inner-sidebar-withoutpadding">
+        <v-container fluid>
+          <sub-task></sub-task>
+          <related-sheet class="mt-3"></related-sheet>
+          <operations class="mt-3"></operations>
+        </v-container>
+      </v-flex>
+    </transition>
   </v-layout>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      taskInfo: {},
-      deadlineDatePicker: false,
-      deadlineTimePicker: false,
-      statusList: [
-        {
-          text: "已完成",
-          value: 1
-        },
-        {
-          text: "未完成",
-          value: 0
-        }
-      ],
-      tagList: [
-        {
-          text: "红色",
-          color: "red"
-        }
-      ]
-    };
-  },
-  mounted() {}
-};
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import subTask from "./SubTask.vue";
+import operations from "./Operations.vue";
+import relatedSheet from "./RelatedSheet.vue";
+import TaskService from "@/service/taskService";
+import { Task } from "@/types/task";
+import dimForm from "@/plugins/dim-form/Main.vue";
+import { namespace } from "vuex-class";
+import ProcessService from "@/service/processService";
+
+const processModule = namespace("process");
+const projectModule = namespace("project");
+
+@Component({
+  components: {
+    "sub-task": subTask,
+    operations: operations,
+    "related-sheet": relatedSheet,
+    "dim-form": dimForm
+  }
+})
+export default class TaskDetail extends Vue {
+  @projectModule.Getter("currentProjectID") private currentProjectID: any;
+  @processModule.Getter("currentProcess") private currentProcess: any;
+  @processModule.Mutation("updateCurrentProcessTask")
+  private updateCurrentProcessTask: any;
+  private taskInfo: Task = {
+    id: "",
+    name: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    actionStartDate: "",
+    actionEndDate: "",
+    status: false,
+    tags: {
+      data: []
+    },
+    member: {
+      data: []
+    },
+    userID: "",
+    processID: "",
+    executorID: ""
+  };
+  private statusList = [
+    {
+      text: "已完成",
+      value: true
+    },
+    {
+      text: "未完成",
+      value: false
+    }
+  ];
+  private tagList = [
+    {
+      text: "红色",
+      color: "red"
+    }
+  ];
+
+  private taskInfoContent = [
+    {
+      type: "text-field",
+      title: "任务名称",
+      name: "name"
+    },
+    {
+      type: "select",
+      title: "执行者",
+      name: "executorID",
+      list: this.taskInfo.member!.data
+    },
+    {
+      type: "multi-select",
+      title: "成员",
+      name: "member",
+      chips: true,
+      list: this.taskInfo.member!.data
+    },
+    {
+      type: "tags",
+      title: "标签",
+      name: "tags"
+    },
+    {
+      divider: true
+    },
+    {
+      type: "date-picker",
+      title: "开始时间",
+      name: "startDate"
+    },
+    {
+      type: "date-picker",
+      title: "截止时间",
+      name: "endDate"
+    },
+    {
+      type: "date-picker",
+      title: "执行时间",
+      name: "actionStartDate"
+    },
+    {
+      type: "date-picker",
+      title: "完成时间",
+      name: "actionEndDate"
+    },
+    {
+      type: "text-area",
+      title: "备注",
+      name: "description"
+    }
+  ];
+
+  private async getTaskInfo() {
+    const rsp = await TaskService.getTaskInfo(this.$route.params.taskID);
+    this.taskInfo = rsp.task;
+    this.taskInfoContent[1].list = this.taskInfoContent[2].list = this.currentProcess(
+      this.$route.params.processID
+    ).member.data;
+  }
+
+  private async updateTaskInfo() {
+    // update info
+    await TaskService.updateTaskInfo(this.taskInfo);
+
+    // update member
+    await TaskService.updateTaskMember(
+      this.$route.params.taskID,
+      this.taskInfo.member!.data
+    );
+
+    // sync task list
+    this.syncTaskList();
+  }
+
+  private async syncTaskList() {
+    const rsp = await TaskService.getTaskList(this.$route.params.processID);
+    this.updateCurrentProcessTask({
+      processID: this.$route.params.processID,
+      taskList: rsp.taskList
+    });
+  }
+
+  beforeRouteUpdate(to: any, from: any, next: any) {
+    next();
+    this.getTaskInfo();
+  }
+
+  private mounted() {
+    this.getTaskInfo();
+  }
+}
 </script>
 
-<style>
+<style scoped>
 </style>

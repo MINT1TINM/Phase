@@ -5,52 +5,35 @@
         <v-card class="mt-5">
           <v-card-title class="subtitle-1 font-weight-bold">信息</v-card-title>
           <v-container fluid>
-            <dim-form :formContent="settingsContent" :target="settings"></dim-form>
+            <dim-form :formContent="settingsContent" :target="processInfo"></dim-form>
+            <v-layout justify-center>
+              <v-flex xs6>
+                <v-btn
+                  @click="updateProcessInfo"
+                  rounded
+                  depressed
+                  block
+                  color="primary"
+                  class="mt-4"
+                >保存</v-btn>
+              </v-flex>
+            </v-layout>
           </v-container>
         </v-card>
         <v-card class="mt-5">
           <v-card-title class="subtitle-1 font-weight-bold">成员</v-card-title>
           <v-container fluid style="padding-top:0">
-            <v-autocomplete
+            <v-select
               v-model="processMember"
               :items="projectMember"
-              outlined
-              single-line
               chips
-              color="blue-grey lighten-2"
-              label="Select"
-              item-text="name"
-              item-value="name"
+              single-line
+              label="Chips"
+              item-value="userID"
+              item-text="userID"
               multiple
-            >
-              <template v-slot:selection="data">
-                <v-chip
-                  v-bind="data.attrs"
-                  :input-value="data.selected"
-                  :close="data.item.role==1?false:true"
-                  @click="data.select"
-                  @click:close="removeMember(data.item)"
-                >
-                  <v-avatar left>
-                    <v-img :src="data.item.avatar"></v-img>
-                  </v-avatar>
-                  {{ data.item.name }}
-                </v-chip>
-              </template>
-              <template v-slot:item="data">
-                <template v-if="typeof data.item !== 'object'">
-                  <v-list-item-content v-text="data.item"></v-list-item-content>
-                </template>
-                <template v-else>
-                  <v-list-item-avatar size="30">
-                    <img :src="data.item.avatar" />
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    <v-list-item-title class="subtitle-1 font-weight-black" v-html="data.item.name"></v-list-item-title>
-                  </v-list-item-content>
-                </template>
-              </template>
-            </v-autocomplete>
+              outlined
+            ></v-select>
           </v-container>
         </v-card>
       </v-flex>
@@ -58,50 +41,79 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      settingsContent: [
-        {
-          type: "text-field",
-          title: "名称",
-          content: "name"
-        },
-        {
-          type: "select",
-          title: "标签",
-          content: "tags",
-          list: []
-        },
-        {
-          type: "date-range",
-          title: "时间范围",
-          content: "dateRange"
-        }
-      ],
-      projectMember: [{ name: "MINT", role: 1 }],
-      processMember: [{ name: "MINT", role: 1 }],
-      settings: {
-        name: "",
-        dateRange: [
-          Math.round(new Date().getTime()),
-          Math.round(new Date().getTime())
-        ]
-      },
-      range: []
-    };
-  },
-  methods: {
-    async removeMember(item) {
-      const index = this.processMember.indexOf(item.name);
-      if (index >= 0) this.processMember.splice(index, 1);
+<script lang="ts">
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import dimForm from "@/plugins/dim-form/Main.vue";
+import ProcessService from "@/service/processService";
+import { Process, ProcessMember } from "@/types/process";
+import { namespace } from "vuex-class";
+
+const projectModule = namespace("project");
+
+@Component({
+  components: {
+    "dim-form": dimForm
+  }
+})
+export default class Settings extends Vue {
+  @projectModule.Getter("currentProject") private currentProject: any;
+
+  private settingsContent = [
+    {
+      type: "text-field",
+      title: "名称",
+      name: "name"
     },
-    async addMember() {}
-  },
-  computed: {}
-};
+    {
+      type: "text-area",
+      title: "备注",
+      name: "description"
+    }
+  ];
+  private range: [number, number] = [0, 0];
+  private processInfo: Process = {
+    id: "",
+    name: ""
+  };
+  private processMember: ProcessMember[] = [];
+
+  private async getProcessInfo() {
+    const rsp = await ProcessService.getProcessInfo(
+      this.$route.params.processID
+    );
+    this.processInfo = rsp.process;
+    this.processMember = this.processInfo.member!.data;
+  }
+
+  private async updateProcessInfo() {
+    const rsp = await ProcessService.updateProcessInfo(
+      this.$route.params.processID,
+      this.processInfo
+    );
+  }
+
+  // private async removeMember(item: Member) {}
+
+  get projectMember() {
+    return this.currentProject.member.data;
+  }
+
+  @Watch("processMember")
+  private async onProcessMemberChanged() {
+    // watch change after initialized
+    if (this.processMember !== this.processInfo.member!.data) {
+      await ProcessService.updateProcessMember(
+        this.$route.params.processID,
+        this.projectMember
+      );
+    }
+  }
+
+  private mounted() {
+    this.getProcessInfo();
+  }
+}
 </script>
 
-<style>
+<style scoped>
 </style>

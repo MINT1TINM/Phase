@@ -10,7 +10,7 @@
                 hide-details
                 outlined
                 single-line
-                class="text-field-dense"
+                class="text-field-dense ml-1"
                 label="搜索过程"
                 v-model="searchProcessContent"
               ></v-text-field>
@@ -23,7 +23,7 @@
           <v-slide-group center-active show-arrows style="height:100%">
             <v-slide-item v-for="(item,i) in processListShow" :key="`process-${i}`">
               <div :class="i==0?'ml-5 mr-2 my-3':`mx-2 my-3`" style="width:300px">
-                <process-column :processId="item.id" :processName="item.name"></process-column>
+                <process-column :processID="item.id" :processName="item.name"></process-column>
               </div>
             </v-slide-item>
           </v-slide-group>
@@ -34,7 +34,13 @@
       <v-card>
         <v-card-title class="subtitle-1 font-weight-black">新建过程</v-card-title>
         <v-container>
-          <v-text-field outlined class="text-field-dense" label="项目名称" v-model="processName"></v-text-field>
+          <v-text-field
+            single-line
+            outlined
+            class="text-field-dense"
+            label="项目名称"
+            v-model="processName"
+          ></v-text-field>
         </v-container>
         <v-card-actions class="justify-center">
           <v-btn rounded color="primary" depressed @click="createProcess">确认</v-btn>
@@ -45,63 +51,69 @@
   </v-container>
 </template>
 
-<script>
-import processColumn from "@/components/project/process/ProcessColumn";
-import processService from "@/service/ProcessService";
-import { mapGetters } from "vuex";
-export default {
+<script lang="ts">
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import processColumn from "@/components/project/process/ProcessColumn.vue";
+import { namespace } from "vuex-class";
+import ProcessService from "@/service/processService";
+import { Process } from "@/types/process";
+
+const projectModule = namespace("project");
+const processModule = namespace("process");
+
+@Component({
   components: {
-    processColumn: processColumn
-  },
-  data() {
-    return {
-      processList: [],
-      processListShow: [],
-      createProcessDialog: false,
-      processName: "",
-      searchProcessContent: ""
-    };
-  },
-  computed: {
-    ...mapGetters({
-      currentProjectID: "project/currentProjectID"
-    })
-  },
-  watch: {
-    searchProcessContent() {
-      this.processListShow = [];
-      let processList = this.processList;
-      let searchProcessContent = this.searchProcessContent;
-      for (let i = processList.length - 1; i >= 0; i--) {
-        const e = processList[i];
-        if (
-          e.name.toLowerCase().indexOf(searchProcessContent.toLowerCase()) != -1
-        ) {
-          this.processListShow.unshift(e);
-        }
-      }
-    }
-  },
-  methods: {
-    async createProcess() {
-      await processService.createProcess(
-        this.processName,
-        this.currentProjectID
-      );
-      this.createProcessDialog = false;
-      this.getProcessList();
-    },
-    async getProcessList() {
-      const rsp = await processService.getProcessList(this.currentProjectID);
-      this.processList = rsp.processList;
-      this.processListShow = rsp.processList;
-    }
-  },
-  mounted() {
+    "process-column": processColumn
+  }
+})
+export default class ProcessList extends Vue {
+  @projectModule.Getter("currentProjectID") private currentProjectID: any;
+  @processModule.Mutation("updateCurrentProcessList")
+  private updateCurrentProcessList: any;
+
+  private processList: Process[] = [];
+  private processListShow: Process[] = [];
+  private createProcessDialog: boolean = false;
+  private processName: string = "";
+  private searchProcessContent: string = "";
+
+  private async createProcess() {
+    await ProcessService.createProcess(this.processName, this.currentProjectID);
+    this.createProcessDialog = false;
     this.getProcessList();
   }
-};
+  private async getProcessList() {
+    const rsp = await ProcessService.getProcessList(this.currentProjectID);
+    this.processList = rsp.process;
+    this.processListShow = rsp.process;
+    this.updateCurrentProcessList(rsp.process);
+  }
+
+  @Watch("searchProcessContent")
+  private onSearchProcessContentChanged() {
+    this.processListShow = [];
+    const processList = this.processList;
+    const searchProcessContent = this.searchProcessContent;
+    for (let i = processList.length - 1; i >= 0; i--) {
+      const e = processList[i];
+      if (
+        e.name.toLowerCase().indexOf(searchProcessContent.toLowerCase()) !== -1
+      ) {
+        this.processListShow.unshift(e);
+      }
+    }
+  }
+
+  @Watch("currentProjectID")
+  private onCurrentProjectIDChanged() {
+    this.getProcessList();
+  }
+
+  private mounted() {
+    this.getProcessList();
+  }
+}
 </script>
 
-<style>
+<style scoped>
 </style>

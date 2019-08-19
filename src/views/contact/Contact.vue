@@ -11,20 +11,17 @@
   </v-app>
 </template>
 
-<script>
-import appBar from "@/components/common/app-bar/AppBar";
-export default {
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import appBar from "@/components/common/app-bar/AppBar.vue";
+
+@Component({
   components: {
-    appBar: appBar
-  },
-  data() {
-    return {};
-  },
-  mounted() {
-    console.log("shit");
+    "app-bar": appBar
   }
-};
+})
+export default class Contact extends Vue {}
 </script>
 
-<style>
+<style scoped>
 </style>

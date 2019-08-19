@@ -1,13 +1,13 @@
 <template>
-  
+  <div></div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
 
-}
+@Component
+export default class Notification extends Vue {}
 </script>
 
-<style>
-
+<style scoped>
 </style>

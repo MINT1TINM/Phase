@@ -67,107 +67,114 @@
   </v-layout>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      today: "2019-01-08",
-      focus: "2019-01-08",
-      type: "month",
-      typeToLabel: {
-        month: "月视图",
-        week: "周视图",
-        day: "日视图"
-      },
-      start: null,
-      end: null,
-      selectedEvent: {},
-      selectedElement: null,
-      selectedOpen: false,
-      events: []
-    };
-  },
-  computed: {
-    title() {
-      const { start, end } = this;
-      if (!start || !end) {
-        return "";
-      }
-      console.log(start);
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { VCalendar } from "vuetify/lib";
 
-      const startMonth = this.monthFormatter(start);
-      const endMonth = this.monthFormatter(end);
-      const suffixMonth = startMonth === endMonth ? "" : endMonth;
+@Component
+export default class Calendar extends Vue {
+  public $refs!: {
+    calendar: any;
+  };
 
-      const startYear = start.year;
-      const endYear = end.year;
-      const suffixYear = startYear === endYear ? "" : endYear;
+  private today: string = "2019-01-08";
+  private focus: string = "2019-01-08";
+  private type: string = "month";
+  private typeToLabel = {
+    month: "月视图",
+    week: "周视图",
+    day: "日视图"
+  };
+  private start = null;
+  private end = null;
+  private selectedEvent = {};
+  private selectedElement = null;
+  private selectedOpen: boolean = false;
+  private events = [];
 
-      const startDay = start.day + this.nth(start.day);
-      const endDay = end.day + this.nth(end.day);
-
-      switch (this.type) {
-        case "month":
-          return `${startMonth} ${startYear}`;
-        case "week":
-        case "day":
-          return `${startMonth} ${startDay} ${startYear}`;
-      }
-
-      return "";
-    },
-    monthFormatter() {
-      return this.$refs.calendar.getFormatter({
-        timeZone: "UTC",
-        month: "long"
-      });
-    }
-  },
-  methods: {
-    viewDay({ date }) {
-      this.focus = date;
-      this.type = "day";
-    },
-    getEventColor(event) {
-      return event.color;
-    },
-    setToday() {
-      this.focus = this.today;
-    },
-    prev() {
-      this.$refs.calendar.prev();
-    },
-    next() {
-      this.$refs.calendar.next();
-    },
-    showEvent({ nativeEvent, event }) {
-      const open = () => {
-        this.selectedEvent = event;
-        this.selectedElement = nativeEvent.target;
-        setTimeout(() => (this.selectedOpen = true), 10);
-      };
-
-      if (this.selectedOpen) {
-        this.selectedOpen = false;
-        setTimeout(open, 10);
-      } else {
-        open();
-      }
-
-      nativeEvent.stopPropagation();
-    },
-    updateRange({ start, end }) {
-      this.start = start;
-      this.end = end;
-    },
-    nth(d) {
-      return d > 3 && d < 21
-        ? "th"
-        : ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][d % 10];
-    }
+  private viewDay({ date }: any) {
+    this.focus = date;
+    this.type = "day";
   }
-};
+  private getEventColor(event: any) {
+    return event.color;
+  }
+  private setToday() {
+    this.focus = this.today;
+  }
+  private prev() {
+    this.$refs.calendar.prev();
+  }
+  private next() {
+    this.$refs.calendar.next();
+  }
+  private showEvent({ nativeEvent, event }: any) {
+    const open = () => {
+      this.selectedEvent = event;
+      this.selectedElement = nativeEvent.target;
+      setTimeout(() => (this.selectedOpen = true), 10);
+    };
+
+    if (this.selectedOpen) {
+      this.selectedOpen = false;
+      setTimeout(open, 10);
+    } else {
+      open();
+    }
+
+    nativeEvent.stopPropagation();
+  }
+  private updateRange({ start, end }: any) {
+    this.start = start;
+    this.end = end;
+  }
+  private nth(d: number) {
+    return d > 3 && d < 21
+      ? "th"
+      : ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][d % 10];
+  }
+
+  private get title() {
+    const { start, end } = this;
+    if (!start || !end) {
+      return "";
+    }
+
+    const startMonth = this.monthFormatter(start);
+    const endMonth = this.monthFormatter(end);
+    const suffixMonth = startMonth === endMonth ? "" : endMonth;
+
+    const startYear = (start || { year: null }).year;
+    const endYear = (end || { year: null }).year;
+    const suffixYear = startYear === endYear ? "" : endYear;
+
+    const startDay =
+      (start || { day: null }).day + this.nth((start || { day: 0 }).day);
+    const endDay =
+      (end || { day: null }).day + this.nth((end || { day: 0 }).day);
+
+    switch (this.type) {
+      case "month":
+        return `${startMonth} ${startYear}`;
+      case "week":
+      case "day":
+        return `${startMonth} ${startDay} ${startYear}`;
+    }
+
+    return "";
+  }
+
+  private get monthFormatter() {
+    return this.$refs.calendar.getFormatter({
+      timeZone: "UTC",
+      month: "long"
+    });
+  }
+
+  private mounted() {
+    console.log(this.$refs.calendar);
+  }
+}
 </script>
 
-<style>
-</style>
+

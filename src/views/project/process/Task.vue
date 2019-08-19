@@ -1,33 +1,45 @@
 <template>
-  <div style="height:calc(100vh - 113px)">
+  <div style="height:calc(100vh - 98px)">
     <v-layout fill-height>
       <v-flex xs3 class="inner-sidebar-withoutpadding" style="overflow-y:auto">
-        <task-list :processId="processId"></task-list>
+        <task-list @func="getKey" :processID="processID"></task-list>
       </v-flex>
       <v-flex xs9>
-        <router-view></router-view>
+        <transition v-if="$route.params.taskID" name="fade-up-enter" mode="out-in">
+          <router-view :key="activeTask"></router-view>
+        </transition>
+        <v-layout
+          class="inner-sidebar-withoutpadding"
+          v-else
+          align-center
+          justify-center
+          fill-height
+        >
+          <h3>请选择或新建任务</h3>
+        </v-layout>
       </v-flex>
     </v-layout>
   </div>
 </template>
 
-<script>
-import taskList from "@/components/project/process/task/TaskList";
-export default {
-  components: {
-    taskList: taskList
-  },
-  data() {
-    return {};
-  },
-  computed: {
-    processId: function() {
-      return Number(this.$route.params.processId);
-    }
-  },
-  mounted() {}
-};
-</script>
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import taskList from "@/components/project/process/task/TaskList.vue";
 
-<style>
-</style>
+@Component({
+  components: {
+    "task-list": taskList
+  }
+})
+export default class Task extends Vue {
+  public activeTask: string = "";
+
+  private get processID() {
+    return this.$route.params.processID;
+  }
+
+  private getKey(data: any) {
+    this.activeTask = data;
+  }
+}
+</script>

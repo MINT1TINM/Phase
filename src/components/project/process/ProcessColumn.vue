@@ -1,33 +1,33 @@
 <template>
-  <v-card flat color="grey lighten-3">
-    <v-toolbar flat color="transparent">
+  <v-card flat class="acrylic">
+    <v-toolbar dense flat color="transparent">
       <v-toolbar-title class="subtitle-1 font-weight-black">{{processName}}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn x-small icon :to="`/project/process/${processId}/timeline`">
+      <v-btn x-small icon :to="`/project/process/${processID}/timeline`">
         <v-icon>mdi-arrow-right</v-icon>
       </v-btn>
     </v-toolbar>
-    <div style="height:calc(100vh - 225px);overflow:auto" color="transparent">
-      <task-list :processId="processId"></task-list>
+    <div style="height:calc(100vh - 194px);overflow:auto" color="transparent">
+      <task-list :processID="processID"></task-list>
     </div>
   </v-card>
 </template>
 
-<script>
-import taskList from "@/components/project/process/task/TaskList";
-export default {
+<script lang="ts">
+import Vue from "vue";
+import Component from "vue-class-component";
+import taskList from "./task/TaskList.vue";
+import { Prop } from "vue-property-decorator";
+
+@Component({
   components: {
-    taskList: taskList
-  },
-  props: {
-    processId: Number,
-    processName: String
-  },
-  data() {
-    return {};
-  },
-  methods: {}
-};
+    "task-list": taskList
+  }
+})
+export default class ProjectColumn extends Vue {
+  @Prop({ default: 0 }) public processID!: number;
+  @Prop({ default: "" }) public processName!: string;
+}
 </script>
 
 <style>

@@ -21,45 +21,48 @@
   </v-container>
 </template>
 
-<script>
-import { mapGetters } from "vuex";
-import projectService from "@/service/ProjectService";
-export default {
-  data() {
-    return {
-      projectInfoList: [
-        {
-          subheader: "信息"
-        },
-        {
-          type: "text-field",
-          title: "名称",
-          content: "name"
-        },
-        {
-          type: "text-area",
-          title: "简介",
-          content: "description"
-        },
-        {
-          subheader: "通知"
-        }
-      ]
-    };
-  },
-  computed: {
-    ...mapGetters({
-      lastPage: "system/lastPage",
-      currentProject: "project/currentProject"
-    })
-  },
-  methods: {
-    async updateProjectInfo() {
-      await projectService.updateProjectInfo(this.currentProject);
-    }
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+import ProjectService from "@/service/projectService";
+import dimForm from "@/plugins/dim-form/Main.vue";
+
+const systemModule = namespace("system");
+const projectModule = namespace("project");
+
+@Component({
+  components: {
+    "dim-form": dimForm
   }
-};
+})
+export default class Settings extends Vue {
+  @systemModule.Getter("lastPage") private lastPage: any;
+  @projectModule.Getter("currentProject") private currentProject: any;
+
+  private projectInfoList = [
+    {
+      subheader: "信息"
+    },
+    {
+      type: "text-field",
+      title: "名称",
+      name: "name"
+    },
+    {
+      type: "text-area",
+      title: "简介",
+      name: "description"
+    },
+    {
+      subheader: "通知"
+    }
+  ];
+
+  private async updateProjectInfo() {
+    await ProjectService.updateProjectInfo(this.currentProject);
+  }
+}
 </script>
 
-<style>
+<style scoped>
 </style>

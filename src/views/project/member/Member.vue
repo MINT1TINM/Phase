@@ -28,11 +28,9 @@
                   <tbody>
                     <tr v-for="(item,i) in memberListShow" :key="`member-${i}`">
                       <td class="text-center">
-                        <v-avatar
-                          color="primary"
-                          size="32"
-                          class="white--text font-weight-black"
-                        >{{ item.headImgURL }}</v-avatar>
+                        <v-avatar color="primary" size="32" class="white--text font-weight-black">
+                          <img :src="item.headImgURL | httpsfy" />
+                        </v-avatar>
                       </td>
                       <td class="font-weight-black text-center">{{ item.nickName }}</td>
                       <td class="font-weight-black text-center">{{ item.email }}</td>
@@ -40,24 +38,43 @@
                       <td class="font-weight-black text-center">
                         <v-chip
                           class="mx-1 text-uppercase"
-                          v-for="(item,i) in item.projectRole"
-                          :key="`role-${i}`"
-                        >{{item}}</v-chip>
+                          v-if="item.projectRole.indexOf('c')!=-1"
+                        >C</v-chip>
+                        <v-chip
+                          class="mx-1 text-uppercase"
+                          v-if="item.projectRole.indexOf('u')!=-1"
+                        >U</v-chip>
+                        <v-chip
+                          class="mx-1 text-uppercase"
+                          v-if="item.projectRole.indexOf('d')!=-1"
+                        >D</v-chip>
                       </td>
                       <td class="font-weight-black text-center">
-                        <v-tooltip bottom>
+                        <!-- project creator/loginuser cannot edit himself -->
+
+                        <v-tooltip
+                          bottom
+                          v-if="item.id!==currentProject.userID&&authorization.userID === currentProject.userID"
+                        >
                           <template v-slot:activator="{ on }">
-                            <v-btn small icon v-on="on">
+                            <v-btn
+                              small
+                              icon
+                              v-on="on"
+                              @click="editMemberRoleDialog=true;targetMember = item;targetMember.role = item.projectRole"
+                            >
                               <v-icon>mdi-pencil-outline</v-icon>
                             </v-btn>
                           </template>
                           <span class="caption">编辑权限</span>
                         </v-tooltip>
 
-                        <!-- project creator cannot remove himself -->
-                        <v-tooltip bottom v-if="!currentProject.userID==userInfo.id">
+                        <v-tooltip
+                          bottom
+                          v-if="item.id!==currentProject.userID&&authorization.userID === currentProject.userID"
+                        >
                           <template v-slot:activator="{ on }">
-                            <v-btn small icon v-on="on">
+                            <v-btn small icon v-on="on" @click="removeMember(item.id)">
                               <v-icon>mdi-close</v-icon>
                             </v-btn>
                           </template>
@@ -75,14 +92,52 @@
                           <v-icon size="20">mdi-plus</v-icon>&nbsp;新增成员
                         </v-btn>
                       </template>
-                      <v-sheet class="text-center" height="800px">
+                      <v-sheet class="text-center" height="800px" style="overflow:auto">
                         <v-container fluid>
-                          
+                          <search-user></search-user>
                         </v-container>
                       </v-sheet>
                     </v-bottom-sheet>
                   </v-flex>
                 </v-layout>
+                <v-dialog v-model="editMemberRoleDialog" width="500">
+                  <v-card>
+                    <v-card-title class="subtitle-1 font-weight-black">编辑成员权限</v-card-title>
+                    <v-container fluid>
+                      <v-checkbox
+                        v-model="targetMember.projectRole"
+                        hide-details
+                        color="primary"
+                        label="C - 可邀请成员，新建过程、任务"
+                        value="c"
+                      ></v-checkbox>
+                      <v-checkbox
+                        v-model="targetMember.projectRole"
+                        color="primary"
+                        hide-details
+                        label="U - 可更改过程、任务内容，上传文件"
+                        value="u"
+                      ></v-checkbox>
+                      <v-checkbox
+                        v-model="targetMember.projectRole"
+                        color="primary"
+                        hide-details
+                        label="D - 可移除成员、删除过程、任务等资源"
+                        value="d"
+                      ></v-checkbox>
+                    </v-container>
+                    <v-card-actions class="mt-3">
+                      <v-layout justify-center>
+                        <v-btn
+                          text
+                          rounded
+                          color="primary"
+                          @click="updateMemberRole(targetMember.id,targetMember.projectRole);editMemberRoleDialog=false"
+                        >确认</v-btn>
+                      </v-layout>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
               </div>
             </v-container>
           </v-card>
@@ -92,78 +147,97 @@
   </v-container>
 </template>
 
-<script>
-import { mapGetters } from "vuex";
-import projectService from "@/service/ProjectService";
-export default {
-  data() {
-    return {
-      searchMemberContent: "",
-      memberListShow: [],
-      memberList: [
-        {
-          avatar: "x",
-          nickName: "MINT",
-          email: "mint@insdim.com",
-          phone: "18101720295",
-          role: ["c", "u", "d"]
-        }
-      ],
-      addMemberDialog: false
-    };
-  },
-  methods: {
-    async getProjectMember() {
-      const rsp = await projectService.getProjectMember(
-        this.currentProject.member
-      );
-      for (let i = 0; i < rsp.memberList.length; i++) {
-        const e = rsp.memberList[i];
-        // find user role in this particular project
-        e.projectRole = e.project.find(e => {
-          return e.projectID == this.currentProject.id;
-        }).role;
-      }
-      this.memberList = rsp.memberList;
-      this.memberListShow = this.memberList;
-    },
-    async addMember() {}
-  },
-  computed: {
-    ...mapGetters({
-      currentProject: "project/currentProject",
-      projectList: "project/projectList",
-      userInfo: "user/userInfo"
-    })
-  },
-  watch: {
-    searchMemberContent() {
-      this.memberListShow = [];
-      for (let i = 0; i < this.memberList.length; i++) {
-        const e = this.memberList[i];
-        if (
-          e.nickName
-            .toLowerCase()
-            .indexOf(this.searchMemberContent.toLowerCase()) != -1 ||
-          // serach email before .com
-          e.email
-            .split(".")[0]
-            .toLowerCase()
-            .indexOf(this.searchMemberContent.toLowerCase()) != -1 ||
-          e.phone
-            .toLowerCase()
-            .indexOf(this.searchMemberContent.toLowerCase()) != -1
-        ) {
-          this.memberListShow.push(e);
-        }
-      }
+<script lang="ts">
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import searchUser from "@/components/project/member/SearchUser.vue";
+import { namespace } from "vuex-class";
+import ProjectService from "@/service/projectService";
+import { UserProject } from "@/types/user";
+import { ProjectMemberComplete, ProjectMember } from "@/types/project";
+
+const projectModule = namespace("project");
+const userModule = namespace("user");
+
+@Component({
+  components: {
+    "search-user": searchUser
+  }
+})
+export default class ProjectMemberManagement extends Vue {
+  @projectModule.Getter("currentProject") private currentProject: any;
+  @projectModule.Getter("projectList") private projectList: any;
+  @userModule.Getter("authorization") private authorization: any;
+
+  private memberList: ProjectMemberComplete[] = [];
+  private memberListShow: ProjectMemberComplete[] = [];
+  private searchMemberContent: string = "";
+  private targetMember: ProjectMember = {
+    userID: "",
+    role: []
+  };
+  private addMemberDialog: boolean = false;
+  private editMemberRoleDialog: boolean = false;
+
+  private async getProjectMember() {
+    const rsp = await ProjectService.getProjectMember(
+      this.currentProject.member.data
+    );
+    for (const e of rsp.memberList) {
+      // find user role in this particular project
+      e.projectRole = e.project.data.find((u: UserProject) => {
+        return u.projectID === this.currentProject.id;
+      }).role;
     }
-  },
-  mounted() {
+    this.memberList = rsp.memberList;
+    this.memberListShow = this.memberList;
+  }
+
+  private async removeMember(userID: string) {
+    const res = await this.$confirm("", {
+      title: "确认移除成员?",
+      buttonTrueColor: "primary"
+    });
+    if (res) {
+      await ProjectService.removeProjectMember(this.currentProject.id, userID);
+      // update redundancy
+      await ProjectService.getProjectList();
+      // update memberlist
+      this.getProjectMember();
+    }
+  }
+
+  private async updateMemberRole(userID: string, role: []) {
+    await ProjectService.updateMemberRole(this.currentProject.id, userID, role);
     this.getProjectMember();
   }
-};
+
+  @Watch("searchMemberContent")
+  private onSearchMemberContentChanged() {
+    this.memberListShow = [];
+    for (const e of this.memberList) {
+      if (
+        e.nickName
+          .toLowerCase()
+          .indexOf(this.searchMemberContent.toLowerCase()) !== -1 ||
+        // serach email before .com
+        e.email
+          .split(".")[0]
+          .toLowerCase()
+          .indexOf(this.searchMemberContent.toLowerCase()) !== -1 ||
+        e.phone
+          .toLowerCase()
+          .indexOf(this.searchMemberContent.toLowerCase()) !== -1
+      ) {
+        this.memberListShow.push(e);
+      }
+    }
+  }
+
+  private mounted() {
+    this.getProjectMember();
+  }
+}
 </script>
 
-<style>
+<style scoped>
 </style>

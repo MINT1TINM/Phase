@@ -1,5 +1,6 @@
 <template>
-  <v-app>
+  <v-app id="app">
+    <!-- loading -->
     <v-progress-linear
       :active="loading"
       :indeterminate="loading"
@@ -7,6 +8,8 @@
       top
       color="deep-purple accent-4"
     ></v-progress-linear>
+
+    <!-- fullscreen loading -->
     <v-overlay
       :value="fullScreenLoading"
       :absolute="true"
@@ -26,45 +29,71 @@
       </v-card>
     </v-overlay>
 
-    <router-view />
-    
     <!-- app switcher -->
-    <v-navigation-drawer v-model="appSwitcher" absolute temporary>
+    <v-navigation-drawer v-model="appSwitcherShow" absolute temporary class="acrylic">
       <app-switcher style="height:cals(100vh - 48px);overflow:auto"></app-switcher>
     </v-navigation-drawer>
+
+    <!-- notification center -->
+    <v-navigation-drawer
+      width="350"
+      v-model="notificationCenterShow"
+      absolute
+      right
+      temporary
+      class="acrylic"
+    >
+      <notification-center style="height:cals(100vh - 48px);overflow:auto"></notification-center>
+    </v-navigation-drawer>
+
+    <router-view />
   </v-app>
 </template>
 
-<script>
-import { mapGetters, mapMutations } from "vuex";
-import appSwitcher from "@/components/common/AppSwitcher";
-export default {
-  name: "App",
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+
+import appSwitcher from "@/components/common/app-switcher/AppSwitcher.vue";
+import notificationCenter from "@/components/common/notification-center/NotificationCenter.vue";
+
+const systemModule = namespace("system");
+
+@Component({
   components: {
-    appSwitcher: appSwitcher
-  },
-  data: () => ({
-    //
-  }),
-  computed: {
-    ...mapGetters({
-      loading: "system/loading",
-      fullScreenLoading: "system/fullScreenLoading"
-    }),
-    appSwitcher: {
-      get() {
-        return this.$store.getters["system/appSwitcher"];
-      },
-      set(v) {
-        this.$store.commit("system/toggleAppSwitcher", v);
-      }
-    }
-  },
-  methods: {
-    ...mapMutations({
-      toggleAppSwitcher: "system/toggleAppSwitcher"
-    })
-  },
-  mounted() {}
-};
+    "app-switcher": appSwitcher,
+    "notification-center": notificationCenter
+  }
+})
+export default class App extends Vue {
+  @systemModule.Getter("fullScreenLoading") private fullScreenLoading: any;
+  @systemModule.Getter("loading") private loading: any;
+  @systemModule.Getter("appSwitcher") private appSwitcher: any;
+  @systemModule.Mutation("toggleAppSwitcher") private toggleAppSwitcher: any;
+  @systemModule.Getter("notificationCenter") private notificationCenter: any;
+  @systemModule.Mutation("toggleNotificationCenter")
+  private toggleNotificationCenter: any;
+
+  @systemModule.Mutation("toggleFullScreenLoading")
+  private toggleFullScreenLoading: any;
+
+  get appSwitcherShow() {
+    return this.appSwitcher;
+  }
+  set appSwitcherShow(v) {
+    this.toggleAppSwitcher(v);
+  }
+
+  get notificationCenterShow() {
+    return this.notificationCenter;
+  }
+  set notificationCenterShow(v) {
+    this.toggleNotificationCenter(v);
+  }
+
+  private mounted() {
+    this.toggleFullScreenLoading(false);
+    this.appSwitcherShow = this.appSwitcher;
+  }
+}
 </script>

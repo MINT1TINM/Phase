@@ -16,7 +16,7 @@
                   single-line
                   label="用户名"
                   v-model="loginForm.username"
-                  :rules="[v => !!v || '请填写用户名']"
+                  :rules="[v => !!v || '']"
                 ></v-text-field>
                 <v-text-field
                   class="text-field-dense"
@@ -25,7 +25,7 @@
                   single-line
                   label="密码"
                   v-model="loginForm.password"
-                  :rules="[v => !!v || '请填写密码']"
+                  :rules="[v => !!v || '']"
                   @keyup.enter="standardLogin()"
                 ></v-text-field>
               </v-form>
@@ -39,43 +39,51 @@
         </v-container>
       </v-flex>
     </v-layout>
-
-    <v-overlay :value="autoLoginProgress" :absolute="true" opacity="1" color="primary">
-      <v-card flat color="transparent">
-        <v-container>
-          <v-layout justify-center>
-            <v-progress-circular indeterminate size="64"></v-progress-circular>
-          </v-layout>
-        </v-container>
-        <v-card-text class="text-xs-center font-weight-black">
-          <strong>Phase</strong> 正在加载数据
-        </v-card-text>
-      </v-card>
-    </v-overlay>
   </v-app>
 </template>
 
-<script>
-import authService from "../../service/AuthService";
-import userService from "../../service/UserService";
-import { mapGetters, mapMutations } from "vuex";
-import { setTimeout } from "timers";
-export default {
-  data() {
-    return {
-      loginForm: {
-        username: "",
-        password: ""
-      },
-      autoLoginProgress: false
-    };
-  },
-  methods: {
-    ...mapMutations({
-      toggleFullScreenLoading: "system/toggleFullScreenLoading",
-      clearAuthorization: "user/clearAuthorization"
-    }),
-    wechatLogin() {
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+import AuthService from "../../service/authService";
+import UserService from "../../service/userService";
+
+const systemModule = namespace("system");
+const userModule = namespace("user");
+
+@Component
+export default class Login extends Vue {
+  private loginForm = {
+    username: "",
+    password: ""
+  };
+
+  @systemModule.Mutation("toggleFullScreenLoading")
+  private toggleFullScreenLoading: any;
+  @userModule.Getter("authorization") private authorization: any;
+  @userModule.Mutation("clearAuthorization") private clearAuthorization: any;
+
+  // login through username & password
+  private async standardLogin() {
+    if (
+      (this.$refs.loginForm as Vue & { validate: () => boolean }).validate()
+    ) {
+      this.toggleFullScreenLoading(true);
+
+      const rsp = await AuthService.standardLogin(
+        this.loginForm.username,
+        this.loginForm.password
+      );
+      await UserService.getUserInfo(await rsp.authorization.userID);
+      if ((await rsp.msg) === "success") {
+        this.toggleFullScreenLoading(false);
+        this.$router.push({ path: "/project" });
+      }
+    }
+  }
+
+  // login with wechat
+  private async wechatLogin() {
       let appid = "wxdfa1c9397935814c";
       let redirect_uri = "https://phase.insdim.com/#/wechat/login";
       let response_type = "code";
@@ -84,50 +92,9 @@ export default {
       window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${appid}&redirect_uri=${encodeURIComponent(
         redirect_uri
       )}&response_type=${response_type}&scope=${scope}&state=${state}#wechat_redirect`;
-    },
-    async standardLogin() {
-      if (this.$refs.loginForm.validate()) {
-        this.toggleFullScreenLoading(true);
-
-        const rsp = await authService.standardLogin(
-          this.loginForm.username,
-          this.loginForm.password
-        );
-        await userService.getUserInfo(await rsp.authorization.userID);
-        if ((await rsp.msg) == "success") {
-          this.toggleFullScreenLoading(false);
-          this.$router.push({ path: "/project" });
-        }
-      }
-    },
-    async autoLogin() {
-      if (this.authorization.userID) {
-        this.toggleFullScreenLoading(true);
-        let userID = this.authorization.userID;
-        try {
-          await userService.getUserInfo(userID);
-          setTimeout(() => {
-            this.toggleFullScreenLoading(false);
-            this.$router.push({ path: "/project" });
-          }, 500);
-        } catch (err) {
-          this.toggleFullScreenLoading(false);
-          this.$snackbar.show("身份过期, 请重新登录", "primary");
-          this.clearAuthorization();
-        }
-      }
-    }
-  },
-  computed: {
-    ...mapGetters({
-      authorization: "user/authorization"
-    })
-  },
-  mounted() {
-    this.autoLogin();
   }
-};
+}
 </script>
 
-<style>
+<style scoped>
 </style>

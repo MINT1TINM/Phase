@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <v-form ref="userProfile">
@@ -30,68 +29,65 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from "vuex";
-import userService from "@/service/UserService";
-import dimForm from "@/plugins/dim-form/Main";
-export default {
-  data() {
-    return {
-      dateMenu: [],
-      profileList: [
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+import UserService from "@/service/userService";
+import dimForm from "@/plugins/dim-form/Main.vue";
+
+const userModule = namespace("user");
+
+@Component({
+  components: {
+    "dim-form": dimForm
+  }
+})
+export default class Profile extends Vue {
+  @userModule.Getter("userInfo") private userInfo: any;
+  private profileList = [
+    {
+      type: "text-field",
+      title: "用户名",
+      name: "username",
+      disabled: true
+    },
+    {
+      type: "text-field",
+      title: "昵称",
+      name: "nickName"
+    },
+    {
+      type: "select",
+      title: "性别",
+      name: "sex",
+      list: [
         {
-          type: "text-field",
-          title: "用户名",
-          content: "username",
-          disabled: true
+          value: 0,
+          title: "男"
         },
         {
-          type: "text-field",
-          title: "昵称",
-          content: "nickName"
-        },
-        {
-          type: "select",
-          title: "性别",
-          content: "sex",
-          list: [
-            {
-              value: 0,
-              title: "男"
-            },
-            {
-              value: 1,
-              title: "女"
-            }
-          ]
-        },
-        {
-          type: "text-field",
-          title: "移动电话",
-          content: "phone"
-        },
-        {
-          type: "text-field",
-          title: "电子邮箱",
-          content: "email"
+          value: 1,
+          title: "女"
         }
       ]
-    };
-  },
-  methods: {
-    async updateUserInfo() {
-      // console.log(this.userInfo);
-      await userService.updateUserInfo(this.userInfo);
+    },
+    {
+      type: "text-field",
+      title: "移动电话",
+      name: "phone"
+    },
+    {
+      type: "text-field",
+      title: "电子邮箱",
+      name: "email"
     }
-  },
-  mounted() {},
-  computed: {
-    ...mapGetters({
-      userInfo: "user/userInfo"
-    })
+  ];
+
+  private async updateUserInfo() {
+    await UserService.updateUserInfo(this.userInfo);
   }
-};
+}
 </script>
 
-<style>
+<style scoped>
 </style>

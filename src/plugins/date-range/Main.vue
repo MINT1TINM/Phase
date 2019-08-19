@@ -32,7 +32,7 @@ export default {
       get() {
         return this.range;
       },
-      set() {}
+      set(v) {}
     }
   }
 };

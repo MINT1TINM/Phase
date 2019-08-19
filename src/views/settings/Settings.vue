@@ -46,34 +46,34 @@
   </v-app>
 </template>
 
-<script>
-import { mapGetters } from "vuex";
-export default {
-  data() {
-    return {
-      settingsItems: [
-        { title: "通用" },
-        {
-          text: "个人信息",
-          icon: "mdi-account-circle-outline",
-          route: "/settings/profile"
-        },
-        {
-          text: "通知",
-          icon: "mdi-bell-outline",
-          route: "/settings/notification"
-        },
-        { title: "安全" },
-        { text: "密码", icon: "mdi-textbox-password" },
-        { text: "二次验证", icon: "mdi-key-outline" }
-      ]
-    };
-  },
-  computed: {
-    ...mapGetters({ lastPage: "system/lastPage" })
-  }
-};
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+
+const systemModule = namespace("system");
+
+@Component
+export default class Settings extends Vue {
+  @systemModule.Getter("lastPage") private lastPage: any;
+
+  private settingsItems = [
+    { title: "通用" },
+    {
+      text: "个人信息",
+      icon: "mdi-account-circle-outline",
+      route: "/settings/profile"
+    },
+    {
+      text: "通知",
+      icon: "mdi-bell-outline",
+      route: "/settings/notification"
+    },
+    { title: "安全" },
+    { text: "密码", icon: "mdi-textbox-password" },
+    { text: "二次验证", icon: "mdi-key-outline" }
+  ];
+}
 </script>
 
-<style>
+<style scoped>
 </style>

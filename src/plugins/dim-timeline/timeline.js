@@ -2,7 +2,8 @@ const getDayCount = (s, e) => {
   let startDate = new Date(s);
   let endDate = new Date(e);
   let dayCount = Math.abs(endDate - startDate) / 1000 / 60 / 60 / 24;
-  return dayCount;
+
+  return Math.floor(dayCount);
 };
 
 const getAllDaysBetween = (s, e) => {
@@ -15,8 +16,6 @@ const getAllDaysBetween = (s, e) => {
   }
   return dateArray;
 };
-
-const getTimeRange = () => {};
 
 const getBarLength = (timelineStartDate, startDate, endDate, columnWidth) => {
   let marginLeft = 0;

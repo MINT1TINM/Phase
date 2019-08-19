@@ -1,29 +1,38 @@
 <template>
-  <v-app-bar dense flat app fixed clipped-left class="navbar hidden-sm-and-down">
+  <v-app-bar dense flat app fixed clipped-left class="navbar">
     <!-- app switcher toggle -->
-    <v-toolbar-items text style="margin-left:-20px">
+    <v-toolbar-items text style="margin-left:-16px">
       <v-btn width="62" icon @click="toggleAppSwitcher">
         <v-icon size="23">mdi-apps</v-icon>
       </v-btn>
     </v-toolbar-items>
 
-    <span class="font-weight-black navbar-logo ml-4 mr-4 app-bar-text">Phase</span>
+    <v-toolbar-items text class="mr-2">
+      <v-btn
+        text
+        style="padding:0 5px"
+        class="font-weight-black navbar-logo app-bar-text text-none"
+        @click="goHome"
+      >Phase</v-btn>
+    </v-toolbar-items>
     <v-divider vertical inset></v-divider>
 
-    <project-bar v-if="currentApp=='project'"></project-bar>
+    <!-- current app  -->
+    <v-toolbar-items text class="ml-2" v-if="currentRoute!==`home`">
+      <template>
+        <v-btn style="padding:0 5px" text @click="toCurrentAppHome">{{currentApp.name}}</v-btn>
+      </template>
+    </v-toolbar-items>
+
+    <project-bar v-if="currentApp.route==='project'"></project-bar>
 
     <v-spacer></v-spacer>
 
     <!-- notification center -->
     <v-toolbar-items>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on" text class="app-bar-btn">
-            <v-icon size="20">mdi-bell-outline</v-icon>
-          </v-btn>
-        </template>
-        <span class="caption">通知</span>
-      </v-tooltip>
+      <v-btn text class="app-bar-btn" @click="toggleNotificationCenter">
+        <v-icon size="20">mdi-bell-outline</v-icon>
+      </v-btn>
     </v-toolbar-items>
 
     <!-- user menu -->
@@ -43,15 +52,12 @@
         <v-list-item class="pb-2">
           <v-list-item-avatar color="primary" size="36">
             <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
-            <span
-              v-else-if="userInfo.nickname"
-              class="white--text text-uppercase"
-            >{{nickName | avatar}}</span>
-            <span v-else class="white--text text-uppercase">{{userInfo.username | avatar}}</span>
+            <span v-else-if="userInfo.nickname" class="white--text">{{nickName | avatar}}</span>
+            <span v-else class="white--text">{{userInfo.username | avatar}}</span>
           </v-list-item-avatar>
           <v-list-item-title>
-            <div v-if="userInfo.nickName" class="text-uppercase">{{userInfo.nickName}}</div>
-            <div v-else class="text-uppercase">{{userInfo.username}}</div>
+            <div v-if="userInfo.nickName">{{userInfo.nickName}}</div>
+            <div v-else>{{userInfo.username}}</div>
           </v-list-item-title>
         </v-list-item>
         <v-divider></v-divider>
@@ -70,70 +76,95 @@
   </v-app-bar>
 </template>
 
-<script>
-import { mapActions, mapMutations, mapGetters } from "vuex";
-import projectBar from "./modules/ProjectBar";
-export default {
+<script lang="ts">
+import Vue from "vue";
+import Component from "vue-class-component";
+import { namespace } from "vuex-class";
+import projectBar from "./modules/ProjectBar.vue";
+
+const userModule = namespace("user");
+const systemModule = namespace("system");
+
+@Component({
   components: {
-    projectBar: projectBar
-  },
-  data() {
-    return {
-      userMenu: [
-        {
-          icon: "mdi-settings",
-          title: "设置"
-        },
-        {
-          icon: "mdi-exit-to-app",
-          title: "注销"
-        }
-      ]
-    };
-  },
-  methods: {
-    ...mapActions({
-      logOut: "user/logOut"
-    }),
-    ...mapMutations({
-      toggleFullScreenLoading: "system/toggleFullScreenLoading",
-      toggleAppSwitcher: "system/toggleAppSwitcher",
-      updateLastPage: "system/updateLastPage"
-    }),
-    async userMenuActions(num) {
-      switch (num) {
-        case 0:
-          // setting
-          this.updateLastPage(this.$route.fullPath);
-          this.$router.push({ path: "/settings/profile" });
-          break;
-        case 1:
-          // exit
-          try {
-            await this.$confirm("确认注销吗?");
-            this.logOut();
-            this.$router.push({ path: "/" });
-          } catch (err) {
-            break;
-          }
-          // this.$router.push({ path: "/" });
-          break;
-      }
-    }
-  },
-  computed: {
-    ...mapGetters({
-      userInfo: "user/userInfo"
-    }),
-    nickName() {
-      return this.userInfo.nickname.substring(0, 1);
+    "project-bar": projectBar
+  }
+})
+export default class AppBar extends Vue {
+  private userMenu = [
+    {
+      icon: "mdi-settings-outline",
+      title: "设置"
     },
-    currentApp() {
-      return this.$route.fullPath.split("/")[1];
+    {
+      icon: "mdi-logout-variant",
+      title: "注销"
     }
-  },
-  mounted() {}
-};
+  ];
+
+  @userModule.Getter("userInfo") private userInfo: any;
+  @userModule.Mutation("clearAuthorization") private clearAuthorization: any;
+  @userModule.Mutation("clearUserInfo") private clearUserInfo: any;
+
+  @systemModule.Mutation("toggleFullScreenLoading")
+  private toggleFullScreenLoading: any;
+  @systemModule.Mutation("toggleAppSwitcher") private toggleAppSwitcher: any;
+  @systemModule.Mutation("toggleNotificationCenter")
+  private toggleNotificationCenter: any;
+
+  @systemModule.Mutation("updateLastPage") private updateLastPage: any;
+  @systemModule.Getter("appList") private appList: any;
+
+  private async userMenuActions(num: number) {
+    switch (num) {
+      case 0:
+        // setting
+        this.updateLastPage(this.$route.fullPath);
+        this.$router.push({ path: "/settings/profile" });
+        break;
+      case 1:
+        // exit
+
+        const res = await this.$confirm("", {
+          title: "确认注销?",
+          buttonTrueColor: "primary"
+        });
+        if (res) {
+          this.clearAuthorization();
+          this.clearUserInfo();
+
+          this.$router.push({ path: "/" });
+        }
+
+        // this.$router.push({ path: "/" });
+        break;
+    }
+  }
+
+  private toCurrentAppHome() {
+    this.$router.push({ path: `/${this.currentApp.route}` });
+  }
+
+  private goHome() {
+    this.$router.push({ path: `/home` });
+  }
+
+  get nickName() {
+    return this.userInfo.nickname.substring(0, 1);
+  }
+  get currentRoute() {
+    return this.$route.fullPath.split("/")[1];
+  }
+  get currentApp() {
+    if (this.currentRoute !== "home") {
+      return this.appList.find((e: any) => {
+        return this.currentRoute === e.route;
+      });
+    }
+    return "";
+  }
+}
 </script>
 
-
+<style>
+</style>

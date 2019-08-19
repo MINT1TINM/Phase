@@ -1,40 +1,43 @@
 <template>
-  <dim-timeline
-    :startDate="`10 6 2018`"
-    :endDate="`10 20 2018`"
-    :columnWidth="150"
-    :taskList="taskList"
-    style="height:calc(100vh - 120px)"
-  ></dim-timeline>
+  <dim-timeline :columnWidth="100" :taskList="taskList" style="height:calc(100vh - 100px)"></dim-timeline>
 </template>
 
-<script>
-export default {
-  components: {
+<script lang="ts">
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import dimTimeline from "@/plugins/dim-timeline/Main.vue";
+import { namespace } from "vuex-class";
+import { Process, ProcessTask } from "@/types/process";
+import TaskService from "@/service/taskService";
 
-  },
-  data() {
-    return {
-      taskList: [
-        {
-          startDate: "10 6 2018",
-          endDate: "10 20 2018",
-          color: "primary",
-          name: "TEST"
-        },
-        {
-          startDate: "10 8 2018",
-          endDate: "10 9 2018",
-          color: "primary",
-          name: "TEST 2"
-        }
-      ]
-    };
-  },
-  methods: {},
-  mounted() {}
-};
+const processModule = namespace("process");
+
+@Component({
+  components: {
+    "dim-timeline": dimTimeline
+  }
+})
+export default class Timeline extends Vue {
+  @processModule.Mutation("updateCurrentProcessTask")
+  private updateCurrentProcessTask: any;
+
+  private taskList = [];
+  private taskListShow = [];
+
+  private async getTaskListManually() {
+    const rsp = await TaskService.getTaskList(this.$route.params.processID);
+    this.taskList = rsp.taskList;
+
+    this.updateCurrentProcessTask({
+      processID: this.$route.params.processID,
+      taskList: rsp.taskList
+    });
+  }
+
+  private mounted() {
+    this.getTaskListManually();
+  }
+}
 </script>
 
-<style>
+<style scoped>
 </style>

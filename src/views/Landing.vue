@@ -9,7 +9,7 @@
         color="primary"
         v-if="authorization.token.length>=1"
         @click="autoLogin()"
-      >我的项目</v-btn>
+      >我的主页</v-btn>
       <div v-else>
         <v-btn rounded text class="mr-2" :to="'/login'">登录</v-btn>
         <v-btn rounded outlined color="primary">开始</v-btn>
@@ -20,7 +20,7 @@
         <v-card flat color="transparent">
           <h2 class="text-xs-center display-3 font-weight-black mt-2" style="color:#A64ED1">Phase</h2>
           <h3 class="text-xs-center mt-2" style="color:#A64ED1">项目协作范式</h3>
-          <h5 class="text-xs-center mt-2" style="color:#A64ED1">INSDIM&trade;  出品</h5>
+          <h5 class="text-xs-center mt-2" style="color:#A64ED1">INSDIM&trade; 出品</h5>
         </v-card>
       </v-layout>
     </v-container>
@@ -29,51 +29,44 @@
         <v-icon>mdi-arrow-down</v-icon>
       </v-btn>
     </v-layout>
-    <v-overlay :value="autoLoginProgress" :absolute="true" opacity="1" color="primary">
-      <v-card flat color="transparent">
-        <v-container>
-          <v-layout justify-center>
-            <v-progress-circular indeterminate size="64"></v-progress-circular>
-          </v-layout>
-        </v-container>
-        <v-card-text class="text-xs-center font-weight-black">
-          <strong>Phase</strong> 正在加载数据
-        </v-card-text>
-      </v-card>
-    </v-overlay>
   </v-app>
 </template>
 
-<script>
-import { mapGetters, mapMutations } from "vuex";
-import userService from "../service/UserService";
-export default {
-  data() {
-    return {
-      autoLoginProgress: false
-    };
-  },
-  methods: {
-    ...mapMutations({
-      toggleFullScreenLoading: "system/toggleFullScreenLoading"
-    }),
-    async autoLogin() {
-      if (this.authorization.userID != 0) {
-        this.toggleFullScreenLoading(true);
-        let userID = this.authorization.userID;
-        await userService.getUserInfo(userID);
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
 
-        setTimeout(() => {
-          this.toggleFullScreenLoading(false);
-          this.$router.push({ path: "/project" });
-        }, 500);
-      }
+import UserService from "@/service/userService";
+
+const userModule = namespace("user");
+const systemModel = namespace("system");
+
+@Component
+export default class Landing extends Vue {
+  @userModule.Getter("authorization") private authorization: any;
+  @userModule.Mutation("clearAuthorization") private clearAuthorization: any;
+  @systemModel.Mutation("toggleFullScreenLoading")
+  private toggleFullScreenLoading: any;
+
+  private async autoLogin() {
+    this.toggleFullScreenLoading(true);
+    const userID = this.authorization.userID;
+
+    const rsp = await UserService.getUserInfo(userID);
+    setTimeout(() => {
+      this.toggleFullScreenLoading(false);
+      this.$router.push({ path: "/home" });
+    }, 500);
+
+    if (rsp.msg === "error") {
+      console.log("xxx");
+      this.toggleFullScreenLoading(true);
+      this.clearAuthorization();
+      this.$router.push({ path: "/login" });
     }
-  },
-  computed: {
-    ...mapGetters({
-      authorization: "user/authorization"
-    })
   }
-};
+}
 </script>
+
+<style>
+</style>

@@ -1,21 +1,14 @@
 <template>
   <div style="display:flex;height:100%">
-    <!-- back to all projects -->
-    <v-toolbar-items text class="ml-4">
-      <template>
-        <v-btn style="padding:0 5px" text @click="goToAllProject">所有项目</v-btn>
-      </template>
-    </v-toolbar-items>
-
     <v-toolbar-items v-if="currentProject">
       <v-icon small>mdi-chevron-right</v-icon>
     </v-toolbar-items>
 
     <!-- project switcher -->
     <v-toolbar-items v-if="currentProject">
-      <v-menu :close-on-content-click="false" offset-y :nudge-width="200">
+      <v-menu :close-on-content-click="false" v-model="projectSwitcher" offset-y :nudge-width="200">
         <template v-slot:activator="{on}">
-          <v-btn style="padding:0 5px" text v-on="on" class="text-none">
+          <v-btn style="padding:0 15px" text v-on="on" class="text-none">
             {{currentProject.name}}
             <v-icon small>mdi-chevron-down</v-icon>
           </v-btn>
@@ -51,45 +44,48 @@
   </div>
 </template>
 
-<script>
-import { mapGetters, mapMutations } from "vuex";
-export default {
-  data() {
-    return {
-      projectListShow: [],
-      searchProjectContent: ""
-    };
-  },
-  computed: {
-    ...mapGetters({
-      currentProject: "project/currentProject",
-      projectList: "project/projectList"
-    })
-  },
-  methods: {
-    ...mapMutations({
-      updateLastPage: "system/updateLastPage",
-      updateCurrentProjectID: "project/updateCurrentProjectID",
-      toggleFullScreenLoading: "system/toggleFullScreenLoading"
-    }),
-    alterProject(projectID) {
-      this.toggleFullScreenLoading(true);
+<script lang="ts">
+import Vue from "vue";
+import Component from "vue-class-component";
+import { namespace } from "vuex-class";
+import { Prop } from "vue-property-decorator";
 
-      // some loading content
-      this.updateCurrentProjectID(projectID);
-      setTimeout(() => {
-        this.toggleFullScreenLoading(false);
-      }, 500);
-    },
-    goToAllProject() {
-      this.$router.push({ path: "/project" });
-    }
-  },
-  mounted() {
-    this.projectListShow = this.projectList;
+const projectModule = namespace("project");
+const systemModule = namespace("system");
+
+@Component
+export default class ProjectBar extends Vue {
+  private searchProjectContent: string = "";
+  private projectListShow = [];
+  private projectSwitcher: boolean = false;
+
+  @projectModule.Getter("projectList") private projectList: any;
+  @projectModule.Getter("currentProject") private currentProject: any;
+  @projectModule.Mutation("updateCurrentProjectID")
+  private updateCurrentProjectID: any;
+  @systemModule.Mutation("toggleFullScreenLoading")
+  private toggleFullScreenLoading: any;
+
+  private goToAllProject() {
+    this.$router.push({ path: "/project" });
   }
-};
+
+  private alterProject(projectID: number) {
+    this.toggleFullScreenLoading(true);
+    this.projectSwitcher = false;
+
+    // some loading content
+    this.updateCurrentProjectID(projectID);
+    setTimeout(() => {
+      this.toggleFullScreenLoading(false);
+    }, 500);
+  }
+
+  private mounted() {
+    this.projectListShow = this.projectList;
+    console.log(this.currentProject);
+  }
+}
 </script>
 
-<style>
-</style>
+
