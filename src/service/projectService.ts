@@ -52,8 +52,10 @@ class ProjectService {
       description: projectInfo.description
     });
     store.commit("project/updateCurrentProject", rsp.project);
-    // @ts-ignore
-    vue.$snackbar.show("更新成功");
+    if (rsp.message === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("更新成功");
+    }
     return rsp;
   }
 
@@ -91,8 +93,10 @@ class ProjectService {
       toUserID,
       projectID
     });
-    // @ts-ignore
-    vue.$snackbar.show("已发送邀请");
+    if (rsp.message === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("已发送邀请");
+    }
     return rsp;
   }
 

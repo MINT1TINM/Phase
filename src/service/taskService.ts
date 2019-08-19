@@ -84,6 +84,22 @@ class TaskService {
     const rsp = await basicService.postRequest("/task/subtask", {
       taskID
     });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("创建成功");
+    }
+    return rsp;
+  }
+
+  public static async deleteSubTask(taskID: string, subTaskID: string) {
+    const rsp = await basicService.deleteRequest("/task/subtask", {
+      taskID,
+      subTaskID
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("删除成功");
+    }
     return rsp;
   }
 }
