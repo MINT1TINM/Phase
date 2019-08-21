@@ -108,7 +108,7 @@ export default class TaskList extends Vue {
     });
     this.updateCurrentProcessTask({
       processID: this.processID || this.$route.params.processID,
-      taskList: rsp.taskList
+      taskList: this.taskListShow
     });
   }
 

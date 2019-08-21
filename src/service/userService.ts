@@ -36,7 +36,7 @@ class UserService {
   }
 
   public static async searchUser(content: string) {
-    const rsp = await basicService.postRequest("/user/searchuser", {
+    const rsp = await basicService.getRequest("/user/search", {
       content
     });
     return rsp;

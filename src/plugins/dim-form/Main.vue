@@ -15,12 +15,7 @@
         </v-layout>
         <v-layout class="my-2" v-else>
           <v-flex xs3 v-if="!dense">
-            <v-subheader
-              v-if="item.type=='date-range'"
-              style="margin-top:70px"
-              class="mb-4 body-2 px-1"
-            >{{item.title}}</v-subheader>
-            <v-subheader v-else class="body-2 px-1" style="height:36px">{{item.title}}</v-subheader>
+            <v-subheader class="body-2 px-1" style="height:36px">{{item.title}}</v-subheader>
           </v-flex>
           <v-flex :class="dense?`xs12`:`xs9`">
             <!-- text-field -->
@@ -52,6 +47,7 @@
               v-model="target[item.name]"
               :label="dense?`${item.title}`:``"
               outlined
+              :disabled="item.disabled"
               dense
               hide-details
               style="line-height:14px"
@@ -68,6 +64,7 @@
               :chips="item.chips"
               multiple
               outlined
+              :disabled="item.disabled"
               dense
               hide-details
               style="line-height:14px"
@@ -81,16 +78,26 @@
               </template>
             </v-select>
             <!-- date-range -->
-            <date-range
-              style="margin-top:70px"
-              class="mb-4"
-              v-else-if="item.type=='date-range'"
-              :range="target[item.name]"
-            ></date-range>
+            <v-layout v-else-if="item.type=='date-range'">
+              <date-picker
+                class="mr-2"
+                :disabled="item.disabled"
+                :dense="dense"
+                :date.sync="target[item.nameStart]"
+              ></date-picker>
+              <div class="pt-1">-</div>
+              <date-picker
+                class="ml-2"
+                :disabled="item.disabled"
+                :dense="dense"
+                :date.sync="target[item.nameEnd]"
+              ></date-picker>
+            </v-layout>
             <!-- data-select -->
             <date-picker
               :label="dense?`${item.title}`:``"
               :dense="dense"
+              :disabled="item.disabled"
               v-else-if="item.type=='date-picker'"
               :date.sync="target[item.name]"
             ></date-picker>
@@ -100,6 +107,7 @@
               class="text-field-dense"
               :label="dense?`${item.title}`:``"
               outlined
+              :disabled="item.disabled"
               v-model="target[item.name].data"
               multiple
               chips

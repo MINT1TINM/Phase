@@ -12,7 +12,10 @@
       <v-data-table class="mt-4" :headers="headers" :items="subTaskShow.data" hide-default-footer>
         <template v-slot:item.status="props">
           <v-icon v-if="props.item.status===1" color="green">mdi-check-circle-outline</v-icon>
-          <v-icon v-else-if="props.item.status===2" color="warning darken-1">mdi-alert-circle-outline</v-icon>
+          <v-icon
+            v-else-if="props.item.status===2"
+            color="warning darken-1"
+          >mdi-alert-circle-outline</v-icon>
           <v-icon v-else color="grey">mdi-help-circle-outline</v-icon>
         </template>
 
@@ -31,18 +34,46 @@
       </v-layout>
     </v-card>
 
-    <v-bottom-sheet v-model="editSubTaskDialog" inset>
-      <v-sheet class="text-center" height="800px" style="overflow:auto">
+    <v-bottom-sheet v-model="editSubTaskDialog" inset persistent>
+      <v-sheet class="text-center" height="800" style="overflow:auto">
         <v-toolbar flat>
           <v-toolbar-title class="subtitle-1 font-weight-black">审计内容</v-toolbar-title>
           <v-spacer></v-spacer>
+          <v-btn rounded text @click="editSubTaskDialog=false">
+            <v-icon size="20">mdi-close</v-icon>&nbsp;取消
+          </v-btn>
           <v-btn rounded text @click="updateSubTask">
             <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
           </v-btn>
         </v-toolbar>
         <v-container fluid>
-          <dim-form :formContent="subTaskContent" :target="currentSubTask"></dim-form>
+          <v-flex xs6>
+            <dim-form :formContent="subTaskContent" :target="currentSubTask"></dim-form>
+            <v-layout>
+              <v-flex xs3>
+                <v-subheader class="body-2 px-1" style="height:36px">凭证</v-subheader>
+              </v-flex>
+              <v-flex xs9>
+                <v-btn block color="primary" outlined @click="searchCertificateDialog=true">
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </v-flex>
+            </v-layout>
+          </v-flex>
         </v-container>
+      </v-sheet>
+    </v-bottom-sheet>
+
+    <v-bottom-sheet v-model="searchCertificateDialog" inset persistent>
+      <v-sheet class="text-center" height="750" style="overflow:auto">
+        <v-toolbar flat>
+          <v-toolbar-title class="subtitle-1 font-weight-black">搜索凭证</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="searchCertificateDialog=false">
+            <v-icon size="20">mdi-close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <certificate-search></certificate-search>
       </v-sheet>
     </v-bottom-sheet>
   </div>
@@ -53,16 +84,20 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import TaskService from "@/service/taskService";
 import { SubTask } from "@/types/task";
 import dimForm from "@/plugins/dim-form/Main.vue";
+import certificateSearch from "@/components/certificate/Search.vue";
 
 @Component({
   components: {
-    "dim-form": dimForm
+    "dim-form": dimForm,
+    "certificate-search": certificateSearch
   }
 })
 export default class SubTaskList extends Vue {
   @Prop({ default: () => ({ data: [] }) }) private subTask!: {};
 
   private editSubTaskDialog: boolean = false;
+  private searchCertificateDialog: boolean = false;
+
   private currentSubTask: SubTask = {
     id: "",
     name: "",
@@ -117,6 +152,11 @@ export default class SubTaskList extends Vue {
       type: "text-field",
       name: "description",
       title: "描述"
+    },
+    {
+      type: "text-area",
+      name: "claim",
+      title: "审计说明"
     }
   ];
 
@@ -130,9 +170,7 @@ export default class SubTaskList extends Vue {
     this.$emit("updateTaskInfo");
   }
 
-  private async updateSubTask(){
-
-  }
+  private async updateSubTask() {}
 
   private async deleteSubTask(subTaskID: string) {
     const res = await this.$confirm("此操作无法恢复", {

@@ -3,6 +3,7 @@
     v-model="menu"
     :close-on-content-click="false"
     :nudge-right="40"
+    :disabled="disabled"
     transition="scale-transition"
     offset-y
     full-width
@@ -13,6 +14,7 @@
         v-model="dateShow"
         outlined
         hide-details
+        :disabled="disabled"
         :single-line="dense?false:true"
         :label="label"
         class="text-field-dense"
@@ -32,6 +34,8 @@ export default class DatePicker extends Vue {
   @Prop({ default: () => new Date() }) private date!: Date;
   @Prop({ default: () => "" }) private label!: string;
   @Prop({ default: false }) private dense!: boolean;
+  @Prop({ default: false }) private disabled!: boolean;
+
   private dateShow: string = "";
   private menu: boolean = false;
 

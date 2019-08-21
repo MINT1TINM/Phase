@@ -69,7 +69,7 @@ export default class ComponentName extends Vue {
     // search user via api
     this.searching = true;
     const rsp = await UserService.searchUser(this.searchUserContent);
-    this.userList = rsp.userList;
+    this.userList = rsp.user;
 
     // find member
     for (const e of this.userList) {

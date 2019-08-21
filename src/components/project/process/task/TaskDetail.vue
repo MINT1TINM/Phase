@@ -11,16 +11,6 @@
         </v-toolbar>
         <v-container fluid>
           <v-form ref="taskInfoForm">
-            <!-- <v-text-field
-              disabled
-              v-model="taskInfo.userID"
-              text-field-semidense
-              class="text-field-dense mb-5"
-              label="创建人"
-              outlined
-              hide-details
-            ></v-text-field>-->
-
             <dim-form :formContent="taskInfoContent" :target="taskInfo"></dim-form>
           </v-form>
           <v-layout justify-center>
@@ -114,6 +104,12 @@ export default class TaskDetail extends Vue {
       name: "name"
     },
     {
+      type: "date-picker",
+      title: "创建时间",
+      name: "createdAt",
+      disabled: true
+    },
+    {
       type: "select",
       title: "执行者",
       name: "executorID",
@@ -121,7 +117,7 @@ export default class TaskDetail extends Vue {
     },
     {
       type: "multi-select",
-      title: "成员",
+      title: "参与人员",
       name: "member",
       chips: true,
       list: this.taskInfo.member!.data
@@ -135,24 +131,16 @@ export default class TaskDetail extends Vue {
       divider: true
     },
     {
-      type: "date-picker",
-      title: "开始时间",
-      name: "startDate"
+      type: "date-range",
+      title: "计划",
+      nameStart: "startDate",
+      nameEnd: "endDate"
     },
     {
-      type: "date-picker",
-      title: "截止时间",
-      name: "endDate"
-    },
-    {
-      type: "date-picker",
-      title: "执行时间",
-      name: "actionStartDate"
-    },
-    {
-      type: "date-picker",
-      title: "完成时间",
-      name: "actionEndDate"
+      type: "date-range",
+      title: "执行",
+      nameStart: "actionStartDate",
+      nameEnd: "actionEndDate"
     },
     {
       type: "text-area",
@@ -164,7 +152,7 @@ export default class TaskDetail extends Vue {
   private async getTaskInfo() {
     const rsp = await TaskService.getTaskInfo(this.$route.params.taskID);
     this.taskInfo = rsp.task;
-    this.taskInfoContent[1].list = this.taskInfoContent[2].list = this.currentProcess(
+    this.taskInfoContent[2].list = this.taskInfoContent[3].list = this.currentProcess(
       this.$route.params.processID
     ).member.data;
   }

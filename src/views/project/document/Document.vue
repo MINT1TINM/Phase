@@ -15,6 +15,9 @@
         <v-btn text>
           <v-icon size="20">mdi-cloud-upload-outline</v-icon>&nbsp;上传
         </v-btn>
+        <v-btn text>
+          <v-icon size="20">mdi-folder-outline</v-icon>&nbsp;新建文件夹
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-container fluid style="height:calc(100vh - 96px);padding:0">
