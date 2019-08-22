@@ -39,7 +39,7 @@ class ProcessService {
       name: processInfo.name,
       description: processInfo.description
     });
-    if (rsp.message === "success") {
+    if (rsp.msg === "success") {
       // @ts-ignore
       vue.$snackbar.show("更新成功");
     }

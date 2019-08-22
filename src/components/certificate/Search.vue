@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-layout justify-center>
+  <div>
+    <v-toolbar flat justify-center>
       <v-text-field
         v-model="searchCertificateContent"
         @keyup.enter="searchCertificate"
@@ -10,26 +10,28 @@
         single-line
         hide-details
       ></v-text-field>
-    </v-layout>
+    </v-toolbar>
+    <v-divider></v-divider>
+
     <v-layout>
-      <v-flex xs3>
-        <v-list dense>
-          <v-list-item v-for="(item,i) in certificateList" :key="`cert-${i}`"></v-list-item>
-        </v-list>
+      <v-flex xs12 style="max-height:610px;overflow-y:auto">
+        <v-card
+          class="py-1 ma-1"
+          outlined
+          v-for="(item,i) in certificateList"
+          :key="`cert-${i}`"
+          @click
+        >
+          <v-list-item-title>{{item.uni_no}}</v-list-item-title>
+        </v-card>
       </v-flex>
     </v-layout>
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Prop,
-  Vue,
-  Watch,
-  Model,
-  Emit
-} from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import CertificateService from "@/service/certificateService";
 
 @Component
 export default class Certificate extends Vue {
@@ -38,7 +40,12 @@ export default class Certificate extends Vue {
   private certificateList = [];
 
   private async searchCertificate() {
-    this.certificateList = [];
+    const rsp = await CertificateService.searchCertificate(
+      this.searchCertificateContent,
+      20,
+      1
+    );
+    this.certificateList = rsp.certificate;
   }
 
   @Watch("searchCertificateContent")

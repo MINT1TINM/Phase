@@ -47,8 +47,10 @@ class TaskService {
       actionEndDate: taskInfo.actionEndDate,
       executorID: taskInfo.executorID
     });
-    // @ts-ignore
-    vue.$snackbar.show("更新成功");
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("更新成功");
+    }
     return rsp;
   }
 
@@ -87,6 +89,27 @@ class TaskService {
     if (rsp.msg === "success") {
       // @ts-ignore
       vue.$snackbar.show("创建成功");
+    }
+    return rsp;
+  }
+
+  public static async updateSubTask(
+    taskID: string,
+    subTaskID: string,
+    name: string,
+    description: string,
+    status: number
+  ) {
+    const rsp = await basicService.putRequest("/task/subtask", {
+      taskID,
+      subTaskID,
+      name,
+      description,
+      status
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("修改成功");
     }
     return rsp;
   }

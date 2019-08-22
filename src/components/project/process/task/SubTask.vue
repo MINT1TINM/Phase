@@ -170,7 +170,15 @@ export default class SubTaskList extends Vue {
     this.$emit("updateTaskInfo");
   }
 
-  private async updateSubTask() {}
+  private async updateSubTask() {
+    await TaskService.updateSubTask(
+      this.$route.params.taskID,
+      this.currentSubTask.id,
+      this.currentSubTask.name,
+      this.currentSubTask.description,
+      this.currentSubTask.status
+    );
+  }
 
   private async deleteSubTask(subTaskID: string) {
     const res = await this.$confirm("此操作无法恢复", {

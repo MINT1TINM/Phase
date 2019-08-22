@@ -30,8 +30,10 @@ class UserService {
       phone: userInfo.phone,
       email: userInfo.email
     });
-    // @ts-ignore
-    vue.$snackbar.show("更新成功");
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("更新成功");
+    }
     store.commit("user/updateUserInfo", await rsp.userInfo);
   }
 

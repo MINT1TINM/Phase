@@ -3,8 +3,8 @@
     <v-toolbar dense flat color="transparent">
       <v-toolbar-title class="subtitle-1 font-weight-black">{{processName}}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn x-small icon :to="`/project/process/${processID}/timeline`">
-        <v-icon>mdi-arrow-right</v-icon>
+      <v-btn class="mr-0" small icon :to="`/project/process/${processID}/timeline`">
+        <v-icon size="20">mdi-arrow-right</v-icon>
       </v-btn>
     </v-toolbar>
     <div style="height:calc(100vh - 194px);overflow:auto" color="transparent">

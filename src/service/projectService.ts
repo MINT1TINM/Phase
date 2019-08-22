@@ -52,7 +52,7 @@ class ProjectService {
       description: projectInfo.description
     });
     store.commit("project/updateCurrentProject", rsp.project);
-    if (rsp.message === "success") {
+    if (rsp.msg === "success") {
       // @ts-ignore
       vue.$snackbar.show("更新成功");
     }
@@ -64,8 +64,10 @@ class ProjectService {
       projectID,
       userID
     });
-    // @ts-ignore
-    vue.$snackbar.show("已移除成员");
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("已移除成员");
+    }
     return rsp;
   }
 
@@ -79,6 +81,11 @@ class ProjectService {
       userID,
       role
     });
+
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("更新成功");
+    }
     return rsp;
   }
 
