@@ -131,8 +131,19 @@ class ProjectService {
     return rsp;
   }
 
-  public static async getProjectFile(){
-    
+  public static async getProjectFile(projectID: string) {
+    const rsp = await basicService.getRequest("/file", {
+      projectID
+    });
+    return rsp;
+  }
+
+  public static async createCatalog(projectID: string, path: string[]) {
+    const rsp = await basicService.postRequest("/file/catalog", {
+      projectID,
+      path
+    });
+    return rsp;
   }
 }
 
