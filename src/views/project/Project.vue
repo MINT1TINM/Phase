@@ -81,7 +81,7 @@ import { namespace } from "vuex-class";
 import ProjectService from "@/service/projectService";
 import appBar from "@/components/common/app-bar/AppBar.vue";
 import dimForm from "@/plugins/dim-form/Main.vue";
-import UserService from "../../service/userService";
+import UserService from "@/service/userService";
 
 const projectModule = namespace("project");
 const userModule = namespace("user");
@@ -98,7 +98,7 @@ export default class ProjectHome extends Vue {
     {
       title: "名称",
       type: "text-field",
-      content: "name"
+      name: "name"
     }
   ];
   private createProjectInfo = {

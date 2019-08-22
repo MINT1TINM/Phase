@@ -130,6 +130,10 @@ class ProjectService {
     });
     return rsp;
   }
+
+  public static async getProjectFile(){
+    
+  }
 }
 
 export default ProjectService;

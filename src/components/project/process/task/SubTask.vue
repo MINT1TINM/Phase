@@ -47,19 +47,33 @@
           </v-btn>
         </v-toolbar>
         <v-container fluid>
-          <v-flex xs6>
-            <dim-form :formContent="subTaskContent" :target="currentSubTask"></dim-form>
-            <v-layout>
-              <v-flex xs3>
-                <v-subheader class="body-2 px-1" style="height:36px">凭证</v-subheader>
-              </v-flex>
-              <v-flex xs9>
-                <v-btn block color="primary" outlined @click="searchCertificateDialog=true">
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-              </v-flex>
-            </v-layout>
-          </v-flex>
+          <v-layout wrap>
+            <v-flex xs6 class="pr-2">
+              <dim-form :formContent="subTaskContent" :target="currentSubTask"></dim-form>
+              <v-layout>
+                <v-flex xs3>
+                  <v-subheader class="body-2 px-1" style="height:36px">凭证</v-subheader>
+                </v-flex>
+                <v-flex xs9>
+                  <v-btn block color="primary" outlined @click="searchCertificateDialog=true">
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex xs6 class="pl-2">
+              <v-container fluid>
+                <v-card outlined width="100%">
+                  <v-card-title class="subtitle-1 font-weight-black">相关文件</v-card-title>
+                  <v-container fluid>
+                    <v-btn block color="primary" outlined @click="fileDialog=true">
+                      <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                  </v-container>
+                </v-card>
+              </v-container>
+            </v-flex>
+          </v-layout>
         </v-container>
       </v-sheet>
     </v-bottom-sheet>
@@ -74,6 +88,18 @@
           </v-btn>
         </v-toolbar>
         <certificate-search></certificate-search>
+      </v-sheet>
+    </v-bottom-sheet>
+
+    <v-bottom-sheet v-model="fileDialog" inset persistent>
+      <v-sheet class="text-center" height="750" style="overflow:auto">
+        <v-toolbar flat>
+          <v-toolbar-title class="subtitle-1 font-weight-black">项目文件</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="fileDialog=false">
+            <v-icon size="20">mdi-close</v-icon>
+          </v-btn>
+        </v-toolbar>
       </v-sheet>
     </v-bottom-sheet>
   </div>
@@ -97,6 +123,7 @@ export default class SubTaskList extends Vue {
 
   private editSubTaskDialog: boolean = false;
   private searchCertificateDialog: boolean = false;
+  private fileDialog: boolean = false;
 
   private currentSubTask: SubTask = {
     id: "",
@@ -178,6 +205,7 @@ export default class SubTaskList extends Vue {
       this.currentSubTask.description,
       this.currentSubTask.status
     );
+    this.editSubTaskDialog = false;
   }
 
   private async deleteSubTask(subTaskID: string) {

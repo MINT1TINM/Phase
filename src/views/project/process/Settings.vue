@@ -57,6 +57,7 @@ const projectModule = namespace("project");
 })
 export default class Settings extends Vue {
   @projectModule.Getter("currentProject") private currentProject: any;
+  @projectModule.Getter("currentProjectID") private currentProjectID: any;
 
   private settingsContent = [
     {
@@ -106,6 +107,7 @@ export default class Settings extends Vue {
         this.$route.params.processID,
         this.projectMember
       );
+      ProcessService.getProcessList(this.currentProjectID);
     }
   }
 

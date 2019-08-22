@@ -80,43 +80,18 @@ import documentInfo from "@/components/project/document/DocumentInfo.vue";
   }
 })
 export default class Document extends Vue {
-  private fileList = [
-    {
-      id: "1",
-      name: "1.docx",
-      createdAt: "2019/10/22",
-      type: "doc"
-    },
-    {
-      id: "2",
-      name: "1.pptx",
-      createdAt: "2019/10/22",
-      type: "ppt"
-    },
-    {
-      id: "3",
-      name: "1.xlsx",
-      createdAt: "2019/10/22",
-      type: "xls"
-    },
-    {
-      id: "4",
-      name: "1.pdf",
-      createdAt: "2019/10/22",
-      type: "pdf"
-    },
-    {
-      id: "5",
-      name: "1.txt",
-      createdAt: "2019/10/22",
-      type: "txt"
-    }
-  ];
+  private fileList = [];
   private docID: string = "";
   private searchDocumentContent: string = "";
 
+  private async getFileList() {}
+
   private showInfo(item: any) {
     this.docID = item.id;
+  }
+
+  private mounted() {
+    this.getFileList();
   }
 }
 </script>
