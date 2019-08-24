@@ -1,10 +1,10 @@
 <template>
   <div style="height:calc(100vh - 48px);overflow-y:auto">
-    <v-toolbar absolute dense flat class="navbar" style="z-index:2">
+    <v-toolbar dense flat class="navbar" style="z-index:2">
       <v-toolbar-title class="subtitle-1 font-weight-black">表单预览</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-btn icon class="ml-1" small @click="goHome">
+      <v-btn icon class="ml-1" @click="goHome">
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-toolbar>
@@ -39,7 +39,8 @@ export default class SheetPreview extends Vue {
     name: "",
     field: {
       data: []
-    }
+    },
+    type: ""
   };
   private target = {};
 
