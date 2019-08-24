@@ -42,7 +42,7 @@
                         :key="`field-${i}`"
                       >
                         <v-container>
-                          <v-layout>
+                          <v-layout row wrap>
                             <v-flex xs6>
                               <v-text-field
                                 class="text-field-semidense"
@@ -70,6 +70,19 @@
                                 item-value="value"
                                 outlined
                               ></v-select>
+                            </v-flex>
+                            <v-flex xs12 v-if="item.type==='list'">
+                              <v-card class="mb-2" outlined>
+                                <v-combobox
+                                  class="text-field-dense"
+                                  outlined
+                                  :disabled="item.disabled"
+                                  v-model="item.list"
+                                  multiple
+                                  chips
+                                  hide-details
+                                ></v-combobox>
+                              </v-card>
                             </v-flex>
                           </v-layout>
                         </v-container>
@@ -132,11 +145,13 @@ export default class SheetDesign extends Vue {
   private async saveTemplate() {
     if (this.$refs.sheetDesign.validate()) {
       this.updateSheetTemplate(this.sheetTemplate);
+      console.log(this.sheetTemplate);
+      this.sheetTemplate.type = "key";
 
       // create new template if no templateID
       if (!this.currentTemplateID) {
         const rsp = await SheetService.createSheetTemplate(this.sheetTemplate);
-        if (rsp.msg == "success") {
+        if (rsp.msg === "success") {
           this.updateCurrentTemplateID(rsp.template.id);
         }
       } else {

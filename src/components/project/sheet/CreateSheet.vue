@@ -31,7 +31,7 @@
               <td class="text-center">{{ item.name }}</td>
               <td class="text-center">{{ item.createdAt | format("yyyy-MM-dd") }}</td>
               <td class="text-center">
-                <v-btn @click="createSheet(item.id)" icon rounded color="primary">
+                <v-btn @click="createSheet(item.id,item.type)" icon rounded color="primary">
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
               </td>
@@ -70,12 +70,13 @@ export default class ComponentName extends Vue {
     this.searching = false;
   }
 
-  private async createSheet(templateID: string) {
+  private async createSheet(templateID: string, type: string) {
     const rsp = await SheetService.createSheet(
       this.currentProjectID,
-      templateID
+      templateID,
+      type
     );
-    this.$emit("updateSheetList")
+    this.$emit("updateSheetList");
   }
 
   @Watch("searchTemplateContent")

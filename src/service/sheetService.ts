@@ -15,7 +15,8 @@ class SheetService {
 
     const rsp = await basicService.postRequest("/sheet/template", {
       name: template.name,
-      field: template.field
+      field: template.field,
+      type: template.type
     });
 
     return rsp;
@@ -59,10 +60,15 @@ class SheetService {
     return rsp;
   }
 
-  public static async createSheet(projectID: string, templateID: string) {
+  public static async createSheet(
+    projectID: string,
+    templateID: string,
+    type: string
+  ) {
     const rsp = await basicService.postRequest("/sheet", {
       projectID,
-      templateID
+      templateID,
+      type
     });
     if (rsp.msg === "success") {
       // @ts-ignore

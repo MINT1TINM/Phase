@@ -2,7 +2,7 @@
   <div>
     <v-card outlined>
       <v-card-title class="font-weight-black subtitle-1">
-        审计内容
+        审计（调查）事项
         <v-spacer></v-spacer>
         <v-btn text rounded @click="createSubTask">
           <v-icon size="20">mdi-plus</v-icon>&nbsp;新建
@@ -37,7 +37,7 @@
     <v-bottom-sheet v-model="editSubTaskDialog" inset persistent>
       <v-sheet class="text-center" height="800" style="overflow:auto">
         <v-toolbar flat>
-          <v-toolbar-title class="subtitle-1 font-weight-black">审计内容</v-toolbar-title>
+          <v-toolbar-title class="subtitle-1 font-weight-black">审计（调查）事项</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn rounded text @click="editSubTaskDialog=false">
             <v-icon size="20">mdi-close</v-icon>&nbsp;取消
@@ -136,8 +136,8 @@ export default class SubTaskList extends Vue {
   private headers = [
     { text: "状态", value: "status", align: "center", sortable: false },
     { text: "名称", value: "name", align: "center", sortable: false },
-
     { text: "描述", value: "description", align: "center", sortable: false },
+
     { text: "操作", value: "actions", align: "center", sortable: false }
   ];
   private statusList = [
@@ -162,7 +162,7 @@ export default class SubTaskList extends Vue {
       title: "状态",
       list: [
         {
-          title: "未完成",
+          title: "未判断",
           value: 0
         },
         {
@@ -177,8 +177,18 @@ export default class SubTaskList extends Vue {
     },
     {
       type: "text-field",
+      title: "判断标准",
+      name: "expect"
+    },
+    {
+      type: "text-field",
+      title: "实际情况",
+      name: "reality"
+    },
+    {
+      type: "text-field",
       name: "description",
-      title: "描述"
+      title: "判断内容"
     },
     {
       type: "text-area",

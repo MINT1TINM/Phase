@@ -21,6 +21,12 @@
     </v-list-item>
     <v-list-item class="px-0">
       <v-list-item-content>
+        <v-list-item-subtitle class="caption">类型</v-list-item-subtitle>
+        <v-list-item-title class="body-2">{{templateType}}</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+    <v-list-item class="px-0">
+      <v-list-item-content>
         <v-list-item-subtitle class="caption">创建时间</v-list-item-subtitle>
         <v-list-item-title class="body-2">{{sheetInfo.createdAt | format("yyyy-MM-dd h:m")}}</v-list-item-title>
       </v-list-item-content>
@@ -47,7 +53,7 @@
         <v-container fluid>
           <v-layout row justify-center>
             <v-flex xs8>
-              <fill-sheet :templateField="templateInfo.field.data" :sheetInfo="sheetInfo"></fill-sheet>
+              <fill-sheet :templateInfo="templateInfo" :sheetInfo="sheetInfo"></fill-sheet>
             </v-flex>
           </v-layout>
         </v-container>
@@ -61,6 +67,9 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { Sheet, Template } from "@/types/sheet";
 import SheetService from "@/service/sheetService";
 import fillSheet from "@/components/project/sheet/FillSheet.vue";
+import { namespace } from "vuex-class";
+
+const sheetModule = namespace("sheet");
 
 @Component({
   components: {
@@ -68,6 +77,8 @@ import fillSheet from "@/components/project/sheet/FillSheet.vue";
   }
 })
 export default class SheetInfo extends Vue {
+  @sheetModule.Getter("type") private type: any;
+
   @Prop({ default: "" }) private templateID!: string;
   @Prop({ default: "" }) private sheetID!: string;
 
@@ -80,7 +91,8 @@ export default class SheetInfo extends Vue {
     name: "",
     field: {
       data: []
-    }
+    },
+    type: ""
   };
   private fillSheetDialog: boolean = false;
 
@@ -113,6 +125,14 @@ export default class SheetInfo extends Vue {
   @Watch("sheetID")
   private onSheetIDChanged() {
     this.getSheetInfo(this.sheetID);
+  }
+
+  get templateType() {
+    if (this.templateInfo.type) {
+      return this.type(this.templateInfo.type).name;
+    } else {
+      return "";
+    }
   }
 
   private mounted() {

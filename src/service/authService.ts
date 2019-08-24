@@ -1,5 +1,6 @@
 import basicService from "@/service/basicService";
 import store from "@/store/store";
+import router from "@/router/router";
 
 class AuthService {
   public static async wechatLogin(code: string) {
@@ -17,6 +18,8 @@ class AuthService {
     });
     if (rsp.msg === "success") {
       store.commit("user/updateUserAuth", rsp.authorization);
+    } else {
+      router.push({ path: "/login" });
     }
     return rsp;
   }

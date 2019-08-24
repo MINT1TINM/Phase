@@ -4,11 +4,13 @@ interface Field {
   name: string;
   disabled?: boolean;
   dense?: boolean;
+  list?: [];
 }
 
 interface Template {
   name: string;
   field: { data: Field[] };
+  type: string;
 }
 
 interface Sheet {
@@ -19,7 +21,7 @@ interface Sheet {
   userID?: string;
   updatedAt?: string;
   craetedAt?: string;
-  content: {};
+  content: any;
 }
 
 export { Field, Template, Sheet };

@@ -7,6 +7,7 @@ interface State {
     field: { data: Field[] };
   };
   currentTemplateID: string;
+  typeList: any[];
 }
 
 const state: State = {
@@ -16,7 +17,17 @@ const state: State = {
       data: []
     }
   },
-  currentTemplateID: ""
+  currentTemplateID: "",
+  typeList: [
+    {
+      name: "键值型",
+      type: "key"
+    },
+    {
+      name: "列表型",
+      type: "list"
+    }
+  ]
 };
 
 const getters = {
@@ -25,6 +36,14 @@ const getters = {
   },
   currentTemplateID: (s: State) => {
     return s.currentTemplateID;
+  },
+  typeList: (s: State) => {
+    return s.typeList;
+  },
+  type: (s: State) => (type: string) => {
+    return s.typeList.find((e: any) => {
+      return e.type === type;
+    });
   }
 };
 
@@ -33,7 +52,8 @@ const mutations = {
     s.sheetTemplate.field.data.push({
       title: "",
       type: "",
-      name: ""
+      name: "",
+      list: []
     });
   },
   updateSheetTemplate: (s: State, template: Template) => {

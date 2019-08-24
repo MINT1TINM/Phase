@@ -5,7 +5,7 @@
       <v-parallax dark src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" height="250">
         <v-layout align-center column justify-center>
           <h1 class="display-2 font-weight-light mb-5 mt-5">Phase 表单</h1>
-          <v-btn rounded outlined dark @click="toDesignPage" class="mt-4">
+          <v-btn rounded outlined dark @click="typeSelectDialog=true" class="mt-4">
             <v-icon>mdi-plus</v-icon>&nbsp;新建模版
           </v-btn>
         </v-layout>
@@ -37,7 +37,7 @@
                               <v-layout justify-center align-center>
                                 <v-tooltip bottom>
                                   <template v-slot:activator="{ on }">
-                                    <v-btn v-on="on" icon @click="toDesignTool(item.id)">
+                                    <v-btn v-on="on" icon @click="toDesignTool(item.id,item.type)">
                                       <v-icon size="20" class="white--text">mdi-pencil-outline</v-icon>
                                     </v-btn>
                                   </template>
@@ -65,8 +65,7 @@
                           >{{item.createdAt| format("yyyy-MM-dd")}}</span>
                           <v-spacer></v-spacer>
                         </v-card-title>
-
-                        <v-card-text>{{item.description}}</v-card-text>
+                        <v-card-text>{{type(item.type).name}}</v-card-text>
                       </v-card>
                     </v-hover>
                   </v-flex>
@@ -76,6 +75,27 @@
           </v-flex>
         </v-layout>
       </v-container>
+
+      <v-dialog v-model="typeSelectDialog" width="600">
+        <v-card>
+          <v-toolbar flat class="font-weight-black subtitle-1">
+            选择类型
+            <v-spacer></v-spacer>
+            <v-btn icon @click="typeSelectDialog=false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-toolbar>
+          <v-container fluid grid-list-md>
+            <v-layout wrap row>
+              <v-flex xs3 v-for="(item,i) in typeList" :key="`type-${i}`">
+                <v-card ripple @click="toDesignPage(item.type)">
+                  <v-card-text>{{item.name}}</v-card-text>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
+      </v-dialog>
     </v-content>
   </v-app>
 </template>
@@ -96,16 +116,22 @@ const userModule = namespace("user");
 })
 export default class Sheet extends Vue {
   @userModule.Getter("authorization") private authorization: any;
+  @sheetModule.Getter("typeList") private typeList: any;
+  @sheetModule.Getter("type") private type: any;
+
   @sheetModule.Mutation("restoreSheetTemplate")
   private restoreSheetTemplate: any;
   @sheetModule.Mutation("updateCurrentTemplateID")
   private updateCurrentTemplateID: any;
 
   private templateList = [];
-  private toDesignPage() {
+  private typeSelectDialog: boolean = false;
+
+  private toDesignPage(type: string) {
     this.updateCurrentTemplateID("");
+
     this.$router.push({
-      path: "/sheet/design"
+      path: `/sheet/design/${type}`
     });
   }
 
@@ -117,12 +143,12 @@ export default class Sheet extends Vue {
     this.templateList = rsp.template;
   }
 
-  private toDesignTool(templateID: string) {
+  private toDesignTool(templateID: string, type: string) {
     this.updateCurrentTemplateID(templateID);
     this.restoreSheetTemplate();
 
     this.$router.push({
-      path: "/sheet/design"
+      path: `/sheet/design/${type}`
     });
   }
 
