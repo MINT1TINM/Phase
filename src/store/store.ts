@@ -49,7 +49,8 @@ const vuexSession: any = new VuexPersistence<any>({
     mutation.type === "process/updateCurrentProcessTask" ||
     mutation.type === "sheet/insertNewEmptyField" ||
     mutation.type === "sheet/updateSheetTemplate" ||
-    mutation.type === "sheet/insertListField"
+    mutation.type === "sheet/insertListField" ||
+    mutation.type === "sheet/updateSheetList"
 });
 
 export default new Vuex.Store({

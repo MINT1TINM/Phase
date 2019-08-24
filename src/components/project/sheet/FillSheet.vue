@@ -55,6 +55,9 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import dimForm from "@/plugins/dim-form/Main.vue";
 import SheetService from "@/service/sheetService";
 import { Sheet, Field, Template } from "@/types/sheet";
+import { namespace } from "vuex-class";
+
+const projectModule = namespace("project");
 
 @Component({
   components: {
@@ -62,8 +65,9 @@ import { Sheet, Field, Template } from "@/types/sheet";
   }
 })
 export default class FillSheet extends Vue {
-  @Prop({ default: {} }) private templateInfo!: Template;
+  @projectModule.Getter("currentProjectID") private currentProjectID: any;
 
+  @Prop({ default: {} }) private templateInfo!: Template;
   @Prop({ default: {} }) private sheetInfo!: Sheet;
 
   private target = {};
@@ -79,6 +83,7 @@ export default class FillSheet extends Vue {
       this.sheetInfoShow.name,
       this.sheetInfoShow.content
     );
+    await SheetService.getSheetList(this.currentProjectID);
   }
 
   private insertListElement() {

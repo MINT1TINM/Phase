@@ -1,4 +1,4 @@
-import { Field, Template } from "@/types/sheet";
+import { Field, Template, Sheet } from "@/types/sheet";
 import { encodeUnicode } from "@/utils/ConvertType";
 
 interface State {
@@ -8,6 +8,7 @@ interface State {
   };
   currentTemplateID: string;
   typeList: any[];
+  sheetList: Sheet[];
 }
 
 const state: State = {
@@ -27,7 +28,8 @@ const state: State = {
       name: "列表型",
       type: "list"
     }
-  ]
+  ],
+  sheetList: []
 };
 
 const getters = {
@@ -44,6 +46,9 @@ const getters = {
     return s.typeList.find((e: any) => {
       return e.type === type;
     });
+  },
+  sheetList: (s: State) => {
+    return s.sheetList;
   }
 };
 
@@ -69,6 +74,9 @@ const mutations = {
         data: []
       }
     };
+  },
+  updateSheetList: (s: State, sheetList: Sheet[]) => {
+    s.sheetList = sheetList;
   }
 };
 

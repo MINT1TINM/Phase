@@ -70,6 +70,7 @@ import fillSheet from "@/components/project/sheet/FillSheet.vue";
 import { namespace } from "vuex-class";
 
 const sheetModule = namespace("sheet");
+const projectModule = namespace("project");
 
 @Component({
   components: {
@@ -78,6 +79,7 @@ const sheetModule = namespace("sheet");
 })
 export default class SheetInfo extends Vue {
   @sheetModule.Getter("type") private type: any;
+  @projectModule.Getter("currentProjectID") private currentProjectID: any;
 
   @Prop({ default: "" }) private templateID!: string;
   @Prop({ default: "" }) private sheetID!: string;
@@ -113,7 +115,7 @@ export default class SheetInfo extends Vue {
     });
     if (res) {
       const rsp = await SheetService.deleteSheet(this.sheetID);
-      this.$emit("updateSheetList");
+      await SheetService.getSheetList(this.currentProjectID);
     }
   }
 

@@ -82,7 +82,7 @@ class SheetService {
     const rsp = await basicService.getRequest("/sheet/list", {
       projectID
     });
-
+    store.commit("sheet/updateSheetList", rsp.sheet);
     return rsp;
   }
 

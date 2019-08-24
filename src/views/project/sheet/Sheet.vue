@@ -45,7 +45,7 @@
           </v-simple-table>
         </v-flex>
         <v-flex v-if="currentSheetID && currentTemplateID" xs3 class="inner-sidebar-withoutpadding">
-          <sheet-info ref="sheetInfo" :sheetID="currentSheetID" :templateID="currentTemplateID" @updateSheetList="getSheetList"></sheet-info>
+          <sheet-info ref="sheetInfo" :sheetID="currentSheetID" :templateID="currentTemplateID"></sheet-info>
         </v-flex>
       </v-layout>
       <v-bottom-sheet v-model="createSheetDialog" inset>
@@ -76,6 +76,7 @@ import SheetService from "@/service/sheetService";
 import { namespace } from "vuex-class";
 
 const projectModule = namespace("project");
+const sheetModule = namespace("sheet");
 
 @Component({
   components: {
@@ -86,8 +87,8 @@ const projectModule = namespace("project");
 })
 export default class ProjectSheet extends Vue {
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
+  @sheetModule.Getter("sheetList") private sheetList: any;
 
-  private sheetList = [];
   private createSheetDialog: boolean = false;
   private editSheetDialog: boolean = false;
   private searchSheetContent: string = "";
@@ -98,7 +99,6 @@ export default class ProjectSheet extends Vue {
   private async getSheetList() {
     this.createSheetDialog = false;
     const rsp = await SheetService.getSheetList(this.currentProjectID);
-    this.sheetList = rsp.sheet;
   }
 
   private mounted() {
