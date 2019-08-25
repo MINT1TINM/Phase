@@ -3,7 +3,7 @@
     <v-layout justify-center>
       <doc-icon class="py-10" :item="item"></doc-icon>
     </v-layout>
-    <v-btn block outlined color="primary" @click="renameDialog=true">
+    <v-btn block outlined color="primary" @click="renameDialog=true;currentName=name">
       <v-icon size="20">mdi-pencil-outline</v-icon>&nbsp;重命名
     </v-btn>
     <h4 class="pt-5">文件信息</h4>
@@ -92,14 +92,16 @@ export default class DocumentInfo extends Vue {
   }
 
   private async renameFile() {
-    const rsp = await ProjectService.renameCatalog(
-      this.currentProjectID,
-      ["data", this.name],
-      this.currentName
-    );
-    if (rsp.msg === "success") {
-      await ProjectService.getProjectFile(this.currentProjectID);
-      this.renameDialog = false;
+    if (this.currentName != this.name) {
+      const rsp = await ProjectService.renameCatalog(
+        this.currentProjectID,
+        ["data", this.name],
+        this.currentName
+      );
+      if (rsp.msg === "success") {
+        await ProjectService.getProjectFile(this.currentProjectID);
+        this.renameDialog = false;
+      }
     }
   }
 }

@@ -1,9 +1,11 @@
 interface State {
   fileList: object;
+  path: string[];
 }
 
 const state: State = {
-  fileList: {}
+  fileList: {},
+  path: ["data"]
 };
 
 const getters = {
@@ -15,16 +17,21 @@ const getters = {
     });
     for (const key of keyArray) {
       sortedFileList[key] = (s.fileList as any)[key];
-      console.log(key); // 这里从大到小
     }
 
     return s.fileList;
+  },
+  path: (s: State) => {
+    return s.path;
   }
 };
 
 const mutations = {
   updateFileList: (s: State, fileList: object) => {
     s.fileList = fileList;
+  },
+  updatePath: (s: State, path: string[]) => {
+    s.path = path;
   }
 };
 

@@ -159,6 +159,14 @@ class ProjectService {
     });
     return rsp;
   }
+
+  public static async getFile(projectID: string, path: string[]) {
+    const rsp = await basicService.getRequest("/file/catalog", {
+      projectID,
+      path
+    });
+    return rsp;
+  }
 }
 
 export default ProjectService;

@@ -1,15 +1,17 @@
 <template>
   <div>
     <v-toolbar flat class="navbar" dense style="z-index:2">
-      <v-text-field
-        prepend-inner-icon="mdi-magnify"
-        hide-details
-        outlined
-        single-line
-        class="text-field-dense"
-        label="搜索文件"
-        v-model="searchDocumentContent"
-      ></v-text-field>
+      <v-breadcrumbs :items="pathCrumbs">
+        <template v-slot:divider>
+          <v-icon>mdi-chevron-right</v-icon>
+        </template>
+        <template v-slot:item="props">
+          <v-breadcrumbs-item
+            :href="props.item.href"
+            :class="[props.item.disabled && 'disabled']"
+          >{{ props.item.text}}</v-breadcrumbs-item>
+        </template>
+      </v-breadcrumbs>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn text>
@@ -26,14 +28,19 @@
         <v-flex :class="currentObject&&currentName?`xs9`:`xs12`">
           <v-container grid-list-md fluid>
             <v-layout row wrap>
-              <v-flex xs15 v-for="(item,i) in fileList" :key="`file-${i}`" style="user-select:none">
+              <v-flex
+                xs15
+                v-for="(item,i) in fileListShow"
+                :key="`file-${i}`"
+                style="user-select:none"
+              >
                 <v-hover v-slot:default="{ hover }">
                   <v-card
                     class="mx-auto"
                     flat
                     :color="hover?`grey lighten-3`:`transparent`"
                     @click="showInfo(item,i)"
-                    @dblclick="showChildren(item)"
+                    @dblclick="openCatalog(i)"
                   >
                     <v-layout justify-center class="pt-2">
                       <doc-icon :item="item"></doc-icon>
@@ -76,9 +83,12 @@ const fileModule = namespace("file");
 export default class Document extends Vue {
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
   @fileModule.Getter("fileList") private fileList: any;
+  @fileModule.Getter("path") private path!: string[];
+  @fileModule.Mutation("updatePath") private updatePath!: any;
 
   private currentObject = {};
   private currentName: string = "";
+  private fileListShow = {};
 
   private searchDocumentContent: string = "";
 
@@ -91,8 +101,10 @@ export default class Document extends Vue {
     this.currentName = name;
   }
 
-  private showChildren(item: any) {
-    console.log("dbclick");
+  private openCatalog(i: any) {
+    console.log(i);
+    this.updatePath([...this.path, i]);
+    console.log(this.path);
   }
 
   private async createCatalog() {
@@ -100,8 +112,22 @@ export default class Document extends Vue {
     this.getFileList();
   }
 
-  private mounted() {
+  get pathCrumbs() {
+    let pathCrumbs = [];
+    for (const item of this.path) {
+      pathCrumbs.push({
+        text: item,
+        disabled: false
+      });
+    }
+    return pathCrumbs;
+  }
+
+  private async mounted() {
     this.getFileList();
+    this.fileListShow = this.fileList;
+    this.updatePath(["data"]);
+    await ProjectService.getFile(this.currentProjectID, this.path);
   }
 }
 </script>
