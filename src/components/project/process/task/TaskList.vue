@@ -54,7 +54,9 @@
                 </v-list-item-action>
                 <v-list-item-title class="body-2 font-weight-black">{{item.name}}</v-list-item-title>
                 <v-list-item-avatar size="25">
-                  <v-avatar size="25" color="primary">M</v-avatar>
+                  <v-avatar size="25" color="primary">
+                    <img :src="projectMemberCache(item.userID).headImgURL" />
+                  </v-avatar>
                 </v-list-item-avatar>
               </v-list-item>
               <v-list-item style="min-height:35px" class="pb-2">
@@ -75,15 +77,16 @@ import { namespace } from "vuex-class";
 import { Process, ProcessTask } from "@/types/process";
 
 const processModule = namespace("process");
+const projectModule = namespace("project");
 
 @Component
 export default class TaskList extends Vue {
   @Prop({ default: "" }) public processID!: string;
 
   @processModule.Getter("currentProcessList") private currentProcessList: any;
-
   @processModule.Mutation("updateCurrentProcessTask")
   private updateCurrentProcessTask: any;
+  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
 
   private newTaskName: string = "";
   private taskList: ProcessTask[] = [];
@@ -130,7 +133,7 @@ export default class TaskList extends Vue {
     event!.stopPropagation();
     // find the task
     const i = this.taskList.findIndex((e: ProcessTask) => {
-      return e.id || e.taskID === taskID;
+      return (e.id || e.taskID) === taskID;
     });
 
     // update task list

@@ -71,13 +71,15 @@
                         <tbody>
                           <tr v-for="(item,i) in currentSubTask.content" :key="`c-${i}`">
                             <td>
-                              <v-text-field
+                              <v-select
+                                dense
+                                :items="[`量化`,`非量化`]"
                                 single-line
                                 hide-details
                                 outlined
                                 class="text-field-dense"
                                 v-model="item.property"
-                              ></v-text-field>
+                              ></v-select>
                             </td>
                             <td>
                               <v-text-field
@@ -119,25 +121,27 @@
                           </tr>
                         </tbody>
                       </v-simple-table>
-                      <v-layout justify-center class="py-3">
-                        <v-flex xs6>
-                          <v-btn derpessed rounded block color="primary" @click="insertContent">
-                            <v-icon>mdi-plus</v-icon>
+                      <v-container fluid>
+                        <v-layout justify-center>
+                          <v-btn block color="primary" outlined @click="insertContent">
+                            <v-icon size="20">mdi-plus</v-icon>&nbsp;新增项目
                           </v-btn>
-                        </v-flex>
-                      </v-layout>
+                        </v-layout>
+                      </v-container>
                     </v-card>
                   </v-container>
                 </v-flex>
               </v-layout>
               <v-layout class="mt-4">
-                <v-flex xs3>
-                  <v-subheader class="body-2 px-1" style="height:36px">凭证</v-subheader>
-                </v-flex>
-                <v-flex xs9>
-                  <v-btn block color="primary" outlined @click="searchCertificateDialog=true">
-                    <v-icon>mdi-plus</v-icon>
-                  </v-btn>
+                <v-flex xs12>
+                  <v-card outlined width="100%">
+                    <v-card-title class="subtitle-1 font-weight-black">相关凭证</v-card-title>
+                    <v-container fluid>
+                      <v-btn block color="primary" outlined @click="searchCertificateDialog=true">
+                        <v-icon size="20">mdi-plus</v-icon>&nbsp;新增凭证
+                      </v-btn>
+                    </v-container>
+                  </v-card>
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -146,7 +150,7 @@
                 <v-card-title class="subtitle-1 font-weight-black">相关文件</v-card-title>
                 <v-container fluid>
                   <v-btn block color="primary" outlined @click="fileDialog=true">
-                    <v-icon>mdi-plus</v-icon>
+                    <v-icon size="20">mdi-plus</v-icon>&nbsp;链接文件
                   </v-btn>
                 </v-container>
               </v-card>
@@ -214,8 +218,6 @@ export default class SubTaskList extends Vue {
   private headers = [
     { text: "状态", value: "status", align: "center", sortable: false },
     { text: "名称", value: "name", align: "center", sortable: false },
-    { text: "描述", value: "description", align: "center", sortable: false },
-
     { text: "操作", value: "actions", align: "center", sortable: false }
   ];
 

@@ -27,13 +27,23 @@
               v-model="processMember"
               :items="projectMember"
               chips
+              dense
               single-line
-              label="Chips"
+              label="成员"
               item-value="userID"
-              item-text="userID"
+              item-text="nickName"
               multiple
               outlined
-            ></v-select>
+            >
+              <template v-slot:selection="{ item, index }">
+                <v-chip pill small>
+                  <v-avatar size="10" left>
+                    <v-img :src="item.headImgURL"></v-img>
+                  </v-avatar>
+                  <span class="font-weight-black">{{ item.nickName }}</span>
+                </v-chip>
+              </template>
+            </v-select>
           </v-container>
         </v-card>
       </v-flex>

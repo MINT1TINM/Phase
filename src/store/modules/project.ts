@@ -34,6 +34,17 @@ const getters = {
   },
   projectList: (s: State) => {
     return s.projectList;
+  },
+  projectMemberCache: (s: State) => (userID: string) => {
+    const memberList = s.projectList.find((e: Project) => {
+      return e.id === s.currentProjectID;
+    })!.member!.data;
+
+    const member = memberList.find((e: ProjectMember) => {
+      return e.userID === userID;
+    });
+
+    return member;
   }
 };
 
@@ -46,7 +57,7 @@ const mutations = {
   },
   updateCurrentProject: (s: State, projectInfo: Project) => {
     // find and update current project
-    const index = s.projectList.findIndex((e) => {
+    const index = s.projectList.findIndex((e: Project) => {
       return e.id === projectInfo.id;
     });
     s.projectList[index] = projectInfo;

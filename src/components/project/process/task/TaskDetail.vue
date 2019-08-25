@@ -58,6 +58,8 @@ export default class TaskDetail extends Vue {
   @processModule.Getter("currentProcess") private currentProcess: any;
   @processModule.Mutation("updateCurrentProcessTask")
   private updateCurrentProcessTask: any;
+  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
+
   private taskInfo: Task = {
     id: "",
     name: "",
@@ -80,6 +82,7 @@ export default class TaskDetail extends Vue {
     processID: "",
     executorID: ""
   };
+  private taskMember = [];
   private statusList = [
     {
       text: "已完成",
@@ -112,7 +115,9 @@ export default class TaskDetail extends Vue {
     {
       type: "select",
       title: "执行者",
-      name: "executorID",
+      name: "userID",
+      text: "nickName",
+      value: "userID",
       list: this.taskInfo.member!.data
     },
     {
@@ -120,6 +125,8 @@ export default class TaskDetail extends Vue {
       title: "参与人员",
       name: "member",
       chips: true,
+      text: "nickName",
+      value: "userID",
       list: this.taskInfo.member!.data
     },
     {
@@ -152,9 +159,15 @@ export default class TaskDetail extends Vue {
   private async getTaskInfo() {
     const rsp = await TaskService.getTaskInfo(this.$route.params.taskID);
     this.taskInfo = rsp.task;
-    this.taskInfoContent[2].list = this.taskInfoContent[3].list = this.currentProcess(
-      this.$route.params.processID
-    ).member.data;
+    const memberList = this.currentProcess(this.$route.params.processID).member
+      .data;
+
+    for (const item of memberList) {
+      (this.taskMember as any).push(this.projectMemberCache(item));
+    }
+
+    this.taskInfoContent[2].list = this.taskInfoContent[3].list = this
+      .taskMember as any;
   }
 
   private async updateTaskInfo() {

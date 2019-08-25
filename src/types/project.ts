@@ -18,6 +18,7 @@ interface ProjectMember {
   userID?: string;
   role?: [];
   projectRole?: [];
+  headImgURL?: string;
 }
 
 interface ProjectMemberComplete extends ProjectMember {
