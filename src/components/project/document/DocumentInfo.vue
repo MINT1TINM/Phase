@@ -61,6 +61,10 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import docIcon from "@/components/project/document/DocIcon.vue";
+import ProjectService from "@/service/projectService";
+import { namespace } from "vuex-class";
+
+const projectModule = namespace("project");
 
 @Component({
   components: {
@@ -68,6 +72,8 @@ import docIcon from "@/components/project/document/DocIcon.vue";
   }
 })
 export default class DocumentInfo extends Vue {
+  @projectModule.Getter("currentProjectID") currentProjectID!: string;
+
   @Prop({ default: "" }) public name!: string;
   @Prop({ default: {} }) public item!: {};
 
@@ -85,7 +91,17 @@ export default class DocumentInfo extends Vue {
     this.currentItem = this.currentItem;
   }
 
-  private async renameFile() {}
+  private async renameFile() {
+    const rsp = await ProjectService.renameCatalog(
+      this.currentProjectID,
+      ["data", this.name],
+      this.currentName
+    );
+    if (rsp.msg === "success") {
+      await ProjectService.getProjectFile(this.currentProjectID);
+      this.renameDialog = false;
+    }
+  }
 }
 </script>
 

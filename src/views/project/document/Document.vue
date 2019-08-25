@@ -65,6 +65,7 @@ import { namespace } from "vuex-class";
 import docIcon from "@/components/project/document/DocIcon.vue";
 
 const projectModule = namespace("project");
+const fileModule = namespace("file");
 
 @Component({
   components: {
@@ -74,16 +75,15 @@ const projectModule = namespace("project");
 })
 export default class Document extends Vue {
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
+  @fileModule.Getter("fileList") private fileList: any;
 
-  private fileList = [];
   private currentObject = {};
   private currentName: string = "";
 
   private searchDocumentContent: string = "";
 
   private async getFileList() {
-    const rsp = await ProjectService.getProjectFile(this.currentProjectID);
-    this.fileList = rsp.projectFile.fs.data;
+    await ProjectService.getProjectFile(this.currentProjectID);
   }
 
   private showInfo(item: any, name: any) {

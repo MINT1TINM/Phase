@@ -6,6 +6,7 @@ import process from "@/store/modules/process";
 import project from "@/store/modules/project";
 import sheet from "@/store/modules/sheet";
 import system from "@/store/modules/system";
+import file from "@/store/modules/file";
 import user from "@/store/modules/user";
 
 Vue.use(Vuex);
@@ -29,7 +30,8 @@ const vuexSession: any = new VuexPersistence<any>({
     system: state.system,
     project: state.project,
     process: state.process,
-    sheet: state.sheet
+    sheet: state.sheet,
+    file: state.file
   }),
   filter: (mutation: any) =>
     mutation.type === "system/updateLastPage" ||
@@ -50,7 +52,8 @@ const vuexSession: any = new VuexPersistence<any>({
     mutation.type === "sheet/insertNewEmptyField" ||
     mutation.type === "sheet/updateSheetTemplate" ||
     mutation.type === "sheet/insertListField" ||
-    mutation.type === "sheet/updateSheetList"
+    mutation.type === "sheet/updateSheetList" ||
+    mutation.type === "file/updateFileList"
 });
 
 export default new Vuex.Store({
@@ -60,7 +63,8 @@ export default new Vuex.Store({
     system,
     project,
     process,
-    sheet
+    sheet,
+    file
   },
   plugins: [vuexLocal.plugin, vuexSession.plugin]
 });

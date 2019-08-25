@@ -135,6 +135,7 @@ class ProjectService {
     const rsp = await basicService.getRequest("/file", {
       projectID
     });
+    store.commit("file/updateFileList", rsp.projectFile.fs.data);
     return rsp;
   }
 
@@ -142,6 +143,19 @@ class ProjectService {
     const rsp = await basicService.postRequest("/file/catalog", {
       projectID,
       path
+    });
+    return rsp;
+  }
+
+  public static async renameCatalog(
+    projectID: string,
+    path: string[],
+    name: string
+  ) {
+    const rsp = await basicService.putRequest("/file/catalog", {
+      projectID,
+      path,
+      name
     });
     return rsp;
   }
