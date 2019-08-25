@@ -34,10 +34,15 @@
       </v-layout>
     </v-card>
 
-    <v-bottom-sheet v-model="editSubTaskDialog" inset persistent>
+    <v-bottom-sheet v-model="editSubTaskDialog" persistent>
       <v-sheet class="text-center" height="800" style="overflow:auto">
         <v-toolbar flat>
-          <v-toolbar-title class="subtitle-1 font-weight-black">审计（调查）事项</v-toolbar-title>
+          <v-text-field
+            single-line
+            hide-details
+            class="subtitle-1 font-weight-black"
+            v-model="currentSubTask.name"
+          ></v-text-field>
           <v-spacer></v-spacer>
           <v-btn rounded text @click="editSubTaskDialog=false">
             <v-icon size="20">mdi-close</v-icon>&nbsp;取消
@@ -49,8 +54,83 @@
         <v-container fluid>
           <v-layout wrap>
             <v-flex xs6 class="pr-2">
-              <dim-form :formContent="subTaskContent" :target="currentSubTask"></dim-form>
-              <v-layout>
+              <v-layout row wrap>
+                <v-flex xs12>
+                  <v-container fluid class="py-0">
+                    <v-card outlined width="100%">
+                      <v-simple-table>
+                        <thead>
+                          <tr>
+                            <th class="text-center">属性</th>
+                            <th class="text-center">判断内容</th>
+                            <th class="text-center">判断标准</th>
+                            <th class="text-center">实际情况</th>
+                            <th class="text-center">是否合规</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(item,i) in currentSubTask.content" :key="`c-${i}`">
+                            <td>
+                              <v-text-field
+                                single-line
+                                hide-details
+                                outlined
+                                class="text-field-dense"
+                                v-model="item.property"
+                              ></v-text-field>
+                            </td>
+                            <td>
+                              <v-text-field
+                                single-line
+                                hide-details
+                                outlined
+                                class="text-field-dense"
+                                v-model="item.description"
+                              >{{ item.description }}</v-text-field>
+                            </td>
+                            <td>
+                              <v-text-field
+                                single-line
+                                hide-details
+                                outlined
+                                class="text-field-dense"
+                                v-model="item.expect"
+                              >{{ item.expect }}</v-text-field>
+                            </td>
+                            <td>
+                              <v-text-field
+                                single-line
+                                hide-details
+                                outlined
+                                class="text-field-dense"
+                                v-model="item.reality"
+                              >{{ item.reality }}</v-text-field>
+                            </td>
+                            <td width="120">
+                              <v-switch
+                                class="caption"
+                                style="margin-top:0"
+                                color="primary"
+                                hide-details
+                                v-model="item.status"
+                                :label="item.status?`合规`:`不合规`"
+                              ></v-switch>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </v-simple-table>
+                      <v-layout justify-center class="py-3">
+                        <v-flex xs6>
+                          <v-btn derpessed rounded block color="primary" @click="insertContent">
+                            <v-icon>mdi-plus</v-icon>
+                          </v-btn>
+                        </v-flex>
+                      </v-layout>
+                    </v-card>
+                  </v-container>
+                </v-flex>
+              </v-layout>
+              <v-layout class="mt-4">
                 <v-flex xs3>
                   <v-subheader class="body-2 px-1" style="height:36px">凭证</v-subheader>
                 </v-flex>
@@ -62,16 +142,14 @@
               </v-layout>
             </v-flex>
             <v-flex xs6 class="pl-2">
-              <v-container fluid>
-                <v-card outlined width="100%">
-                  <v-card-title class="subtitle-1 font-weight-black">相关文件</v-card-title>
-                  <v-container fluid>
-                    <v-btn block color="primary" outlined @click="fileDialog=true">
-                      <v-icon>mdi-plus</v-icon>
-                    </v-btn>
-                  </v-container>
-                </v-card>
-              </v-container>
+              <v-card outlined width="100%">
+                <v-card-title class="subtitle-1 font-weight-black">相关文件</v-card-title>
+                <v-container fluid>
+                  <v-btn block color="primary" outlined @click="fileDialog=true">
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
+                </v-container>
+              </v-card>
             </v-flex>
           </v-layout>
         </v-container>
@@ -128,10 +206,10 @@ export default class SubTaskList extends Vue {
   private currentSubTask: SubTask = {
     id: "",
     name: "",
-    description: "",
     createdAt: "",
     status: 0,
-    file: []
+    file: [],
+    content: []
   };
   private headers = [
     { text: "状态", value: "status", align: "center", sortable: false },
@@ -139,62 +217,6 @@ export default class SubTaskList extends Vue {
     { text: "描述", value: "description", align: "center", sortable: false },
 
     { text: "操作", value: "actions", align: "center", sortable: false }
-  ];
-  private statusList = [
-    {
-      text: "正常",
-      value: true
-    },
-    {
-      text: "异常",
-      value: false
-    }
-  ];
-  private subTaskContent = [
-    {
-      type: "text-field",
-      name: "name",
-      title: "名称"
-    },
-    {
-      type: "select",
-      name: "status",
-      title: "状态",
-      list: [
-        {
-          title: "未判断",
-          value: 0
-        },
-        {
-          title: "无异常",
-          value: 1
-        },
-        {
-          title: "异常",
-          value: 2
-        }
-      ]
-    },
-    {
-      type: "text-field",
-      title: "判断标准",
-      name: "expect"
-    },
-    {
-      type: "text-field",
-      title: "实际情况",
-      name: "reality"
-    },
-    {
-      type: "text-field",
-      name: "description",
-      title: "判断内容"
-    },
-    {
-      type: "text-area",
-      name: "claim",
-      title: "审计说明"
-    }
   ];
 
   private async toggleItemStatus(item: any) {
@@ -212,8 +234,7 @@ export default class SubTaskList extends Vue {
       this.$route.params.taskID,
       this.currentSubTask.id,
       this.currentSubTask.name,
-      this.currentSubTask.description,
-      this.currentSubTask.status
+      this.currentSubTask.content
     );
     this.editSubTaskDialog = false;
   }
@@ -229,6 +250,16 @@ export default class SubTaskList extends Vue {
     }
   }
 
+  private insertContent() {
+    this.currentSubTask.content.push({
+      property: "",
+      description: "",
+      expect: "",
+      reality: "",
+      status: false
+    });
+  }
+
   get subTaskShow() {
     return this.subTask;
   }
@@ -239,5 +270,3 @@ export default class SubTaskList extends Vue {
 }
 </script>
 
-<style scoped>
-</style>

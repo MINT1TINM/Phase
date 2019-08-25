@@ -2,7 +2,7 @@ import Vue from "vue";
 
 import basicService from "@/service/basicService";
 import store from "@/store/store";
-import { Task, TaskMember } from "@/types/task";
+import { Task, TaskMember, SubTaskContent } from "@/types/task";
 
 const vue = new Vue();
 
@@ -97,15 +97,13 @@ class TaskService {
     taskID: string,
     subTaskID: string,
     name: string,
-    description: string,
-    status: number
+    content: SubTaskContent[]
   ) {
     const rsp = await basicService.putRequest("/task/subtask", {
       taskID,
       subTaskID,
       name,
-      description,
-      status
+      content
     });
     if (rsp.msg === "success") {
       // @ts-ignore

@@ -32,10 +32,18 @@ interface TaskMember {
 interface SubTask {
   id: string;
   name: string;
-  description: string;
   createdAt: string;
-  status: number;
+  status?: number;
   file: [];
+  content: SubTaskContent[];
 }
 
-export { Task, Tags, TaskMember, SubTask };
+interface SubTaskContent {
+  property: string;
+  description: string;
+  expect: string;
+  reality: string;
+  status: boolean;
+}
+
+export { Task, Tags, TaskMember, SubTask, SubTaskContent };
