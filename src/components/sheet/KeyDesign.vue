@@ -11,7 +11,7 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-container grid-list-md style="margin-top:64px">
+    <v-container grid-list-md>
       <v-layout row wrap justify-center>
         <v-flex xs10>
           <transition appear appear-active-class="fade-up-enter">

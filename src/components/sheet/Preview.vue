@@ -8,7 +8,7 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-container style="margin-top:64px">
+    <v-container>
       <v-card>
         <v-container fluid>
           <h3 class="text-center py-4">{{template.name}}</h3>
