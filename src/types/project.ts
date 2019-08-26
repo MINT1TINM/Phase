@@ -16,6 +16,7 @@ interface MemberList {
 interface ProjectMember {
   id?: string;
   userID?: string;
+  userUUID?: string;
   role?: [];
   projectRole?: [];
   headImgURL?: string;

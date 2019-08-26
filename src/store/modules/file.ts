@@ -1,11 +1,13 @@
 interface State {
   fileList: object;
   path: string[];
+  pathPrettier: string[];
 }
 
 const state: State = {
   fileList: {},
-  path: ["data"]
+  path: ["data"],
+  pathPrettier: ["根目录"]
 };
 
 const getters = {
@@ -23,6 +25,9 @@ const getters = {
   },
   path: (s: State) => {
     return s.path;
+  },
+  pathPrettier: (s: State) => {
+    return s.pathPrettier;
   }
 };
 
@@ -32,6 +37,15 @@ const mutations = {
   },
   updatePath: (s: State, path: string[]) => {
     s.path = path;
+  },
+  updatePathPrettier: (s: State, path: string[]) => {
+    s.pathPrettier = path;
+  },
+  restorePath: (s: State) => {
+    s.path = ["data"];
+  },
+  restorePathPrettier: (s: State) => {
+    s.pathPrettier = ["根目录"];
   }
 };
 

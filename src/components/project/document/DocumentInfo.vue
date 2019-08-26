@@ -16,13 +16,20 @@
     <v-list-item class="px-0">
       <v-list-item-content>
         <v-list-item-subtitle class="caption">创建时间</v-list-item-subtitle>
-        <v-list-item-title class="body-2">{{item.createdAt | format("yyyy-MM-dd h:m")}}</v-list-item-title>
+        <v-list-item-title class="body-2">{{item.createdAt | format("yyyy-MM-dd hh:mm:ss")}}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="px-0">
       <v-list-item-content>
         <v-list-item-subtitle class="caption">创建者</v-list-item-subtitle>
-        <v-list-item-title class="body-2">{{item.userUUID}}</v-list-item-title>
+        <v-list-item-title class="body-2">
+          <v-chip pill class="mt-1">
+            <v-avatar left size="25" color="primary">
+              <img :src="projectMemberCache(item.userUUID).headImgURL" />
+            </v-avatar>
+            <span>{{projectMemberCache(item.userUUID).nickName}}</span>
+          </v-chip>
+        </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="px-0">
@@ -75,6 +82,7 @@ const fileModule = namespace("file");
 export default class DocumentInfo extends Vue {
   @projectModule.Getter("currentProjectID") currentProjectID!: string;
   @fileModule.Getter("path") private path!: string[];
+  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
 
   @Prop({ default: "" }) public uuid!: string;
   @Prop({ default: {} }) public item!: any;
@@ -92,7 +100,7 @@ export default class DocumentInfo extends Vue {
     if (this.currentName != this.item.name) {
       const rsp = await ProjectService.renameCatalog(
         this.currentProjectID,
-        ["data", this.uuid],
+        [...this.path, this.uuid],
         this.currentName
       );
       if (rsp.msg === "success") {
@@ -101,6 +109,8 @@ export default class DocumentInfo extends Vue {
       }
     }
   }
+
+  private mounted() {}
 }
 </script>
 

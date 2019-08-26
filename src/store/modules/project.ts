@@ -41,7 +41,7 @@ const getters = {
     })!.member!.data;
 
     const member = memberList.find((e: ProjectMember) => {
-      return e.userID === userID;
+      return e.userID === userID || e.userUUID === userID;
     });
 
     return member;

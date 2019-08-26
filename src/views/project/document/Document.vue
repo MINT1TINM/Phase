@@ -5,22 +5,20 @@
         <v-btn v-if="path.length>1" text @click="goBack">
           <v-icon size="20">mdi-arrow-left</v-icon>&nbsp;返回上一级
         </v-btn>
+        <v-divider v-if="path.length>1" vertical></v-divider>
+        <v-breadcrumbs :items="pathCrumbs">
+          <template v-slot:divider>
+            <v-icon>mdi-chevron-right</v-icon>
+          </template>
+        </v-breadcrumbs>
       </v-toolbar-items>
-      <v-text-field
-        class="text-field-dense"
-        disabled
-        hide-details
-        single-line
-        rounded
-        filled
-        label="路径"
-      ></v-text-field>
+
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn text>
           <v-icon size="20">mdi-cloud-upload-outline</v-icon>&nbsp;上传
         </v-btn>
-        <v-btn text @click="createCatalogDialog=true">
+        <v-btn text @click="createCatalogDialog=true;currentName=``">
           <v-icon size="20">mdi-folder-outline</v-icon>&nbsp;新建文件夹
         </v-btn>
       </v-toolbar-items>
@@ -43,7 +41,7 @@
                     flat
                     :color="hover?`grey lighten-3`:`transparent`"
                     @click="showInfo(item,i)"
-                    @dblclick="openCatalog(i)"
+                    @dblclick="openCatalog(item,i)"
                   >
                     <v-layout justify-center class="pt-2">
                       <doc-icon :item="item"></doc-icon>
@@ -68,21 +66,24 @@
     <v-dialog persistent v-model="createCatalogDialog" width="300">
       <v-card>
         <v-toolbar flat class="transparent">
-          <v-toolbar-title class="font-weight-black subtitle-1">重命名</v-toolbar-title>
+          <v-toolbar-title class="font-weight-black subtitle-1">新建文件夹</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn icon @click="createCatalogDialog=false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
         <v-container fluid>
-          <v-text-field
-            hide-details
-            single-line
-            outlined
-            class="text-field-semidense"
-            label="输入希望创建的文件夹名称"
-            v-model="currentName"
-          ></v-text-field>
+          <v-form ref="createCatalogForm">
+            <v-text-field
+              hide-details
+              single-line
+              outlined
+              class="text-field-semidense"
+              label="输入希望创建的文件夹名称"
+              :rules="[v => !!v || '']"
+              v-model="currentName"
+            ></v-text-field>
+          </v-form>
           <v-layout class="pt-5" justify-center>
             <v-btn rounded color="primary" depressed @click="createCatalog">保存</v-btn>
           </v-layout>
@@ -112,15 +113,22 @@ export default class Document extends Vue {
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
   @fileModule.Getter("fileList") private fileList: any;
   @fileModule.Getter("path") private path!: string[];
+  @fileModule.Getter("pathPrettier") private pathPrettier!: string[];
   @fileModule.Mutation("updatePath") private updatePath!: any;
+  @fileModule.Mutation("updatePathPrettier") private updatePathPrettier!: any;
+  @fileModule.Mutation("restorePath") private restorePath!: any;
+  @fileModule.Mutation("restorePathPrettier") private restorePathPrettier!: any;
 
   private currentObject = {};
   private currentName: string = "";
   private currentUUID: string = "";
   private fileListShow = {};
   private createCatalogDialog: boolean = false;
-
   private searchDocumentContent: string = "";
+
+  $refs!: {
+    createCatalogForm: HTMLFormElement;
+  };
 
   private async getFileList() {
     const rsp = await ProjectService.getFile(this.currentProjectID, this.path);
@@ -133,36 +141,38 @@ export default class Document extends Vue {
     this.currentUUID = uuid;
   }
 
-  private openCatalog(i: any) {
-    console.log(i);
+  private openCatalog(item: any, i: any) {
     this.updatePath([...this.path, i, "data"]);
-    console.log(this.path);
+    this.updatePathPrettier([...this.pathPrettier, item.name]);
   }
 
   private async createCatalog() {
-    await ProjectService.createCatalog(
-      this.currentProjectID,
-      this.path,
-      this.currentName
-    );
-    this.getFileList();
+    if (this.$refs.createCatalogForm.validate()) {
+      await ProjectService.createCatalog(
+        this.currentProjectID,
+        this.path,
+        this.currentName
+      );
+      this.getFileList();
+    }
   }
 
   private goBack() {
     if (this.path.length > 1) {
       this.updatePath(this.path.slice(0, this.path.length - 2));
+      this.updatePathPrettier(
+        this.pathPrettier.slice(0, this.pathPrettier.length - 1)
+      );
     }
   }
 
   get pathCrumbs() {
     let pathCrumbs = [];
-    for (const item of this.path) {
-      if (item !== "data") {
-        pathCrumbs.push({
-          text: item,
-          disabled: false
-        });
-      }
+    for (const item of this.pathPrettier) {
+      pathCrumbs.push({
+        text: item,
+        disabled: false
+      });
     }
     return pathCrumbs;
   }
@@ -180,7 +190,8 @@ export default class Document extends Vue {
   }
 
   private async mounted() {
-    this.updatePath(["data"]);
+    this.restorePath();
+    this.restorePathPrettier();
   }
 }
 </script>
