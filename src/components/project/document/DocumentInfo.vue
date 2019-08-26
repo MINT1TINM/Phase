@@ -68,8 +68,8 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import docIcon from "@/components/project/document/DocIcon.vue";
-import ProjectService from "@/service/projectService";
 import { namespace } from "vuex-class";
+import FileService from "@/service/fileService";
 
 const projectModule = namespace("project");
 const fileModule = namespace("file");
@@ -98,13 +98,13 @@ export default class DocumentInfo extends Vue {
 
   private async renameFile() {
     if (this.currentName != this.item.name) {
-      const rsp = await ProjectService.renameCatalog(
+      const rsp = await FileService.renameCatalog(
         this.currentProjectID,
         [...this.path, this.uuid],
         this.currentName
       );
       if (rsp.msg === "success") {
-        await ProjectService.getFile(this.currentProjectID, this.path);
+        await FileService.getFile(this.currentProjectID, this.path);
         this.renameDialog = false;
       }
     }

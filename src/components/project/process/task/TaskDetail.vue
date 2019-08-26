@@ -116,6 +116,7 @@ export default class TaskDetail extends Vue {
       type: "select",
       title: "执行者",
       name: "userID",
+      chips: true,
       text: "nickName",
       value: "userID",
       list: this.taskInfo.member!.data

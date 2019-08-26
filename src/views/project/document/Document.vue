@@ -104,7 +104,7 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import documentInfo from "@/components/project/document/DocumentInfo.vue";
 import catalogInfo from "@/components/project/document/CatalogInfo.vue";
-import ProjectService from "@/service/projectService";
+import FileService from "@/service/fileService";
 import { namespace } from "vuex-class";
 import docIcon from "@/components/project/document/DocIcon.vue";
 
@@ -140,7 +140,7 @@ export default class Document extends Vue {
   };
 
   private async getFileList() {
-    const rsp = await ProjectService.getFile(this.currentProjectID, this.path);
+    const rsp = await FileService.getFile(this.currentProjectID, this.path);
     this.fileListShow = rsp.fileList;
   }
 
@@ -157,7 +157,7 @@ export default class Document extends Vue {
 
   private async createCatalog() {
     if (this.$refs.createCatalogForm.validate()) {
-      await ProjectService.createCatalog(
+      await FileService.createCatalog(
         this.currentProjectID,
         this.path,
         this.currentName

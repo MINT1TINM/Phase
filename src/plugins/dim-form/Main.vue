@@ -47,13 +47,26 @@
               v-model="target[item.name]"
               :label="dense?`${item.title}`:``"
               outlined
+              :chips="item.chips"
               :disabled="item.disabled"
               dense
               hide-details
               style="line-height:14px"
               :item-text="item.text"
               :item-value="item.value"
-            ></v-select>
+            >
+              <template v-slot:selection="{ item, index }">
+                <v-chip v-if="item.headImgURL" pill small>
+                  <v-avatar size="10" left>
+                    <v-img :src="item.headImgURL"></v-img>
+                  </v-avatar>
+                  <span class="font-weight-black">{{ item.nickName }}</span>
+                </v-chip>
+                <v-chip v-else>
+                  <span class="font-weight-black">{{ item }}</span>
+                </v-chip>
+              </template>
+            </v-select>
             <!-- multi-select -->
             <v-select
               v-else-if="item.type=='multi-select'"

@@ -130,41 +130,6 @@ class ProjectService {
     });
     return rsp;
   }
-
-  public static async createCatalog(
-    projectID: string,
-    path: string[],
-    name: string
-  ) {
-    const rsp = await basicService.postRequest("/file/catalog", {
-      projectID,
-      path,
-      name
-    });
-    return rsp;
-  }
-
-  public static async renameCatalog(
-    projectID: string,
-    path: string[],
-    name: string
-  ) {
-    const rsp = await basicService.putRequest("/file/catalog", {
-      projectID,
-      path,
-      name
-    });
-    return rsp;
-  }
-
-  public static async getFile(projectID: string, path: string[]) {
-    const rsp = await basicService.getRequest("/file/catalog", {
-      projectID,
-      path
-    });
-    store.commit("file/updateFileList", rsp.fileList);
-    return rsp;
-  }
 }
 
 export default ProjectService;
