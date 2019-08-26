@@ -26,11 +26,12 @@
     <v-container fluid style="height:calc(100vh - 96px);padding:0">
       <v-layout fill-height>
         <!-- file grid -->
-        <v-flex :class="currentObject&&currentName?`xs9`:`xs12`">
+        <v-flex xs9 style="height:100%" v-on:click="releaseCurrentObject">
           <v-container grid-list-md fluid>
             <v-layout row wrap>
               <v-flex
-                xs15
+                sm6
+                md2
                 v-for="(item,i) in fileListShow"
                 :key="`file-${i}`"
                 style="user-select:none"
@@ -42,14 +43,19 @@
                     :color="hover?`grey lighten-3`:`transparent`"
                     @click="showInfo(item,i)"
                     @dblclick="openCatalog(item,i)"
+                    id="file-grid"
                   >
-                    <v-layout justify-center class="pt-2">
-                      <doc-icon :item="item"></doc-icon>
-                    </v-layout>
-                    <v-card-text class="text-center black--text pb-0 pt-1 subtitle-2">{{item.name}}</v-card-text>
-                    <v-card-text
-                      class="text-center pt-0 caption"
-                    >{{item.createdAt | format("yyyy-MM-dd")}}</v-card-text>
+                    <div style="pointer-events:none">
+                      <v-layout justify-center class="pt-2">
+                        <doc-icon :item="item"></doc-icon>
+                      </v-layout>
+                      <v-card-text
+                        class="text-center black--text pb-0 pt-1 subtitle-2"
+                      >{{item.name}}</v-card-text>
+                      <v-card-text
+                        class="text-center pt-0 caption"
+                      >{{item.createdAt | format("yyyy-MM-dd")}}</v-card-text>
+                    </div>
                   </v-card>
                 </v-hover>
               </v-flex>
@@ -57,8 +63,9 @@
           </v-container>
         </v-flex>
         <!-- file info -->
-        <v-flex v-if="currentObject&&currentUUID" xs3 class="inner-sidebar-withoutpadding">
-          <doc-info :item="currentObject" :uuid="currentUUID"></doc-info>
+        <v-flex xs3 class="inner-sidebar-withoutpadding">
+          <doc-info v-if="currentObject&&currentUUID" :item="currentObject" :uuid="currentUUID"></doc-info>
+          <catalog-info v-else :item="fileListShow" :uuid="currentUUID"></catalog-info>
         </v-flex>
       </v-layout>
     </v-container>
@@ -96,6 +103,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import documentInfo from "@/components/project/document/DocumentInfo.vue";
+import catalogInfo from "@/components/project/document/CatalogInfo.vue";
 import ProjectService from "@/service/projectService";
 import { namespace } from "vuex-class";
 import docIcon from "@/components/project/document/DocIcon.vue";
@@ -106,7 +114,8 @@ const fileModule = namespace("file");
 @Component({
   components: {
     "doc-info": documentInfo,
-    "doc-icon": docIcon
+    "doc-icon": docIcon,
+    "catalog-info": catalogInfo
   }
 })
 export default class Document extends Vue {
@@ -154,6 +163,7 @@ export default class Document extends Vue {
         this.currentName
       );
       this.getFileList();
+      this.createCatalogDialog = false;
     }
   }
 
@@ -163,6 +173,19 @@ export default class Document extends Vue {
       this.updatePathPrettier(
         this.pathPrettier.slice(0, this.pathPrettier.length - 1)
       );
+      this.currentObject = {};
+      this.currentName = "";
+      this.currentUUID = "";
+    }
+  }
+
+  private releaseCurrentObject(v: any) {
+    // check if user has clicked in blank area
+    if (v.target.id !== "file-grid") {
+      console.log("blank");
+      this.currentObject = {};
+      this.currentName = "";
+      this.currentUUID = "";
     }
   }
 
@@ -179,7 +202,7 @@ export default class Document extends Vue {
 
   @Watch("path")
   private async onPathChanged() {
-    this.getFileList();
+    await this.getFileList();
   }
 
   @Watch("fileList", {
