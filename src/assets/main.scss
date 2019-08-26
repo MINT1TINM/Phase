@@ -34,6 +34,10 @@
   margin-top: 12px;
 }
 
+.v-text-field--filled > .v-input__control > .v-input__slot {
+  min-height: 26px;
+}
+
 // nav-bar
 .navbar-logo {
   font-size: 1.15em;

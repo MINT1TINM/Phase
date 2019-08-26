@@ -30,4 +30,4 @@ const getBarLength = (timelineStartDate, startDate, endDate, columnWidth) => {
   };
 };
 
-export { getDayCount, getAllDaysBetween, getTimeRange, getBarLength };
+export { getDayCount, getAllDaysBetween, getBarLength };

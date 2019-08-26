@@ -3,14 +3,14 @@
     <v-layout justify-center>
       <doc-icon class="py-10" :item="item"></doc-icon>
     </v-layout>
-    <v-btn block outlined color="primary" @click="renameDialog=true;currentName=name">
+    <v-btn block outlined color="primary" @click="renameDialog=true;currentName=item.name">
       <v-icon size="20">mdi-pencil-outline</v-icon>&nbsp;重命名
     </v-btn>
     <h4 class="pt-5">文件信息</h4>
     <v-list-item class="px-0">
       <v-list-item-content>
         <v-list-item-subtitle class="caption">名称</v-list-item-subtitle>
-        <v-list-item-title class="body-2">{{name}}</v-list-item-title>
+        <v-list-item-title class="body-2">{{item.name}}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="px-0">
@@ -65,6 +65,7 @@ import ProjectService from "@/service/projectService";
 import { namespace } from "vuex-class";
 
 const projectModule = namespace("project");
+const fileModule = namespace("file");
 
 @Component({
   components: {
@@ -73,18 +74,14 @@ const projectModule = namespace("project");
 })
 export default class DocumentInfo extends Vue {
   @projectModule.Getter("currentProjectID") currentProjectID!: string;
+  @fileModule.Getter("path") private path!: string[];
 
-  @Prop({ default: "" }) public name!: string;
-  @Prop({ default: {} }) public item!: {};
+  @Prop({ default: "" }) public uuid!: string;
+  @Prop({ default: {} }) public item!: any;
 
   private currentName: string = "";
   private currentItem = {};
   private renameDialog: boolean = false;
-
-  @Watch("name")
-  private onNameChanged() {
-    this.currentName = this.name;
-  }
 
   @Watch("item")
   private onItemChanged() {
@@ -92,14 +89,14 @@ export default class DocumentInfo extends Vue {
   }
 
   private async renameFile() {
-    if (this.currentName != this.name) {
+    if (this.currentName != this.item.name) {
       const rsp = await ProjectService.renameCatalog(
         this.currentProjectID,
-        ["data", this.name],
+        ["data", this.uuid],
         this.currentName
       );
       if (rsp.msg === "success") {
-        await ProjectService.getProjectFile(this.currentProjectID);
+        await ProjectService.getFile(this.currentProjectID, this.path);
         this.renameDialog = false;
       }
     }
