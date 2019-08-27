@@ -13,6 +13,9 @@ interface Task {
   member?: {
     data: [];
   };
+  sheet?: {
+    data: [];
+  };
   subTask?: {
     data: SubTask[];
   };

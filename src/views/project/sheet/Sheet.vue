@@ -50,7 +50,7 @@
       </v-layout>
       <v-bottom-sheet v-model="createSheetDialog" inset>
         <v-sheet class="text-center" height="900px" style="overflow:auto">
-          <create-sheet v-on:updateSheetList="getSheetList"></create-sheet>
+          <create-sheet></create-sheet>
         </v-sheet>
       </v-bottom-sheet>
       <v-bottom-sheet v-model="editSheetDialog" inset>
@@ -98,7 +98,7 @@ export default class ProjectSheet extends Vue {
 
   private async getSheetList() {
     this.createSheetDialog = false;
-    const rsp = await SheetService.getSheetList(this.currentProjectID);
+    await SheetService.getSheetList(this.currentProjectID);
   }
 
   private mounted() {

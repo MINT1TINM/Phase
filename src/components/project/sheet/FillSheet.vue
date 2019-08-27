@@ -71,12 +71,6 @@ export default class FillSheet extends Vue {
   @Prop({ default: {} }) private sheetInfo!: Sheet;
 
   private target = {};
-  private sheetInfoShow: Sheet = {
-    id: "",
-    name: "",
-    content: []
-  };
-
   private async saveSheet() {
     const rsp = await SheetService.updateSheet(
       this.sheetInfoShow.id,
@@ -91,10 +85,13 @@ export default class FillSheet extends Vue {
     console.log(this.sheetInfoShow);
   }
 
+  get sheetInfoShow() {
+    return this.sheetInfo;
+  }
+
   private mounted() {
     console.log(this.templateInfo);
     console.log(this.sheetInfo);
-    this.sheetInfoShow = this.sheetInfo;
   }
 }
 </script>

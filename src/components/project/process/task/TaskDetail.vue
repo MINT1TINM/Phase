@@ -54,7 +54,7 @@ const projectModule = namespace("project");
   }
 })
 export default class TaskDetail extends Vue {
-  @projectModule.Getter("currentProjectID") private currentProjectID: any;
+  @projectModule.Getter("currentProjectID") private currentProjectID!: string;
   @processModule.Getter("currentProcess") private currentProcess: any;
   @processModule.Mutation("updateCurrentProcessTask")
   private updateCurrentProcessTask: any;
@@ -76,6 +76,9 @@ export default class TaskDetail extends Vue {
       data: []
     },
     subTask: {
+      data: []
+    },
+    sheet: {
       data: []
     },
     userID: "",

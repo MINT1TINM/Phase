@@ -76,7 +76,7 @@ export default class ComponentName extends Vue {
       templateID,
       type
     );
-    this.$emit("updateSheetList");
+    await SheetService.getSheetList(this.currentProjectID);
   }
 
   @Watch("searchTemplateContent")
