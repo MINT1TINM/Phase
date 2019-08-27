@@ -191,12 +191,11 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import TaskService from "@/service/taskService";
 import { SubTask } from "@/types/task";
-import dimForm from "@/plugins/dim-form/Main.vue";
+
 import certificateSearch from "@/components/certificate/Search.vue";
 
 @Component({
   components: {
-    "dim-form": dimForm,
     "certificate-search": certificateSearch
   }
 })

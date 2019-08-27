@@ -38,7 +38,7 @@ import operations from "./Operations.vue";
 import relatedSheet from "./RelatedSheet.vue";
 import TaskService from "@/service/taskService";
 import { Task } from "@/types/task";
-import dimForm from "@/plugins/dim-form/Main.vue";
+
 import { namespace } from "vuex-class";
 import ProcessService from "@/service/processService";
 
@@ -50,8 +50,7 @@ const taskModule = namespace("task");
   components: {
     "sub-task": subTask,
     operations: operations,
-    "related-sheet": relatedSheet,
-    "dim-form": dimForm
+    "related-sheet": relatedSheet
   }
 })
 export default class TaskDetail extends Vue {

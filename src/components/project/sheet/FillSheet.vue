@@ -50,7 +50,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import dimForm from "@/plugins/dim-form/Main.vue";
+
 import SheetService from "@/service/sheetService";
 import { Sheet, Field, Template } from "@/types/sheet";
 import { namespace } from "vuex-class";
@@ -59,7 +59,7 @@ const projectModule = namespace("project");
 
 @Component({
   components: {
-    "dim-form": dimForm
+
   }
 })
 export default class FillSheet extends Vue {

@@ -33,14 +33,12 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import UserService from "@/service/userService";
-import dimForm from "@/plugins/dim-form/Main.vue";
+
 
 const userModule = namespace("user");
 
 @Component({
-  components: {
-    "dim-form": dimForm
-  }
+  components: {}
 })
 export default class Profile extends Vue {
   @userModule.Getter("userInfo") private userInfo: any;

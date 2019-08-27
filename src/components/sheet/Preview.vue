@@ -27,12 +27,10 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Template } from "@/types/sheet";
 import SheetService from "@/service/sheetService";
-import dimForm from "@/plugins/dim-form/Main.vue";
+
 
 @Component({
-  components: {
-    "dim-form": dimForm
-  }
+  components: {}
 })
 export default class SheetPreview extends Vue {
   private template: Template = {

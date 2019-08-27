@@ -1,9 +1,9 @@
 <template>
   <v-chip pill small>
     <v-avatar size="10" left>
-      <v-img :src="projectMemberCache(userID).headImgURL"></v-img>
+      <v-img :src="headImgURL"></v-img>
     </v-avatar>
-    <span class="font-weight-black">{{ projectMemberCache(userID).nickName }}</span>
+    <span class="font-weight-black">{{nickName }}</span>
   </v-chip>
 </template>
 
@@ -20,6 +20,22 @@ export default class UserChip extends Vue {
   @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
 
   @Prop(String) userID!: string;
+
+  get headImgURL() {
+    if (this.userID) {
+      return this.projectMemberCache(this.userID).headImgURL;
+    } else {
+      return "";
+    }
+  }
+
+  get nickName() {
+    if (this.userID) {
+      return this.projectMemberCache(this.userID).nickName;
+    } else {
+      return "";
+    }
+  }
 }
 </script>
 

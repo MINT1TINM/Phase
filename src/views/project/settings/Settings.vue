@@ -25,14 +25,14 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import ProjectService from "@/service/projectService";
-import dimForm from "@/plugins/dim-form/Main.vue";
+
 
 const systemModule = namespace("system");
 const projectModule = namespace("project");
 
 @Component({
   components: {
-    "dim-form": dimForm
+
   }
 })
 export default class Settings extends Vue {

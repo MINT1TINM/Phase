@@ -14,8 +14,11 @@ import store from "@/store/store";
 import DateHelper from "@/utils/DateHelper";
 
 // user-chip components
-import UserChip from "@/plugins/user-chip/Chip.vue";
+import UserChip from "@/plugins/user-chip/Main.vue";
 Vue.component("user-chip", UserChip);
+
+import DimForm from "@/plugins/dim-form/Main.vue";
+Vue.component("dim-form", DimForm);
 
 Vue.use(VuetifyConfirm);
 

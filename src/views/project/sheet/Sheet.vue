@@ -70,7 +70,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import dimForm from "@/plugins/dim-form/Main.vue";
+
 import { Template, Sheet } from "@/types/sheet";
 import createSheet from "@/components/project/sheet/CreateSheet.vue";
 import sheetInfo from "@/components/project/sheet/SheetInfo.vue";
@@ -82,7 +82,6 @@ const sheetModule = namespace("sheet");
 
 @Component({
   components: {
-    "dim-form": dimForm,
     "create-sheet": createSheet,
     "sheet-info": sheetInfo
   }

@@ -80,7 +80,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import ProjectService from "@/service/projectService";
 import appBar from "@/components/common/app-bar/AppBar.vue";
-import dimForm from "@/plugins/dim-form/Main.vue";
+
 import UserService from "@/service/userService";
 
 const projectModule = namespace("project");
@@ -89,7 +89,7 @@ const userModule = namespace("user");
 @Component({
   components: {
     "app-bar": appBar,
-    "dim-form": dimForm
+
   }
 })
 export default class ProjectHome extends Vue {

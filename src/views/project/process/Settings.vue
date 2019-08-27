@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import dimForm from "@/plugins/dim-form/Main.vue";
+
 import ProcessService from "@/service/processService";
 import { Process, ProcessMember } from "@/types/process";
 import { namespace } from "vuex-class";
@@ -62,7 +62,7 @@ const projectModule = namespace("project");
 
 @Component({
   components: {
-    "dim-form": dimForm
+
   }
 })
 export default class Settings extends Vue {
