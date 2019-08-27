@@ -36,7 +36,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ProjectService from "@/service/projectService";
 import { namespace } from "vuex-class";
-import UserService from "../../../../service/userService";
+import UserService from "@/service/userService";
 
 const usermodule = namespace("user");
 
@@ -62,7 +62,11 @@ export default class Invitation extends Vue {
   }
 
   private mounted() {
-    if (this.authorization.token) {
+    if (
+      this.authorization.token.length >= 5 &&
+      this.$route.fullPath !== "/" &&
+      this.$route.fullPath !== "/login"
+    ) {
       this.getInvitationList();
     }
   }

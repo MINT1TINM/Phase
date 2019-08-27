@@ -13,8 +13,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 import invitation from "./modules/Invitation.vue";
-import { Invitation } from "../../../types/project";
-import ProjectService from "../../../service/projectService";
+import { Invitation } from "@/types/project";
+import ProjectService from "@/service/projectService";
 
 const systemModule = namespace("system");
 
