@@ -52,7 +52,9 @@ import { namespace } from "vuex-class";
 const projectModule = namespace("project");
 
 @Component
-export default class ComponentName extends Vue {
+export default class CreateSheet extends Vue {
+  @Prop({ default: "" }) private taskID?: string;
+
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
 
   private searchTemplateContent: string = "";
@@ -71,10 +73,12 @@ export default class ComponentName extends Vue {
   }
 
   private async createSheet(templateID: string, type: string) {
+    console.log(this.taskID);
     const rsp = await SheetService.createSheet(
       this.currentProjectID,
       templateID,
-      type
+      type,
+      this.taskID || ""
     );
     await SheetService.getSheetList(this.currentProjectID);
   }

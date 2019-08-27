@@ -63,12 +63,14 @@ class SheetService {
   public static async createSheet(
     projectID: string,
     templateID: string,
-    type: string
+    type: string,
+    taskID: string
   ) {
     const rsp = await basicService.postRequest("/sheet", {
       projectID,
       templateID,
-      type
+      type,
+      taskID
     });
     if (rsp.msg === "success") {
       // @ts-ignore
@@ -83,6 +85,13 @@ class SheetService {
       projectID
     });
     store.commit("sheet/updateSheetList", rsp.sheet);
+    return rsp;
+  }
+
+  public static async getSheetInfoList(sheetIDList: string[]) {
+    const rsp = await basicService.getRequest("/sheet/list/info", {
+      id: sheetIDList
+    });
     return rsp;
   }
 

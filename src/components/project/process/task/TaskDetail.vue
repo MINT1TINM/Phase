@@ -11,7 +11,7 @@
         </v-toolbar>
         <v-container fluid>
           <v-form ref="taskInfoForm">
-            <dim-form :formContent="taskInfoContent" :target="taskInfo"></dim-form>
+            <dim-form :formContent="taskInfoContent" :target="currentTask"></dim-form>
           </v-form>
           <v-layout justify-center>
             <v-flex xs8></v-flex>
@@ -22,8 +22,12 @@
     <transition appear appear-active-class="fade-up-enter">
       <v-flex xs7 class="inner-sidebar-withoutpadding">
         <v-container fluid>
-          <sub-task @updateTaskInfo="getTaskInfo" :subTask="taskInfo.subTask"></sub-task>
-          <related-sheet class="mt-3"></related-sheet>
+          <sub-task @updateTaskInfo="getTaskInfo" :subTask="currentTask.subTask"></sub-task>
+          <related-sheet
+            @updateTaskInfo="getTaskInfo"
+            :sheetIDList="currentTask.sheet.data"
+            class="mt-3"
+          ></related-sheet>
           <operations class="mt-3"></operations>
         </v-container>
       </v-flex>
@@ -44,6 +48,7 @@ import ProcessService from "@/service/processService";
 
 const processModule = namespace("process");
 const projectModule = namespace("project");
+const taskModule = namespace("task");
 
 @Component({
   components: {
@@ -59,32 +64,9 @@ export default class TaskDetail extends Vue {
   @processModule.Mutation("updateCurrentProcessTask")
   private updateCurrentProcessTask: any;
   @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
+  @taskModule.Getter("currentTask") private currentTask!: Task;
+  @taskModule.Mutation("updateCurrentTask") private updateCurrentTask!: void;
 
-  private taskInfo: Task = {
-    id: "",
-    name: "",
-    description: "",
-    startDate: "",
-    endDate: "",
-    actionStartDate: "",
-    actionEndDate: "",
-    status: false,
-    tags: {
-      data: []
-    },
-    member: {
-      data: []
-    },
-    subTask: {
-      data: []
-    },
-    sheet: {
-      data: []
-    },
-    userID: "",
-    processID: "",
-    executorID: ""
-  };
   private taskMember = [];
   private statusList = [
     {
@@ -122,7 +104,7 @@ export default class TaskDetail extends Vue {
       chips: true,
       text: "nickName",
       value: "userID",
-      list: this.taskInfo.member!.data
+      list: []
     },
     {
       type: "multi-select",
@@ -131,7 +113,7 @@ export default class TaskDetail extends Vue {
       chips: true,
       text: "nickName",
       value: "userID",
-      list: this.taskInfo.member!.data
+      list: []
     },
     {
       type: "tags",
@@ -162,7 +144,7 @@ export default class TaskDetail extends Vue {
 
   private async getTaskInfo() {
     const rsp = await TaskService.getTaskInfo(this.$route.params.taskID);
-    this.taskInfo = rsp.task;
+
     const memberList = this.currentProcess(this.$route.params.processID).member
       .data;
 
@@ -176,12 +158,12 @@ export default class TaskDetail extends Vue {
 
   private async updateTaskInfo() {
     // update info
-    await TaskService.updateTaskInfo(this.taskInfo);
+    await TaskService.updateTaskInfo(this.currentTask);
 
     // update member
     await TaskService.updateTaskMember(
       this.$route.params.taskID,
-      this.taskInfo.member!.data
+      this.currentTask.member!.data
     );
 
     // sync task list
@@ -203,6 +185,7 @@ export default class TaskDetail extends Vue {
 
   private mounted() {
     this.getTaskInfo();
+    console.log(this.currentTask);
   }
 }
 </script>

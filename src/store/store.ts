@@ -8,6 +8,7 @@ import sheet from "@/store/modules/sheet";
 import system from "@/store/modules/system";
 import file from "@/store/modules/file";
 import user from "@/store/modules/user";
+import task from "@/store/modules/task";
 
 Vue.use(Vuex);
 
@@ -31,7 +32,8 @@ const vuexSession: any = new VuexPersistence<any>({
     project: state.project,
     process: state.process,
     sheet: state.sheet,
-    file: state.file
+    file: state.file,
+    task: state.task
   }),
   filter: (mutation: any) =>
     mutation.type === "system/updateLastPage" ||
@@ -57,7 +59,8 @@ const vuexSession: any = new VuexPersistence<any>({
     mutation.type === "file/updatePath" ||
     mutation.type === "file/updatePathPrettier" ||
     mutation.type === "file/restorePath" ||
-    mutation.type === "file/restorePathPrettier"
+    mutation.type === "file/restorePathPrettier" ||
+    mutation.type === "task/updateCurrentTask"
 });
 
 export default new Vuex.Store({
@@ -68,7 +71,8 @@ export default new Vuex.Store({
     project,
     process,
     sheet,
-    file
+    file,
+    task
   },
   plugins: [vuexLocal.plugin, vuexSession.plugin]
 });

@@ -31,7 +31,7 @@ class TaskService {
     const rsp = await basicService.getRequest("/task/info", {
       taskID
     });
-
+    store.commit("task/updateCurrentTask", rsp.task);
     return rsp;
   }
 
