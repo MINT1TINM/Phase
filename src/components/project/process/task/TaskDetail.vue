@@ -22,12 +22,8 @@
     <transition appear appear-active-class="fade-up-enter">
       <v-flex xs7 class="inner-sidebar-withoutpadding">
         <v-container fluid>
-          <sub-task @updateTaskInfo="getTaskInfo" :subTask="currentTask.subTask"></sub-task>
-          <related-sheet
-            @updateTaskInfo="getTaskInfo"
-            :sheetIDList="currentTask.sheet.data"
-            class="mt-3"
-          ></related-sheet>
+          <sub-task :subTask="currentTask.subTask"></sub-task>
+          <related-sheet :sheetIDList="currentTask.sheet.data" class="mt-3"></related-sheet>
           <operations class="mt-3"></operations>
         </v-container>
       </v-flex>
@@ -65,7 +61,6 @@ export default class TaskDetail extends Vue {
   private updateCurrentProcessTask: any;
   @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
   @taskModule.Getter("currentTask") private currentTask!: Task;
-  @taskModule.Mutation("updateCurrentTask") private updateCurrentTask!: void;
 
   private taskMember = [];
   private statusList = [

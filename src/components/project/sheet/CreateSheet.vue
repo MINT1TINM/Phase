@@ -48,6 +48,7 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { Template } from "@/types/sheet";
 import SheetService from "@/service/sheetService";
 import { namespace } from "vuex-class";
+import TaskService from "@/service/taskService";
 
 const projectModule = namespace("project");
 
@@ -73,7 +74,6 @@ export default class CreateSheet extends Vue {
   }
 
   private async createSheet(templateID: string, type: string) {
-    console.log(this.taskID);
     const rsp = await SheetService.createSheet(
       this.currentProjectID,
       templateID,
@@ -81,6 +81,10 @@ export default class CreateSheet extends Vue {
       this.taskID || ""
     );
     await SheetService.getSheetList(this.currentProjectID);
+    if ((this.taskID || "").length > 5) {
+      this.$emit("closeDialog");
+      await TaskService.getTaskInfo(this.taskID!);
+    }
   }
 
   @Watch("searchTemplateContent")

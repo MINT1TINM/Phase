@@ -228,7 +228,7 @@ export default class SubTaskList extends Vue {
 
   private async createSubTask() {
     await TaskService.createSubTask(this.$route.params.taskID);
-    this.$emit("updateTaskInfo");
+    await TaskService.getTaskInfo(this.$route.params.taskID);
   }
 
   private async updateSubTask() {

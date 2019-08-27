@@ -18,10 +18,15 @@
           </v-chip>
         </template>
         <template v-slot:item.actions="{item}">
-          <v-btn icon small color="primary" @click="editSubTaskDialog=true;currentSubTask = item">
+          <v-btn
+            icon
+            small
+            color="primary"
+            @click="editSheetDialog=true;currentSheet=item;getTemplateInfo(item.templateID)"
+          >
             <v-icon>mdi-pencil-outline</v-icon>
           </v-btn>
-          <v-btn icon small color="error" @click="deleteSubTask(item.id)">
+          <v-btn icon small color="error" @click="deleteTaskSheet(item.id)">
             <v-icon>mdi-delete-outline</v-icon>
           </v-btn>
         </template>
@@ -30,7 +35,14 @@
     <v-bottom-sheet v-model="createSheetDialog" inset>
       <v-sheet class="text-center" height="800px" style="overflow:auto">
         <v-container fluid>
-          <create-sheet :taskID="$route.params.taskID"></create-sheet>
+          <create-sheet @closeDialog="createSheetDialog=false" :taskID="$route.params.taskID"></create-sheet>
+        </v-container>
+      </v-sheet>
+    </v-bottom-sheet>
+    <v-bottom-sheet v-model="editSheetDialog" inset>
+      <v-sheet class="text-center" height="800px" style="overflow:auto">
+        <v-container fluid>
+          <fill-sheet :templateInfo="templateInfo" :sheetInfo="currentSheet"></fill-sheet>
         </v-container>
       </v-sheet>
     </v-bottom-sheet>
@@ -41,14 +53,16 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import createSheet from "@/components/project/sheet/CreateSheet.vue";
 import SheetService from "@/service/sheetService";
-import { Sheet } from "@/types/sheet";
+import { Sheet, Template } from "@/types/sheet";
 import { namespace } from "vuex-class";
+import fillSheet from "@/components/project/sheet/FillSheet.vue";
 
 const projectModule = namespace("project");
 
 @Component({
   components: {
-    "create-sheet": createSheet
+    "create-sheet": createSheet,
+    "fill-sheet": fillSheet
   }
 })
 export default class RelatedDocument extends Vue {
@@ -57,7 +71,20 @@ export default class RelatedDocument extends Vue {
   @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
 
   private createSheetDialog: boolean = false;
+  private editSheetDialog: boolean = false;
   private sheetList: Sheet[] = [];
+  private currentSheet: Sheet = {
+    id: "",
+    name: "",
+    content: {}
+  };
+  private templateInfo: Template = {
+    name: "",
+    field: {
+      data: []
+    },
+    type: ""
+  };
   private headers = [
     { text: "名称", value: "name", align: "center", sortable: false },
     { text: "创建者", value: "userID", align: "center", sortable: false },
@@ -69,6 +96,20 @@ export default class RelatedDocument extends Vue {
     const rsp = await SheetService.getSheetInfoList(v);
     this.sheetList = rsp.sheet;
   }
+
+  private async getTemplateInfo(templateID: string) {
+    this.templateInfo = {
+      name: "",
+      field: {
+        data: []
+      },
+      type: ""
+    };
+    const rsp = await SheetService.getSheetTemplate(templateID);
+    this.templateInfo = rsp.template;
+  }
+
+  private async deleteTaskSheet() {}
 
   private async mounted() {
     const rsp = await SheetService.getSheetInfoList(this.sheetIDList);

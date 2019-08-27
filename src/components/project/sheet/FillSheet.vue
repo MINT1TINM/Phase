@@ -12,13 +12,11 @@
         <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
       </v-btn>
     </v-toolbar>
-    <dim-form
-      v-if="templateInfo.type === `key`"
-      :formContent="templateInfo.field.data"
-      :target="sheetInfoShow.content"
-    ></dim-form>
+    <v-container fluid v-if="templateInfo.type === `key`">
+      <dim-form :formContent="templateInfo.field.data" :target="sheetInfoShow.content"></dim-form>
+    </v-container>
     <!-- list -->
-    <div v-else>
+    <v-container fluid v-else-if="templateInfo.type === `list`">
       <v-simple-table>
         <thead>
           <tr>
@@ -46,7 +44,7 @@
           </v-btn>
         </v-flex>
       </v-layout>
-    </div>
+    </v-container>
   </div>
 </template>
 
