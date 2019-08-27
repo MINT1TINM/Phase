@@ -10,12 +10,7 @@
       </v-card-title>
       <v-data-table class="mt-4" :headers="headers" :items="sheetList" hide-default-footer>
         <template v-slot:item.userID="{item}">
-          <v-chip pill small>
-            <v-avatar size="10" left>
-              <v-img :src="projectMemberCache(item.userID).headImgURL"></v-img>
-            </v-avatar>
-            <span class="font-weight-black">{{ projectMemberCache(item.userID).nickName }}</span>
-          </v-chip>
+          <user-chip :userID="item.userID"></user-chip>
         </template>
         <template v-slot:item.actions="{item}">
           <v-btn

@@ -22,13 +22,8 @@
     <v-list-item class="px-0">
       <v-list-item-content>
         <v-list-item-subtitle class="caption">创建者</v-list-item-subtitle>
-        <v-list-item-title class="body-2">
-          <v-chip pill class="mt-1">
-            <v-avatar left size="25" color="primary">
-              <img :src="projectMemberCache(item.userUUID).headImgURL" />
-            </v-avatar>
-            <span>{{projectMemberCache(item.userUUID).nickName}}</span>
-          </v-chip>
+        <v-list-item-title class="body-2" height="40px">
+          <user-chip class="my-2" :userID="item.userUUID"></user-chip>
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>

@@ -40,7 +40,9 @@
     <v-list-item class="px-0">
       <v-list-item-content>
         <v-list-item-subtitle class="caption">创建者</v-list-item-subtitle>
-        <v-list-item-title class="body-2">{{sheetInfo.userID}}</v-list-item-title>
+        <v-list-item-title class="body-2" style="height:40px">
+          <user-chip class="my-2" :userID="sheetInfo.userID"></user-chip>
+        </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="px-0">

@@ -13,6 +13,10 @@ import store from "@/store/store";
 // format date
 import DateHelper from "@/utils/DateHelper";
 
+// user-chip components
+import UserChip from "@/plugins/user-chip/Chip.vue";
+Vue.component("user-chip", UserChip);
+
 Vue.use(VuetifyConfirm);
 
 Vue.config.productionTip = false;

@@ -39,7 +39,9 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.createdAt | format("yyyy-MM-dd h:m") }}</td>
                 <td>{{ item.updatedAt | format("yyyy-MM-dd h:m")}}</td>
-                <td>{{ item.userID }}</td>
+                <td>
+                  <user-chip :userID="item.userID"></user-chip>
+                </td>
               </tr>
             </tbody>
           </v-simple-table>
@@ -87,6 +89,7 @@ const sheetModule = namespace("sheet");
 })
 export default class ProjectSheet extends Vue {
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
+  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
   @sheetModule.Getter("sheetList") private sheetList: any;
 
   private createSheetDialog: boolean = false;
