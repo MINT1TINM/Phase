@@ -10,5 +10,6 @@ import system from "./modules/system";
 Vue.use(Router);
 
 export default new Router({
+  mode: "history",
   routes: [...sheet, ...contact, ...project, ...settings, ...system]
 });

@@ -61,9 +61,7 @@ import { namespace } from "vuex-class";
 const projectModule = namespace("project");
 
 @Component({
-  components: {
-
-  }
+  components: {}
 })
 export default class Settings extends Vue {
   @projectModule.Getter("currentProject") private currentProject: any;
