@@ -27,7 +27,7 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-bottom-sheet v-model="createSheetDialog" inset persistent>
+    <v-bottom-sheet v-model="createSheetDialog" inset>
       <v-sheet class="text-center" height="800px" style="overflow:auto">
         <v-container fluid>
           <create-sheet

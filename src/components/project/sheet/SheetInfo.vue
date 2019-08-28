@@ -28,13 +28,13 @@
     <v-list-item class="px-0">
       <v-list-item-content>
         <v-list-item-subtitle class="caption">创建时间</v-list-item-subtitle>
-        <v-list-item-title class="body-2">{{sheetInfo.createdAt | format("yyyy-MM-dd h:m")}}</v-list-item-title>
+        <v-list-item-title class="body-2">{{sheetInfo.createdAt | format("yyyy-MM-dd hh:mm")}}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="px-0">
       <v-list-item-content>
         <v-list-item-subtitle class="caption">最后修改</v-list-item-subtitle>
-        <v-list-item-title class="body-2">{{sheetInfo.updatedAt | format("yyyy-MM-dd h:m")}}</v-list-item-title>
+        <v-list-item-title class="body-2">{{sheetInfo.updatedAt | format("yyyy-MM-dd hh:mm")}}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="px-0">
