@@ -47,6 +47,8 @@ class FileService {
     store.commit("file/updateFileList", rsp.fileList);
     return rsp;
   }
+
+  public static async deleteFile(uuid: string) {}
 }
 
 export default FileService;

@@ -13,6 +13,7 @@ class BasicService {
       console.log(rsp.response.status);
       if (rsp.response.status === 402) {
         store.commit("user/clearAuthorization");
+        store.commit("system/toggleFullScreenLoading", false);
         router.push({ path: "/login" });
       }
     }

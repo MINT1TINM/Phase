@@ -1,5 +1,4 @@
 import "@/assets/animation.css";
-import "@/plugins/class-component-hooks.js";
 import "@/plugins/snackbar/index";
 
 import axios from "axios";

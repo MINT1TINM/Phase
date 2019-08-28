@@ -6,6 +6,9 @@
     <v-btn block outlined color="primary" @click="renameDialog=true;currentName=item.name">
       <v-icon size="20">mdi-pencil-outline</v-icon>&nbsp;重命名
     </v-btn>
+    <v-btn class="mt-2" block outlined color="error" @click="deleteFile()">
+      <v-icon size="20">mdi-delete-outline</v-icon>&nbsp;删除
+    </v-btn>
     <h4 class="pt-5">文件信息</h4>
     <v-list-item class="px-0">
       <v-list-item-content>
@@ -102,6 +105,16 @@ export default class DocumentInfo extends Vue {
         await FileService.getFile(this.currentProjectID, this.path);
         this.renameDialog = false;
       }
+    }
+  }
+
+  private async deleteFile() {
+    const res = await this.$confirm("此操作无法恢复", {
+      title: "确认删除?",
+      buttonTrueColor: "primary"
+    });
+    if (res) {
+      console.log(this.uuid);
     }
   }
 

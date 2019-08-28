@@ -53,7 +53,7 @@
         </v-toolbar>
         <v-container fluid>
           <v-layout wrap>
-            <v-flex xs6 class="pr-2">
+            <v-flex xs7 class="pr-2">
               <v-layout row wrap>
                 <v-flex xs12>
                   <v-container fluid class="py-0">
@@ -69,42 +69,48 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr v-for="(item,i) in currentSubTask.content" :key="`c-${i}`">
-                            <td>
+                          <tr
+                            class="my-2"
+                            v-for="(item,i) in currentSubTask.content"
+                            :key="`c-${i}`"
+                          >
+                            <td class="pl-3 pr-2">
                               <v-select
                                 dense
+                                class="text-field-dense"
                                 :items="[`量化`,`非量化`]"
                                 single-line
                                 hide-details
                                 outlined
-                                class="text-field-dense"
                                 v-model="item.property"
                               ></v-select>
                             </td>
-                            <td>
+                            <td width="370px" class="px-1">
                               <v-text-field
                                 single-line
-                                hide-details
-                                outlined
                                 class="text-field-dense"
+                                hide-details
+                                auto-grow
+                                rows="1"
+                                outlined
                                 v-model="item.description"
                               >{{ item.description }}</v-text-field>
                             </td>
-                            <td>
+                            <td class="px-1">
                               <v-text-field
                                 single-line
+                                class="text-field-dense"
                                 hide-details
                                 outlined
-                                class="text-field-dense"
                                 v-model="item.expect"
                               >{{ item.expect }}</v-text-field>
                             </td>
-                            <td>
+                            <td class="px-1">
                               <v-text-field
                                 single-line
+                                class="text-field-dense"
                                 hide-details
                                 outlined
-                                class="text-field-dense"
                                 v-model="item.reality"
                               >{{ item.reality }}</v-text-field>
                             </td>
@@ -145,7 +151,7 @@
                 </v-flex>
               </v-layout>
             </v-flex>
-            <v-flex xs6 class="pl-2">
+            <v-flex xs5 class="pl-2">
               <v-card outlined width="100%">
                 <v-card-title class="subtitle-1 font-weight-black">相关文件</v-card-title>
                 <v-container fluid>
@@ -237,7 +243,6 @@ export default class SubTaskList extends Vue {
       this.currentSubTask.name,
       this.currentSubTask.content
     );
-    this.editSubTaskDialog = false;
   }
 
   private async deleteSubTask(subTaskID: string) {
