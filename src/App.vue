@@ -3,10 +3,11 @@
     <!-- loading -->
     <v-progress-linear
       :active="loading"
-      :indeterminate="loading"
+      :indeterminate="true"
       absolute
       top
       color="deep-purple accent-4"
+      style="z-index:9"
     ></v-progress-linear>
 
     <!-- fullscreen loading -->

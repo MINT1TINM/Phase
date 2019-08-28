@@ -22,12 +22,14 @@ class BasicService {
   }
 
   public static async getRequest(url: string, params: any) {
+    store.commit("system/toggleLoading", true);
     try {
       const rsp = await axios.get("/api" + url, { params });
       const json = rsp.data;
       const msg = { url, params, rsp: json };
       console.log(msg);
 
+      store.commit("system/toggleLoading", false);
       return await this.getData(rsp);
     } catch (err) {
       return await this.getData(err);
@@ -35,12 +37,13 @@ class BasicService {
   }
 
   public static async postRequest(url: string, params: any) {
+    store.commit("system/toggleLoading", true);
     try {
       const rsp = await axios.post("/api" + url, params);
       const json = rsp.data;
       const msg = { url, params, rsp: json };
       console.log(msg);
-
+      store.commit("system/toggleLoading", false);
       return await this.getData(rsp);
     } catch (err) {
       return await this.getData(err);
@@ -48,12 +51,13 @@ class BasicService {
   }
 
   public static async putRequest(url: string, params: any) {
+    store.commit("system/toggleLoading", true);
     try {
       const rsp = await axios.put("/api" + url, params);
       const json = rsp.data;
       const msg = { url, params, rsp: json };
       console.log(msg);
-
+      store.commit("system/toggleLoading", false);
       return this.getData(rsp);
     } catch (err) {
       return await this.getData(err);
@@ -61,11 +65,12 @@ class BasicService {
   }
 
   public static async deleteRequest(url: string, params: any) {
+    store.commit("system/toggleLoading", true);
     try {
       const rsp = await axios.delete("/api" + url, { params });
       const json = rsp.data;
       const msg = { url, params, rsp: json };
-
+      store.commit("system/toggleLoading", false);
       console.log(msg);
 
       return this.getData(rsp);
