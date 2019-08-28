@@ -26,6 +26,9 @@ const state: State = {
     sheet: {
       data: []
     },
+    draft: {
+      data: []
+    },
     userID: "",
     processID: "",
     executorID: ""

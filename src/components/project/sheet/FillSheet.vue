@@ -8,6 +8,9 @@
         class="subtitle-1 font-weight-black"
       ></v-text-field>
       <v-spacer></v-spacer>
+      <v-btn rounded text @click="closeDialog">
+        <v-icon size="20">mdi-close</v-icon>&nbsp;取消
+      </v-btn>
       <v-btn rounded text @click="saveSheet">
         <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
       </v-btn>
@@ -58,9 +61,7 @@ import { namespace } from "vuex-class";
 const projectModule = namespace("project");
 
 @Component({
-  components: {
-
-  }
+  components: {}
 })
 export default class FillSheet extends Vue {
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
@@ -81,6 +82,10 @@ export default class FillSheet extends Vue {
   private insertListElement() {
     this.sheetInfoShow.content.push({});
     console.log(this.sheetInfoShow);
+  }
+
+  private closeDialog() {
+    this.$emit("closeDialog");
   }
 
   get sheetInfoShow() {

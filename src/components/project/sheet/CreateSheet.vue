@@ -55,6 +55,8 @@ const projectModule = namespace("project");
 @Component
 export default class CreateSheet extends Vue {
   @Prop({ default: "" }) private taskID?: string;
+  // check draft or sheet
+  @Prop({ default: "" }) private target?: string;
 
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
 
@@ -78,7 +80,8 @@ export default class CreateSheet extends Vue {
       this.currentProjectID,
       templateID,
       type,
-      this.taskID || ""
+      this.taskID || "",
+      this.target || ""
     );
     await SheetService.getSheetList(this.currentProjectID);
     if ((this.taskID || "").length > 5) {

@@ -64,13 +64,15 @@ class SheetService {
     projectID: string,
     templateID: string,
     type: string,
-    taskID: string
+    taskID: string,
+    target?: string
   ) {
     const rsp = await basicService.postRequest("/sheet", {
       projectID,
       templateID,
       type,
-      taskID
+      taskID,
+      target
     });
     if (rsp.msg === "success") {
       // @ts-ignore
@@ -116,9 +118,10 @@ class SheetService {
     return rsp;
   }
 
-  public static async deleteSheet(sheetID: string) {
+  public static async deleteSheet(sheetID: string, taskID: string) {
     const rsp = await basicService.deleteRequest("/sheet", {
-      sheetID
+      sheetID,
+      taskID
     });
 
     return rsp;

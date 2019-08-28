@@ -2,7 +2,7 @@
   <div>
     <v-card outlined>
       <v-card-title class="font-weight-black subtitle-1">
-        取证单
+        审计底稿
         <v-spacer></v-spacer>
         <v-btn text rounded @click="createSheetDialog=true">
           <v-icon size="20">mdi-plus</v-icon>&nbsp;新建
@@ -21,7 +21,7 @@
           >
             <v-icon>mdi-pencil-outline</v-icon>
           </v-btn>
-          <v-btn icon small color="error" @click="deleteTaskSheet(item.id)">
+          <v-btn icon small color="error" @click="deleteTaskDraft(item.id)">
             <v-icon>mdi-delete-outline</v-icon>
           </v-btn>
         </template>
@@ -31,7 +31,7 @@
       <v-sheet class="text-center" height="800px" style="overflow:auto">
         <v-container fluid>
           <create-sheet
-            :target="`sheet`"
+            :target="`draft`"
             @closeDialog="createSheetDialog=false"
             :taskID="$route.params.taskID"
           ></create-sheet>
@@ -97,7 +97,6 @@ export default class RelatedDocument extends Vue {
 
   @Watch("sheetIDList")
   private async onSheetIDListChanged(v: string[]) {
-    console.log(v);
     if (v.length > 0) {
       const rsp = await SheetService.getSheetInfoList(v);
       this.sheetList = rsp.sheet;
@@ -116,7 +115,7 @@ export default class RelatedDocument extends Vue {
     this.templateInfo = rsp.template;
   }
 
-  private async deleteTaskSheet(sheetID: string) {
+  private async deleteTaskDraft(sheetID: string) {
     const res = await this.$confirm("此操作无法恢复", {
       title: "确认删除?",
       buttonTrueColor: "primary"

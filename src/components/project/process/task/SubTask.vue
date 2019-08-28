@@ -243,6 +243,7 @@ export default class SubTaskList extends Vue {
       this.currentSubTask.name,
       this.currentSubTask.content
     );
+    this.editSubTaskDialog = false;
   }
 
   private async deleteSubTask(subTaskID: string) {
@@ -252,7 +253,7 @@ export default class SubTaskList extends Vue {
     });
     if (res) {
       await TaskService.deleteSubTask(this.$route.params.taskID, subTaskID);
-      this.$emit("updateTaskInfo");
+      await TaskService.getTaskInfo(this.$route.params.taskID);
     }
   }
 

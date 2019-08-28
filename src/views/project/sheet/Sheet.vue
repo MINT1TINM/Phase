@@ -24,10 +24,11 @@
           <v-simple-table class="transparent">
             <thead>
               <tr>
-                <th class="text-left">标题</th>
-                <th class="text-left">创建时间</th>
-                <th class="text-left">更新时间</th>
-                <th class="text-left">创建者</th>
+                <th class="text-center">标题</th>
+                <th class="text-center">创建时间</th>
+                <th class="text-center">更新时间</th>
+                <th class="text-center">创建者</th>
+                <th class="text-center">属性</th>
               </tr>
             </thead>
             <tbody>
@@ -36,11 +37,16 @@
                 :key="`sheet-${i}`"
                 @click="currentSheetID = item.id;currentTemplateID = item.templateID"
               >
-                <td>{{ item.name }}</td>
-                <td>{{ item.createdAt | format("yyyy-MM-dd h:m") }}</td>
-                <td>{{ item.updatedAt | format("yyyy-MM-dd h:m")}}</td>
-                <td>
+                <td class="text-center">{{ item.name }}</td>
+                <td class="text-center">{{ item.createdAt | format("yyyy-MM-dd h:m") }}</td>
+                <td class="text-center">{{ item.updatedAt | format("yyyy-MM-dd h:m")}}</td>
+                <td class="text-center">
                   <user-chip :userID="item.userID"></user-chip>
+                </td>
+                <td class="text-center">
+                  <v-chip class="font-weight-black caption" v-if="item.target === `sheet`">取证单</v-chip>
+                  <v-chip class="font-weight-black caption" v-else-if="item.target === `draft`">审计底稿</v-chip>
+                  <v-chip class="font-weight-black caption" v-else>普通</v-chip>
                 </td>
               </tr>
             </tbody>

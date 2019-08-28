@@ -47,17 +47,17 @@
     </v-list-item>
     <v-list-item class="px-0">
       <v-list-item-content>
-        <v-list-item-subtitle class="caption">修改记录</v-list-item-subtitle>
+        <router-link :to="``"></router-link>
       </v-list-item-content>
     </v-list-item>
     <v-bottom-sheet v-model="fillSheetDialog" inset>
       <v-sheet class="text-center" height="900px" style="overflow:auto">
         <v-container fluid>
-          <v-layout row justify-center>
-            <v-flex xs8>
-              <fill-sheet :templateInfo="templateInfo" :sheetInfo="sheetInfo"></fill-sheet>
-            </v-flex>
-          </v-layout>
+          <fill-sheet
+            @closeDialog="fillSheetDialog=false"
+            :templateInfo="templateInfo"
+            :sheetInfo="sheetInfo"
+          ></fill-sheet>
         </v-container>
       </v-sheet>
     </v-bottom-sheet>
@@ -128,7 +128,7 @@ export default class SheetInfo extends Vue {
       buttonTrueColor: "primary"
     });
     if (res) {
-      const rsp = await SheetService.deleteSheet(this.sheetID);
+      const rsp = await SheetService.deleteSheet(this.sheetID, "");
       await SheetService.getSheetList(this.currentProjectID);
     }
   }

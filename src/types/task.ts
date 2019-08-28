@@ -16,6 +16,9 @@ interface Task {
   sheet?: {
     data: [];
   };
+  draft?: {
+    data: [];
+  };
   subTask?: {
     data: SubTask[];
   };
