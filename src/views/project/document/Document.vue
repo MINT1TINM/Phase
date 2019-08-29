@@ -115,7 +115,6 @@
             hide-details
             outlined
             label="选择文件"
-            v-if="!uploadPercent"
             v-model="file"
           ></v-file-input>
           <v-progress-linear
@@ -124,7 +123,7 @@
             color="primary"
             rounded
             v-if="uploadPercent"
-            v-model="uploadPercent"
+            :value="uploadPercent"
           >
             <template v-slot="{ value }">
               <small class="white--text font-weight-black">{{ Math.ceil(value) }}%</small>
