@@ -167,7 +167,7 @@ export default class Document extends Vue {
   @fileModule.Mutation("restorePath") private restorePath!: any;
   @fileModule.Mutation("restorePathPrettier") private restorePathPrettier!: any;
   @systemModule.Getter("uploadPercent") private uploadPercent!: number;
-  @systemModule.Getter("updateUploadPercent")
+  @systemModule.Mutation("updateUploadPercent")
   private updateUploadPercent: any;
 
   private currentObject = {};
@@ -275,6 +275,7 @@ export default class Document extends Vue {
 
   private async mounted() {
     this.getFileList();
+    this.updateUploadPercent(0);
     // this.restorePath();
     // this.restorePathPrettier();
   }
