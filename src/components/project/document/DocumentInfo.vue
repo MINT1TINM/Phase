@@ -133,11 +133,8 @@ export default class DocumentInfo extends Vue {
   }
 
   private async downloadFile(item: any) {
-    console.log(item);
-    window.open(
-      "http://127.0.0.1:9090/api/file/download?sName=" + item.sName,
-      "_blank"
-    );
+    window.open("/api/file/download?sName=" + item.sName, "_blank");
+    // await FileService.downloadFile(item.sName);
   }
 
   private mounted() {}
