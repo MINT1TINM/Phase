@@ -202,7 +202,9 @@ import certificateSearch from "@/components/certificate/Search.vue";
   }
 })
 export default class SubTaskList extends Vue {
-  @Prop({ default: () => ({ data: [] }) }) private subTask!: {};
+  @Prop({ default: () => ({ data: [] }) }) private subTask!: {
+    data: [];
+  };
 
   private editSubTaskDialog: boolean = false;
   private searchCertificateDialog: boolean = false;
@@ -239,6 +241,7 @@ export default class SubTaskList extends Vue {
       this.currentSubTask.name,
       this.currentSubTask.content
     );
+    await TaskService.getTaskInfo(this.$route.params.taskID);
     this.editSubTaskDialog = false;
   }
 
@@ -264,7 +267,17 @@ export default class SubTaskList extends Vue {
   }
 
   get subTaskShow() {
-    return this.subTask;
+    let subTask = this.subTask;
+    for (const item of subTask.data as any) {
+      item.status = 1;
+      for (const j of item.content as any) {
+        if (!j.status) {
+          item.status = 2;
+          break;
+        }
+      }
+    }
+    return subTask;
   }
 
   private async save(item: any) {
