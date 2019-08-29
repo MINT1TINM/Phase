@@ -77,6 +77,7 @@ export default class FillSheet extends Vue {
       this.sheetInfoShow.content
     );
     await SheetService.getSheetList(this.currentProjectID);
+    this.closeDialog();
   }
 
   private insertListElement() {

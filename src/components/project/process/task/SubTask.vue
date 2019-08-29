@@ -28,10 +28,6 @@
           </v-btn>
         </template>
       </v-data-table>
-
-      <v-layout justify-center class="py-3">
-        <v-flex xs6></v-flex>
-      </v-layout>
     </v-card>
 
     <v-bottom-sheet v-model="editSubTaskDialog" persistent>
