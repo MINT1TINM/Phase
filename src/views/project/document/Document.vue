@@ -15,7 +15,7 @@
 
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text>
+        <v-btn text @click="uploadDialog=true">
           <v-icon size="20">mdi-cloud-upload-outline</v-icon>&nbsp;上传
         </v-btn>
         <v-btn text @click="createCatalogDialog=true;currentName=``">
@@ -97,6 +97,31 @@
         </v-container>
       </v-card>
     </v-dialog>
+
+    <v-dialog persistent v-model="uploadDialog" width="300">
+      <v-card>
+        <v-toolbar flat class="transparent">
+          <v-toolbar-title class="font-weight-black subtitle-1">上传文件</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="uploadDialog=false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <v-container fluid>
+          <v-file-input
+            class="text-field-semidense"
+            single-line
+            hide-details
+            outlined
+            label="选择文件"
+            v-model="file"
+          ></v-file-input>
+          <v-layout class="pt-5" justify-center>
+            <v-btn rounded color="primary" depressed @click="uploadFile">上传</v-btn>
+          </v-layout>
+        </v-container>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -133,7 +158,9 @@ export default class Document extends Vue {
   private currentUUID: string = "";
   private fileListShow = {};
   private createCatalogDialog: boolean = false;
+  private uploadDialog: boolean = false;
   private searchDocumentContent: string = "";
+  private file: any = null;
 
   $refs!: {
     createCatalogForm: HTMLFormElement;
@@ -165,6 +192,10 @@ export default class Document extends Vue {
       this.getFileList();
       this.createCatalogDialog = false;
     }
+  }
+
+  private async uploadFile() {
+    await FileService.uploadFile(this.file, this.path, this.currentProjectID);
   }
 
   private goBack() {

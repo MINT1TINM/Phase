@@ -26,6 +26,7 @@ Vue.config.productionTip = false;
 // axios config
 axios.interceptors.request.use((config: any) => {
   config.headers["Content-Type"] = "application/json;charset=UTF-8";
+
   try {
     config.headers.authorization =
       "PHASE " + store.getters["user/authorization"].token;

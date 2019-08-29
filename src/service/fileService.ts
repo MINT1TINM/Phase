@@ -48,6 +48,16 @@ class FileService {
     return rsp;
   }
 
+  public static async uploadFile(file: any, path: string[], projectID: string) {
+    const fileForm = new FormData();
+    fileForm.append("path", path.toString());
+    fileForm.append("file", file);
+    fileForm.append("projectID", projectID);
+
+    const rsp = await basicService.postRequest("/file", fileForm);
+    return rsp;
+  }
+
   public static async deleteFile(uuid: string) {}
 }
 
