@@ -26,7 +26,7 @@
     <v-container fluid style="height:calc(100vh - 96px);padding:0">
       <v-layout fill-height>
         <!-- file grid -->
-        <v-flex xs9 style="height:100%" v-on:click="releaseCurrentObject">
+        <v-flex xs9 style="height:100%" v-on:click="clickBlank">
           <v-container grid-list-md fluid>
             <v-layout row wrap>
               <v-flex
@@ -64,7 +64,12 @@
         </v-flex>
         <!-- file info -->
         <v-flex xs3 class="inner-sidebar-withoutpadding">
-          <doc-info v-if="currentObject&&currentUUID" :item="currentObject" :uuid="currentUUID"></doc-info>
+          <doc-info
+            @clearDocumentInfo="clearDocumentInfo"
+            v-if="currentObject&&currentUUID"
+            :item="currentObject"
+            :uuid="currentUUID"
+          ></doc-info>
           <catalog-info v-else :item="fileListShow" :uuid="currentUUID"></catalog-info>
         </v-flex>
       </v-layout>
@@ -178,8 +183,14 @@ export default class Document extends Vue {
   }
 
   private openCatalog(item: any, i: any) {
-    this.updatePath([...this.path, i, "data"]);
-    this.updatePathPrettier([...this.pathPrettier, item.name]);
+    // open catalog
+    if (item.data) {
+      this.updatePath([...this.path, i, "data"]);
+      this.updatePathPrettier([...this.pathPrettier, item.name]);
+      this.currentObject = {};
+      this.currentName = "";
+      this.currentUUID = "";
+    }
   }
 
   private async createCatalog() {
@@ -196,6 +207,9 @@ export default class Document extends Vue {
 
   private async uploadFile() {
     await FileService.uploadFile(this.file, this.path, this.currentProjectID);
+    this.uploadDialog = false;
+    this.file = null;
+    this.getFileList();
   }
 
   private goBack() {
@@ -210,14 +224,18 @@ export default class Document extends Vue {
     }
   }
 
-  private releaseCurrentObject(v: any) {
+  private clickBlank(v: any) {
     // check if user has clicked in blank area
     if (v.target.id !== "file-grid") {
       console.log("blank");
-      this.currentObject = {};
-      this.currentName = "";
-      this.currentUUID = "";
+      this.clearDocumentInfo();
     }
+  }
+
+  private clearDocumentInfo() {
+    this.currentObject = {};
+    this.currentName = "";
+    this.currentUUID = "";
   }
 
   get pathCrumbs() {
@@ -244,8 +262,9 @@ export default class Document extends Vue {
   }
 
   private async mounted() {
-    this.restorePath();
-    this.restorePathPrettier();
+    this.getFileList();
+    // this.restorePath();
+    // this.restorePathPrettier();
   }
 }
 </script>

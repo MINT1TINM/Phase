@@ -114,7 +114,12 @@ export default class DocumentInfo extends Vue {
       buttonTrueColor: "primary"
     });
     if (res) {
-      console.log(this.uuid);
+      await FileService.deleteFile(
+        [...this.path, this.uuid],
+        this.currentProjectID
+      );
+      this.$emit("clearDocumentInfo");
+      await FileService.getFile(this.currentProjectID, this.path);
     }
   }
 

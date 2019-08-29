@@ -104,6 +104,7 @@ export default class Settings extends Vue {
   // private async removeMember(item: Member) {}
 
   get projectMember() {
+    console.log(this.currentProject.member.data)
     return this.currentProject.member.data;
   }
 

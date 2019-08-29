@@ -41,7 +41,7 @@ class BasicService {
   public static async postRequest(url: string, params: any) {
     store.commit("system/toggleLoading", true);
     try {
-      const rsp = await axios.post("/api" + url, params);
+      const rsp = await axios.post("/api" + url, params,);
       const json = rsp.data;
       const msg = { url, params, rsp: json };
       console.log(msg);

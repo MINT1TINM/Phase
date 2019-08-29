@@ -2,6 +2,7 @@ import Vue from "vue";
 
 import basicService from "@/service/basicService";
 import store from "@/store/store";
+
 const vue = new Vue();
 
 class FileService {
@@ -58,7 +59,13 @@ class FileService {
     return rsp;
   }
 
-  public static async deleteFile(uuid: string) {}
+  public static async deleteFile(path: string[], projectID: string) {
+    const rsp = await basicService.deleteRequest("/file", {
+      path,
+      projectID
+    });
+    return rsp;
+  }
 }
 
 export default FileService;
