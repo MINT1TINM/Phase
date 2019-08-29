@@ -271,6 +271,8 @@ export default class SubTaskList extends Vue {
     for (const item of subTask.data as any) {
       item.status = 1;
       for (const j of item.content as any) {
+        // if any of subtask_content's status is 2,
+        // this subtask's status will be false
         if (!j.status) {
           item.status = 2;
           break;
