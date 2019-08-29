@@ -6,17 +6,17 @@ import Vue from "vue";
 
 import App from "@/App.vue";
 import VuetifyConfirm from "@/plugins/confirm-dialog";
+import DimForm from "@/plugins/dim-form/Main.vue";
+// user-chip components
+import UserChip from "@/plugins/user-chip/Main.vue";
 import vuetify from "@/plugins/vuetify";
 import router from "@/router/router";
 import store from "@/store/store";
 // format date
 import DateHelper from "@/utils/DateHelper";
 
-// user-chip components
-import UserChip from "@/plugins/user-chip/Main.vue";
 Vue.component("user-chip", UserChip);
 
-import DimForm from "@/plugins/dim-form/Main.vue";
 Vue.component("dim-form", DimForm);
 
 Vue.use(VuetifyConfirm);
@@ -59,11 +59,20 @@ Vue.filter("avatar", (v: string) => {
   }
 });
 
+// cut long string
+Vue.filter("cut", (v: string) => {
+  if (v.length > 8) {
+    return v.slice(0, 7) + " ...";
+  } else {
+    return v;
+  }
+});
+
 new Vue({
   router,
   store,
   vuetify,
-  render: h => {
+  render: (h) => {
     return h(App);
   }
 }).$mount("#app");

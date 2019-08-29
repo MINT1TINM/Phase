@@ -3,7 +3,16 @@
     <v-layout justify-center>
       <doc-icon class="py-10" :item="item"></doc-icon>
     </v-layout>
-    <v-btn block outlined color="primary" @click="renameDialog=true;currentName=item.name">
+    <v-btn v-if="!item.data" block outlined color="green darken-1" @click="downloadFile(item)">
+      <v-icon size="20">mdi-download-outline</v-icon>&nbsp;下载
+    </v-btn>
+    <v-btn
+      class="mt-2"
+      block
+      outlined
+      color="primary"
+      @click="renameDialog=true;currentName=item.name"
+    >
       <v-icon size="20">mdi-pencil-outline</v-icon>&nbsp;重命名
     </v-btn>
     <v-btn class="mt-2" block outlined color="error" @click="deleteFile()">
@@ -121,6 +130,14 @@ export default class DocumentInfo extends Vue {
       this.$emit("clearDocumentInfo");
       await FileService.getFile(this.currentProjectID, this.path);
     }
+  }
+
+  private async downloadFile(item: any) {
+    console.log(item);
+    window.open(
+      "http://127.0.0.1:9090/api/file/download?sName=" + item.sName,
+      "_blank"
+    );
   }
 
   private mounted() {}

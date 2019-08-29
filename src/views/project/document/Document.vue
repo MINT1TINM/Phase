@@ -6,11 +6,7 @@
           <v-icon size="20">mdi-arrow-left</v-icon>&nbsp;返回上一级
         </v-btn>
         <v-divider v-if="path.length>1" vertical></v-divider>
-        <v-breadcrumbs :items="pathCrumbs">
-          <template v-slot:divider>
-            <v-icon>mdi-chevron-right</v-icon>
-          </template>
-        </v-breadcrumbs>
+        <v-breadcrumbs :items="pathCrumbs"></v-breadcrumbs>
       </v-toolbar-items>
 
       <v-spacer></v-spacer>
@@ -50,10 +46,10 @@
                         <doc-icon :item="item"></doc-icon>
                       </v-layout>
                       <v-card-text
-                        class="text-center black--text pb-0 pt-1 subtitle-2"
-                      >{{item.name}}</v-card-text>
+                        class="text-center black--text pb-0 pt-1 body-2"
+                      >{{item.name | cut}}</v-card-text>
                       <v-card-text
-                        class="text-center pt-0 caption"
+                        class="text-center pt-0 caption grey--text"
                       >{{item.createdAt | format("yyyy-MM-dd")}}</v-card-text>
                     </div>
                   </v-card>
@@ -97,7 +93,7 @@
             ></v-text-field>
           </v-form>
           <v-layout class="pt-5" justify-center>
-            <v-btn rounded color="primary" depressed @click="createCatalog">保存</v-btn>
+            <v-btn rounded color="primary" depressed @click="createCatalog">创建</v-btn>
           </v-layout>
         </v-container>
       </v-card>

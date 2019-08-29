@@ -64,6 +64,10 @@ class FileService {
       path,
       projectID
     });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("删除成功");
+    }
     return rsp;
   }
 }
