@@ -28,8 +28,8 @@
           <v-subheader class="font-weight-black">切换项目</v-subheader>
           <v-list dense>
             <v-list-item
-              v-for="(item, i) in projectListShow"
-              :key="`project-${i}`"
+              v-for="item in projectListShow"
+              :key="`project-${item.id}`"
               @click="alterProject(item.id)"
             >
               <v-list-item-avatar>
@@ -61,6 +61,7 @@ export default class ProjectBar extends Vue {
 
   @projectModule.Getter("projectList") private projectList: any;
   @projectModule.Getter("currentProject") private currentProject: any;
+  @projectModule.Getter("currentProjectID") private currentProjectID!: string;
   @projectModule.Mutation("updateCurrentProjectID")
   private updateCurrentProjectID: any;
   @systemModule.Mutation("toggleFullScreenLoading")
@@ -76,6 +77,7 @@ export default class ProjectBar extends Vue {
 
     // some loading content
     this.updateCurrentProjectID(projectID);
+    this.$router.push({ path: `/project/process` });
     setTimeout(() => {
       this.toggleFullScreenLoading(false);
     }, 500);
