@@ -128,7 +128,7 @@ export default class SheetInfo extends Vue {
       buttonTrueColor: "primary"
     });
     if (res) {
-      const rsp = await SheetService.deleteSheet(this.sheetID, "");
+      const rsp = await SheetService.deleteSheet(this.sheetID, "", "");
       await SheetService.getSheetList(this.currentProjectID);
     }
   }

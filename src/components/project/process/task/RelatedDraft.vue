@@ -100,6 +100,8 @@ export default class RelatedDocument extends Vue {
     if (v.length > 0) {
       const rsp = await SheetService.getSheetInfoList(v);
       this.sheetList = rsp.sheet;
+    } else {
+      this.sheetList = [];
     }
   }
 
@@ -121,7 +123,11 @@ export default class RelatedDocument extends Vue {
       buttonTrueColor: "primary"
     });
     if (res) {
-      await SheetService.deleteSheet(sheetID, this.$route.params.taskID);
+      await SheetService.deleteSheet(
+        sheetID,
+        this.$route.params.taskID,
+        "draft"
+      );
       await TaskService.getTaskInfo(this.$route.params.taskID);
     }
   }
@@ -130,6 +136,8 @@ export default class RelatedDocument extends Vue {
     if (this.sheetIDList.length > 0) {
       const rsp = await SheetService.getSheetInfoList(this.sheetIDList);
       this.sheetList = rsp.sheet;
+    } else {
+      this.sheetList = [];
     }
   }
 }

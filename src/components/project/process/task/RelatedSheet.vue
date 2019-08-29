@@ -96,11 +96,13 @@ export default class RelatedDocument extends Vue {
   ];
 
   @Watch("sheetIDList")
-  private async onSheetIDListChanged(v: string[]) {
-    console.log(v);
-    if (v.length > 0) {
-      const rsp = await SheetService.getSheetInfoList(v);
+  private async onSheetIDListChanged() {
+    console.log(this.sheetIDList);
+    if (this.sheetIDList && this.sheetIDList.length > 0) {
+      const rsp = await SheetService.getSheetInfoList(this.sheetIDList);
       this.sheetList = rsp.sheet;
+    } else {
+      this.sheetList = [];
     }
   }
 
@@ -122,15 +124,21 @@ export default class RelatedDocument extends Vue {
       buttonTrueColor: "primary"
     });
     if (res) {
-      await SheetService.deleteSheet(sheetID, this.$route.params.taskID);
+      await SheetService.deleteSheet(
+        sheetID,
+        this.$route.params.taskID,
+        "sheet"
+      );
       await TaskService.getTaskInfo(this.$route.params.taskID);
     }
   }
 
   private async mounted() {
-    if (this.sheetIDList.length > 0) {
+    if (this.sheetIDList && this.sheetIDList.length > 0) {
       const rsp = await SheetService.getSheetInfoList(this.sheetIDList);
       this.sheetList = rsp.sheet;
+    } else {
+      this.sheetList = [];
     }
   }
 }

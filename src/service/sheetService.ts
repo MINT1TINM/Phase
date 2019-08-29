@@ -118,10 +118,15 @@ class SheetService {
     return rsp;
   }
 
-  public static async deleteSheet(sheetID: string, taskID: string) {
+  public static async deleteSheet(
+    sheetID: string,
+    taskID: string,
+    target: string
+  ) {
     const rsp = await basicService.deleteRequest("/sheet", {
       sheetID,
-      taskID
+      taskID,
+      target
     });
 
     return rsp;
