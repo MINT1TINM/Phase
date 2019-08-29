@@ -22,7 +22,13 @@
         v-on="on"
       ></v-text-field>
     </template>
-    <v-date-picker v-model="dateShow" @input="menu = false"></v-date-picker>
+    <v-date-picker
+      :show-current="true"
+      :max="max"
+      :min="min"
+      v-model="dateShow"
+      @input="menu = false"
+    ></v-date-picker>
   </v-menu>
 </template>
 
@@ -35,6 +41,8 @@ export default class DatePicker extends Vue {
   @Prop({ default: () => "" }) private label!: string;
   @Prop({ default: false }) private dense!: boolean;
   @Prop({ default: false }) private disabled!: boolean;
+  @Prop(String) private max!: string;
+  @Prop(String) private min!: string;
 
   private dateShow: string = "";
   private menu: boolean = false;

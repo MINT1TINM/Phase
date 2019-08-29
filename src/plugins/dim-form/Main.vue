@@ -102,6 +102,8 @@
                 class="mr-2"
                 :disabled="item.disabled"
                 :dense="dense"
+                :max="item.max"
+                :min="item.min"
                 :date.sync="target[item.nameStart]"
               ></date-picker>
               <div class="pt-1">-</div>
@@ -109,6 +111,8 @@
                 class="ml-2"
                 :disabled="item.disabled"
                 :dense="dense"
+                :max="item.max"
+                :min="item.min"
                 :date.sync="target[item.nameEnd]"
               ></date-picker>
             </v-layout>
@@ -116,6 +120,8 @@
             <date-picker
               :label="dense?`${item.title}`:``"
               :dense="dense"
+              :max="item.max"
+              :min="item.min"
               :disabled="item.disabled"
               v-else-if="item.type=='date-picker'"
               :date.sync="target[item.name]"

@@ -34,6 +34,7 @@ class BasicService {
       store.commit("system/toggleLoading", false);
       return await this.getData(rsp);
     } catch (err) {
+      store.commit("system/toggleLoading", false);
       return await this.getData(err);
     }
   }
@@ -41,13 +42,21 @@ class BasicService {
   public static async postRequest(url: string, params: any) {
     store.commit("system/toggleLoading", true);
     try {
-      const rsp = await axios.post("/api" + url, params,);
+      const config = {
+        onUploadProgress: (progressEvent: any) => {
+          const complete =
+            ((progressEvent.loaded / progressEvent.total) * 100 || 0) + "%";
+          store.commit("system/updateUploadPercent", complete);
+        }
+      };
+      const rsp = await axios.post("/api" + url, params, config);
       const json = rsp.data;
       const msg = { url, params, rsp: json };
       console.log(msg);
       store.commit("system/toggleLoading", false);
       return await this.getData(rsp);
     } catch (err) {
+      store.commit("system/toggleLoading", false);
       return await this.getData(err);
     }
   }
@@ -62,6 +71,7 @@ class BasicService {
       store.commit("system/toggleLoading", false);
       return this.getData(rsp);
     } catch (err) {
+      store.commit("system/toggleLoading", false);
       return await this.getData(err);
     }
   }
@@ -79,6 +89,7 @@ class BasicService {
 
       return this.getData(rsp);
     } catch (err) {
+      store.commit("system/toggleLoading", false);
       return await this.getData(err);
     }
   }

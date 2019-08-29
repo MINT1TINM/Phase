@@ -5,6 +5,7 @@ interface State {
   notificationCenter: boolean;
   fullScreenLoading: boolean;
   appList: App[];
+  uploadPercent: number;
 }
 
 interface App {
@@ -15,6 +16,7 @@ interface App {
 }
 
 const state: State = {
+  uploadPercent: 0,
   lastPage: "",
   loading: false,
   appSwitcher: false,
@@ -67,6 +69,9 @@ const getters = {
   },
   appList: (s: State) => {
     return s.appList;
+  },
+  uploadPercent: (s: State) => {
+    return s.uploadPercent;
   }
 };
 
@@ -85,6 +90,9 @@ const mutations = {
   },
   toggleNotificationCenter: (s: State, toggle: boolean) => {
     s.notificationCenter = toggle;
+  },
+  updateUploadPercent: (s: State, uploadPercent: number) => {
+    s.uploadPercent = uploadPercent;
   }
 };
 

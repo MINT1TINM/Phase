@@ -115,8 +115,21 @@
             hide-details
             outlined
             label="选择文件"
+            v-if="!uploadPercent"
             v-model="file"
           ></v-file-input>
+          <v-progress-linear
+            height="20"
+            class="mt-5"
+            color="primary"
+            rounded
+            v-if="uploadPercent"
+            v-model="uploadPercent"
+          >
+            <template v-slot="{ value }">
+              <small class="white--text font-weight-black">{{ Math.ceil(value) }}%</small>
+            </template>
+          </v-progress-linear>
           <v-layout class="pt-5" justify-center>
             <v-btn rounded color="primary" depressed @click="uploadFile">上传</v-btn>
           </v-layout>
@@ -136,6 +149,7 @@ import docIcon from "@/components/project/document/DocIcon.vue";
 
 const projectModule = namespace("project");
 const fileModule = namespace("file");
+const systemModule = namespace("system");
 
 @Component({
   components: {
@@ -153,6 +167,9 @@ export default class Document extends Vue {
   @fileModule.Mutation("updatePathPrettier") private updatePathPrettier!: any;
   @fileModule.Mutation("restorePath") private restorePath!: any;
   @fileModule.Mutation("restorePathPrettier") private restorePathPrettier!: any;
+  @systemModule.Getter("uploadPercent") private uploadPercent!: number;
+  @systemModule.Getter("updateUploadPercent")
+  private updateUploadPercent: any;
 
   private currentObject = {};
   private currentName: string = "";
