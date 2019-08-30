@@ -46,6 +46,23 @@
             </v-select>
           </v-container>
         </v-card>
+        <v-card class="mt-5">
+          <v-card-title class="subtitle-1 font-weight-bold">操作</v-card-title>
+          <v-container fluid style="padding-top:0">
+            <v-layout justify-center>
+              <v-flex xs6>
+                <v-btn
+                  @click="deleteProcess"
+                  rounded
+                  depressed
+                  block
+                  color="error"
+                  class="mt-4"
+                >删除过程</v-btn>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
       </v-flex>
     </v-layout>
   </div>
@@ -57,15 +74,21 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import ProcessService from "@/service/processService";
 import { Process, ProcessMember } from "@/types/process";
 import { namespace } from "vuex-class";
+import { Authorization } from "@/types/user";
 
 const projectModule = namespace("project");
+const userModule = namespace("user");
 
 @Component({
   components: {}
 })
 export default class Settings extends Vue {
+  @userModule.Getter("authorization") private authorization!: Authorization;
+
   @projectModule.Getter("currentProject") private currentProject: any;
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
+  @projectModule.Getter("projectPermission")
+  private projectPermission: any;
 
   private settingsContent = [
     {
@@ -101,10 +124,12 @@ export default class Settings extends Vue {
     );
   }
 
+  private async deleteProcess() {}
+
   // private async removeMember(item: Member) {}
 
   get projectMember() {
-    console.log(this.currentProject.member.data)
+    console.log(this.currentProject.member.data);
     return this.currentProject.member.data;
   }
 

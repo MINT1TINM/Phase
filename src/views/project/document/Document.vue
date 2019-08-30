@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height:100%">
     <v-toolbar dense flat class="navbar" style="z-index:2">
       <v-toolbar-items>
         <v-btn v-if="path.length>1" text @click="goBack">
@@ -26,7 +26,7 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <v-container fluid style="height:calc(100vh - 96px);padding:0">
+    <v-container fluid pa-0 style="height:100%">
       <v-layout fill-height>
         <!-- file grid -->
         <v-flex xs9 style="height:100%" v-on:click="clickBlank">
@@ -66,7 +66,7 @@
           </v-container>
         </v-flex>
         <!-- file info -->
-        <v-flex xs3 class="inner-sidebar-withoutpadding">
+        <v-flex xs3 class="inner-sidebar-withoutpadding" style="height:100%">
           <doc-info
             @clearDocumentInfo="clearDocumentInfo"
             v-if="currentObject&&currentUUID"

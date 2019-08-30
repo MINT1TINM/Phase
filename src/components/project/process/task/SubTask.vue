@@ -210,7 +210,6 @@
             <v-icon size="20">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
-        <v-divider></v-divider>
         <document :window="true" @linkFile="linkFile"></document>
       </v-sheet>
     </v-bottom-sheet>

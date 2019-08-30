@@ -34,6 +34,11 @@
                   <v-checkbox color="grey" v-model="item.status"></v-checkbox>
                 </v-list-item-action>
                 <v-list-item-title class="body-2 grey--text font-weight-black">{{item.name}}</v-list-item-title>
+                <v-list-item-avatar size="25">
+                  <v-avatar size="25" color="primary">
+                    <img :src="projectMemberCache(item.userID).headImgURL" />
+                  </v-avatar>
+                </v-list-item-avatar>
               </v-list-item>
             </v-card>
             <v-card
