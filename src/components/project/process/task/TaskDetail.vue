@@ -5,13 +5,22 @@
         <v-toolbar flat color="transparent" class="font-weight-black">
           任务信息
           <v-spacer></v-spacer>
-          <v-btn rounded text @click="updateTaskInfo">
+          <v-btn
+            rounded
+            text
+            @click="updateTaskInfo"
+            v-if="projectPermission(authorization.userID).indexOf(`u`)!=-1"
+          >
             <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
           </v-btn>
         </v-toolbar>
         <v-container fluid>
           <v-form ref="taskInfoForm">
-            <dim-form :formContent="taskInfoContent" :target="currentTask"></dim-form>
+            <dim-form
+              :disabled="projectPermission(authorization.userID).indexOf(`u`)==-1"
+              :formContent="taskInfoContent"
+              :target="currentTask"
+            ></dim-form>
           </v-form>
           <v-layout justify-center>
             <v-flex xs8></v-flex>
@@ -43,10 +52,12 @@ import { Task } from "@/types/task";
 
 import { namespace } from "vuex-class";
 import ProcessService from "@/service/processService";
+import { Authorization } from "@/types/user";
 
 const processModule = namespace("process");
 const projectModule = namespace("project");
 const taskModule = namespace("task");
+const userModule = namespace("user");
 
 @Component({
   components: {
@@ -57,7 +68,11 @@ const taskModule = namespace("task");
   }
 })
 export default class TaskDetail extends Vue {
+  @userModule.Getter("authorization") private authorization!: Authorization;
   @projectModule.Getter("currentProjectID") private currentProjectID!: string;
+  @projectModule.Getter("projectPermission")
+  private projectPermission: any;
+
   @processModule.Getter("currentProcess") private currentProcess: any;
   @processModule.Mutation("updateCurrentProcessTask")
   private updateCurrentProcessTask: any;

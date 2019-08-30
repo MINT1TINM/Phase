@@ -45,6 +45,14 @@ const getters = {
     });
 
     return member;
+  },
+  projectPermission: (s: State) => (userID: string) => {
+    const currentProject = s.projectList.find((e: Project) => {
+      return e.id === s.currentProjectID;
+    });
+    return currentProject!.member!.data.find((e: ProjectMember) => {
+      return e.userID === userID;
+    })!.role;
   }
 };
 

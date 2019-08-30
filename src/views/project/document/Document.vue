@@ -11,6 +11,7 @@
 
       <v-spacer></v-spacer>
       <v-toolbar-items>
+        {{uploadPercent}}
         <v-btn text @click="uploadDialog=true">
           <v-icon size="20">mdi-cloud-upload-outline</v-icon>&nbsp;上传
         </v-btn>

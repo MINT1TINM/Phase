@@ -39,10 +39,12 @@ import { namespace } from "vuex-class";
 import UserService from "@/service/userService";
 
 const usermodule = namespace("user");
+const systemModule = namespace("system");
 
 @Component
 export default class Invitation extends Vue {
   @usermodule.Getter("authorization") private authorization: any;
+  @systemModule.Getter("notificationCenter") private notificationCenter: any;
 
   private invitationList: Invitation[] = [];
 
@@ -57,16 +59,12 @@ export default class Invitation extends Vue {
       "",
       this.authorization.userID
     );
-    this.invitationList = rsp.invitation;
-    UserService.getUserInfo(this.authorization.userID);
+    this.invitationList = await rsp.invitation;
+    await UserService.getUserInfo(this.authorization.userID);
   }
 
   private mounted() {
-    if (
-      this.authorization.token.length >= 5 &&
-      this.$route.fullPath !== "/" &&
-      this.$route.fullPath !== "/login"
-    ) {
+    if (this.notificationCenter) {
       this.getInvitationList();
     }
   }

@@ -16,7 +16,12 @@
               ></v-text-field>
             </v-flex>
             <v-spacer></v-spacer>
-            <v-btn outlined color="primary" @click="createProcessDialog=true">+ 新过程</v-btn>
+            <v-btn
+              v-if="projectPermission(authorization.userID).indexOf(`c`)!=-1"
+              outlined
+              color="primary"
+              @click="createProcessDialog=true"
+            >+ 新过程</v-btn>
           </v-layout>
         </v-toolbar>
         <v-sheet color="transparent">
@@ -57,9 +62,11 @@ import processColumn from "@/components/project/process/ProcessColumn.vue";
 import { namespace } from "vuex-class";
 import ProcessService from "@/service/processService";
 import { Process } from "@/types/process";
+import { Authorization } from "@/types/user";
 
 const projectModule = namespace("project");
 const processModule = namespace("process");
+const userModule = namespace("user");
 
 @Component({
   components: {
@@ -67,9 +74,12 @@ const processModule = namespace("process");
   }
 })
 export default class ProcessList extends Vue {
+  @userModule.Getter("authorization") private authorization!: Authorization;
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
   @processModule.Mutation("updateCurrentProcessList")
   private updateCurrentProcessList: any;
+  @projectModule.Getter("projectPermission")
+  private projectPermission: any;
 
   private processList: Process[] = [];
   private processListShow: Process[] = [];

@@ -13,7 +13,7 @@ interface UpdateUserInfo {
 }
 
 class UserService {
-  public static async getUserInfo(userID: number) {
+  public static async getUserInfo(userID: string) {
     const rsp = await basicService.getRequest("/user/info", { id: userID });
     store.commit("user/updateUserInfo", await rsp.userInfo);
     if (!rsp.userInfo.project) {

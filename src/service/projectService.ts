@@ -100,7 +100,7 @@ class ProjectService {
       toUserID,
       projectID
     });
-    if (rsp.message === "success") {
+    if (rsp.msg === "success") {
       // @ts-ignore
       vue.$snackbar.show("已发送邀请");
     }

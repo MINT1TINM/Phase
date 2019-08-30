@@ -23,7 +23,7 @@
               v-if="item.type=='text-field'"
               class="text-field-dense"
               v-model="target[item.name]"
-              :disabled="item.disabled"
+              :disabled="item.disabled || disabled"
               :label="dense?`${item.title}`:``"
               :single-line="dense?false:true"
               outlined
@@ -34,7 +34,7 @@
               v-else-if="item.type=='text-area'"
               class="text-field-dense"
               v-model="target[item.name]"
-              :disabled="item.disabled"
+              :disabled="item.disabled || disabled"
               :label="dense?`${item.title}`:``"
               outlined
               hide-details
@@ -48,7 +48,7 @@
               :label="dense?`${item.title}`:``"
               outlined
               :chips="item.chips"
-              :disabled="item.disabled"
+              :disabled="item.disabled || disabled"
               dense
               hide-details
               style="line-height:14px"
@@ -77,7 +77,7 @@
               :chips="item.chips"
               multiple
               outlined
-              :disabled="item.disabled"
+              :disabled="item.disabled || disabled"
               dense
               hide-details
               style="line-height:14px"
@@ -100,7 +100,7 @@
             <v-layout v-else-if="item.type=='date-range'">
               <date-picker
                 class="mr-2"
-                :disabled="item.disabled"
+                :disabled="item.disabled || disabled"
                 :dense="dense"
                 :max="item.max"
                 :min="item.min"
@@ -109,7 +109,7 @@
               <div class="pt-1">-</div>
               <date-picker
                 class="ml-2"
-                :disabled="item.disabled"
+                :disabled="item.disabled || disabled"
                 :dense="dense"
                 :max="item.max"
                 :min="item.min"
@@ -122,7 +122,7 @@
               :dense="dense"
               :max="item.max"
               :min="item.min"
-              :disabled="item.disabled"
+              :disabled="item.disabled || disabled"
               v-else-if="item.type=='date-picker'"
               :date.sync="target[item.name]"
             ></date-picker>
@@ -132,7 +132,7 @@
               class="text-field-dense"
               :label="dense?`${item.title}`:``"
               outlined
-              :disabled="item.disabled"
+              :disabled="item.disabled || disabled"
               v-model="target[item.name].data"
               multiple
               chips
@@ -141,7 +141,7 @@
             <!-- file-input-->
             <v-file-input
               v-else-if="item.type=='file-input'"
-              :disabled="item.disabled"
+              :disabled="item.disabled || disabled"
               v-model="target.formContent[j][item.name]"
               color="deep-purple accent-4"
               counter
@@ -180,7 +180,8 @@ export default {
     dense: Boolean,
     keyName: String,
     formContent: Array,
-    target: Object
+    target: Object,
+    disabled: Boolean
   },
   data() {
     return {};

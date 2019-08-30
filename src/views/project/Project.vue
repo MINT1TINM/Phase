@@ -82,14 +82,14 @@ import ProjectService from "@/service/projectService";
 import appBar from "@/components/common/app-bar/AppBar.vue";
 
 import UserService from "@/service/userService";
+import { Authorization } from "../../types/user";
 
 const projectModule = namespace("project");
 const userModule = namespace("user");
 
 @Component({
   components: {
-    "app-bar": appBar,
-
+    "app-bar": appBar
   }
 })
 export default class ProjectHome extends Vue {
@@ -112,7 +112,7 @@ export default class ProjectHome extends Vue {
   @projectModule.Mutation("clearCurrentProjectID")
   private clearCurrentProjectID: any;
   @userModule.Getter("authorization")
-  private authorization: any;
+  private authorization!: Authorization;
 
   private goToProject(projectId: number) {
     this.updateCurrentProjectID(projectId);
