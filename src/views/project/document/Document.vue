@@ -11,6 +11,13 @@
 
       <v-spacer></v-spacer>
       <v-toolbar-items>
+        <v-btn
+          text
+          @click="linkFile"
+          v-if="window&&currentObject.type&&currentObject.type!=`catalog`"
+        >
+          <v-icon size="20">mdi-link</v-icon>&nbsp;链接
+        </v-btn>
         <v-btn text @click="uploadDialog=true">
           <v-icon size="20">mdi-cloud-upload-outline</v-icon>&nbsp;上传
         </v-btn>
@@ -158,6 +165,8 @@ const systemModule = namespace("system");
   }
 })
 export default class Document extends Vue {
+  @Prop(Boolean) private window!: boolean;
+
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
   @fileModule.Getter("fileList") private fileList: any;
   @fileModule.Getter("path") private path!: string[];
@@ -222,6 +231,12 @@ export default class Document extends Vue {
     this.uploadDialog = false;
     this.file = null;
     this.getFileList();
+  }
+
+  private linkFile() {
+    console.log(this.currentObject);
+    (this.currentObject as any).path = this.path;
+    this.$emit("linkFile", this.currentObject);
   }
 
   private goBack() {

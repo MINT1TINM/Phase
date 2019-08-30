@@ -17,7 +17,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import taskList from "./task/TaskList.vue";
-import { Prop } from "vue-property-decorator";
+import { Prop, Watch } from "vue-property-decorator";
 
 @Component({
   components: {
@@ -27,6 +27,11 @@ import { Prop } from "vue-property-decorator";
 export default class ProjectColumn extends Vue {
   @Prop({ default: 0 }) public processID!: number;
   @Prop({ default: "" }) public processName!: string;
+
+  @Watch("processID")
+  private onProcessIDChanged() {
+    console.log(this.processID);
+  }
 }
 </script>
 

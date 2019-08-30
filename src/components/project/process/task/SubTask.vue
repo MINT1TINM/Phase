@@ -211,7 +211,7 @@
           </v-btn>
         </v-toolbar>
         <v-divider></v-divider>
-        <explorer @linkFile="linkFile"></explorer>
+        <document :window="true" @linkFile="linkFile"></document>
       </v-sheet>
     </v-bottom-sheet>
   </div>
@@ -221,14 +221,14 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import TaskService from "@/service/taskService";
 import { SubTask } from "@/types/task";
-import explorer from "@/views/project/document/Explorer.vue";
+import document from "@/views/project/document/Document.vue";
 
 import certificateSearch from "@/components/certificate/Search.vue";
 
 @Component({
   components: {
     "certificate-search": certificateSearch,
-    explorer: explorer
+    document: document
   }
 })
 export default class SubTaskList extends Vue {

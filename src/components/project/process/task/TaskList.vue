@@ -165,6 +165,15 @@ export default class TaskList extends Vue {
     }
   }
 
+  @Watch("processID")
+  private onProcessIDChanged() {
+    console.log(this.processID);
+    this.taskList = this.getCurrentProcessFromProp().task.data;
+    this.taskListShow = this.taskList.sort((a: ProcessTask, b: ProcessTask) => {
+      return a.createdAt < b.createdAt ? 1 : -1;
+    });
+  }
+
   private mounted() {
     this.taskList = this.getCurrentProcessFromProp().task.data;
     this.taskListShow = this.taskList.sort((a: ProcessTask, b: ProcessTask) => {

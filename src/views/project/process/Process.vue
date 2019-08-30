@@ -11,7 +11,7 @@
                 outlined
                 single-line
                 class="text-field-dense ml-1"
-                label="搜索过程"
+                label="搜索过程 & 任务"
                 v-model="searchProcessContent"
               ></v-text-field>
             </v-flex>
@@ -75,7 +75,7 @@ const userModule = namespace("user");
 })
 export default class ProcessList extends Vue {
   @userModule.Getter("authorization") private authorization!: Authorization;
-  @projectModule.Getter("currentProjectID") private currentProjectID: any;
+  @projectModule.Getter("currentProjectID") private currentProjectID!: string;
   @processModule.Mutation("updateCurrentProcessList")
   private updateCurrentProcessList: any;
   @projectModule.Getter("projectPermission")
@@ -106,9 +106,27 @@ export default class ProcessList extends Vue {
     const searchProcessContent = this.searchProcessContent;
     for (let i = processList.length - 1; i >= 0; i--) {
       const e = processList[i];
+      let flag = false;
+      // process name
       if (
         e.name.toLowerCase().indexOf(searchProcessContent.toLowerCase()) !== -1
       ) {
+        flag = true;
+      }
+
+      // task name
+      for (const item of e.task!.data) {
+        if (
+          item.name
+            .toLowerCase()
+            .indexOf(searchProcessContent.toLowerCase()) !== -1
+        ) {
+          flag = true;
+        }
+      }
+
+      if (flag) {
+        console.log(e);
         this.processListShow.unshift(e);
       }
     }
