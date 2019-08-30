@@ -44,8 +44,14 @@ class BasicService {
     try {
       const config = {
         onUploadProgress: (progressEvent: any) => {
+          const totalLength = progressEvent.lengthComputable
+            ? progressEvent.total
+            : progressEvent.target.getResponseHeader("content-length") ||
+              progressEvent.target.getResponseHeader(
+                "x-decompressed-content-length"
+              );
           const complete =
-            ((progressEvent.loaded / progressEvent.total) * 100 || 0) + "%";
+            ((progressEvent.loaded / totalLength) * 100 || 0) + "%";
           store.commit("system/updateUploadPercent", complete);
         }
       };
