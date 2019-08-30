@@ -8,21 +8,18 @@
         <v-divider v-if="path.length>1" vertical></v-divider>
         <v-breadcrumbs :items="pathCrumbs"></v-breadcrumbs>
       </v-toolbar-items>
-
       <v-spacer></v-spacer>
-      <v-toolbar-items>
-        <v-btn text @click="uploadDialog=true">
-          <v-icon size="20">mdi-cloud-upload-outline</v-icon>&nbsp;上传
-        </v-btn>
-        <v-btn text @click="createCatalogDialog=true;currentName=``">
-          <v-icon size="20">mdi-folder-outline</v-icon>&nbsp;新建文件夹
+      <!-- can only link file -->
+      <v-toolbar-items @click="linkFile" v-if="currentObject.type&&currentObject.type!=`catalog`">
+        <v-btn text>
+          <v-icon size="20">mdi-link</v-icon>&nbsp;链接
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-container fluid style="height:calc(100vh - 96px);padding:0">
       <v-layout fill-height>
         <!-- file grid -->
-        <v-flex xs9 style="height:100%" v-on:click="clickBlank">
+        <v-flex xs12 style="height:100%" v-on:click="clickBlank">
           <v-container grid-list-md fluid>
             <v-layout row wrap>
               <v-flex
@@ -59,82 +56,8 @@
           </v-container>
         </v-flex>
         <!-- file info -->
-        <v-flex xs3 class="inner-sidebar-withoutpadding">
-          <doc-info
-            @clearDocumentInfo="clearDocumentInfo"
-            v-if="currentObject&&currentUUID"
-            :item="currentObject"
-            :uuid="currentUUID"
-          ></doc-info>
-          <catalog-info v-else :item="fileListShow" :uuid="currentUUID"></catalog-info>
-        </v-flex>
       </v-layout>
     </v-container>
-
-    <v-dialog persistent v-model="createCatalogDialog" width="300">
-      <v-card>
-        <v-toolbar flat class="transparent">
-          <v-toolbar-title class="font-weight-black subtitle-1">新建文件夹</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-btn icon @click="createCatalogDialog=false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-container fluid>
-          <v-form ref="createCatalogForm">
-            <v-text-field
-              hide-details
-              single-line
-              outlined
-              class="text-field-semidense"
-              label="输入希望创建的文件夹名称"
-              :rules="[v => !!v || '']"
-              v-model="currentName"
-            ></v-text-field>
-          </v-form>
-          <v-layout class="pt-5" justify-center>
-            <v-btn rounded color="primary" depressed @click="createCatalog">创建</v-btn>
-          </v-layout>
-        </v-container>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog persistent v-model="uploadDialog" width="300">
-      <v-card>
-        <v-toolbar flat class="transparent">
-          <v-toolbar-title class="font-weight-black subtitle-1">上传文件</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-btn icon @click="uploadDialog=false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-container fluid>
-          <v-file-input
-            class="text-field-semidense"
-            single-line
-            hide-details
-            outlined
-            label="选择文件"
-            v-model="file"
-          ></v-file-input>
-          <v-progress-linear
-            height="20"
-            class="mt-5"
-            color="primary"
-            rounded
-            v-if="uploadPercent"
-            indeterminate
-          >
-            <template v-slot="{ value }">
-              <small class="white--text font-weight-black">{{ Math.ceil(value) }}%</small>
-            </template>
-          </v-progress-linear>
-          <v-layout class="pt-5" justify-center>
-            <v-btn rounded color="primary" depressed @click="uploadFile">上传</v-btn>
-          </v-layout>
-        </v-container>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
@@ -157,7 +80,7 @@ const systemModule = namespace("system");
     "catalog-info": catalogInfo
   }
 })
-export default class Document extends Vue {
+export default class Explorer extends Vue {
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
   @fileModule.Getter("fileList") private fileList: any;
   @fileModule.Getter("path") private path!: string[];
@@ -166,16 +89,11 @@ export default class Document extends Vue {
   @fileModule.Mutation("updatePathPrettier") private updatePathPrettier!: any;
   @fileModule.Mutation("restorePath") private restorePath!: any;
   @fileModule.Mutation("restorePathPrettier") private restorePathPrettier!: any;
-  @systemModule.Getter("uploadPercent") private uploadPercent!: number;
-  @systemModule.Mutation("updateUploadPercent")
-  private updateUploadPercent: any;
 
-  private currentObject = {};
+  private currentObject: object = {};
   private currentName: string = "";
   private currentUUID: string = "";
   private fileListShow = {};
-  private createCatalogDialog: boolean = false;
-  private uploadDialog: boolean = false;
   private searchDocumentContent: string = "";
   private file: any = null;
 
@@ -205,25 +123,6 @@ export default class Document extends Vue {
     }
   }
 
-  private async createCatalog() {
-    if (this.$refs.createCatalogForm.validate()) {
-      await FileService.createCatalog(
-        this.currentProjectID,
-        this.path,
-        this.currentName
-      );
-      this.getFileList();
-      this.createCatalogDialog = false;
-    }
-  }
-
-  private async uploadFile() {
-    await FileService.uploadFile(this.file, this.path, this.currentProjectID);
-    this.uploadDialog = false;
-    this.file = null;
-    this.getFileList();
-  }
-
   private goBack() {
     if (this.path.length > 1) {
       this.updatePath(this.path.slice(0, this.path.length - 2));
@@ -248,6 +147,13 @@ export default class Document extends Vue {
     this.currentObject = {};
     this.currentName = "";
     this.currentUUID = "";
+    console.log(this.currentObject);
+  }
+
+  private linkFile() {
+    console.log(this.currentObject);
+    (this.currentObject as any).path = this.path;
+    this.$emit("linkFile", this.currentObject);
   }
 
   get pathCrumbs() {
@@ -275,9 +181,6 @@ export default class Document extends Vue {
 
   private async mounted() {
     this.getFileList();
-    this.updateUploadPercent(0);
-    // this.restorePath();
-    // this.restorePathPrettier();
   }
 }
 </script>

@@ -151,7 +151,33 @@
               <v-card outlined width="100%">
                 <v-card-title class="subtitle-1 font-weight-black">相关文件</v-card-title>
                 <v-container fluid>
-                  <v-btn block color="primary" outlined @click="fileDialog=true">
+                  <v-simple-table>
+                    <thead>
+                      <tr>
+                        <th class="text-center">名称</th>
+                        <th class="text-center">创建时间</th>
+                        <th class="text-center">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="my-2" v-for="(item,i) in currentSubTask.file" :key="`f-${i}`">
+                        <td class="pl-3 pr-2">{{item.name}}</td>
+                        <td class="pl-3 pr-2">{{item.createdAt | format("yyyy-MM-dd hh:mm")}}</td>
+                        <td class="pl-3 pr-2">
+                          <!-- <v-btn icon @click="showFile(item)">
+                            <v-icon size="20">mdi-file-find-outline</v-icon>
+                          </v-btn>-->
+                          <v-btn icon @click="downloadFile(item)">
+                            <v-icon size="20">mdi-download-outline</v-icon>
+                          </v-btn>
+                          <v-btn icon @click="removeFile(item)" color="error">
+                            <v-icon size="20">mdi-close</v-icon>
+                          </v-btn>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </v-simple-table>
+                  <v-btn class="mt-3" block color="primary" outlined @click="fileDialog=true">
                     <v-icon size="20">mdi-plus</v-icon>&nbsp;链接文件
                   </v-btn>
                 </v-container>
@@ -175,7 +201,7 @@
       </v-sheet>
     </v-bottom-sheet>
 
-    <v-bottom-sheet v-model="fileDialog" inset persistent>
+    <v-bottom-sheet v-model="fileDialog" persistent>
       <v-sheet class="text-center" height="750" style="overflow:auto">
         <v-toolbar flat>
           <v-toolbar-title class="subtitle-1 font-weight-black">项目文件</v-toolbar-title>
@@ -184,6 +210,8 @@
             <v-icon size="20">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
+        <v-divider></v-divider>
+        <explorer @linkFile="linkFile"></explorer>
       </v-sheet>
     </v-bottom-sheet>
   </div>
@@ -193,12 +221,14 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import TaskService from "@/service/taskService";
 import { SubTask } from "@/types/task";
+import explorer from "@/views/project/document/Explorer.vue";
 
 import certificateSearch from "@/components/certificate/Search.vue";
 
 @Component({
   components: {
-    "certificate-search": certificateSearch
+    "certificate-search": certificateSearch,
+    explorer: explorer
   }
 })
 export default class SubTaskList extends Vue {
@@ -239,7 +269,8 @@ export default class SubTaskList extends Vue {
       this.$route.params.taskID,
       this.currentSubTask.id,
       this.currentSubTask.name,
-      this.currentSubTask.content
+      this.currentSubTask.content,
+      this.currentSubTask.file
     );
     await TaskService.getTaskInfo(this.$route.params.taskID);
     this.editSubTaskDialog = false;
@@ -264,6 +295,31 @@ export default class SubTaskList extends Vue {
       reality: "",
       status: false
     });
+  }
+
+  private linkFile(v: any) {
+    if (!this.currentSubTask.file) {
+      (this.currentSubTask.file as any) = [];
+    }
+    (this.currentSubTask.file as any).push(v);
+    // remove duplicated
+    (this.currentSubTask.file as any) = Array.from(
+      new Set(this.currentSubTask.file)
+    );
+    console.log(this.currentSubTask.file);
+    this.fileDialog = false;
+  }
+
+  private async downloadFile(item: any) {
+    window.open("/api/file/download?sName=" + item.sName, "_blank");
+    // await FileService.downloadFile(item.sName);
+  }
+
+  private showFile(item: any) {}
+
+  private removeFile(item: any) {
+    const index = (this.currentSubTask.file as any).indexOf(item);
+    (this.currentSubTask.file as any).splice(index, 1);
   }
 
   get subTaskShow() {
