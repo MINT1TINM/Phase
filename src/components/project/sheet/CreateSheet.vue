@@ -84,8 +84,8 @@ export default class CreateSheet extends Vue {
       this.target || ""
     );
     await SheetService.getSheetList(this.currentProjectID);
+    this.$emit("closeDialog");
     if ((this.taskID || "").length > 5) {
-      this.$emit("closeDialog");
       await TaskService.getTaskInfo(this.taskID!);
     }
   }

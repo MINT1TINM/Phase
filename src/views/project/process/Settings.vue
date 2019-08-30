@@ -1,70 +1,72 @@
 <template>
-  <div style="height:calc(100vh - 113px)">
-    <v-layout fill-height justify-center>
-      <v-flex md6>
-        <v-card class="mt-5">
-          <v-card-title class="subtitle-1 font-weight-bold">信息</v-card-title>
-          <v-container fluid>
-            <dim-form :formContent="settingsContent" :target="processInfo"></dim-form>
-            <v-layout justify-center>
-              <v-flex xs6>
-                <v-btn
-                  @click="updateProcessInfo"
-                  rounded
-                  depressed
-                  block
-                  color="primary"
-                  class="mt-4"
-                >保存</v-btn>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card>
-        <v-card class="mt-5">
-          <v-card-title class="subtitle-1 font-weight-bold">成员</v-card-title>
-          <v-container fluid style="padding-top:0">
-            <v-select
-              v-model="processMember"
-              :items="projectMember"
-              chips
-              dense
-              single-line
-              label="成员"
-              item-value="userID"
-              item-text="nickName"
-              multiple
-              outlined
-            >
-              <template v-slot:selection="{ item, index }">
-                <v-chip pill small>
-                  <v-avatar size="10" left>
-                    <v-img :src="item.headImgURL"></v-img>
-                  </v-avatar>
-                  <span class="font-weight-black">{{ item.nickName }}</span>
-                </v-chip>
-              </template>
-            </v-select>
-          </v-container>
-        </v-card>
-        <v-card class="mt-5">
-          <v-card-title class="subtitle-1 font-weight-bold">操作</v-card-title>
-          <v-container fluid style="padding-top:0">
-            <v-layout justify-center>
-              <v-flex xs6>
-                <v-btn
-                  @click="deleteProcess"
-                  rounded
-                  depressed
-                  block
-                  color="error"
-                  class="mt-4"
-                >删除过程</v-btn>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card>
-      </v-flex>
-    </v-layout>
+  <div>
+    <transition appear appear-active-class="fade-up-enter">
+      <v-layout fill-height justify-center>
+        <v-flex md6>
+          <v-card class="mt-5">
+            <v-card-title class="subtitle-1 font-weight-bold">信息</v-card-title>
+            <v-container fluid>
+              <dim-form :formContent="settingsContent" :target="processInfo"></dim-form>
+              <v-layout justify-center>
+                <v-flex xs6>
+                  <v-btn
+                    @click="updateProcessInfo"
+                    rounded
+                    depressed
+                    block
+                    color="primary"
+                    class="mt-4"
+                  >保存</v-btn>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card>
+          <v-card class="mt-5">
+            <v-card-title class="subtitle-1 font-weight-bold">成员</v-card-title>
+            <v-container fluid style="padding-top:0">
+              <v-select
+                v-model="processMember"
+                :items="projectMember"
+                chips
+                dense
+                single-line
+                label="成员"
+                item-value="userID"
+                item-text="nickName"
+                multiple
+                outlined
+              >
+                <template v-slot:selection="{ item, index }">
+                  <v-chip pill small>
+                    <v-avatar size="10" left>
+                      <v-img :src="item.headImgURL"></v-img>
+                    </v-avatar>
+                    <span class="font-weight-black">{{ item.nickName }}</span>
+                  </v-chip>
+                </template>
+              </v-select>
+            </v-container>
+          </v-card>
+          <v-card class="mt-5">
+            <v-card-title class="subtitle-1 font-weight-bold">操作</v-card-title>
+            <v-container fluid style="padding-top:0">
+              <v-layout justify-center>
+                <v-flex xs6>
+                  <v-btn
+                    @click="deleteProcess"
+                    rounded
+                    depressed
+                    block
+                    color="error"
+                    class="mt-4"
+                  >删除过程</v-btn>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </transition>
   </div>
 </template>
 

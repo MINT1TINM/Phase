@@ -26,58 +26,59 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <v-container fluid pa-0 style="height:100%">
-      <v-layout fill-height>
-        <!-- file grid -->
-        <v-flex xs9 style="height:100%" v-on:click="clickBlank">
-          <v-container grid-list-md fluid>
-            <v-layout row wrap>
-              <v-flex
-                sm6
-                md2
-                v-for="(item,i) in fileListShow"
-                :key="`file-${i}`"
-                style="user-select:none"
-              >
-                <v-hover v-slot:default="{ hover }">
-                  <v-card
-                    class="mx-auto"
-                    flat
-                    :color="hover?`grey lighten-3`:`transparent`"
-                    @click="showInfo(item,i)"
-                    @dblclick="openCatalog(item,i)"
-                    id="file-grid"
-                  >
-                    <div style="pointer-events:none">
-                      <v-layout justify-center class="pt-2">
-                        <doc-icon :item="item"></doc-icon>
-                      </v-layout>
-                      <v-card-text
-                        class="text-center black--text pb-0 pt-1 body-2"
-                      >{{item.name | cut}}</v-card-text>
-                      <v-card-text
-                        class="text-center pt-0 caption grey--text"
-                      >{{item.createdAt | format("yyyy-MM-dd")}}</v-card-text>
-                    </div>
-                  </v-card>
-                </v-hover>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-flex>
-        <!-- file info -->
-        <v-flex xs3 class="inner-sidebar-withoutpadding" style="height:100%">
-          <doc-info
-            @clearDocumentInfo="clearDocumentInfo"
-            v-if="currentObject&&currentUUID"
-            :item="currentObject"
-            :uuid="currentUUID"
-          ></doc-info>
-          <catalog-info v-else :item="fileListShow" :uuid="currentUUID"></catalog-info>
-        </v-flex>
-      </v-layout>
-    </v-container>
-
+    <transition appear appear-active-class="fade-up-enter">
+      <v-container fluid pa-0 style="height:100%">
+        <v-layout fill-height>
+          <!-- file grid -->
+          <v-flex xs9 style="height:100%" v-on:click="clickBlank">
+            <v-container grid-list-md fluid>
+              <v-layout row wrap>
+                <v-flex
+                  sm6
+                  md2
+                  v-for="(item,i) in fileListShow"
+                  :key="`file-${i}`"
+                  style="user-select:none"
+                >
+                  <v-hover v-slot:default="{ hover }">
+                    <v-card
+                      class="mx-auto"
+                      flat
+                      :color="hover?`grey lighten-3`:`transparent`"
+                      @click="showInfo(item,i)"
+                      @dblclick="openCatalog(item,i)"
+                      id="file-grid"
+                    >
+                      <div style="pointer-events:none">
+                        <v-layout justify-center class="pt-2">
+                          <doc-icon :item="item"></doc-icon>
+                        </v-layout>
+                        <v-card-text
+                          class="text-center black--text pb-0 pt-1 body-2"
+                        >{{item.name | cut}}</v-card-text>
+                        <v-card-text
+                          class="text-center pt-0 caption grey--text"
+                        >{{item.createdAt | format("yyyy-MM-dd")}}</v-card-text>
+                      </div>
+                    </v-card>
+                  </v-hover>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-flex>
+          <!-- file info -->
+          <v-flex xs3 class="inner-sidebar-withoutpadding" style="height:100%">
+            <doc-info
+              @clearDocumentInfo="clearDocumentInfo"
+              v-if="currentObject&&currentUUID"
+              :item="currentObject"
+              :uuid="currentUUID"
+            ></doc-info>
+            <catalog-info v-else :item="fileListShow" :uuid="currentUUID"></catalog-info>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </transition>
     <v-dialog persistent v-model="createCatalogDialog" width="300">
       <v-card>
         <v-toolbar flat class="transparent">

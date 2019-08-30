@@ -17,60 +17,73 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <v-container fluid style="height:calc(100vh - 96px);padding:0;overflow-y:auto">
-      <v-layout fill-height>
-        <!-- sheet list -->
-        <v-flex :class="currentProjectID&&currentSheetID?`xs9`:`xs12`">
-          <v-simple-table class="transparent">
-            <thead>
-              <tr>
-                <th class="text-center">标题</th>
-                <th class="text-center">创建时间</th>
-                <th class="text-center">更新时间</th>
-                <th class="text-center">创建者</th>
-                <th class="text-center">属性</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(item,i) in sheetList"
-                :key="`sheet-${i}`"
-                @click="currentSheetID = item.id;currentTemplateID = item.templateID"
-              >
-                <td class="text-center">{{ item.name }}</td>
-                <td class="text-center">{{ item.createdAt | format("yyyy-MM-dd h:m") }}</td>
-                <td class="text-center">{{ item.updatedAt | format("yyyy-MM-dd h:m")}}</td>
-                <td class="text-center">
-                  <user-chip :userID="item.userID"></user-chip>
-                </td>
-                <td class="text-center">
-                  <v-chip class="font-weight-black caption" v-if="item.target === `sheet`">取证单</v-chip>
-                  <v-chip class="font-weight-black caption" v-else-if="item.target === `draft`">审计底稿</v-chip>
-                  <v-chip class="font-weight-black caption" v-else>普通</v-chip>
-                </td>
-              </tr>
-            </tbody>
-          </v-simple-table>
-        </v-flex>
-        <v-flex v-if="currentSheetID && currentTemplateID" xs3 class="inner-sidebar-withoutpadding">
-          <sheet-info ref="sheetInfo" :sheetID="currentSheetID" :templateID="currentTemplateID"></sheet-info>
-        </v-flex>
-      </v-layout>
-      <v-bottom-sheet v-model="createSheetDialog" inset>
-        <v-sheet class="text-center" height="900px" style="overflow:auto">
-          <create-sheet></create-sheet>
-        </v-sheet>
-      </v-bottom-sheet>
-      <v-bottom-sheet v-model="editSheetDialog" inset>
-        <v-sheet class="text-center" height="900px" style="overflow:auto">
-          <v-container fluid>
-            <v-layout row justify-center>
-              <v-flex xs8></v-flex>
-            </v-layout>
-          </v-container>
-        </v-sheet>
-      </v-bottom-sheet>
-    </v-container>
+    <transition appear appear-active-class="fade-up-enter">
+      <v-container fluid style="height:calc(100vh - 96px);padding:0;overflow-y:auto">
+        <v-layout fill-height>
+          <!-- sheet list -->
+          <v-flex :class="currentProjectID&&currentSheetID?`xs9`:`xs12`">
+            <v-simple-table class="transparent">
+              <thead>
+                <tr>
+                  <th class="text-center">标题</th>
+                  <th class="text-center">创建时间</th>
+                  <th class="text-center">更新时间</th>
+                  <th class="text-center">创建者</th>
+                  <th class="text-center">属性</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(item,i) in sheetList"
+                  :key="`sheet-${i}`"
+                  @click="currentSheetID = item.id;currentTemplateID = item.templateID"
+                  :style="currentSheetID === item.id?`background-color:#efefef`:``"
+                >
+                  <td class="text-center">{{ item.name }}</td>
+                  <td class="text-center">{{ item.createdAt | format("yyyy-MM-dd hh:mm") }}</td>
+                  <td class="text-center">{{ item.updatedAt | format("yyyy-MM-dd hh:mm")}}</td>
+                  <td class="text-center">
+                    <user-chip :userID="item.userID"></user-chip>
+                  </td>
+                  <td class="text-center">
+                    <v-chip class="font-weight-black caption" v-if="item.target === `sheet`">取证单</v-chip>
+                    <v-chip
+                      class="font-weight-black caption"
+                      v-else-if="item.target === `draft`"
+                    >审计底稿</v-chip>
+                    <v-chip class="font-weight-black caption" v-else>普通</v-chip>
+                  </td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+          </v-flex>
+
+          <v-flex
+            v-if="currentSheetID && currentTemplateID"
+            xs3
+            class="inner-sidebar-withoutpadding"
+          >
+            <transition appear appear-active-class="fade-up-enter">
+              <sheet-info ref="sheetInfo" :sheetID="currentSheetID" :templateID="currentTemplateID"></sheet-info>
+            </transition>
+          </v-flex>
+        </v-layout>
+        <v-bottom-sheet v-model="createSheetDialog" inset>
+          <v-sheet class="text-center" height="900px" style="overflow:auto">
+            <create-sheet @closeDialog="createSheetDialog=false"></create-sheet>
+          </v-sheet>
+        </v-bottom-sheet>
+        <v-bottom-sheet v-model="editSheetDialog" inset>
+          <v-sheet class="text-center" height="900px" style="overflow:auto">
+            <v-container fluid>
+              <v-layout row justify-center>
+                <v-flex xs8></v-flex>
+              </v-layout>
+            </v-container>
+          </v-sheet>
+        </v-bottom-sheet>
+      </v-container>
+    </transition>
   </div>
 </template>
 
