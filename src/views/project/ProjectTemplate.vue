@@ -1,7 +1,15 @@
 <template>
   <v-app>
-    <v-navigation-drawer expand-on-hover mini-variant-width="62" app clipped permanent>
-      <v-list nav dense>
+    <v-navigation-drawer
+      class="acrylic"
+      color="transparent"
+      expand-on-hover
+      mini-variant-width="62"
+      app
+      clipped
+      permanent
+    >
+      <v-list nav dense color="transparent">
         <v-list-item link v-for="(item,i) in appList" :key="i" :to="item.route">
           <v-list-item-icon style="margin-right:0">
             <v-icon>{{item.icon}}</v-icon>

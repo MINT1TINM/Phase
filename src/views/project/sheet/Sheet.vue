@@ -19,7 +19,7 @@
     </v-toolbar>
     <transition appear appear-active-class="fade-up-enter">
       <v-container fluid style="height:calc(100vh - 96px);padding:0;overflow-y:auto">
-        <v-layout fill-height>
+        <v-layout fill-height v-if="sheetList.length>=1">
           <!-- sheet list -->
           <v-flex :class="currentProjectID&&currentSheetID?`xs9`:`xs12`">
             <v-simple-table class="transparent">
@@ -67,6 +67,9 @@
               <sheet-info ref="sheetInfo" :sheetID="currentSheetID" :templateID="currentTemplateID"></sheet-info>
             </transition>
           </v-flex>
+        </v-layout>
+        <v-layout v-else fill-height justify-center align-center>
+          <h3>请创建表单</h3>
         </v-layout>
         <v-bottom-sheet v-model="createSheetDialog" inset>
           <v-sheet class="text-center" height="900px" style="overflow:auto">

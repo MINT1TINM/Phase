@@ -25,7 +25,7 @@
           </v-layout>
         </v-toolbar>
         <transition appear appear-active-class="fade-up-enter">
-          <v-sheet color="transparent">
+          <v-sheet v-if="processListShow.length>=1" color="transparent">
             <v-slide-group center-active show-arrows style="height:100%">
               <v-slide-item v-for="(item,i) in processListShow" :key="`process-${i}`">
                 <div :class="i==0?'ml-5 mr-2 my-3':`mx-2 my-3`" style="width:300px">
@@ -33,6 +33,11 @@
                 </div>
               </v-slide-item>
             </v-slide-group>
+          </v-sheet>
+          <v-sheet color="transparent" v-else style="height:100%">
+            <v-layout fill-height justify-center align-center>
+              <h3>请创建过程</h3>
+            </v-layout>
           </v-sheet>
         </transition>
       </v-flex>
