@@ -149,7 +149,7 @@ export default class TaskDetail extends Vue {
     },
     {
       type: "text-area",
-      title: "备注",
+      title: "审计方案",
       name: "description"
     }
   ];

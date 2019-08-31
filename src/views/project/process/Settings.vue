@@ -126,7 +126,16 @@ export default class Settings extends Vue {
     );
   }
 
-  private async deleteProcess() {}
+  private async deleteProcess() {
+    const res = await this.$confirm("此操作无法恢复", {
+      title: "确认删除?",
+      buttonTrueColor: "primary"
+    });
+    if (res) {
+      await ProcessService.deleteProcess(this.$route.params.processID);
+      this.$router.push({ path: "/project/process" });
+    }
+  }
 
   // private async removeMember(item: Member) {}
 

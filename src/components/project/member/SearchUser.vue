@@ -10,7 +10,7 @@
         v-model="searchUserContent"
         @keyup.enter="searchUser"
       ></v-text-field>
-      <v-simple-table>
+      <v-simple-table v-if="userList.length>=1">
         <thead>
           <tr>
             <th class="text-center">昵称</th>
@@ -40,6 +40,11 @@
           </tr>
         </tbody>
       </v-simple-table>
+      <v-container v-else>
+        <v-layout justify-center align-center>
+          <h3>请搜索用户</h3>
+        </v-layout>
+      </v-container>
     </v-flex>
   </v-layout>
 </template>

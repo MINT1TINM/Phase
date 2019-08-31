@@ -93,7 +93,7 @@
                         </v-btn>
                       </template>
                       <v-sheet class="text-center" height="800px" style="overflow:auto">
-                        <v-container fluid>
+                        <v-container fluid style="height:100%">
                           <search-user></search-user>
                         </v-container>
                       </v-sheet>
@@ -102,7 +102,9 @@
                 </v-layout>
                 <v-dialog v-model="editMemberRoleDialog" width="500">
                   <v-card>
-                    <v-card-title class="subtitle-1 font-weight-black">编辑成员权限</v-card-title>
+                    <v-toolbar flat>
+                      <v-toolbar-title class="subtitle-1 font-weight-black">编辑成员权限</v-toolbar-title>
+                    </v-toolbar>
                     <v-container fluid>
                       <v-checkbox
                         v-model="targetMember.projectRole"

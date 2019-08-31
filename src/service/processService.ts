@@ -14,6 +14,14 @@ class ProcessService {
 
     return rsp;
   }
+
+  public static async deleteProcess(processID: string) {
+    const rsp = await basicService.deleteRequest("/process", {
+      processID
+    });
+    return rsp;
+  }
+
   public static async getProcessList(projectID: string) {
     const rsp = await basicService.getRequest("/process/list", {
       projectID

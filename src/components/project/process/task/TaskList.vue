@@ -64,7 +64,19 @@
               </v-list-item-avatar>
             </v-list-item>
             <v-list-item style="min-height:35px" class="pb-2">
-              <v-chip small>{{item.endDate.slice(0,10)}}&nbsp;截止</v-chip>
+              <v-chip
+                color="error"
+                class="font-weight-black"
+                small
+                v-if="getDays(item.endDate)<0"
+              >已过期</v-chip>
+              <v-chip
+                v-else
+                dark
+                class="font-weight-black"
+                small
+                :color="getDays(item.endDate)<=2?`orange`:`grey`"
+              >{{item.endDate.slice(0,10)}}&nbsp;截止</v-chip>
             </v-list-item>
           </v-card>
         </v-hover>
@@ -94,6 +106,15 @@ export default class TaskList extends Vue {
   private newTaskName: string = "";
   private taskList: ProcessTask[] = [];
   private taskListShow: ProcessTask[] = [];
+
+  private getDays(date: string) {
+    var t1 = new Date().getTime();
+    var t2 = new Date(date).getTime();
+    var dateTime = 1000 * 60 * 60 * 24; //每一天的毫秒数
+    var minusDays = Math.floor((t2 - t1) / dateTime); //计算出两个日期的天数差
+    var days = minusDays; //取绝对值
+    return days;
+  }
 
   private async createTask() {
     const rsp = await TaskService.createTask(
