@@ -26,14 +26,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import ProjectService from "@/service/projectService";
 
-
 const systemModule = namespace("system");
 const projectModule = namespace("project");
 
 @Component({
-  components: {
-
-  }
+  components: {}
 })
 export default class Settings extends Vue {
   @systemModule.Getter("lastPage") private lastPage: any;
@@ -44,6 +41,9 @@ export default class Settings extends Vue {
       subheader: "信息"
     },
     {
+      divider: true
+    },
+    {
       type: "text-field",
       title: "名称",
       name: "name"
@@ -52,9 +52,6 @@ export default class Settings extends Vue {
       type: "text-area",
       title: "简介",
       name: "description"
-    },
-    {
-      subheader: "通知"
     }
   ];
 

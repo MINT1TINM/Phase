@@ -7,6 +7,7 @@
       <v-icon size="20">mdi-download-outline</v-icon>&nbsp;下载
     </v-btn>
     <v-btn
+      v-if="projectPermission(authorization.userID).indexOf(`u`)!=-1"
       class="mt-2"
       block
       outlined
@@ -15,7 +16,14 @@
     >
       <v-icon size="20">mdi-pencil-outline</v-icon>&nbsp;重命名
     </v-btn>
-    <v-btn class="mt-2" block outlined color="error" @click="deleteFile()">
+    <v-btn
+      v-if="projectPermission(authorization.userID).indexOf(`d`)!=-1"
+      class="mt-2"
+      block
+      outlined
+      color="error"
+      @click="deleteFile()"
+    >
       <v-icon size="20">mdi-delete-outline</v-icon>&nbsp;删除
     </v-btn>
     <h4 class="pt-5">文件信息</h4>
@@ -77,9 +85,11 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import docIcon from "@/components/project/document/DocIcon.vue";
 import { namespace } from "vuex-class";
 import FileService from "@/service/fileService";
+import { Authorization } from "@/types/user";
 
 const projectModule = namespace("project");
 const fileModule = namespace("file");
+const userModule = namespace("user");
 
 @Component({
   components: {
@@ -90,9 +100,12 @@ export default class DocumentInfo extends Vue {
   @Prop({ default: "" }) public uuid!: string;
   @Prop({ default: {} }) public item!: any;
 
+  @userModule.Getter("authorization") private authorization!: Authorization;
   @projectModule.Getter("currentProjectID") private currentProjectID!: string;
   @fileModule.Getter("path") private path!: string[];
   @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
+  @projectModule.Getter("projectPermission")
+  private projectPermission: any;
 
   private currentName: string = "";
   private currentItem = {};

@@ -4,11 +4,10 @@
       <v-layout row v-for="(item,i) in formContent" :key="`${keyName}-${i}`">
         <v-layout wrap v-if="item.subheader" class="mt-2">
           <v-flex xs12>
-            <v-subheader class="body-2 font-weight-black">{{item.subheader}}</v-subheader>
-            <v-divider class="mb-2"></v-divider>
+            <v-subheader class="pl-1 body-2 font-weight-black">{{item.subheader}}</v-subheader>
           </v-flex>
         </v-layout>
-        <v-layout wrap v-if="item.divider" class="mt-2">
+        <v-layout wrap v-if="item.divider">
           <v-flex xs12>
             <v-divider class="mb-2"></v-divider>
           </v-flex>
