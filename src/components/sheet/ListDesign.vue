@@ -115,6 +115,10 @@ const sheetModule = namespace("sheet");
 
 @Component
 export default class ListSheetDesign extends Vue {
+  public $refs!: {
+    sheetDesign: HTMLFormElement;
+  };
+
   @sheetModule.Getter("sheetTemplate") private sheetTemplate: any;
   @sheetModule.Getter("currentTemplateID") private currentTemplateID: any;
   @sheetModule.Mutation("insertNewEmptyField") private insertNewEmptyField: any;
@@ -124,10 +128,6 @@ export default class ListSheetDesign extends Vue {
   private updateSheetTemplate: any;
   @sheetModule.Mutation("restoreSheetTemplate")
   private restoreSheetTemplate: any;
-
-  $refs!: {
-    sheetDesign: HTMLFormElement;
-  };
 
   private typeList = [
     { label: "文本", value: "text-field" },

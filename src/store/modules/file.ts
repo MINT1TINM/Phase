@@ -13,7 +13,7 @@ const state: State = {
 const getters = {
   fileList: (s: State) => {
     let keyArray = [...Object.keys(s.fileList)];
-    let sortedFileList: any = {};
+    const sortedFileList: any = {};
     keyArray = keyArray.sort((a: any, b: any) => {
       return b - a;
     });

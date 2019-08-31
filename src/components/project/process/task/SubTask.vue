@@ -314,7 +314,7 @@ export default class SubTaskList extends Vue {
     // await FileService.downloadFile(item.sName);
   }
 
-  private showFile(item: any) {}
+  // private showFile(item: any) {}
 
   private removeFile(item: any) {
     const index = (this.currentSubTask.file as any).indexOf(item);
@@ -322,7 +322,7 @@ export default class SubTaskList extends Vue {
   }
 
   get subTaskShow() {
-    let subTask = this.subTask;
+    const subTask = this.subTask;
     for (const item of subTask.data as any) {
       item.status = 1;
       for (const j of item.content as any) {

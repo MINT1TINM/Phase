@@ -166,6 +166,10 @@ const systemModule = namespace("system");
   }
 })
 export default class Document extends Vue {
+  public $refs!: {
+    createCatalogForm: HTMLFormElement;
+  };
+
   @Prop(Boolean) private window!: boolean;
 
   @projectModule.Getter("currentProjectID") private currentProjectID: any;
@@ -188,10 +192,6 @@ export default class Document extends Vue {
   private uploadDialog: boolean = false;
   private searchDocumentContent: string = "";
   private file: any = null;
-
-  $refs!: {
-    createCatalogForm: HTMLFormElement;
-  };
 
   private async getFileList() {
     const rsp = await FileService.getFile(this.currentProjectID, this.path);
@@ -267,7 +267,7 @@ export default class Document extends Vue {
   }
 
   get pathCrumbs() {
-    let pathCrumbs = [];
+    const pathCrumbs = [];
     for (const item of this.pathPrettier) {
       pathCrumbs.push({
         text: item,

@@ -62,7 +62,7 @@ const userModule = namespace("user");
 @Component({
   components: {
     "sub-task": subTask,
-    operations: operations,
+    operations,
     "related-sheet": relatedSheet,
     "related-draft": relatedDraft
   }
@@ -190,7 +190,7 @@ export default class TaskDetail extends Vue {
     });
   }
 
-  beforeRouteUpdate(to: any, from: any, next: any) {
+  private beforeRouteUpdate(to: any, from: any, next: any) {
     next();
     this.getTaskInfo();
   }

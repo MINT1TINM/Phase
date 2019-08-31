@@ -87,12 +87,12 @@ const fileModule = namespace("file");
   }
 })
 export default class DocumentInfo extends Vue {
-  @projectModule.Getter("currentProjectID") currentProjectID!: string;
-  @fileModule.Getter("path") private path!: string[];
-  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
-
   @Prop({ default: "" }) public uuid!: string;
   @Prop({ default: {} }) public item!: any;
+
+  @projectModule.Getter("currentProjectID") private currentProjectID!: string;
+  @fileModule.Getter("path") private path!: string[];
+  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
 
   private currentName: string = "";
   private currentItem = {};
@@ -104,7 +104,7 @@ export default class DocumentInfo extends Vue {
   }
 
   private async renameFile() {
-    if (this.currentName != this.item.name) {
+    if (this.currentName !== this.item.name) {
       const rsp = await FileService.renameCatalog(
         this.currentProjectID,
         [...this.path, this.uuid],

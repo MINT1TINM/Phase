@@ -114,13 +114,15 @@ export default {
       this.startDate = new Date();
       this.endDate = new Date();
       for (const e of this.taskList) {
-        let taskStartDate = new Date(e.startDate);
-        let taskEndDate = new Date(e.endDate);
+        const taskStartDate = new Date(e.startDate);
+        const taskEndDate = new Date(e.endDate);
 
-        if (taskStartDate < new Date(this.startDate))
+        if (taskStartDate < new Date(this.startDate)) {
           this.startDate = e.startDate.slice(0, 10);
-        if (taskEndDate > new Date(this.endDate))
+        }
+        if (taskEndDate > new Date(this.endDate)) {
           this.endDate = e.endDate.slice(0, 10);
+        }
       }
     },
     highlight(item) {

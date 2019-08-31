@@ -39,7 +39,9 @@
     </v-layout>
     <v-dialog v-model="createProcessDialog" width="300" persistent>
       <v-card>
-        <v-card-title class="subtitle-1 font-weight-black">新建过程</v-card-title>
+        <v-toolbar flat>
+          <v-toolbar-title class="subtitle-1 font-weight-black">新建过程</v-toolbar-title>
+        </v-toolbar>
         <v-container>
           <v-text-field
             single-line

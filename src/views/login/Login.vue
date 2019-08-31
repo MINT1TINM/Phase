@@ -45,8 +45,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import AuthService from "../../service/authService";
-import UserService from "../../service/userService";
+import AuthService from "@/service/authService";
+import UserService from "@/service/userService";
+import { Authorization } from "@/types/user";
 
 const systemModule = namespace("system");
 const userModule = namespace("user");
@@ -59,8 +60,8 @@ export default class Login extends Vue {
   };
 
   @systemModule.Mutation("toggleFullScreenLoading")
-  private toggleFullScreenLoading: any;
-  @userModule.Getter("authorization") private authorization: any;
+  private toggleFullScreenLoading!: (v: boolean) => void;
+  @userModule.Getter("authorization") private authorization!: Authorization;
   @userModule.Mutation("clearAuthorization") private clearAuthorization: any;
 
   // login through username & password
@@ -84,14 +85,14 @@ export default class Login extends Vue {
 
   // login with wechat
   private async wechatLogin() {
-      let appid = "wxdfa1c9397935814c";
-      let redirect_uri = "https://phase.insdim.com/#/wechat/login";
-      let response_type = "code";
-      let scope = "snsapi_login";
-      let state = "state";
-      window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${appid}&redirect_uri=${encodeURIComponent(
-        redirect_uri
-      )}&response_type=${response_type}&scope=${scope}&state=${state}#wechat_redirect`;
+    const appid = "wxdfa1c9397935814c";
+    const redirectUri = "https://phase.insdim.com/#/wechat/login";
+    const responseType = "code";
+    const scope = "snsapi_login";
+    const state = "state";
+    window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${appid}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&response_type=${responseType}&scope=${scope}&state=${state}#wechat_redirect`;
   }
 }
 </script>

@@ -57,7 +57,7 @@ export default class DatePicker extends Vue {
     this.dateShow = this.date.toString().slice(0, 10);
   }
 
-  mounted() {
+  private mounted() {
     this.dateShow = this.date.toString().slice(0, 10);
   }
 }

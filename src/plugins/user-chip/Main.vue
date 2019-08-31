@@ -19,7 +19,7 @@ const projectModule = namespace("project");
 export default class UserChip extends Vue {
   @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
 
-  @Prop(String) userID!: string;
+  @Prop(String) private userID!: string;
 
   get headImgURL() {
     if (this.userID) {

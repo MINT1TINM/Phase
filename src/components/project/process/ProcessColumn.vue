@@ -1,5 +1,5 @@
 <template>
-  <v-card flat class="acrylic">
+  <v-card>
     <v-toolbar dense flat color="transparent">
       <v-toolbar-title class="subtitle-1 font-weight-black">{{processName}}</v-toolbar-title>
       <v-spacer></v-spacer>
