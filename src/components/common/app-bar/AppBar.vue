@@ -29,11 +29,17 @@
     <v-spacer></v-spacer>
 
     <!-- notification center -->
-    <v-toolbar-items>
-      <v-btn text class="app-bar-btn" @click="toggleNotificationCenter(true)">
-        <v-icon size="20">mdi-bell-outline</v-icon>
-      </v-btn>
-    </v-toolbar-items>
+
+    <v-badge overlap style="height:100%">
+      <template v-slot:badge class="caption">
+        <small>{{invitationList.length}}</small>
+      </template>
+      <v-toolbar-items>
+        <v-btn text class="app-bar-btn" @click="toggleNotificationCenter(true)">
+          <v-icon size="20">mdi-bell-outline</v-icon>
+        </v-btn>
+      </v-toolbar-items>
+    </v-badge>
 
     <!-- user menu -->
     <v-menu offset-y>
@@ -81,6 +87,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { namespace } from "vuex-class";
 import projectBar from "./modules/ProjectBar.vue";
+import { Invitation } from "@/types/project";
 
 const userModule = namespace("user");
 const systemModule = namespace("system");
@@ -111,6 +118,7 @@ export default class AppBar extends Vue {
   @systemModule.Mutation("toggleAppSwitcher") private toggleAppSwitcher: any;
   @systemModule.Mutation("toggleNotificationCenter")
   private toggleNotificationCenter: any;
+  @systemModule.Getter("invitationList") private invitationList!: Invitation[];
 
   @systemModule.Mutation("updateLastPage") private updateLastPage: any;
   @systemModule.Getter("appList") private appList: any;
@@ -167,4 +175,8 @@ export default class AppBar extends Vue {
 </script>
 
 <style>
+.v-badge--overlap .v-badge__badge {
+  top: 4px !important;
+  right: 4px;
+}
 </style>

@@ -49,7 +49,10 @@ export default class Invitation extends Vue {
 
   private async updateInvitationStatus(status: number, invitationID: string) {
     await ProjectService.updateInvitationStatus(invitationID, status);
+    // get project id list
     await UserService.getUserInfo(this.authorization.userID);
+
+    // update projectlist with id list
     await ProjectService.getProjectList();
     this.getInvitationList();
   }
