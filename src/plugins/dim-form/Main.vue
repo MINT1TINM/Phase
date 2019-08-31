@@ -1,58 +1,58 @@
 <template>
   <div>
     <v-container fluid>
-      <v-layout row v-for="(item,i) in formContent" :key="`${keyName}-${i}`">
-        <v-layout wrap v-if="item.subheader" class="mt-2">
+      <v-layout row v-for="(content,i) in formContent" :key="`${keyName}-${i}`">
+        <v-layout wrap v-if="content.subheader" class="mt-2">
           <v-flex xs12>
-            <v-subheader class="pl-1 body-2 font-weight-black">{{item.subheader}}</v-subheader>
+            <v-subheader class="pl-1 body-2 font-weight-black">{{content.subheader}}</v-subheader>
           </v-flex>
         </v-layout>
-        <v-layout wrap v-if="item.divider">
+        <v-layout wrap v-if="content.divider">
           <v-flex xs12>
             <v-divider class="mb-2"></v-divider>
           </v-flex>
         </v-layout>
         <v-layout class="my-2" v-else>
           <v-flex xs3 v-if="!dense">
-            <v-subheader class="body-2 px-1" style="height:36px">{{item.title}}</v-subheader>
+            <v-subheader class="body-2 px-1" style="height:36px">{{content.title}}</v-subheader>
           </v-flex>
           <v-flex :class="dense?`xs12`:`xs9`">
             <!-- text-field -->
             <v-text-field
-              v-if="item.type=='text-field'"
+              v-if="content.type=='text-field'"
               class="text-field-dense"
-              v-model="target[item.name]"
-              :disabled="item.disabled || disabled"
-              :label="dense?`${item.title}`:``"
+              v-model="target[content.name]"
+              :disabled="content.disabled || disabled"
+              :label="dense?`${content.title}`:``"
               :single-line="dense?false:true"
               outlined
               hide-details
             ></v-text-field>
             <!-- text-area -->
             <v-textarea
-              v-else-if="item.type=='text-area'"
+              v-else-if="content.type=='text-area'"
               class="text-field-dense"
-              v-model="target[item.name]"
-              :disabled="item.disabled || disabled"
-              :label="dense?`${item.title}`:``"
+              v-model="target[content.name]"
+              :disabled="content.disabled || disabled"
+              :label="dense?`${content.title}`:``"
               outlined
               hide-details
             ></v-textarea>
             <!-- select -->
             <v-select
-              v-else-if="item.type=='select'"
+              v-else-if="content.type=='select'"
               class="text-field-dense"
-              :items="item.list"
-              v-model="target[item.name]"
-              :label="dense?`${item.title}`:``"
+              :items="content.list"
+              v-model="target[content.name]"
+              :label="dense?`${content.title}`:``"
               outlined
-              :chips="item.chips"
-              :disabled="item.disabled || disabled"
+              :chips="content.chips"
+              :disabled="content.disabled || disabled"
               dense
               hide-details
               style="line-height:14px"
-              :item-text="item.text"
-              :item-value="item.value"
+              :item-text="content.text"
+              :item-value="content.value"
             >
               <template v-slot:selection="{ item, index }">
                 <v-chip v-if="item.headImgURL" pill small>
@@ -62,26 +62,26 @@
                   <span class="font-weight-black">{{ item.nickName }}</span>
                 </v-chip>
                 <v-chip v-else>
-                  <span class="font-weight-black">{{ item }}</span>
+                  <span class="font-weight-black">{{ item.title }}</span>
                 </v-chip>
               </template>
             </v-select>
             <!-- multi-select -->
             <v-select
-              v-else-if="item.type=='multi-select'"
+              v-else-if="content.type=='multi-select'"
               class="text-field-dense"
-              :items="item.list"
-              v-model="target[item.name].data"
-              :label="dense?`${item.title}`:``"
-              :chips="item.chips"
+              :items="content.list"
+              v-model="target[content.name].data"
+              :label="dense?`${content.title}`:``"
+              :chips="content.chips"
               multiple
               outlined
-              :disabled="item.disabled || disabled"
+              :disabled="content.disabled || disabled"
               dense
               hide-details
               style="line-height:14px"
-              :item-text="item.text"
-              :item-value="item.value"
+              :item-text="content.text"
+              :item-value="content.value"
             >
               <template v-slot:selection="{ item, index }">
                 <v-chip v-if="item.headImgURL" pill small>
@@ -91,57 +91,57 @@
                   <span class="font-weight-black">{{ item.nickName }}</span>
                 </v-chip>
                 <v-chip v-else>
-                  <span class="font-weight-black">{{ item }}</span>
+                  <span class="font-weight-black">{{ item[content.text] }}</span>
                 </v-chip>
               </template>
             </v-select>
             <!-- date-range -->
-            <v-layout v-else-if="item.type=='date-range'">
+            <v-layout v-else-if="content.type=='date-range'">
               <date-picker
                 class="mr-2"
-                :disabled="item.disabled || disabled"
+                :disabled="content.disabled || disabled"
                 :dense="dense"
-                :max="item.max"
-                :min="item.min"
-                :date.sync="target[item.nameStart]"
+                :max="content.max"
+                :min="content.min"
+                :date.sync="target[content.nameStart]"
               ></date-picker>
               <div class="pt-1">-</div>
               <date-picker
                 class="ml-2"
-                :disabled="item.disabled || disabled"
+                :disabled="content.disabled || disabled"
                 :dense="dense"
-                :max="item.max"
-                :min="item.min"
-                :date.sync="target[item.nameEnd]"
+                :max="content.max"
+                :min="content.min"
+                :date.sync="target[content.nameEnd]"
               ></date-picker>
             </v-layout>
             <!-- data-select -->
             <date-picker
-              :label="dense?`${item.title}`:``"
+              :label="dense?`${content.title}`:``"
               :dense="dense"
-              :max="item.max"
-              :min="item.min"
-              :disabled="item.disabled || disabled"
-              v-else-if="item.type=='date-picker'"
-              :date.sync="target[item.name]"
+              :max="content.max"
+              :min="content.min"
+              :disabled="content.disabled || disabled"
+              v-else-if="content.type=='date-picker'"
+              :date.sync="target[content.name]"
             ></date-picker>
             <!-- tags -->
             <v-combobox
-              v-else-if="item.type=='tags'"
+              v-else-if="content.type=='tags'"
               class="text-field-dense"
-              :label="dense?`${item.title}`:``"
+              :label="dense?`${content.title}`:``"
               outlined
-              :disabled="item.disabled || disabled"
-              v-model="target[item.name].data"
+              :disabled="content.disabled || disabled"
+              v-model="target[content.name].data"
               multiple
               chips
               hide-details
             ></v-combobox>
             <!-- file-input-->
             <v-file-input
-              v-else-if="item.type=='file-input'"
-              :disabled="item.disabled || disabled"
-              v-model="target.formContent[j][item.name]"
+              v-else-if="content.type=='file-input'"
+              :disabled="content.disabled || disabled"
+              v-model="target.formContent[j][content.name]"
               color="deep-purple accent-4"
               counter
               label="File input"

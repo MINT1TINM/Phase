@@ -6,6 +6,7 @@ interface Authorization {
 }
 
 interface UserInfo {
+  id?: string;
   city: string;
   country: string;
   headImgURL: string;

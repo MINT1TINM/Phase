@@ -22,6 +22,16 @@ class UserService {
     return rsp;
   }
 
+  public static async getOtherUserInfo(userID: string) {
+    const rsp = await basicService.getRequest("/user/info", { id: userID });
+    return rsp;
+  }
+
+  public static async getUserList() {
+    const rsp = await basicService.getRequest("/user/list", {});
+    return rsp;
+  }
+
   public static async updateUserInfo(userInfo: UpdateUserInfo) {
     const rsp = await basicService.putRequest("/user/info", {
       id: store.getters["user/authorization"].userID,

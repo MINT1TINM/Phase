@@ -1,7 +1,7 @@
 export default [
   {
     path: "/contact",
-    meta: "设置",
+    meta: "人脉",
     component: () => import("@/views/contact/Contact.vue")
   }
 ];

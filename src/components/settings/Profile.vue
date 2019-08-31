@@ -34,7 +34,6 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import UserService from "@/service/userService";
 
-
 const userModule = namespace("user");
 
 @Component({
@@ -58,6 +57,9 @@ export default class Profile extends Vue {
       type: "select",
       title: "性别",
       name: "sex",
+      text: "title",
+      value: "value",
+      chips: false,
       list: [
         {
           value: 0,
