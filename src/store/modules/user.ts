@@ -43,6 +43,9 @@ const getters = {
     }
 
     return projectIDList;
+  },
+  privilege: (s: State) => {
+    return s.userInfo.privilege;
   }
 };
 

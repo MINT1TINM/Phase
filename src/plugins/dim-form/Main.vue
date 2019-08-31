@@ -167,11 +167,9 @@
 </template>
 
 <script>
-import dateRange from "../date-range/Main";
 import datePicker from "../date-picker/Main";
 export default {
   components: {
-    "date-range": dateRange,
     "date-picker": datePicker
   },
   name: "dim-form",

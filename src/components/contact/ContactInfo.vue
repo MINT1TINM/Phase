@@ -5,8 +5,10 @@
         <v-container fluid>
           <v-layout>
             <v-flex xs2 class="pa-2">
-              <v-avatar color="primary" size="100%">
-                <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
+              <v-avatar color="primary" width="100%">
+                <v-responsive :aspect-ratio="1/1">
+                  <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
+                </v-responsive>
               </v-avatar>
             </v-flex>
             <v-flex xs8 class="pl-5">
@@ -38,7 +40,7 @@
                   </v-card-text>
                 </v-card>
               </v-flex>
-              <v-flex xs4 v-if="userInfo.createdAt">
+              <v-flex xs4>
                 <v-card outlined>
                   <v-card-title class="caption grey--text font-weight-black">加入时间</v-card-title>
                   <v-card-text>
@@ -59,10 +61,15 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UserService from "@/service/userService";
 import { UserInfo } from "@/types/user";
+import { namespace } from "vuex-class";
+
+const userModule = namespace("user");
 
 @Component
 export default class ContactInfo extends Vue {
   @Prop(String) public userID!: string;
+
+  @userModule.Getter("privilege") private privilege!: string[];
 
   private userInfo: UserInfo = {
     city: "",
@@ -96,8 +103,10 @@ export default class ContactInfo extends Vue {
       sex: "",
       unionid: ""
     };
-    const rsp = await UserService.getOtherUserInfo(this.userID);
-    this.userInfo = rsp.userInfo;
+    if (this.userID) {
+      const rsp = await UserService.getOtherUserInfo(this.userID);
+      this.userInfo = rsp.userInfo;
+    }
   }
 
   private async mounted() {
@@ -115,8 +124,10 @@ export default class ContactInfo extends Vue {
       sex: "",
       unionid: ""
     };
-    const rsp = await UserService.getOtherUserInfo(this.userID);
-    this.userInfo = rsp.userInfo;
+    if (this.userID) {
+      const rsp = await UserService.getOtherUserInfo(this.userID);
+      this.userInfo = rsp.userInfo;
+    }
   }
 }
 </script>

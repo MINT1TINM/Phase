@@ -46,6 +46,23 @@ class UserService {
     }
   }
 
+  public static async createUser(
+    username: string,
+    nickName: string,
+    password: string
+  ) {
+    const rsp = await basicService.postRequest("/user", {
+      username,
+      nickName,
+      password
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("创建成功");
+    }
+    return rsp;
+  }
+
   public static async searchUser(content: string) {
     const rsp = await basicService.getRequest("/user/search", {
       content
