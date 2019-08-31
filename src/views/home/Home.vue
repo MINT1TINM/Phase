@@ -34,7 +34,9 @@
                             :src="item.icon"
                           ></v-img>
                         </v-layout>
-                        <div class="body-2 pb-5 font-weight-black white--text text-center">{{item.name}}</div>
+                        <div
+                          class="body-2 pb-5 font-weight-black white--text text-center"
+                        >{{item.name}}</div>
                       </v-card>
                     </v-hover>
                   </v-flex>
@@ -54,8 +56,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import appBar from "@/components/common/app-bar/AppBar.vue";
 import { namespace } from "vuex-class";
 import BasicService from "@/service/basicService";
+import ProjectService from "@/service/projectService";
+import { Authorization } from "@/types/user";
 
 const systemModule = namespace("system");
+const userModule = namespace("user");
 
 @Component({
   components: {
@@ -64,13 +69,14 @@ const systemModule = namespace("system");
 })
 export default class ComponentName extends Vue {
   @systemModule.Getter("appList") private appList: any;
+  @userModule.Getter("authorization") private authorization!: Authorization;
 
   private goToApp(route: string) {
     this.$router.push({ path: `/${route}` });
   }
 
-  private test() {
-    BasicService.postRequest("/user/test", {});
+  private async mounted() {
+    await ProjectService.getInvitationList("", "", this.authorization.userID);
   }
 }
 </script>

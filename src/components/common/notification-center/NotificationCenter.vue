@@ -1,8 +1,14 @@
 <template>
   <div>
     <v-container fluid grid-list-md>
-      <h3 class="mt-5">通知中心</h3>
-      <invitation class="mt-4" style="width:100%"></invitation>
+      <v-toolbar color="transparent" flat>
+        <h3 style="margin-left:-16px">通知中心</h3>
+        <v-spacer></v-spacer>
+        <v-btn icon @click="$refs.invitation.getInvitationList()">
+          <v-icon size="20">mdi-refresh</v-icon>
+        </v-btn>
+      </v-toolbar>
+      <invitation ref="invitation" class="mt-4" style="width:100%"></invitation>
     </v-container>
   </div>
 </template>
@@ -24,9 +30,9 @@ const systemModule = namespace("system");
   }
 })
 export default class NotificationCenter extends Vue {
-  @systemModule.Mutation("toggleNotificationCenter")
-  private togtoggleNotificationCentergle: any;
-
+  public $refs!: {
+    invitation: HTMLFormElement;
+  };
   private mounted() {}
 }
 </script>

@@ -33,6 +33,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import UserService from "@/service/userService";
+import { Authorization, UserInfo } from "@/types/user";
 
 const userModule = namespace("user");
 
@@ -40,7 +41,8 @@ const userModule = namespace("user");
   components: {}
 })
 export default class Profile extends Vue {
-  @userModule.Getter("userInfo") private userInfo: any;
+  @userModule.Getter("userInfo") private userInfo!: any;
+  @userModule.Getter("authorization") private authorization!: Authorization;
   private profileList = [
     {
       type: "text-field",
@@ -85,6 +87,7 @@ export default class Profile extends Vue {
 
   private async updateUserInfo() {
     await UserService.updateUserInfo(this.userInfo);
+    await UserService.getUserInfo(this.authorization.userID);
   }
 }
 </script>

@@ -7,7 +7,7 @@
       :key="`invitation-${i}`"
     >
       <v-list-item-title class="body-2 font-weight-black">项目邀请</v-list-item-title>
-      <v-list-item-content class="caption">来自{{item.projectName}}的{{item.fromUserName}}向您发出邀请</v-list-item-content>
+      <v-list-item-content class="caption">来自{{item.projectName}}的 {{item.nickName}} 向您发出邀请</v-list-item-content>
       <v-layout row wrap>
         <v-flex xs6>
           <v-btn
@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import ProjectService from "@/service/projectService";
 import { namespace } from "vuex-class";
 import UserService from "@/service/userService";
@@ -45,28 +45,22 @@ const systemModule = namespace("system");
 export default class Invitation extends Vue {
   @usermodule.Getter("authorization") private authorization: any;
   @systemModule.Getter("notificationCenter") private notificationCenter: any;
-
-  private invitationList: Invitation[] = [];
+  @systemModule.Getter("invitationList") private invitationList!: Invitation[];
 
   private async updateInvitationStatus(status: number, invitationID: string) {
     await ProjectService.updateInvitationStatus(invitationID, status);
-    ProjectService.getProjectList();
+    await UserService.getUserInfo(this.authorization.userID);
+    await ProjectService.getProjectList();
+    this.getInvitationList();
   }
 
   private async getInvitationList() {
-    const rsp = await ProjectService.getInvitationList(
-      "",
-      "",
-      this.authorization.userID
-    );
-    this.invitationList = await rsp.invitation;
+    await ProjectService.getInvitationList("", "", this.authorization.userID);
     await UserService.getUserInfo(this.authorization.userID);
   }
 
   private mounted() {
-    if (this.notificationCenter) {
-      this.getInvitationList();
-    }
+    console.log(this.invitationList);
   }
 }
 </script>

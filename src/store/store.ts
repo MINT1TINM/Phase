@@ -39,6 +39,7 @@ const vuexSession: any = new VuexPersistence<any>({
   }),
   filter: (mutation: any) =>
     mutation.type === "system/updateLastPage" ||
+    mutation.type === "system/updateInvitationList" ||
     mutation.type === "user/updateUserInfo" ||
     mutation.type === "user/updateUserAuth" ||
     mutation.type === "user/insertProject" ||

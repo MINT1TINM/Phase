@@ -1,3 +1,5 @@
+import { Invitation } from "@/types/project";
+
 interface State {
   lastPage: string;
   loading: boolean;
@@ -6,6 +8,7 @@ interface State {
   fullScreenLoading: boolean;
   appList: App[];
   uploadPercent: number;
+  invitationList: Invitation[];
 }
 
 interface App {
@@ -47,7 +50,8 @@ const state: State = {
       icon: "",
       color: "linear-gradient(#2eaae8, #8fcceb)"
     }
-  ]
+  ],
+  invitationList: []
 };
 
 const getters = {
@@ -72,6 +76,9 @@ const getters = {
   },
   uploadPercent: (s: State) => {
     return s.uploadPercent;
+  },
+  invitationList: (s: State) => {
+    return s.invitationList;
   }
 };
 
@@ -93,6 +100,9 @@ const mutations = {
   },
   updateUploadPercent: (s: State, uploadPercent: number) => {
     s.uploadPercent = uploadPercent;
+  },
+  updateInvitationList: (s: State, invitationList: Invitation[]) => {
+    s.invitationList = invitationList;
   }
 };
 

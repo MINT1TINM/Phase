@@ -48,6 +48,7 @@ import { namespace } from "vuex-class";
 import AuthService from "@/service/authService";
 import UserService from "@/service/userService";
 import { Authorization } from "@/types/user";
+import ProjectService from "@/service/projectService";
 
 const systemModule = namespace("system");
 const userModule = namespace("user");
@@ -75,7 +76,10 @@ export default class Login extends Vue {
         this.loginForm.username,
         this.loginForm.password
       );
+
       await UserService.getUserInfo(await rsp.authorization.userID);
+      await ProjectService.getInvitationList("", "", this.authorization.userID);
+
       if ((await rsp.msg) === "success") {
         this.toggleFullScreenLoading(false);
         this.$router.push({ path: "/project" });

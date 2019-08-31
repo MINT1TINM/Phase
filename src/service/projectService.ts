@@ -117,6 +117,7 @@ class ProjectService {
       toUserID,
       projectID
     });
+    store.commit("system/updateInvitationList", rsp.invitation);
     return rsp;
   }
 

@@ -20,7 +20,7 @@
             <v-container>
               <transition appear appear-active-class="fade-up-enter">
                 <v-layout row wrap>
-                  <v-flex xs3 v-for="(item,i) in projectListShow" :key="`project-${i}`">
+                  <v-flex xs3 v-for="(item,i) in projectList" :key="`project-${i}`">
                     <v-hover v-slot:default="{ hover }">
                       <v-card :elevation="hover ? 8 : 2" @click="goToProject(item.id)">
                         <v-img
@@ -126,9 +126,9 @@ export default class ProjectHome extends Vue {
     }
     this.createProjectDialog = false;
   }
+
   private async getProjectList() {
-    const rsp = await ProjectService.getProjectList();
-    this.projectListShow = rsp.projectList;
+    await ProjectService.getProjectList();
   }
 
   private mounted() {

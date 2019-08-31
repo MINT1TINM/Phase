@@ -30,7 +30,7 @@
 
     <!-- notification center -->
     <v-toolbar-items>
-      <v-btn text class="app-bar-btn" @click="toggleNotificationCenter">
+      <v-btn text class="app-bar-btn" @click="toggleNotificationCenter(true)">
         <v-icon size="20">mdi-bell-outline</v-icon>
       </v-btn>
     </v-toolbar-items>

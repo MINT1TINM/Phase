@@ -94,7 +94,9 @@ export default class App extends Vue {
 
   private mounted() {
     this.toggleFullScreenLoading(false);
+
     this.appSwitcherShow = this.appSwitcher;
+    this.notificationCenterShow = this.notificationCenter;
   }
 }
 </script>
