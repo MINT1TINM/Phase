@@ -32,8 +32,8 @@
       <v-flex xs7 class="inner-sidebar-withoutpadding">
         <v-container fluid>
           <sub-task :subTask="currentTask.subTask"></sub-task>
-          <related-draft :sheetIDList="currentTask.draft.data" class="mt-3"></related-draft>
           <related-sheet :sheetIDList="currentTask.sheet.data" class="mt-3"></related-sheet>
+          <related-draft :sheetIDList="currentTask.draft.data" class="mt-3"></related-draft>
           <operations class="mt-3"></operations>
         </v-container>
       </v-flex>

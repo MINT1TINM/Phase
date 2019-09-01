@@ -62,6 +62,7 @@
                             <th class="text-center">判断标准</th>
                             <th class="text-center">实际情况</th>
                             <th class="text-center">是否合规</th>
+                            <th class="text-center">操作</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -70,7 +71,7 @@
                             v-for="(item,i) in currentSubTask.content"
                             :key="`c-${i}`"
                           >
-                            <td class="pl-3 pr-2">
+                            <td width="120px" class="pl-3 pr-2">
                               <v-select
                                 dense
                                 class="text-field-dense"
@@ -81,7 +82,7 @@
                                 v-model="item.property"
                               ></v-select>
                             </td>
-                            <td width="370px" class="px-1">
+                            <td width="320px" class="px-1">
                               <v-text-field
                                 single-line
                                 class="text-field-dense"
@@ -119,6 +120,11 @@
                                 v-model="item.status"
                                 :label="item.status?`合规`:`不合规`"
                               ></v-switch>
+                            </td>
+                            <td>
+                              <v-btn icon @click="removeContent(i)">
+                                <v-icon size="20">mdi-close</v-icon>
+                              </v-btn>
                             </td>
                           </tr>
                         </tbody>
@@ -294,6 +300,11 @@ export default class SubTaskList extends Vue {
       reality: "",
       status: false
     });
+  }
+
+  private removeContent(i: number) {
+    console.log("shit");
+    this.currentSubTask.content.splice(i, 1);
   }
 
   private linkFile(v: any) {

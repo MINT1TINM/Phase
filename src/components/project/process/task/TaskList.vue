@@ -3,6 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12 style="display:flex">
         <v-text-field
+          v-if="projectPermission(authorization.userID).indexOf(`c`)!=-1"
           hide-details
           class="text-field-semidense"
           outlined
@@ -90,18 +91,23 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import TaskService from "@/service/taskService";
 import { namespace } from "vuex-class";
 import { Process, ProcessTask } from "@/types/process";
+import { Authorization } from "@/types/user";
 
 const processModule = namespace("process");
 const projectModule = namespace("project");
+const userModule = namespace("user");
 
 @Component
 export default class TaskList extends Vue {
   @Prop({ default: "" }) public processID!: string;
 
+  @userModule.Getter("authorization") private authorization!: Authorization;
   @processModule.Getter("currentProcessList") private currentProcessList: any;
   @processModule.Mutation("updateCurrentProcessTask")
   private updateCurrentProcessTask: any;
   @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
+  @projectModule.Getter("projectPermission")
+  private projectPermission: any;
 
   private newTaskName: string = "";
   private taskList: ProcessTask[] = [];
