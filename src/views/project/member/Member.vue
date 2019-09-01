@@ -22,6 +22,7 @@
                       <th class="text-center">电子邮件</th>
                       <th class="text-center">移动电话</th>
                       <th class="text-center">项目权限</th>
+                      <th class="text-center">项目角色</th>
                       <th class="text-center">操作</th>
                     </tr>
                   </thead>
@@ -50,12 +51,12 @@
                         >D</v-chip>
                       </td>
                       <td class="font-weight-black text-center">
+                        <v-chip v-for="(item,i) in item.tag" :key="`tag-${i}`">{{item}}</v-chip>
+                      </td>
+                      <td class="font-weight-black text-center">
                         <!-- project creator/loginuser cannot edit himself -->
 
-                        <v-tooltip
-                          bottom
-                          v-if="item.id!==currentProject.userID&&authorization.userID === currentProject.userID"
-                        >
+                        <v-tooltip bottom>
                           <template v-slot:activator="{ on }">
                             <v-btn
                               small
@@ -66,7 +67,7 @@
                               <v-icon>mdi-pencil-outline</v-icon>
                             </v-btn>
                           </template>
-                          <span class="caption">编辑权限</span>
+                          <span class="caption">编辑权限&角色</span>
                         </v-tooltip>
 
                         <v-tooltip
@@ -105,7 +106,10 @@
                     <v-toolbar flat>
                       <v-toolbar-title class="subtitle-1 font-weight-black">编辑成员权限</v-toolbar-title>
                     </v-toolbar>
-                    <v-container fluid>
+                    <v-container
+                      fluid
+                      v-if="targetMember.id!==currentProject.userID&&authorization.userID === currentProject.userID"
+                    >
                       <v-checkbox
                         v-model="targetMember.projectRole"
                         hide-details
@@ -128,13 +132,26 @@
                         value="d"
                       ></v-checkbox>
                     </v-container>
+                    <v-container fluid>
+                      <v-combobox
+                        class="mt-3"
+                        label="项目角色"
+                        single-line
+                        hide-details
+                        outlined
+                        v-model="targetMember.tag"
+                        multiple
+                        chips
+                      ></v-combobox>
+                    </v-container>
+
                     <v-card-actions class="mt-3">
                       <v-layout justify-center>
                         <v-btn
                           text
                           rounded
                           color="primary"
-                          @click="updateMemberRole(targetMember.id,targetMember.projectRole);editMemberRoleDialog=false"
+                          @click="updateMemberRole(targetMember.id,targetMember.projectRole,targetMember.tag);editMemberRoleDialog=false"
                         >确认</v-btn>
                       </v-layout>
                     </v-card-actions>
@@ -175,7 +192,8 @@ export default class ProjectMemberManagement extends Vue {
   private searchMemberContent: string = "";
   private targetMember: ProjectMember = {
     userID: "",
-    role: []
+    role: [],
+    tag: []
   };
   private addMemberDialog: boolean = false;
   private editMemberRoleDialog: boolean = false;
@@ -189,6 +207,10 @@ export default class ProjectMemberManagement extends Vue {
       e.projectRole = e.project.data.find((u: UserProject) => {
         return u.projectID === this.currentProject.id;
       }).role;
+
+      e.tag = e.project.data.find((u: UserProject) => {
+        return u.projectID === this.currentProject.id;
+      }).tag;
     }
     this.memberList = rsp.memberList;
     this.memberListShow = this.memberList;
@@ -208,8 +230,13 @@ export default class ProjectMemberManagement extends Vue {
     }
   }
 
-  private async updateMemberRole(userID: string, role: []) {
-    await ProjectService.updateMemberRole(this.currentProject.id, userID, role);
+  private async updateMemberRole(userID: string, role: [], tag: []) {
+    await ProjectService.updateMemberRole(
+      this.currentProject.id,
+      userID,
+      role,
+      tag
+    );
     this.getProjectMember();
   }
 

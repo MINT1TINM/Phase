@@ -17,9 +17,10 @@ interface ProjectMember {
   id?: string;
   userID?: string;
   userUUID?: string;
-  role?: [];
+  role?: string[];
   projectRole?: [];
   headImgURL?: string;
+  tag?: string[];
 }
 
 interface ProjectMemberComplete extends ProjectMember {

@@ -74,12 +74,14 @@ class ProjectService {
   public static async updateMemberRole(
     projectID: string,
     userID: string,
-    role: []
+    role: [],
+    tag:[]
   ) {
     const rsp = await basicService.putRequest("/project/memberrole", {
       projectID,
       userID,
-      role
+      role,
+      tag
     });
 
     if (rsp.msg === "success") {

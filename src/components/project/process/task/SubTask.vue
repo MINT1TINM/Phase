@@ -49,7 +49,7 @@
         </v-toolbar>
         <v-container fluid>
           <v-layout wrap>
-            <v-flex xs7 class="pr-2">
+            <v-flex xs8 class="pr-2">
               <v-layout row wrap>
                 <v-flex xs12>
                   <v-container fluid class="py-0">
@@ -74,6 +74,7 @@
                             <td width="120px" class="pl-3 pr-2">
                               <v-select
                                 dense
+                                style="height:63px;align-items:center"
                                 class="text-field-dense"
                                 :items="[`量化`,`非量化`]"
                                 single-line
@@ -82,34 +83,38 @@
                                 v-model="item.property"
                               ></v-select>
                             </td>
-                            <td width="320px" class="px-1">
-                              <v-text-field
+                            <td width="320px" class="px-1 py-1">
+                              <v-textarea
                                 single-line
                                 class="text-field-dense"
                                 hide-details
                                 auto-grow
-                                rows="1"
+                                rows="2"
                                 outlined
                                 v-model="item.description"
-                              >{{ item.description }}</v-text-field>
+                              >{{ item.description }}</v-textarea>
                             </td>
                             <td class="px-1">
-                              <v-text-field
+                              <v-textarea
                                 single-line
                                 class="text-field-dense"
                                 hide-details
                                 outlined
+                                auto-grow
+                                rows="2"
                                 v-model="item.expect"
-                              >{{ item.expect }}</v-text-field>
+                              >{{ item.expect }}</v-textarea>
                             </td>
                             <td class="px-1">
-                              <v-text-field
+                              <v-textarea
                                 single-line
                                 class="text-field-dense"
                                 hide-details
+                                auto-grow
+                                rows="2"
                                 outlined
                                 v-model="item.reality"
-                              >{{ item.reality }}</v-text-field>
+                              >{{ item.reality }}</v-textarea>
                             </td>
                             <td width="120">
                               <v-switch
@@ -153,7 +158,7 @@
                 </v-flex>
               </v-layout>
             </v-flex>
-            <v-flex xs5 class="pl-2">
+            <v-flex xs4 class="pl-2">
               <v-card outlined width="100%">
                 <v-card-title class="subtitle-1 font-weight-black">相关文件</v-card-title>
                 <v-container fluid>
