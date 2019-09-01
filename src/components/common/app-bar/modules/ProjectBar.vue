@@ -33,7 +33,10 @@
               @click="alterProject(item.id)"
             >
               <v-list-item-avatar>
-                <v-icon size="25">{{item.icon}}</v-icon>
+                <v-avatar color="primary" size="32">
+                  <img v-if="item.headImgURL" :src="item.headImgURL | httpsfy" />
+                  <span v-else class="white--text">{{item.name | avatar}}</span>
+                </v-avatar>
               </v-list-item-avatar>
               <v-list-item-title>{{ item.name }}</v-list-item-title>
             </v-list-item>
