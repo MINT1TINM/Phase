@@ -5,10 +5,8 @@
         <v-container fluid>
           <v-layout>
             <v-flex xs2 class="pa-2">
-              <v-avatar color="primary" width="100%">
-                <v-responsive :aspect-ratio="1/1">
-                  <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
-                </v-responsive>
+              <v-avatar color="primary" size="100%">
+                <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
               </v-avatar>
             </v-flex>
             <v-flex xs8 class="pl-5">
