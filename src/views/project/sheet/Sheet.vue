@@ -34,7 +34,7 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="(item,i) in sheetList"
+                  v-for="(item,i) in sheetListShow"
                   :key="`sheet-${i}`"
                   @click="currentSheetID = item.id;currentTemplateID = item.templateID"
                   :style="currentSheetID === item.id?`background-color:#efefef`:``"
@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 import { Template, Sheet } from "@/types/sheet";
 import createSheet from "@/components/project/sheet/CreateSheet.vue";
@@ -116,13 +116,33 @@ export default class ProjectSheet extends Vue {
   private createSheetDialog: boolean = false;
   private editSheetDialog: boolean = false;
   private searchSheetContent: string = "";
+  private sheetListShow: any[] = [];
 
   private currentSheetID: string = "";
   private currentTemplateID: string = "";
 
+  private searchSheet() {
+    this.sheetListShow = [];
+    for (const item of this.sheetList) {
+      if (item.name.indexOf(this.searchSheetContent) != -1) {
+        this.sheetListShow.push(item);
+      }
+    }
+  }
+
   private async getSheetList() {
     this.createSheetDialog = false;
     await SheetService.getSheetList(this.currentProjectID);
+  }
+
+  @Watch("searchSheetContent")
+  private onSearchSheetContentChanged() {
+    this.searchSheet();
+  }
+
+  @Watch("sheetList")
+  private onSheetListChanged() {
+    this.sheetListShow = this.sheetList;
   }
 
   private mounted() {
