@@ -178,5 +178,6 @@ export default class AppBar extends Vue {
 .v-badge--overlap .v-badge__badge {
   top: 4px !important;
   right: 4px;
+  pointer-events: none;
 }
 </style>
