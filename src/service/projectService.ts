@@ -49,7 +49,10 @@ class ProjectService {
     const rsp = await basicService.putRequest("/project/info", {
       projectID: projectInfo.id,
       name: projectInfo.name,
-      description: projectInfo.description
+      description: projectInfo.description,
+      startDate: projectInfo.startDate,
+      endDate: projectInfo.endDate,
+      actionDate: projectInfo.actionDate
     });
     store.commit("project/updateCurrentProject", rsp.project);
     if (rsp.msg === "success") {
@@ -75,7 +78,7 @@ class ProjectService {
     projectID: string,
     userID: string,
     role: [],
-    tag:[]
+    tag: []
   ) {
     const rsp = await basicService.putRequest("/project/memberrole", {
       projectID,

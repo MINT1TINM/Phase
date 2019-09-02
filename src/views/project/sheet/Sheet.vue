@@ -18,7 +18,7 @@
       </v-toolbar-items>
     </v-toolbar>
     <transition appear appear-active-class="fade-up-enter">
-      <v-container fluid style="height:calc(100vh - 96px);padding:0;overflow-y:auto">
+      <v-container fluid style="height:calc(100vh - 98px);padding:0;overflow-y:auto">
         <v-layout fill-height v-if="sheetList.length>=1">
           <!-- sheet list -->
           <v-flex :class="currentProjectID&&currentSheetID?`xs9`:`xs12`">
@@ -135,6 +135,16 @@ export default class ProjectSheet extends Vue {
     await SheetService.getSheetList(this.currentProjectID);
   }
 
+  private getSheetTypeList() {
+    let typeList = [];
+    for (const item of this.sheetList) {
+      if (typeList.indexOf(item.target) === -1) {
+        typeList.push(item.target);
+      }
+    }
+    console.log(typeList);
+  }
+
   @Watch("searchSheetContent")
   private onSearchSheetContentChanged() {
     this.searchSheet();
@@ -143,6 +153,7 @@ export default class ProjectSheet extends Vue {
   @Watch("sheetList")
   private onSheetListChanged() {
     this.sheetListShow = this.sheetList;
+    this.getSheetTypeList();
   }
 
   private mounted() {

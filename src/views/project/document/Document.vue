@@ -27,7 +27,7 @@
       </v-toolbar-items>
     </v-toolbar>
     <transition appear appear-active-class="fade-up-enter">
-      <v-container fluid pa-0 style="height:100%">
+      <v-container fluid pa-0 style="height:calc(100vh - 98px)">
         <v-layout fill-height>
           <!-- file grid -->
           <v-flex xs9 style="height:100%" v-on:click="clickBlank">

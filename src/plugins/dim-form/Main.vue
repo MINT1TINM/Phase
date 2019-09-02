@@ -96,24 +96,27 @@
               </template>
             </v-select>
             <!-- date-range -->
-            <v-layout v-else-if="content.type=='date-range'">
-              <date-picker
-                class="mr-2"
-                :disabled="content.disabled || disabled"
-                :dense="dense"
-                :max="content.max"
-                :min="content.min"
-                :date.sync="target[content.nameStart]"
-              ></date-picker>
-              <div class="pt-1">-</div>
-              <date-picker
-                class="ml-2"
-                :disabled="content.disabled || disabled"
-                :dense="dense"
-                :max="content.max"
-                :min="content.min"
-                :date.sync="target[content.nameEnd]"
-              ></date-picker>
+            <v-layout row justify-center v-else-if="content.type=='date-range'">
+              <v-flex xs6>
+                <date-picker
+                  class="mr-2"
+                  :disabled="content.disabled || disabled"
+                  :dense="dense"
+                  :max="content.max"
+                  :min="content.min"
+                  :date.sync="target[content.nameStart]"
+                ></date-picker>
+              </v-flex>
+              <v-flex xs6>
+                <date-picker
+                  class="ml-2"
+                  :disabled="content.disabled || disabled"
+                  :dense="dense"
+                  :max="content.max"
+                  :min="content.min"
+                  :date.sync="target[content.nameEnd]"
+                ></date-picker>
+              </v-flex>
             </v-layout>
             <!-- data-select -->
             <date-picker

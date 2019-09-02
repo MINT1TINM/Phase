@@ -7,6 +7,9 @@ interface Project {
   description?: string;
   userID?: number;
   member?: MemberList;
+  startDate?: string;
+  endDate?: string;
+  actionDate?: string;
 }
 
 interface MemberList {

@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="mb-2">
     <v-toolbar dense flat color="transparent">
       <v-toolbar-title class="subtitle-1 font-weight-black">{{processName}}</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -7,7 +7,7 @@
         <v-icon size="20">mdi-arrow-right</v-icon>
       </v-btn>
     </v-toolbar>
-    <div style="height:calc(100vh - 194px);overflow:auto" color="transparent">
+    <div style="height:calc(100vh - 198px);overflow:auto" color="transparent">
       <task-list :processID="processID"></task-list>
     </div>
   </v-card>

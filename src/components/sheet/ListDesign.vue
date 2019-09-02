@@ -131,8 +131,8 @@ export default class ListSheetDesign extends Vue {
 
   private typeList = [
     { label: "文本", value: "text-field" },
-    { label: "文本框", value: "text-area" },
-    { label: "选择", value: "select" }
+    { label: "文本框", value: "text-area" }
+    // { label: "选择", value: "select" }
   ];
 
   private insertField() {

@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-lg fluid fill-height>
     <v-layout row wrap justify-center>
-      <v-flex xs8>
+      <v-flex xs12 sm10 lg8>
         <transition appear appear-active-class="fade-up-enter">
           <v-card>
             <v-container fill-height fluid grid-list-lg>
@@ -43,6 +43,10 @@
                         >C</v-chip>
                         <v-chip
                           class="mx-1 text-uppercase"
+                          v-if="item.projectRole.indexOf('r')!=-1"
+                        >R</v-chip>
+                        <v-chip
+                          class="mx-1 text-uppercase"
                           v-if="item.projectRole.indexOf('u')!=-1"
                         >U</v-chip>
                         <v-chip
@@ -67,7 +71,7 @@
                               <v-icon>mdi-pencil-outline</v-icon>
                             </v-btn>
                           </template>
-                          <span class="caption">编辑权限&角色</span>
+                          <span class="caption">编辑权限 & 角色</span>
                         </v-tooltip>
 
                         <v-tooltip
@@ -116,6 +120,13 @@
                         color="primary"
                         label="C - 可邀请成员，新建过程、任务"
                         value="c"
+                      ></v-checkbox>
+                      <v-checkbox
+                        v-model="targetMember.projectRole"
+                        color="primary"
+                        hide-details
+                        label="R - 可查看基础 & 审定表格"
+                        value="r"
                       ></v-checkbox>
                       <v-checkbox
                         v-model="targetMember.projectRole"
