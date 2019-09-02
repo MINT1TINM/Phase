@@ -15,7 +15,25 @@
         <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
       </v-btn>
     </v-toolbar>
-    <v-container fluid v-if="templateInfo.type === `key`">
+    <v-container fluid class="py-0">
+      <v-layout>
+        <v-flex xs3>
+          <v-subheader class="body-2 px-1" style="height:36px">类型</v-subheader>
+        </v-flex>
+        <v-flex xs9>
+          <v-text-field
+            class="text-field-dense"
+            :disabled="sheetInfoShow.target === `取证单`|| sheetInfoShow.target ===  `审计底稿`?true:false "
+            single-line
+            hide-details
+            outlined
+            v-model="sheetInfoShow.target"
+          ></v-text-field>
+        </v-flex>
+      </v-layout>
+    </v-container>
+    <v-divider class="mt-4"></v-divider>
+    <v-container class="pt-0" fluid v-if="templateInfo.type === `key`">
       <dim-form :formContent="templateInfo.field.data" :target="sheetInfoShow.content"></dim-form>
     </v-container>
     <!-- list -->
@@ -74,6 +92,7 @@ export default class FillSheet extends Vue {
     const rsp = await SheetService.updateSheet(
       this.sheetInfoShow.id,
       this.sheetInfoShow.name,
+      this.sheetInfoShow.target,
       this.sheetInfoShow.content
     );
     await SheetService.getSheetList(this.currentProjectID);

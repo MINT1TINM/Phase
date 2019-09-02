@@ -105,10 +105,16 @@ class SheetService {
     return rsp;
   }
 
-  public static async updateSheet(sheetID: string, name: string, content: {}) {
+  public static async updateSheet(
+    sheetID: string,
+    name: string,
+    target: string,
+    content: {}
+  ) {
     const rsp = await basicService.putRequest("/sheet", {
       sheetID,
       name,
+      target,
       content
     });
     if (rsp.msg === "success") {

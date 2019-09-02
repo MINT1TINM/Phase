@@ -76,6 +76,7 @@ export default class CreateSheet extends Vue {
   }
 
   private async createSheet(templateID: string, type: string) {
+    console.log(this.target);
     const rsp = await SheetService.createSheet(
       this.currentProjectID,
       templateID,

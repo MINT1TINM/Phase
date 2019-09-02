@@ -22,6 +22,7 @@ interface Sheet {
   updatedAt?: string;
   craetedAt?: string;
   content: any;
+  target: string;
 }
 
 export { Field, Template, Sheet };

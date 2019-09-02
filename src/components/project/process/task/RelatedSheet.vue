@@ -31,7 +31,7 @@
       <v-sheet class="text-center" height="800px" style="overflow:auto">
         <v-container fluid>
           <create-sheet
-            :target="`sheet`"
+            :target="`取证单`"
             @closeDialog="createSheetDialog=false"
             :taskID="$route.params.taskID"
           ></create-sheet>

@@ -46,12 +46,7 @@
                     <user-chip :userID="item.userID"></user-chip>
                   </td>
                   <td class="text-center">
-                    <v-chip class="font-weight-black caption" v-if="item.target === `sheet`">取证单</v-chip>
-                    <v-chip
-                      class="font-weight-black caption"
-                      v-else-if="item.target === `draft`"
-                    >审计底稿</v-chip>
-                    <v-chip class="font-weight-black caption" v-else>普通</v-chip>
+                    <v-chip class="font-weight-black caption">{{item.target}}</v-chip>
                   </td>
                 </tr>
               </tbody>
@@ -73,7 +68,7 @@
         </v-layout>
         <v-bottom-sheet v-model="createSheetDialog" inset>
           <v-sheet class="text-center" height="900px" style="overflow:auto">
-            <create-sheet @closeDialog="createSheetDialog=false"></create-sheet>
+            <create-sheet :target="`普通`" @closeDialog="createSheetDialog=false"></create-sheet>
           </v-sheet>
         </v-bottom-sheet>
         <v-bottom-sheet v-model="editSheetDialog" inset>
