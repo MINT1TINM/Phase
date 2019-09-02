@@ -16,10 +16,26 @@
             <v-card-title class="subtitle-1 font-weight-black">
               正在进行的项目
               <v-spacer></v-spacer>
+
+              <v-btn
+                @click="updateViewMode(`grid`)"
+                icon
+                :color="viewMode===`grid` ? 'primary' : ''"
+              >
+                <v-icon>mdi-grid-large</v-icon>
+              </v-btn>
+
+              <v-btn
+                @click="updateViewMode(`list`)"
+                icon
+                :color="viewMode===`list` ? 'primary' : ''"
+              >
+                <v-icon>mdi-format-list-bulleted</v-icon>
+              </v-btn>
             </v-card-title>
             <v-container>
               <transition appear appear-active-class="fade-up-enter">
-                <v-layout row wrap>
+                <v-layout row wrap v-if="viewMode===`grid`">
                   <v-flex xs3 v-for="(item,i) in projectList" :key="`project-${i}`">
                     <v-hover v-slot:default="{ hover }">
                       <v-card :elevation="hover ? 8 : 2" @click="goToProject(item.id)">
@@ -34,12 +50,39 @@
                             class="grey--text ml-2 font-weight-regular"
                           >{{item.createdAt| format("yyyy-MM-dd")}}</span>
                           <v-spacer></v-spacer>
+                          <v-avatar size="26">
+                            <v-img :src="item.headImgURL"></v-img>
+                          </v-avatar>
+                          <span class="ml-2 font-weight-black caption">{{item.nickName}}</span>
                         </v-card-title>
 
-                        <v-card-text>{{item.description}}</v-card-text>
+                        <v-card-text class="font-weight-black"></v-card-text>
                       </v-card>
                     </v-hover>
                   </v-flex>
+                </v-layout>
+                <v-layout v-else>
+                  <v-list two-line width="100%" class="transparent">
+                    <template v-for="(item,i) in projectList">
+                      <div :key="`project-${i}`">
+                        <v-list-item @click="goToProject(item.id)">
+                          <v-list-item-content>
+                            <v-list-item-title class="font-weight-black">{{item.name}}</v-list-item-title>
+                            <v-list-item-subtitle
+                              class="caption"
+                            >{{item.createdAt| format("yyyy-MM-dd")}}</v-list-item-subtitle>
+                          </v-list-item-content>
+                          <v-list-item-avatar class="mr-4">
+                            <v-avatar size="32">
+                              <v-img :src="item.headImgURL"></v-img>
+                            </v-avatar>
+                            <span class="ml-3 font-weight-black caption">{{item.nickName}}</span>
+                          </v-list-item-avatar>
+                        </v-list-item>
+                        <v-divider></v-divider>
+                      </div>
+                    </template>
+                  </v-list>
                 </v-layout>
               </transition>
             </v-container>
@@ -76,13 +119,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import ProjectService from "@/service/projectService";
 import appBar from "@/components/common/app-bar/AppBar.vue";
 
 import UserService from "@/service/userService";
-import { Authorization } from "../../types/user";
+import { Authorization } from "@/types/user";
 
 const projectModule = namespace("project");
 const userModule = namespace("user");
@@ -111,6 +154,10 @@ export default class ProjectHome extends Vue {
   private updateCurrentProjectID: any;
   @projectModule.Mutation("clearCurrentProjectID")
   private clearCurrentProjectID: any;
+  @projectModule.Getter("viewMode") private viewMode!: string;
+  @projectModule.Mutation("updateViewMode") private updateViewMode!: (
+    v: string
+  ) => void;
   @userModule.Getter("authorization")
   private authorization!: Authorization;
 

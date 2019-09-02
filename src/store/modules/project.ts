@@ -3,11 +3,13 @@ import { Project, ProjectMember } from "@/types/project";
 interface State {
   currentProjectID: string;
   projectList: Project[];
+  viewMode: string;
 }
 
 const state: State = {
   currentProjectID: "",
-  projectList: []
+  projectList: [],
+  viewMode: "grid"
 };
 
 const getters = {
@@ -53,6 +55,9 @@ const getters = {
     return currentProject!.member!.data.find((e: ProjectMember) => {
       return e.userID === userID;
     })!.role;
+  },
+  viewMode: (s: State) => {
+    return s.viewMode;
   }
 };
 
@@ -72,6 +77,9 @@ const mutations = {
   },
   updateProjectList: (s: State, projectList: Project[]) => {
     s.projectList = projectList;
+  },
+  updateViewMode: (s: State, viewMode: string) => {
+    s.viewMode = viewMode;
   }
 };
 
