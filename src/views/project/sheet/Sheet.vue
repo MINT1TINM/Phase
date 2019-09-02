@@ -11,7 +11,7 @@
         v-model="searchSheetContent"
       ></v-text-field>-->
       <v-tabs v-model="currentType">
-        <v-tab href="#all">全部</v-tab>
+        <v-tab href="#全部">全部</v-tab>
         <v-tab :href="`#${item}`" v-for="(item,i) in typeList" :key="`t-${i}`">{{item}}</v-tab>
       </v-tabs>
       <v-spacer></v-spacer>
@@ -152,7 +152,22 @@ export default class ProjectSheet extends Vue {
 
   @Watch("sheetList")
   private onSheetListChanged() {
+    this.currentType = "全部";
     this.sheetListShow = this.sheetList;
+  }
+
+  @Watch("currentType")
+  private onCurrentTypeChanged() {
+    this.sheetListShow = [];
+    if (this.currentType === "全部") {
+      this.sheetListShow = this.sheetList;
+    } else {
+      for (const item of this.sheetList) {
+        if (item.target === this.currentType) {
+          this.sheetListShow.push(item);
+        }
+      }
+    }
   }
 
   private mounted() {
