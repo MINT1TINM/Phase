@@ -27,7 +27,11 @@
         <transition appear appear-active-class="fade-up-enter">
           <v-sheet v-if="processListShow.length>=1" color="transparent">
             <v-slide-group center-active show-arrows style="height:100%">
-              <v-slide-item v-for="(item,i) in processListShow" :key="`process-${i}`">
+              <v-slide-item
+                draggable="true"
+                v-for="(item,i) in processListShow"
+                :key="`process-${i}`"
+              >
                 <div :class="i==0?'ml-5 mr-2 my-3':`mx-2 my-3`" style="width:300px">
                   <process-column :processID="item.id" :processName="item.name"></process-column>
                 </div>

@@ -87,12 +87,6 @@
               </transition>
             </v-container>
           </v-flex>
-          <v-flex xs12 class="mt-4">
-            <v-card-title class="subtitle-1 font-weight-black">
-              已完成的项目
-              <v-spacer></v-spacer>
-            </v-card-title>
-          </v-flex>
         </v-layout>
         <v-dialog v-model="createProjectDialog" width="300" persistent>
           <v-card>

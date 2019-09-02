@@ -108,7 +108,7 @@
                 <v-dialog v-model="editMemberRoleDialog" width="500">
                   <v-card>
                     <v-toolbar flat>
-                      <v-toolbar-title class="subtitle-1 font-weight-black">编辑成员权限</v-toolbar-title>
+                      <v-toolbar-title class="subtitle-1 font-weight-black">编辑权限 & 角色</v-toolbar-title>
                     </v-toolbar>
                     <v-container
                       fluid
