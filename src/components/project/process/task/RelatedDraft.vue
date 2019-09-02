@@ -80,7 +80,8 @@ export default class RelatedDocument extends Vue {
   private currentSheet: Sheet = {
     id: "",
     name: "",
-    content: {}
+    content: {},
+    target: ""
   };
   private templateInfo: Template = {
     name: "",

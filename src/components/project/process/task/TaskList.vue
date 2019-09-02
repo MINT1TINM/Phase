@@ -114,11 +114,11 @@ export default class TaskList extends Vue {
   private taskListShow: ProcessTask[] = [];
 
   private getDays(date: string) {
-    var t1 = new Date().getTime();
-    var t2 = new Date(date).getTime();
-    var dateTime = 1000 * 60 * 60 * 24; //每一天的毫秒数
-    var minusDays = Math.floor((t2 - t1) / dateTime); //计算出两个日期的天数差
-    var days = minusDays; //取绝对值
+    const t1 = new Date().getTime();
+    const t2 = new Date(date).getTime();
+    const dateTime = 1000 * 60 * 60 * 24; // 每一天的毫秒数
+    const minusDays = Math.floor((t2 - t1) / dateTime); // 计算出两个日期的天数差
+    const days = minusDays; // 取绝对值
     return days;
   }
 

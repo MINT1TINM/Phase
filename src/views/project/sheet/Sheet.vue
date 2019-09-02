@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar flat class="navbar" dense style="z-index:2">
-      <v-text-field
+      <!-- <v-text-field
         prepend-inner-icon="mdi-magnify"
         hide-details
         outlined
@@ -9,7 +9,11 @@
         class="text-field-dense"
         label="搜索表单"
         v-model="searchSheetContent"
-      ></v-text-field>
+      ></v-text-field>-->
+      <v-tabs v-model="currentType">
+        <v-tab href="#all">全部</v-tab>
+        <v-tab :href="`#${item}`" v-for="(item,i) in typeList" :key="`t-${i}`">{{item}}</v-tab>
+      </v-tabs>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn text @click="createSheetDialog=true">
@@ -115,11 +119,12 @@ export default class ProjectSheet extends Vue {
 
   private currentSheetID: string = "";
   private currentTemplateID: string = "";
+  private currentType: string = "all";
 
   private searchSheet() {
     this.sheetListShow = [];
     for (const item of this.sheetList) {
-      if (item.name.indexOf(this.searchSheetContent) != -1) {
+      if (item.name.indexOf(this.searchSheetContent) !== -1) {
         this.sheetListShow.push(item);
       }
     }
@@ -130,14 +135,14 @@ export default class ProjectSheet extends Vue {
     await SheetService.getSheetList(this.currentProjectID);
   }
 
-  private getSheetTypeList() {
-    let typeList = [];
+  get typeList() {
+    const typeList = [];
     for (const item of this.sheetList) {
       if (typeList.indexOf(item.target) === -1) {
         typeList.push(item.target);
       }
     }
-    console.log(typeList);
+    return typeList;
   }
 
   @Watch("searchSheetContent")
@@ -148,7 +153,6 @@ export default class ProjectSheet extends Vue {
   @Watch("sheetList")
   private onSheetListChanged() {
     this.sheetListShow = this.sheetList;
-    this.getSheetTypeList();
   }
 
   private mounted() {

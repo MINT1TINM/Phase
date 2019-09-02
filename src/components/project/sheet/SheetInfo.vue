@@ -89,7 +89,8 @@ export default class SheetInfo extends Vue {
   private sheetInfo: Sheet = {
     id: "",
     name: "",
-    content: null
+    content: null,
+    target: ""
   };
   private templateInfo: Template = {
     name: "",
@@ -104,7 +105,8 @@ export default class SheetInfo extends Vue {
     this.sheetInfo = {
       id: "",
       name: "",
-      content: {}
+      content: {},
+      target: ""
     };
     const rsp = await SheetService.getSheetInfo(sheetID);
     this.sheetInfo = rsp.sheet;

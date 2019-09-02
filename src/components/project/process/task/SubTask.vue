@@ -238,7 +238,7 @@ import certificateSearch from "@/components/certificate/Search.vue";
 @Component({
   components: {
     "certificate-search": certificateSearch,
-    document: document
+    document
   }
 })
 export default class SubTaskList extends Vue {
