@@ -46,6 +46,15 @@ class UserService {
     }
   }
 
+  public static async updatePrivilege(id: string, privilege: string[]) {
+    const rsp = basicService.putRequest("/user/privilege", {
+      id,
+      privilege
+    });
+
+    return rsp;
+  }
+
   public static async createUser(
     username: string,
     nickName: string,

@@ -4,7 +4,7 @@ interface State {
 }
 
 const state: State = {
-  currentGroup: "",
+  currentGroup: "all",
   currentContactID: ""
 };
 
