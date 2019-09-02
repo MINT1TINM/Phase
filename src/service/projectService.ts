@@ -94,6 +94,15 @@ class ProjectService {
     return rsp;
   }
 
+  public static async updateProjectFolder(file: any, projectID: string) {
+    const fileForm = new FormData();
+    fileForm.append("file", file);
+    fileForm.append("projectID", projectID);
+
+    const rsp = await basicService.postRequest("/project/folder", fileForm);
+    return rsp;
+  }
+
   // invitation
   public static async submitInvitation(
     projectID: string,

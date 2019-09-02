@@ -2,7 +2,6 @@
   <v-app>
     <v-navigation-drawer
       class="acrylic"
-      color="transparent"
       expand-on-hover
       mini-variant-width="62"
       app

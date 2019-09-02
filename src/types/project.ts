@@ -10,6 +10,7 @@ interface Project {
   startDate?: string;
   endDate?: string;
   actionDate?: string;
+  folderURL?: string;
 }
 
 interface MemberList {
