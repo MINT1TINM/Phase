@@ -17,6 +17,7 @@ interface ProcessTask {
   taskID?: string;
   id?: string;
   name: string;
+  startDate?: string;
   endDate?: string;
   userID: string;
   status?: boolean;

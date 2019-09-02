@@ -1,4 +1,5 @@
 import { Project, ProjectMember } from "@/types/project";
+import { Task } from "@/types/task";
 
 interface State {
   currentProjectID: string;

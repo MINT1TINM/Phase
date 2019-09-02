@@ -18,13 +18,15 @@
         </v-btn-toggle>
       </v-toolbar>
 
-      <v-sheet style="height:100%">
+      <v-sheet style="height:calc(100vh - 112px);overflow-y:auto">
         <v-calendar
           ref="calendar"
           v-model="focus"
           color="primary"
-          :events="events"
-          :event-color="getEventColor"
+          event-color="primary"
+          :events="fullTaskList"
+          event-start="startDate"
+          event-end="endDate"
           :event-margin-bottom="3"
           :now="today"
           :type="type"
@@ -40,25 +42,26 @@
           full-width
           offset-x
         >
-          <v-card color="grey lighten-4" min-width="350px" flat>
-            <v-toolbar :color="selectedEvent.color" dark>
-              <v-btn icon>
-                <v-icon>edit</v-icon>
-              </v-btn>
-              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+          <v-card elevation="10" min-width="350px">
+            <v-toolbar dense flat color="transparent">
+              <v-toolbar-title class="font-weight-black subtitle-1">速览 {{selectedEvent.name}}</v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>favorite</v-icon>
-              </v-btn>
-              <v-btn icon>
-                <v-icon>more_vert</v-icon>
+              <v-btn icon color="secondary" @click="selectedOpen = false">
+                <v-icon size="20">mdi-close</v-icon>
               </v-btn>
             </v-toolbar>
-            <v-card-text>
-              <span v-html="selectedEvent.details"></span>
-            </v-card-text>
+            <v-card-text>{{selectedEvent.startDate}} 至 {{selectedEvent.endDate}}</v-card-text>
             <v-card-actions>
-              <v-btn text color="secondary" @click="selectedOpen = false">Cancel</v-btn>
+              <user-chip class="my-2" :userID="selectedEvent.userID"></user-chip>
+              <v-spacer></v-spacer>
+              <v-btn
+                rounded
+                text
+                :to="`/project/process/${selectedEvent.processID}/task/${selectedEvent.id}`"
+              >
+                查看任务
+                <v-icon size="20">mdi-arrow-right</v-icon>
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -70,6 +73,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { VCalendar } from "vuetify/lib";
+import { namespace } from "vuex-class";
+import { ProcessTask } from "@/types/process";
+import TaskService from "@/service/taskService";
+
+const processModule = namespace("process");
+const projectModule = namespace("project");
 
 @Component
 export default class Calendar extends Vue {
@@ -77,8 +86,13 @@ export default class Calendar extends Vue {
     calendar: any;
   };
 
-  private today: string = "2019-01-08";
-  private focus: string = "2019-01-08";
+  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
+  @processModule.Getter("fullTaskList") private fullTaskList!: ProcessTask[];
+  @processModule.Getter("currentProcessIDList")
+  private currentProcessIDList!: string[];
+
+  private today: string = new Date().toISOString().slice(0, 10);
+  private focus: string = new Date().toISOString().slice(0, 10);
   private type: string = "month";
   private typeToLabel = {
     month: "月视图",
@@ -90,15 +104,12 @@ export default class Calendar extends Vue {
   private selectedEvent = {};
   private selectedElement = null;
   private selectedOpen: boolean = false;
-  private events = [];
 
   private viewDay({ date }: any) {
     this.focus = date;
     this.type = "day";
   }
-  private getEventColor(event: any) {
-    return event.color;
-  }
+
   private setToday() {
     this.focus = this.today;
   }
@@ -128,11 +139,6 @@ export default class Calendar extends Vue {
     this.start = start;
     this.end = end;
   }
-  private nth(d: number) {
-    return d > 3 && d < 21
-      ? "th"
-      : ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][d % 10];
-  }
 
   private get title() {
     const { start, end } = this;
@@ -148,10 +154,8 @@ export default class Calendar extends Vue {
     const endYear = (end || { year: null }).year;
     const suffixYear = startYear === endYear ? "" : endYear;
 
-    const startDay =
-      (start || { day: null }).day + this.nth((start || { day: 0 }).day);
-    const endDay =
-      (end || { day: null }).day + this.nth((end || { day: 0 }).day);
+    const startDay = (start || { day: null }).day + "日";
+    const endDay = (end || { day: null }).day + `日`;
 
     switch (this.type) {
       case "month":
@@ -171,8 +175,9 @@ export default class Calendar extends Vue {
     });
   }
 
-  private mounted() {
+  private async mounted() {
     console.log(this.$refs.calendar);
+    await TaskService.getMultiProcessTaskList(this.currentProcessIDList);
   }
 }
 </script>

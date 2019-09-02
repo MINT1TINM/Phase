@@ -18,6 +18,14 @@ class TaskService {
     return rsp;
   }
 
+  public static async getMultiProcessTaskList(processIDList: string[]) {
+    const rsp = await basicService.getRequest("/task/list/full", {
+      id: processIDList
+    });
+    store.commit("process/updateFullTaskList", rsp.taskList);
+    return rsp;
+  }
+
   public static async createTask(processID: string, name: string) {
     const rsp = await basicService.postRequest("/task", {
       processID,
