@@ -8,7 +8,7 @@
           <v-icon size="20">mdi-plus</v-icon>&nbsp;新建
         </v-btn>
       </v-card-title>
-      <v-data-table class="mt-4" :headers="headers" :items="sheetList" hide-default-footer>
+      <v-data-table class="mt-4" :headers="headers" :items="sheetList">
         <template v-slot:item.userID="{item}">
           <user-chip :userID="item.userID"></user-chip>
         </template>

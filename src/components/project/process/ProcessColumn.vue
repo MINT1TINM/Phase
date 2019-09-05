@@ -7,7 +7,7 @@
         <v-icon size="20">mdi-arrow-right</v-icon>
       </v-btn>
     </v-toolbar>
-    <div style="height:calc(100vh - 198px);overflow:auto" color="transparent">
+    <div style="height:calc(100vh - 210px);overflow:auto" color="transparent">
       <task-list :processID="processID"></task-list>
     </div>
   </v-card>

@@ -9,7 +9,7 @@
         </v-btn>
       </v-card-title>
 
-      <v-data-table class="mt-4" :headers="headers" :items="subTaskShow.data" hide-default-footer>
+      <v-data-table class="mt-4" :headers="headers" :items="subTaskShow.data">
         <template v-slot:item.status="props">
           <v-icon v-if="props.item.status===1" color="green">mdi-check-circle-outline</v-icon>
           <v-icon
