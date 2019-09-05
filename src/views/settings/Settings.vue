@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar dense flat fixed app class="navbar">
-      <span class="font-weight-black navbar-logo ml-1 app-bar-text">Phase 设置</span>
+      <span class="font-weight-black navbar-logo ml-1 app-bar-text">Audit 设置</span>
       <v-spacer></v-spacer>
       <v-btn icon :to="lastPage">
         <v-icon>mdi-close</v-icon>

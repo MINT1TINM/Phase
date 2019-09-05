@@ -25,7 +25,7 @@
           </v-layout>
         </v-container>
         <v-card-text class="text-xs-center font-weight-black">
-          <strong>Phase</strong> 正在加载数据
+          <strong>Audit</strong> 正在加载数据
         </v-card-text>
       </v-card>
     </v-overlay>

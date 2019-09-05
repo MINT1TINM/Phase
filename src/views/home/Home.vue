@@ -5,7 +5,7 @@
       <v-parallax dark src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" height="250">
         <transition appear appear-active-class="fade-up-enter">
           <v-layout align-center column justify-center>
-            <h1 class="display-2 font-weight-light mb-5 mt-5">Phase</h1>
+            <h1 class="display-2 font-weight-light mb-5 mt-5">Audit</h1>
           </v-layout>
         </transition>
       </v-parallax>

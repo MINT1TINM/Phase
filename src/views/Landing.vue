@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar flat color="transparent">
-      <v-toolbar-title class="font-weight-black" style="color:#A64ED1">Phase</v-toolbar-title>
+      <v-toolbar-title class="font-weight-black" style="color:#A64ED1">Audit</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
         rounded
@@ -18,16 +18,15 @@
     <v-container fill-height>
       <v-layout align-center justify-center row wrap>
         <v-card flat color="transparent">
-          <h2 class="text-xs-center display-3 font-weight-black mt-2" style="color:#A64ED1">Phase</h2>
-          <h3 class="text-xs-center mt-2" style="color:#A64ED1">项目协作范式</h3>
-          <h5 class="text-xs-center mt-2" style="color:#A64ED1">INSDIM&trade; 出品</h5>
+          <h2 class="text-center display-3 font-weight-black mt-2" style="color:#A64ED1">ECUST Audit</h2>
         </v-card>
       </v-layout>
     </v-container>
     <v-layout justify-center>
-      <v-btn class="ma-3" outlined fab color="primary">
-        <v-icon>mdi-arrow-down</v-icon>
-      </v-btn>
+      <h4 class="text-center mt-2" style="color:#A64ED1">Powered By Phase</h4>
+    </v-layout>
+    <v-layout class="pb-5" justify-center>
+      <h5 class="text-center mt-2" style="color:#A64ED1">INSDIM&reg; 出品</h5>
     </v-layout>
   </v-app>
 </template>

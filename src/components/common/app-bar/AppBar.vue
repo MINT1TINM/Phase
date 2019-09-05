@@ -13,7 +13,7 @@
         style="padding:0 5px"
         class="font-weight-black navbar-logo app-bar-text text-none subtitle-1"
         @click="goHome"
-      >Phase</v-btn>
+      >Audit</v-btn>
     </v-toolbar-items>
     <v-divider vertical inset></v-divider>
 
