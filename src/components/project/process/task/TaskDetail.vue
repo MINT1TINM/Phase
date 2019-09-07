@@ -29,11 +29,7 @@
       </v-flex>
     </transition>
     <transition appear appear-active-class="fade-up-enter">
-      <v-flex
-        xs7
-        class="inner-sidebar-withoutpadding"
-        style="height:calc(100vh - 96px);overflow-y:auto"
-      >
+      <v-flex xs7 class="inner-sidebar-withoutpadding" style="overflow-y:auto">
         <v-container fluid>
           <sub-task :subTask="currentTask.subTask"></sub-task>
           <related-sheet :sheetIDList="currentTask.sheet.data" class="mt-3"></related-sheet>

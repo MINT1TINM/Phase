@@ -16,15 +16,18 @@ module.exports = {
           minRatio: 0.8
         })
       );
+      config.devtool = "source-map";
     }
   },
+
   css: {
     loaderOptions: {
       sass: {
-        data: `@import "~@/assets/main.scss"`
+        data: '@import "~@/assets/main.scss"'
       }
     }
   },
+
   devServer: {
     proxy: {
       "/": {
@@ -33,5 +36,7 @@ module.exports = {
       }
     }
   },
-  outputDir: "phase"
+
+  outputDir: "phase",
+  productionSourceMap: false
 };
