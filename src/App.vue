@@ -32,7 +32,7 @@
 
     <!-- app switcher -->
     <v-navigation-drawer v-model="appSwitcherShow" absolute temporary class="acrylic">
-      <app-switcher style="height:cals(100vh - 48px);overflow:auto"></app-switcher>
+      <app-switcher v-if="appSwitcherShow" style="height:cals(100vh - 48px);overflow:auto"></app-switcher>
     </v-navigation-drawer>
 
     <!-- notification center -->
@@ -44,7 +44,10 @@
       temporary
       class="acrylic"
     >
-      <notification-center style="height:cals(100vh - 48px);overflow:auto"></notification-center>
+      <notification-center
+        v-if="notificationCenterShow"
+        style="height:cals(100vh - 48px);overflow:auto"
+      ></notification-center>
     </v-navigation-drawer>
 
     <router-view />

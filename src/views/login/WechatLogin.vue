@@ -4,8 +4,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import AuthService from "../../service/authService";
-import UserService from "../../service/userService";
+import AuthService from "@/service/authService";
+import UserService from "@/service/userService";
 import { namespace } from "vuex-class";
 
 const systemModule = namespace("system");
