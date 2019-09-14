@@ -12,6 +12,7 @@
     "ordered-imports": false,
     "quotemark": [true, "double"],
     "trailing-comma": false,
-    "no-console": false
+    "no-console": false,
+    "no-empty": false
   }
 }

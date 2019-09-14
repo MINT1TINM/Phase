@@ -2,10 +2,10 @@ import Vue from "vue";
 
 import basicService from "@/service/basicService";
 import store from "@/store/store";
-import { Field, Template } from "@/types/sheet";
+import { Template } from "@/types/sheet";
 import { encodeUnicode } from "@/utils/ConvertType";
 
-const vue = new Vue();
+const vue = new Vue() as any;
 class SheetService {
   public static async createSheetTemplate(template: Template) {
     // encode field name
@@ -75,7 +75,6 @@ class SheetService {
       target
     });
     if (rsp.msg === "success") {
-      // @ts-ignore
       vue.$snackbar.show("创建成功");
     }
 
@@ -118,7 +117,6 @@ class SheetService {
       content
     });
     if (rsp.msg === "success") {
-      // @ts-ignore
       vue.$snackbar.show("更新成功");
     }
     return rsp;
