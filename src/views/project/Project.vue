@@ -4,7 +4,7 @@
     <v-content>
       <v-parallax dark src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" height="250">
         <v-layout align-center column justify-center>
-          <h1 class="display-2 font-weight-light mb-5 mt-5">Audit 项目</h1>
+          <h1 class="display-2 font-weight-light mb-5 mt-5">{{systemName}} 项目</h1>
           <v-btn rounded outlined dark @click="createProjectDialog=true" class="mt-4">
             <v-icon>mdi-plus</v-icon>&nbsp;新建项目
           </v-btn>
@@ -129,6 +129,7 @@ import { Authorization } from "@/types/user";
 
 const projectModule = namespace("project");
 const userModule = namespace("user");
+const systemModule = namespace("system");
 
 @Component({
   components: {
@@ -160,6 +161,7 @@ export default class ProjectHome extends Vue {
   ) => void;
   @userModule.Getter("authorization")
   private authorization!: Authorization;
+  @systemModule.Getter("systemName") private systemName!: string;
 
   private goToProject(projectId: number) {
     this.updateCurrentProjectID(projectId);

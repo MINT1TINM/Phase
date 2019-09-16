@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar flat color="transparent">
-      <v-toolbar-title class="font-weight-black" style="color:#A64ED1">Audit</v-toolbar-title>
+      <v-toolbar-title class="font-weight-black" style="color:#A64ED1">{{systemName}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
         rounded
@@ -18,7 +18,10 @@
     <v-container fill-height>
       <v-layout align-center justify-center row wrap>
         <v-card flat color="transparent">
-          <h2 class="text-center display-3 font-weight-black mt-2" style="color:#A64ED1">ECUST Audit</h2>
+          <h2
+            class="text-center display-3 font-weight-black mt-2"
+            style="color:#A64ED1"
+          >ECUST {{systemName}}</h2>
         </v-card>
       </v-layout>
     </v-container>
@@ -38,14 +41,15 @@ import { namespace } from "vuex-class";
 import UserService from "@/service/userService";
 
 const userModule = namespace("user");
-const systemModel = namespace("system");
+const systemModule = namespace("system");
 
 @Component
 export default class Landing extends Vue {
   @userModule.Getter("authorization") private authorization: any;
   @userModule.Mutation("clearAuthorization") private clearAuthorization: any;
-  @systemModel.Mutation("toggleFullScreenLoading")
+  @systemModule.Mutation("toggleFullScreenLoading")
   private toggleFullScreenLoading: any;
+  @systemModule.Getter("systemName") private systemName!: string;
 
   private async autoLogin() {
     this.toggleFullScreenLoading(true);

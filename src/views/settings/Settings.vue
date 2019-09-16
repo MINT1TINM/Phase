@@ -1,7 +1,9 @@
 <template>
   <v-app>
     <v-app-bar dense flat fixed app class="navbar">
-      <span class="ml-1 font-weight-black navbar-logo app-bar-text text-none subtitle-1">Audit 设置</span>
+      <span
+        class="ml-1 font-weight-black navbar-logo app-bar-text text-none subtitle-1"
+      >{{systemName}} 设置</span>
       <v-spacer></v-spacer>
       <v-btn icon :to="lastPage">
         <v-icon>mdi-close</v-icon>
@@ -55,6 +57,7 @@ const systemModule = namespace("system");
 @Component
 export default class Settings extends Vue {
   @systemModule.Getter("lastPage") private lastPage: any;
+  @systemModule.Getter("systemName") private systemName!: string;
 
   private settingsItems = [
     { title: "通用" },

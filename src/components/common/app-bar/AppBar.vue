@@ -13,7 +13,7 @@
         style="padding:0 5px"
         class="font-weight-black navbar-logo app-bar-text text-none subtitle-1"
         @click="goHome"
-      >Audit</v-btn>
+      >{{systemName}}</v-btn>
     </v-toolbar-items>
     <v-divider vertical inset></v-divider>
 
@@ -119,6 +119,7 @@ export default class AppBar extends Vue {
   @systemModule.Mutation("toggleNotificationCenter")
   private toggleNotificationCenter: any;
   @systemModule.Getter("invitationList") private invitationList!: Invitation[];
+  @systemModule.Getter("systemName") private systemName!: string;
 
   @systemModule.Mutation("updateLastPage") private updateLastPage: any;
   @systemModule.Getter("appList") private appList: any;

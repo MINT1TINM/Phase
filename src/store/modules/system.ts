@@ -1,6 +1,8 @@
 import { Invitation } from "@/types/project";
 
 interface State {
+  companyName: string;
+  systemName: string;
   lastPage: string;
   loading: boolean;
   appSwitcher: boolean;
@@ -19,6 +21,8 @@ interface App {
 }
 
 const state: State = {
+  companyName: "华东理工大学",
+  systemName: "DIMSTEP",
   uploadPercent: 0,
   lastPage: "",
   loading: false,
@@ -55,7 +59,12 @@ const state: State = {
 };
 
 const getters = {
-  // continue work after altering settings
+  companyName: (s: State) => {
+    return s.companyName;
+  },
+  systemName: (s: State) => {
+    return s.systemName;
+  },
   lastPage: (s: State) => {
     return s.lastPage;
   },

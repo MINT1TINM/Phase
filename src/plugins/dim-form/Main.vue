@@ -125,12 +125,12 @@
               :max="content.max"
               :min="content.min"
               :disabled="content.disabled || disabled"
-              v-else-if="content.type=='date-picker'"
+              v-else-if="content.type==='date-picker'"
               :date.sync="target[content.name]"
             ></date-picker>
             <!-- tags -->
             <v-combobox
-              v-else-if="content.type=='tags'"
+              v-else-if="content.type==='tags'"
               class="text-field-dense"
               :label="dense?`${content.title}`:``"
               outlined
@@ -142,7 +142,7 @@
             ></v-combobox>
             <!-- file-input-->
             <v-file-input
-              v-else-if="content.type=='file-input'"
+              v-else-if="content.type==='file-input'"
               :disabled="content.disabled || disabled"
               v-model="target.formContent[j][content.name]"
               color="deep-purple accent-4"

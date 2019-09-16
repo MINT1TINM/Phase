@@ -25,7 +25,7 @@
           </v-layout>
         </v-container>
         <v-card-text class="text-xs-center font-weight-black">
-          <strong>Audit</strong> 正在加载数据
+          <strong>{{systemName}}</strong> 正在加载数据
         </v-card-text>
       </v-card>
     </v-overlay>
@@ -70,6 +70,7 @@ export default class App extends Vue {
   @systemModule.Getter("notificationCenter") private notificationCenter: any;
   @systemModule.Mutation("toggleNotificationCenter")
   private toggleNotificationCenter: any;
+  @systemModule.Getter("systemName") private systemName!: string;
 
   @systemModule.Mutation("toggleFullScreenLoading")
   private toggleFullScreenLoading: any;

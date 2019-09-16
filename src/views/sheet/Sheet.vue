@@ -4,7 +4,7 @@
     <v-content>
       <v-parallax dark src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" height="250">
         <v-layout align-center column justify-center>
-          <h1 class="display-2 font-weight-light mb-5 mt-5">Audit 表单</h1>
+          <h1 class="display-2 font-weight-light mb-5 mt-5">{{systemName}} 表单</h1>
           <v-btn rounded outlined dark @click="typeSelectDialog=true" class="mt-4">
             <v-icon>mdi-plus</v-icon>&nbsp;新建模版
           </v-btn>
@@ -108,6 +108,7 @@ import { namespace } from "vuex-class";
 
 const sheetModule = namespace("sheet");
 const userModule = namespace("user");
+const systemModule = namespace("system");
 
 @Component({
   components: {
@@ -123,6 +124,7 @@ export default class Sheet extends Vue {
   private restoreSheetTemplate: any;
   @sheetModule.Mutation("updateCurrentTemplateID")
   private updateCurrentTemplateID: any;
+  @systemModule.Getter("systemName") private systemName!: string;
 
   private templateList = [];
   private typeSelectDialog: boolean = false;
