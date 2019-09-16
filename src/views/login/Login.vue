@@ -29,9 +29,9 @@
                   @keyup.enter="standardLogin()"
                 ></v-text-field>
               </v-form>
-              <v-btn block color="primary" dark @click="standardLogin()">登录</v-btn>
-              <v-btn class="mt-3" block color="green" dark @click="wechatLogin()">微信登录</v-btn>
-              <v-btn class="mt-3" block text color="primary">忘记密码?</v-btn>
+              <v-btn outlined block color="primary" dark @click="standardLogin()">登录</v-btn>
+              <v-btn outlined class="mt-3" block color="green" dark @click="wechatLogin()">微信登录</v-btn>
+              <v-btn class="mt-3" text color="primary">忘记密码?</v-btn>
               <!-- <v-divider class="my-3"></v-divider>
               <v-btn block text color="primary" :to="'/register'">注册新用户</v-btn>-->
             </v-flex>
@@ -77,12 +77,24 @@ export default class Login extends Vue {
         this.loginForm.password
       );
 
-      await UserService.getUserInfo(await rsp.authorization.userID);
-      await ProjectService.getInvitationList("", "", this.authorization.userID);
+      switch (rsp.msg) {
+        case "success":
+          await UserService.getUserInfo(await rsp.authorization.userID);
+          await ProjectService.getInvitationList(
+            "",
+            "",
+            this.authorization.userID
+          );
 
-      if ((await rsp.msg) === "success") {
-        this.toggleFullScreenLoading(false);
-        this.$router.push({ path: "/project" });
+          this.toggleFullScreenLoading(false);
+          this.$router.push({ path: "/project" });
+          break;
+        case "wrongpasswd":
+          this.toggleFullScreenLoading(false);
+
+        default:
+          this.toggleFullScreenLoading(false);
+          break;
       }
     }
   }

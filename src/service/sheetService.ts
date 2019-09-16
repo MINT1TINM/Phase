@@ -37,6 +37,10 @@ class SheetService {
       field: template.field
     });
 
+    if (rsp.msg === "success") {
+      vue.$snackbar.show("更新成功");
+    }
+
     return rsp;
   }
 

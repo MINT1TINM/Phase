@@ -1,5 +1,4 @@
 import { Field, Sheet, Template } from "@/types/sheet";
-import { encodeUnicode } from "@/utils/ConvertType";
 
 interface State {
   sheetTemplate: {

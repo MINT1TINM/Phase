@@ -7,6 +7,7 @@
       app
       clipped
       permanent
+      fixed
     >
       <v-list nav dense color="transparent">
         <v-list-item link v-for="(item,i) in appList" :key="i" :to="item.route">

@@ -71,18 +71,18 @@
                                 outlined
                               ></v-select>
                             </v-flex>
-                            <v-flex xs12 v-if="item.type==='list'">
-                              <v-card class="mb-2" outlined>
-                                <v-combobox
-                                  class="text-field-dense"
-                                  outlined
-                                  :disabled="item.disabled"
-                                  v-model="item.list"
-                                  multiple
-                                  chips
-                                  hide-details
-                                ></v-combobox>
-                              </v-card>
+                            <v-flex xs12 v-if="item.type==='select'">
+                              <v-combobox
+                                class="text-field-dense"
+                                outlined
+                                single-line
+                                label="可用的选项 (回车键分隔)"
+                                :disabled="item.disabled"
+                                v-model="item.list"
+                                multiple
+                                chips
+                                hide-details
+                              ></v-combobox>
                             </v-flex>
                           </v-layout>
                         </v-container>
@@ -111,6 +111,7 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { Field } from "@/types/sheet";
 import { namespace } from "vuex-class";
 import SheetService from "@/service/sheetService";
+import { encodeUnicode } from "@/utils/ConvertType";
 
 const sheetModule = namespace("sheet");
 
@@ -132,8 +133,8 @@ export default class SheetDesign extends Vue {
 
   private typeList = [
     { label: "文本", value: "text-field" },
-    { label: "文本框", value: "text-area" }
-    // { label: "选择", value: "select" }
+    { label: "文本框", value: "text-area" },
+    { label: "选择", value: "select" }
   ];
 
   private insertField() {

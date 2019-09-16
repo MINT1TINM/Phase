@@ -31,19 +31,12 @@
     </v-overlay>
 
     <!-- app switcher -->
-    <v-navigation-drawer v-model="appSwitcherShow" absolute temporary class="acrylic">
+    <v-navigation-drawer v-model="appSwitcherShow" fixed temporary class="acrylic">
       <app-switcher v-if="appSwitcherShow" style="height:cals(100vh - 48px);overflow:auto"></app-switcher>
     </v-navigation-drawer>
 
     <!-- notification center -->
-    <v-navigation-drawer
-      width="350"
-      v-model="notificationCenterShow"
-      absolute
-      right
-      temporary
-      class="acrylic"
-    >
+    <v-navigation-drawer v-model="notificationCenterShow" fixed right temporary class="acrylic">
       <notification-center
         v-if="notificationCenterShow"
         style="height:cals(100vh - 48px);overflow:auto"

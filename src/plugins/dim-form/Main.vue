@@ -62,7 +62,7 @@
                   <span class="font-weight-black">{{ item.nickName }}</span>
                 </v-chip>
                 <v-chip v-else>
-                  <span class="font-weight-black">{{ item.title }}</span>
+                  <span class="font-weight-black">{{ item.title?item.title:item }}</span>
                 </v-chip>
               </template>
             </v-select>
@@ -118,7 +118,7 @@
                 ></date-picker>
               </v-flex>
             </v-layout>
-            <!-- data-select -->
+            <!-- date-select -->
             <date-picker
               :label="dense?`${content.title}`:``"
               :dense="dense"

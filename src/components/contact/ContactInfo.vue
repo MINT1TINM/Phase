@@ -4,12 +4,16 @@
       <transition appear appear-active-class="fade-up-enter">
         <v-container fluid>
           <v-layout>
-            <v-flex xs2 class="pa-2">
-              <v-avatar color="primary" size="100%">
+            <div class="pa-2">
+              <v-avatar color="primary" size="100">
                 <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
+                <span
+                  v-else
+                  class="headline font-weight-black white--text"
+                >{{userInfo.nickName | avatar}}</span>
               </v-avatar>
-            </v-flex>
-            <v-flex xs8 class="pl-5">
+            </div>
+            <v-flex class="pl-3">
               <v-layout align-center fill-height>
                 <h2>{{userInfo.nickName}}</h2>
               </v-layout>
