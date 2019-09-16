@@ -2,19 +2,29 @@
   <v-app>
     <app-bar></app-bar>
     <v-content>
-      <v-parallax dark src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" height="250">
-        <v-layout align-center column justify-center>
-          <h1 class="display-2 font-weight-light mb-5 mt-5">{{systemName}} 项目</h1>
-          <v-btn rounded outlined dark @click="createProjectDialog=true" class="mt-4">
-            <v-icon>mdi-plus</v-icon>&nbsp;新建项目
-          </v-btn>
-        </v-layout>
-      </v-parallax>
       <v-container grid-list-md>
         <v-layout row wrap>
           <v-flex xs12>
+            <v-card-title class="subtitle-1 font-weight-black">创建</v-card-title>
+            <v-container>
+              <transition appear appear-active-class="fade-up-enter">
+                <v-flex xs3>
+                  <v-hover v-slot:default="{ hover }">
+                    <v-card :elevation="hover ? 8 : 0" @click="createProjectDialog=true" outlined>
+                      <v-img height="150">
+                        <v-layout fill-height justify-center align-center>
+                          <v-icon size="30">mdi-plus</v-icon>
+                        </v-layout>
+                      </v-img>
+                      <v-card-title class="body-2 font-weight-black">新建空白项目</v-card-title>
+                      <v-card-text class="caption">从新开始</v-card-text>
+                    </v-card>
+                  </v-hover>
+                </v-flex>
+              </transition>
+            </v-container>
             <v-card-title class="subtitle-1 font-weight-black">
-              正在进行的项目
+              正在进行
               <v-spacer></v-spacer>
 
               <v-btn
@@ -38,7 +48,7 @@
                 <v-layout row wrap v-if="viewMode===`grid`">
                   <v-flex xs3 v-for="(item,i) in projectList" :key="`project-${i}`">
                     <v-hover v-slot:default="{ hover }">
-                      <v-card :elevation="hover ? 8 : 2" @click="goToProject(item.id)">
+                      <v-card :elevation="hover ? 8 : 0" outlined @click="goToProject(item.id)">
                         <v-img
                           v-if="item.folderURL"
                           height="150"
@@ -62,7 +72,7 @@
                           <span class="ml-2 font-weight-black caption">{{item.nickName}}</span>
                         </v-card-title>
 
-                        <v-card-text class="font-weight-black"></v-card-text>
+                        <v-card-text class="caption"></v-card-text>
                       </v-card>
                     </v-hover>
                   </v-flex>
