@@ -13,31 +13,33 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <v-list nav dense color="transparent">
-        <template v-for="(item,i) in userList">
-          <div :key="`user-${i}`">
-            <v-list-item
-              :class="item.id === currentContactID?`v-list-item--active`:``"
-              @click="showInfo(item)"
-            >
-              <v-list-item-avatar>
-                <v-avatar color="primary" size="32">
-                  <img v-if="item.headImgURL" :src="item.headImgURL | httpsfy" />
-                  <span
-                    v-else
-                    class="body-2 font-weight-black white--text"
-                  >{{item.nickName | avatar}}</span>
-                </v-avatar>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title>{{item.nickName}}</v-list-item-title>
-                <v-list-item-subtitle class="caption grey--text">{{item.phone}}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-divider class="my-1"></v-divider>
-          </div>
-        </template>
-      </v-list>
+      <transition appear appear-active-class="fade-up-enter">
+        <v-list nav dense color="transparent">
+          <template v-for="(item,i) in userList">
+            <div :key="`user-${i}`">
+              <v-list-item
+                :class="item.id === currentContactID?`v-list-item--active`:``"
+                @click="showInfo(item)"
+              >
+                <v-list-item-avatar>
+                  <v-avatar color="primary" size="32">
+                    <img v-if="item.headImgURL" :src="item.headImgURL | httpsfy" />
+                    <span
+                      v-else
+                      class="body-2 font-weight-black white--text"
+                    >{{item.nickName | avatar}}</span>
+                  </v-avatar>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title>{{item.nickName}}</v-list-item-title>
+                  <v-list-item-subtitle class="caption grey--text">{{item.phone}}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider class="my-1"></v-divider>
+            </div>
+          </template>
+        </v-list>
+      </transition>
     </v-flex>
     <v-flex xs9>
       <contact-info :userID="currentContactID"></contact-info>

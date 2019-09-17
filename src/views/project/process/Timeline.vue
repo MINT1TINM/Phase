@@ -52,4 +52,7 @@ export default class Timeline extends Vue {
 </script>
 
 <style scoped>
+::-webkit-scrollbar {
+  display: block;
+}
 </style>

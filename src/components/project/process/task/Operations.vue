@@ -45,5 +45,3 @@ export default class TaskOperations extends Vue {
 }
 </script>
 
-<style scoped>
-</style>

@@ -299,4 +299,7 @@ export default class Document extends Vue {
 </script>
 
 <style scoped>
+::-webkit-scrollbar {
+  display: block;
+}
 </style>

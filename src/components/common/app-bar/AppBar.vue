@@ -2,7 +2,7 @@
   <v-app-bar dense flat app fixed clipped-left class="navbar">
     <!-- app switcher toggle -->
     <v-toolbar-items text style="margin-left:-16px">
-      <v-btn width="62" icon @click="toggleAppSwitcher">
+      <v-btn icon @click="toggleAppSwitcher">
         <v-icon size="23">mdi-apps</v-icon>
       </v-btn>
     </v-toolbar-items>

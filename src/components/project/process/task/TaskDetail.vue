@@ -203,4 +203,7 @@ export default class TaskDetail extends Vue {
 </script>
 
 <style scoped>
+::-webkit-scrollbar {
+  display: block;
+}
 </style>

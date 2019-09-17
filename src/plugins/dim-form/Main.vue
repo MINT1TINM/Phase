@@ -85,7 +85,7 @@
             >
               <template v-slot:selection="{ item, index }">
                 <v-chip v-if="item.headImgURL" pill small>
-                  <v-avatar size="10" left>
+                  <v-avatar left>
                     <v-img :src="item.headImgURL"></v-img>
                   </v-avatar>
                   <span class="font-weight-black">{{ item.nickName }}</span>
@@ -96,10 +96,9 @@
               </template>
             </v-select>
             <!-- date-range -->
-            <v-layout row justify-center v-else-if="content.type==='date-range'">
+            <v-layout justify-center v-else-if="content.type==='date-range'">
               <v-flex xs6>
                 <date-picker
-                  class="mr-2"
                   :disabled="content.disabled || disabled"
                   :dense="dense"
                   :max="content.max"
@@ -107,9 +106,8 @@
                   :date.sync="target[content.nameStart]"
                 ></date-picker>
               </v-flex>
-              <v-flex xs6>
+              <v-flex class="ml-2" xs6>
                 <date-picker
-                  class="ml-2"
                   :disabled="content.disabled || disabled"
                   :dense="dense"
                   :max="content.max"

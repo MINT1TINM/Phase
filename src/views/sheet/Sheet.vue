@@ -2,18 +2,30 @@
   <v-app>
     <app-bar></app-bar>
     <v-content>
-      <v-parallax dark src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" height="250">
-        <v-layout align-center column justify-center>
-          <h1 class="display-2 font-weight-light mb-5 mt-5">{{systemName}} 表单</h1>
-          <v-btn rounded outlined dark @click="typeSelectDialog=true" class="mt-4">
-            <v-icon>mdi-plus</v-icon>&nbsp;新建模版
-          </v-btn>
-        </v-layout>
-      </v-parallax>
-
       <v-container grid-list-md>
         <v-layout row wrap>
           <v-flex xs12>
+            <v-card-title class="subtitle-1 font-weight-black">创建</v-card-title>
+            <v-container>
+              <transition appear appear-active-class="fade-up-enter">
+                <v-layout row wrap>
+                  <v-flex xs3 v-for="(item,i) in typeList" :key="`type-${i}`">
+                    <v-hover v-slot:default="{ hover }">
+                      <v-card :elevation="hover ? 8 : 0" @click="toDesignPage(item.type)" outlined>
+                        <v-img height="150">
+                          <v-layout fill-height justify-center align-center>
+                            <v-icon size="30">mdi-plus</v-icon>
+                          </v-layout>
+                        </v-img>
+                      </v-card>
+                    </v-hover>
+                    <v-card-title class="body-2 font-weight-black text-center">
+                      <v-layout justify-center>{{item.name}}</v-layout>
+                    </v-card-title>
+                  </v-flex>
+                </v-layout>
+              </transition>
+            </v-container>
             <v-card-title class="subtitle-1 font-weight-black">
               最新
               <v-spacer></v-spacer>
@@ -131,6 +143,7 @@ export default class Sheet extends Vue {
 
   private toDesignPage(type: string) {
     this.updateCurrentTemplateID("");
+    this.restoreSheetTemplate();
 
     this.$router.push({
       path: `/sheet/design/${type}`

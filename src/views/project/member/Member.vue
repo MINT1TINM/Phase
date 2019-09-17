@@ -280,4 +280,7 @@ export default class ProjectMemberManagement extends Vue {
 </script>
 
 <style scoped>
+::-webkit-scrollbar {
+  display: block;
+}
 </style>

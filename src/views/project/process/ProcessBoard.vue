@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar flat class="navbar" dense style="z-index:2">
+    <v-toolbar dense style="z-index:2">
       <v-tabs v-model="tab">
         <v-tab :to="`/project/process/${$route.params.processID}/timeline`">时间轴</v-tab>
         <v-tab :to="`/project/process/${$route.params.processID}/task`">任务清单</v-tab>
@@ -32,5 +32,4 @@ export default class ProcessBoard extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+

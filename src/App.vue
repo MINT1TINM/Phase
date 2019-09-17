@@ -32,15 +32,12 @@
 
     <!-- app switcher -->
     <v-navigation-drawer v-model="appSwitcherShow" fixed temporary class="acrylic">
-      <app-switcher v-if="appSwitcherShow" style="height:cals(100vh - 48px);overflow:auto"></app-switcher>
+      <app-switcher v-if="appSwitcherShow" style="height:calc(100vh - 48px);"></app-switcher>
     </v-navigation-drawer>
 
     <!-- notification center -->
     <v-navigation-drawer v-model="notificationCenterShow" fixed right temporary class="acrylic">
-      <notification-center
-        v-if="notificationCenterShow"
-        style="height:cals(100vh - 48px);overflow:auto"
-      ></notification-center>
+      <notification-center v-if="notificationCenterShow" style="height:calc(100vh - 48px);"></notification-center>
     </v-navigation-drawer>
 
     <router-view />
@@ -98,3 +95,5 @@ export default class App extends Vue {
   }
 }
 </script>
+
+

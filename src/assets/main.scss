@@ -51,22 +51,23 @@
   border-bottom-color: rgba(0, 0, 0, 0.12) !important;
 }
 
-// // scrollbar
-// ::-webkit-scrollbar {
-//   height: 6px; /* height of horizontal scrollbar ← You're missing this */
-//   width: 6px; /* width of vertical scrollbar */
-//   background: transparent;
-//   border-radius: 3px;
-// }
+// scrollbar
+::-webkit-scrollbar {
+  height: 6px; /* height of horizontal scrollbar ← You're missing this */
+  width: 6px; /* width of vertical scrollbar */
+  background: transparent;
+  border-radius: 3px;
+}
 
-// ::-webkit-scrollbar:hover {
-//   background: #f1f1f1;
-// }
+::-webkit-scrollbar:hover {
+  background: #f1f1f1;
+}
 
-// ::-webkit-scrollbar-thumb {
-//   background: #b3b3b3;
-//   border-radius: 3px;
-// }
+::-webkit-scrollbar-thumb {
+  background: #b3b3b3;
+  border-radius: 3px;
+}
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #8f8f8f;
@@ -79,11 +80,11 @@
 }
 
 .v-slide-group__content {
-  overflow: auto !important;
+  overflow-x: auto !important;
 }
 
 .v-slide-group__wrapper {
-  overflow: auto !important;
+  overflow-x: auto !important;
 }
 
 // page column

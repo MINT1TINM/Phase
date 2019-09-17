@@ -17,10 +17,11 @@
                             <v-icon size="30">mdi-plus</v-icon>
                           </v-layout>
                         </v-img>
-                        <v-card-title class="body-2 font-weight-black">新建空白项目</v-card-title>
-                        <v-card-text class="caption">从新开始</v-card-text>
                       </v-card>
                     </v-hover>
+                    <v-card-title class="body-2 font-weight-black">
+                      <v-layout justify-center>新建空白项目</v-layout>
+                    </v-card-title>
                   </v-flex>
                 </v-layout>
               </transition>

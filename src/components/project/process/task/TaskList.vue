@@ -220,4 +220,7 @@ export default class TaskList extends Vue {
 </script>
 
 <style scoped>
+::-webkit-scrollbar {
+  display: block;
+}
 </style>

@@ -163,4 +163,7 @@ export default class Settings extends Vue {
 </script>
 
 <style scoped>
+::-webkit-scrollbar {
+  display: block;
+}
 </style>

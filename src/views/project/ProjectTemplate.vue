@@ -88,5 +88,3 @@ export default class ProjectIndex extends Vue {
 }
 </script>
 
-<style>
-</style>

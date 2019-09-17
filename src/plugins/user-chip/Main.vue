@@ -3,7 +3,7 @@
     <v-avatar size="10" left>
       <v-img :src="headImgURL"></v-img>
     </v-avatar>
-    <span class="font-weight-black">{{nickName }}</span>
+    <span class="font-weight-black">{{nickName}}</span>
   </v-chip>
 </template>
 

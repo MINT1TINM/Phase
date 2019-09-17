@@ -1,15 +1,6 @@
 <template>
   <div>
-    <v-toolbar flat class="navbar" dense style="z-index:2">
-      <!-- <v-text-field
-        prepend-inner-icon="mdi-magnify"
-        hide-details
-        outlined
-        single-line
-        class="text-field-dense"
-        label="搜索表单"
-        v-model="searchSheetContent"
-      ></v-text-field>-->
+    <v-toolbar dense>
       <v-tabs v-model="currentType">
         <v-tab href="#全部">全部</v-tab>
         <v-tab :href="`#${item}`" v-for="(item,i) in typeList" :key="`t-${i}`">{{item}}</v-tab>
@@ -50,7 +41,7 @@
                     <user-chip :userID="item.userID"></user-chip>
                   </td>
                   <td class="text-center">
-                    <v-chip class="font-weight-black caption">{{item.target}}</v-chip>
+                    <v-chip small class="font-weight-black caption">{{item.target}}</v-chip>
                   </td>
                 </tr>
               </tbody>
