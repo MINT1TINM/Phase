@@ -8,19 +8,21 @@
             <v-card-title class="subtitle-1 font-weight-black">创建</v-card-title>
             <v-container>
               <transition appear appear-active-class="fade-up-enter">
-                <v-flex xs3>
-                  <v-hover v-slot:default="{ hover }">
-                    <v-card :elevation="hover ? 8 : 0" @click="createProjectDialog=true" outlined>
-                      <v-img height="150">
-                        <v-layout fill-height justify-center align-center>
-                          <v-icon size="30">mdi-plus</v-icon>
-                        </v-layout>
-                      </v-img>
-                      <v-card-title class="body-2 font-weight-black">新建空白项目</v-card-title>
-                      <v-card-text class="caption">从新开始</v-card-text>
-                    </v-card>
-                  </v-hover>
-                </v-flex>
+                <v-layout row wrap>
+                  <v-flex xs3>
+                    <v-hover v-slot:default="{ hover }">
+                      <v-card :elevation="hover ? 8 : 0" @click="createProjectDialog=true" outlined>
+                        <v-img height="150">
+                          <v-layout fill-height justify-center align-center>
+                            <v-icon size="30">mdi-plus</v-icon>
+                          </v-layout>
+                        </v-img>
+                        <v-card-title class="body-2 font-weight-black">新建空白项目</v-card-title>
+                        <v-card-text class="caption">从新开始</v-card-text>
+                      </v-card>
+                    </v-hover>
+                  </v-flex>
+                </v-layout>
               </transition>
             </v-container>
             <v-card-title class="subtitle-1 font-weight-black">

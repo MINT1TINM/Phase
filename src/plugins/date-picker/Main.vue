@@ -54,11 +54,11 @@ export default class DatePicker extends Vue {
 
   @Watch("date")
   private onDateChanged() {
-    this.dateShow = this.date.toString().slice(0, 10);
+    this.dateShow = new Date(this.date).toISOString().slice(0, 10);
   }
 
   private mounted() {
-    this.dateShow = this.date.toString().slice(0, 10);
+    this.dateShow = new Date(this.date).toISOString().slice(0, 10);
   }
 }
 </script>
