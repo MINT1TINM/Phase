@@ -109,13 +109,22 @@ export default class FillSheet extends Vue {
   }
 
   get sheetInfoShow() {
+    for (let i = 0; i < this.templateInfo.field.data.length; i++) {
+      const e = this.templateInfo.field.data[i];
+      if (e.type === "multi-select") {
+        if (this.sheetInfo.content[e.name] === undefined) {
+          console.log("new");
+          this.sheetInfo.content[e.name] = {
+            data: []
+          };
+        }
+        console.log(this.sheetInfo.content);
+      }
+    }
     return this.sheetInfo;
   }
 
-  private mounted() {
-    console.log(this.templateInfo);
-    console.log(this.sheetInfo);
-  }
+  private mounted() {}
 }
 </script>
 

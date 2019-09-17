@@ -71,7 +71,10 @@
                                 outlined
                               ></v-select>
                             </v-flex>
-                            <v-flex xs12 v-if="item.type==='select'">
+                            <v-flex
+                              xs12
+                              v-if="item.type==='select' || item.type === `multi-select`"
+                            >
                               <v-combobox
                                 class="text-field-dense"
                                 outlined
@@ -135,6 +138,7 @@ export default class SheetDesign extends Vue {
     { label: "文本", value: "text-field" },
     { label: "文本框", value: "text-area" },
     { label: "选择", value: "select" },
+    { label: "多项选择", value: "multi-select" },
     { label: "日期", value: "date-picker" }
   ];
 

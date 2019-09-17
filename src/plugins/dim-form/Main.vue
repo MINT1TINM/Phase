@@ -19,7 +19,7 @@
           <v-flex :class="dense?`xs12`:`xs9`">
             <!-- text-field -->
             <v-text-field
-              v-if="content.type=='text-field'"
+              v-if="content.type==='text-field'"
               class="text-field-dense"
               v-model="target[content.name]"
               :disabled="content.disabled || disabled"
@@ -30,7 +30,7 @@
             ></v-text-field>
             <!-- text-area -->
             <v-textarea
-              v-else-if="content.type=='text-area'"
+              v-else-if="content.type==='text-area'"
               class="text-field-dense"
               v-model="target[content.name]"
               :disabled="content.disabled || disabled"
@@ -40,7 +40,7 @@
             ></v-textarea>
             <!-- select -->
             <v-select
-              v-else-if="content.type=='select'"
+              v-else-if="content.type==='select'"
               class="text-field-dense"
               :items="content.list"
               v-model="target[content.name]"
@@ -68,7 +68,7 @@
             </v-select>
             <!-- multi-select -->
             <v-select
-              v-else-if="content.type=='multi-select'"
+              v-else-if="content.type==='multi-select'"
               class="text-field-dense"
               :items="content.list"
               v-model="target[content.name].data"
@@ -91,12 +91,12 @@
                   <span class="font-weight-black">{{ item.nickName }}</span>
                 </v-chip>
                 <v-chip v-else>
-                  <span class="font-weight-black">{{ item[content.text] }}</span>
+                  <span class="font-weight-black">{{ item[content.text]?item[content.text]:item }}</span>
                 </v-chip>
               </template>
             </v-select>
             <!-- date-range -->
-            <v-layout row justify-center v-else-if="content.type=='date-range'">
+            <v-layout row justify-center v-else-if="content.type==='date-range'">
               <v-flex xs6>
                 <date-picker
                   class="mr-2"
@@ -185,7 +185,8 @@ export default {
   },
   data() {
     return {};
-  }
+  },
+  mounted() {}
 };
 </script>
 
