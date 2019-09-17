@@ -11,6 +11,7 @@ interface State {
   appList: App[];
   uploadPercent: number;
   invitationList: Invitation[];
+  permissionList: object[];
 }
 
 interface App {
@@ -55,7 +56,13 @@ const state: State = {
       color: "linear-gradient(#2eaae8, #8fcceb)"
     }
   ],
-  invitationList: []
+  invitationList: [],
+  permissionList: [
+    {
+      text: "管理",
+      value: "god"
+    }
+  ]
 };
 
 const getters = {
@@ -88,6 +95,9 @@ const getters = {
   },
   invitationList: (s: State) => {
     return s.invitationList;
+  },
+  permissionList: (s: State) => {
+    return s.permissionList;
   }
 };
 

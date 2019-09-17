@@ -35,7 +35,9 @@
                       chips
                       outlined
                       dense
-                      :items="[`god`]"
+                      :items="permissionList"
+                      item-text="text"
+                      item-value="value"
                       multiple
                       @change="updateUserPrivilege"
                       single-line
@@ -85,12 +87,14 @@ import { UserInfo } from "@/types/user";
 import { namespace } from "vuex-class";
 
 const userModule = namespace("user");
+const systemModule = namespace("system");
 
 @Component
 export default class ContactInfo extends Vue {
   @Prop(String) public userID!: string;
 
   @userModule.Getter("privilege") private privilege!: string[];
+  @systemModule.Getter("permissionList") private permissionList: any;
 
   private userInfo: UserInfo = {
     city: "",

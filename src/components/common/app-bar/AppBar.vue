@@ -12,6 +12,7 @@
         text
         style="padding:0 5px"
         class="font-weight-black text-none subtitle-1"
+        color="primary"
         @click="goHome"
       >{{systemName}}</v-btn>
     </v-toolbar-items>
@@ -31,7 +32,7 @@
     <!-- notification center -->
 
     <v-badge overlap style="height:100%">
-      <template v-slot:badge class="caption">
+      <template v-if="invitationList.length>=1" v-slot:badge class="caption">
         <small>{{invitationList.length}}</small>
       </template>
       <v-toolbar-items>
