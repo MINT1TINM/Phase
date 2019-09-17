@@ -18,16 +18,15 @@
     <v-container fill-height>
       <v-layout align-center justify-center row wrap>
         <v-card flat color="transparent">
-          <h2
-            class="text-center display-3 font-weight-black mt-2"
-            style="color:#A64ED1"
-          >ECUST {{systemName}}</h2>
+          <div class="text-left display-3 font-weight-black mt-2" style="color:#A64ED1">
+            <h3>{{systemName}}</h3>
+            <p class="pt-3">for</p>
+            <h3>{{companyName}}</h3>
+          </div>
         </v-card>
       </v-layout>
     </v-container>
-    <v-layout justify-center>
-      <h4 class="text-center mt-2" style="color:#A64ED1">Powered By Phase</h4>
-    </v-layout>
+
     <v-layout class="pb-5" justify-center>
       <h5 class="text-center mt-2" style="color:#A64ED1">INSDIM&reg; 出品</h5>
     </v-layout>
@@ -50,6 +49,7 @@ export default class Landing extends Vue {
   @systemModule.Mutation("toggleFullScreenLoading")
   private toggleFullScreenLoading: any;
   @systemModule.Getter("systemName") private systemName!: string;
+  @systemModule.Getter("companyName") private companyName!: string;
 
   private async autoLogin() {
     this.toggleFullScreenLoading(true);

@@ -11,7 +11,7 @@
       <v-btn
         text
         style="padding:0 5px"
-        class="font-weight-black navbar-logo app-bar-text text-none subtitle-1"
+        class="font-weight-black text-none subtitle-1"
         @click="goHome"
       >{{systemName}}</v-btn>
     </v-toolbar-items>

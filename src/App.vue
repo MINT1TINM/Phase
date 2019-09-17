@@ -90,6 +90,7 @@ export default class App extends Vue {
   }
 
   private mounted() {
+    document.title = this.systemName;
     this.toggleFullScreenLoading(false);
 
     this.appSwitcherShow = this.appSwitcher;
