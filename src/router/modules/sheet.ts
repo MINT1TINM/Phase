@@ -14,10 +14,6 @@ export default [
       {
         path: "/sheet/design/list",
         component: () => import("@/components/sheet/ListDesign.vue")
-      },
-      {
-        path: "/sheet/preview/:templateID",
-        component: () => import("@/components/sheet/Preview.vue")
       }
     ]
   }

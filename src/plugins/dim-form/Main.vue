@@ -56,13 +56,13 @@
             >
               <template v-slot:selection="{ item, index }">
                 <v-chip v-if="item.headImgURL" pill small>
-                  <v-avatar size="10" left>
+                  <v-avatar left>
                     <v-img :src="item.headImgURL"></v-img>
                   </v-avatar>
                   <span class="font-weight-black">{{ item.nickName }}</span>
                 </v-chip>
                 <v-chip v-else>
-                  <span class="font-weight-black">{{ item.title?item.title:item }}</span>
+                  <span class="font-weight-black">{{ item[content.text]?item[content.text]:item }}</span>
                 </v-chip>
               </template>
             </v-select>

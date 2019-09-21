@@ -1,6 +1,5 @@
 interface Project {
   id: string;
-  uuid?: number;
   createAt?: number;
   updatedAt?: number;
   name: string;
@@ -20,7 +19,6 @@ interface MemberList {
 interface ProjectMember {
   id?: string;
   userID?: string;
-  userUUID?: string;
   role?: string[];
   projectRole?: [];
   headImgURL?: string;

@@ -55,17 +55,6 @@
                                   </template>
                                   <span>编辑</span>
                                 </v-tooltip>
-                                <v-tooltip bottom>
-                                  <template v-slot:activator="{ on }">
-                                    <v-btn v-on="on" icon @click="toPreviewTool(item.id)">
-                                      <v-icon
-                                        size="20"
-                                        class="white--text"
-                                      >mdi-feature-search-outline</v-icon>
-                                    </v-btn>
-                                  </template>
-                                  <span>预览</span>
-                                </v-tooltip>
                               </v-layout>
                             </div>
                           </v-expand-transition>
