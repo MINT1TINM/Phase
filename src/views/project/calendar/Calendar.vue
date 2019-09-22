@@ -39,7 +39,6 @@
           v-model="selectedOpen"
           :close-on-content-click="false"
           :activator="selectedElement"
-          full-width
           offset-x
         >
           <v-card elevation="10" min-width="350px">

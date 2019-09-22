@@ -108,7 +108,7 @@ export default class FillSheet extends Vue {
     this.$emit("closeDialog");
   }
 
-  get sheetInfoShow() {
+  private get sheetInfoShow() {
     for (let i = 0; i < this.templateInfo.field.data.length; i++) {
       const e = this.templateInfo.field.data[i];
       if (e.type === "multi-select") {

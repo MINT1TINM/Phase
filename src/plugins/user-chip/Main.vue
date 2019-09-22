@@ -21,15 +21,17 @@ export default class UserChip extends Vue {
 
   @Prop(String) private userID!: string;
 
-  get headImgURL() {
+  private get headImgURL() {
     if (this.userID) {
-      return this.projectMemberCache(this.userID).headImgURL;
+      return (
+        `https` + this.projectMemberCache(this.userID).headImgURL.substring(4)
+      );
     } else {
       return "";
     }
   }
 
-  get nickName() {
+  private get nickName() {
     if (this.userID) {
       return this.projectMemberCache(this.userID).nickName;
     } else {
