@@ -23,6 +23,7 @@ interface UserInfo {
 
 interface UserProject {
   projectID: string;
+  projectUUID?: string;
   role: [];
 }
 

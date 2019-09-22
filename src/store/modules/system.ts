@@ -23,7 +23,7 @@ interface App {
 
 const state: State = {
   companyName: "华东理工大学",
-  systemName: "DIM Step",
+  systemName: "Audit",
   uploadPercent: 0,
   lastPage: "",
   loading: false,

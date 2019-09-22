@@ -38,7 +38,7 @@ const getters = {
 
     if (s.userInfo.project) {
       for (const item of s.userInfo.project.data) {
-        projectIDList.push(item.projectID);
+        projectIDList.push(item.projectID || item.projectUUID);
       }
     }
 
