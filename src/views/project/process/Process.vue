@@ -38,7 +38,7 @@
               </v-slide-item>
             </v-slide-group>
           </v-sheet>
-          <v-sheet color="transparent" v-else style="height:100%">
+          <v-sheet color="transparent" v-else style="height:calc(100vh - 112px)">
             <v-layout fill-height justify-center align-center>
               <h3>请创建过程</h3>
             </v-layout>
