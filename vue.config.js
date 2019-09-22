@@ -37,6 +37,6 @@ module.exports = {
     }
   },
 
-  outputDir: "phase",
+  outputDir: "dim-step",
   productionSourceMap: false
 };
