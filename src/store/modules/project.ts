@@ -54,7 +54,7 @@ const getters = {
       return e.id === s.currentProjectID;
     });
     return currentProject!.member!.data.find((e: ProjectMember) => {
-      return e.userID === userID;
+      return e.userID === userID || e.userUUID === userID;
     })!.role;
   },
   viewMode: (s: State) => {
