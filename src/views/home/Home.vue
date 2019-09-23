@@ -38,6 +38,20 @@
                       </v-card>
                     </v-hover>
                   </v-flex>
+                  <v-flex xs15>
+                    <v-hover v-slot:default="{ hover }">
+                      <v-card color="transparent" :elevation="hover ? 8 : 0">
+                        <v-layout align-center justify-center style="padding:10%">
+                          <v-img aspect-ratio="1">
+                            <v-layout fill-height justify-center align-center>
+                              <v-icon size="40">mdi-plus</v-icon>
+                            </v-layout>
+                          </v-img>
+                        </v-layout>
+                        <div class="body-2 pb-5 font-weight-black text-center">敬请期待</div>
+                      </v-card>
+                    </v-hover>
+                  </v-flex>
                 </v-layout>
               </transition>
             </v-container>

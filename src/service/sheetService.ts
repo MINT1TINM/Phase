@@ -64,6 +64,14 @@ class SheetService {
     return rsp;
   }
 
+  public static async exportTemplate(templateID: string) {
+    // const rsp = await basicService.getRequest("/sheet/template/xlsx", {
+    //   id: templateID
+    // });
+
+    window.open("/api/sheet/template/xlsx?id=" + templateID, "_blank");
+  }
+
   public static async createSheet(
     projectID: string,
     templateID: string,

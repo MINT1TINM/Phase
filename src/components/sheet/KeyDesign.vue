@@ -3,9 +3,15 @@
     <v-toolbar dense flat class="navbar" style="z-index:2">
       <v-toolbar-title class="subtitle-1 font-weight-black">表单设计器</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn rounded text @click="saveTemplate">
-        <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
-      </v-btn>
+      <v-toolbar-items>
+        <v-btn text @click="saveTemplate" v-if="sheetTemplate.userID === authorization.userID">
+          <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
+        </v-btn>
+        <v-btn text @click="exportTemplate">
+          <v-icon size="20">mdi-export</v-icon>&nbsp;导出
+        </v-btn>
+      </v-toolbar-items>
+
       <v-divider vertical></v-divider>
       <v-btn icon class="ml-1" @click="goHome">
         <v-icon>mdi-close</v-icon>
@@ -55,7 +61,7 @@
                                 single-line
                               ></v-text-field>
                             </v-flex>
-                            <v-flex xs6>
+                            <v-flex xs5>
                               <v-select
                                 dense
                                 :items="typeList"
@@ -70,6 +76,17 @@
                                 item-value="value"
                                 outlined
                               ></v-select>
+                            </v-flex>
+                            <v-flex>
+                              <v-btn
+                                @click="deleteField(item)"
+                                color="grey"
+                                outlined
+                                height="100%"
+                                width="100%"
+                              >
+                                <v-icon size="20">mdi-close</v-icon>
+                              </v-btn>
                             </v-flex>
                             <v-flex
                               xs12
@@ -115,8 +132,10 @@ import { Field } from "@/types/sheet";
 import { namespace } from "vuex-class";
 import SheetService from "@/service/sheetService";
 import { encodeUnicode } from "@/utils/ConvertType";
+import { Authorization } from "@/types/user";
 
 const sheetModule = namespace("sheet");
+const userModule = namespace("user");
 
 @Component
 export default class SheetDesign extends Vue {
@@ -124,6 +143,7 @@ export default class SheetDesign extends Vue {
     sheetDesign: HTMLFormElement;
   };
 
+  @userModule.Getter("authorization") private authorization!: Authorization;
   @sheetModule.Getter("sheetTemplate") private sheetTemplate: any;
   @sheetModule.Getter("currentTemplateID") private currentTemplateID!: string;
   @sheetModule.Mutation("insertNewEmptyField") private insertNewEmptyField: any;
@@ -148,6 +168,13 @@ export default class SheetDesign extends Vue {
     }
   }
 
+  private deleteField(item: any) {
+    const index = this.sheetTemplate.field.data.findIndex((e: any) => {
+      return e === item;
+    });
+    this.sheetTemplate.field.data.splice(index, 1);
+  }
+
   private async saveTemplate() {
     if (this.$refs.sheetDesign.validate()) {
       this.updateSheetTemplate(this.sheetTemplate);
@@ -168,6 +195,10 @@ export default class SheetDesign extends Vue {
         );
       }
     }
+  }
+
+  private async exportTemplate() {
+    await SheetService.exportTemplate(this.sheetTemplate.id);
   }
 
   private goHome() {

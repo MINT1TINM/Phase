@@ -11,6 +11,7 @@ interface Template {
   name: string;
   field: { data: Field[] };
   type: string;
+  locked: boolean;
 }
 
 interface Sheet {
