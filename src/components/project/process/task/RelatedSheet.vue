@@ -88,7 +88,8 @@ export default class RelatedDocument extends Vue {
     field: {
       data: []
     },
-    type: ""
+    type: "",
+    locked: false
   };
   private headers = [
     { text: "名称", value: "name", align: "center", sortable: false },
@@ -113,7 +114,8 @@ export default class RelatedDocument extends Vue {
       field: {
         data: []
       },
-      type: ""
+      type: "",
+      locked: false
     };
     const rsp = await SheetService.getSheetTemplate(templateID);
     this.templateInfo = rsp.template;

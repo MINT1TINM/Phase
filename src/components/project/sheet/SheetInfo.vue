@@ -97,7 +97,8 @@ export default class SheetInfo extends Vue {
     field: {
       data: []
     },
-    type: ""
+    type: "",
+    locked: false
   };
   private fillSheetDialog: boolean = false;
 
@@ -118,7 +119,8 @@ export default class SheetInfo extends Vue {
       field: {
         data: []
       },
-      type: ""
+      type: "",
+      locked: false
     };
     const rsp = await SheetService.getSheetTemplate(templateID);
     this.templateInfo = rsp.template;
