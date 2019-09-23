@@ -23,20 +23,18 @@
                   <v-flex xs15 v-for="(item,i) in appList" :key="`project-${i}`">
                     <v-hover v-slot:default="{ hover }">
                       <v-card
-                        :elevation="hover ? 8 : 2"
+                        color="transparent"
+                        :elevation="hover ? 8 : 0"
                         @click="goToApp(item.route)"
-                        :style="`background:${item.color}`"
                       >
-                        <v-layout align-center justify-center style="padding:30%">
+                        <v-layout align-center justify-center style="padding:10%">
                           <v-img
                             aspect-ratio="1"
                             style="display:block;margin:auto"
                             :src="item.icon"
                           ></v-img>
                         </v-layout>
-                        <div
-                          class="body-2 pb-5 font-weight-black white--text text-center"
-                        >{{item.name}}</div>
+                        <div class="body-2 pb-5 font-weight-black text-center">{{item.name}}</div>
                       </v-card>
                     </v-hover>
                   </v-flex>

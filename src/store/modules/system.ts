@@ -34,25 +34,25 @@ const state: State = {
     {
       name: "项目",
       route: "project",
-      icon: "project.svg",
+      icon: "icon/icon_project.svg",
       color: "linear-gradient(#2eaae8, #8fcceb)"
     },
     {
       name: "人脉",
       route: "contact",
-      icon: "contact.svg",
+      icon: "icon/icon_contact.svg",
       color: "linear-gradient(#514fe8, #8d8ce6)"
     },
     {
       name: "表单",
       route: "sheet",
-      icon: "sheet.svg",
+      icon: "icon/icon_sheet.svg",
       color: "linear-gradient(#31e236, #80e287)"
     },
     {
-      name: "会议",
-      route: "meeting",
-      icon: "",
+      name: "活动",
+      route: "event",
+      icon: "icon/icon_event.svg",
       color: "linear-gradient(#2eaae8, #8fcceb)"
     }
   ],

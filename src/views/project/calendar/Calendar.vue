@@ -11,10 +11,10 @@
         </v-btn>
         <v-toolbar-title>{{ title }}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn-toggle v-model="type" mandatory>
-          <v-btn color="white" @click="type = 'day'" value="day">日</v-btn>
-          <v-btn color="white" @click="type = 'week'" value="week">周</v-btn>
-          <v-btn color="white" @click="type = 'month'" value="month">月</v-btn>
+        <v-btn-toggle v-model="type">
+          <v-btn text @click="type = 'day'" value="day">日</v-btn>
+          <v-btn text @click="type = 'week'" value="week">周</v-btn>
+          <v-btn text @click="type = 'month'" value="month">月</v-btn>
         </v-btn-toggle>
       </v-toolbar>
 

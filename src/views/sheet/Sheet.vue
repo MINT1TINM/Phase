@@ -29,10 +29,26 @@
             <v-card-title class="subtitle-1 font-weight-black">
               最新
               <v-spacer></v-spacer>
+
+              <v-btn
+                @click="updateViewMode(`grid`)"
+                icon
+                :color="viewMode===`grid` ? 'primary' : ''"
+              >
+                <v-icon>mdi-grid-large</v-icon>
+              </v-btn>
+
+              <v-btn
+                @click="updateViewMode(`list`)"
+                icon
+                :color="viewMode===`list` ? 'primary' : ''"
+              >
+                <v-icon>mdi-format-list-bulleted</v-icon>
+              </v-btn>
             </v-card-title>
             <v-container>
               <transition appear appear-active-class="fade-up-enter">
-                <v-layout row wrap>
+                <v-layout row wrap v-if="viewMode===`grid`">
                   <v-flex xs3 v-for="(item,i) in templateList" :key="`project-${i}`">
                     <v-hover v-slot:default="{ hover }">
                       <v-card :elevation="hover ? 8 : 2">
@@ -71,32 +87,33 @@
                     </v-hover>
                   </v-flex>
                 </v-layout>
+                <v-layout v-else>
+                  <v-list two-line width="100%" class="transparent">
+                    <template v-for="(item,i) in templateList">
+                      <div :key="`project-${i}`">
+                        <v-list-item @click="toDesignTool(item.id,item.type)">
+                          <v-list-item-content>
+                            <v-list-item-title class="font-weight-black">{{item.name}}</v-list-item-title>
+                            <v-list-item-subtitle
+                              class="caption"
+                            >{{item.createdAt| format("yyyy-MM-dd")}}</v-list-item-subtitle>
+                          </v-list-item-content>
+                          <v-list-item-avatar min-width="100">
+                            <v-list-item-title>
+                              <v-chip class="font-weight-black">{{type(item.type).name}}</v-chip>
+                            </v-list-item-title>
+                          </v-list-item-avatar>
+                        </v-list-item>
+                        <v-divider></v-divider>
+                      </div>
+                    </template>
+                  </v-list>
+                </v-layout>
               </transition>
             </v-container>
           </v-flex>
         </v-layout>
       </v-container>
-
-      <v-dialog v-model="typeSelectDialog" width="600">
-        <v-card>
-          <v-toolbar flat class="font-weight-black subtitle-1">
-            选择类型
-            <v-spacer></v-spacer>
-            <v-btn icon @click="typeSelectDialog=false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </v-toolbar>
-          <v-container fluid grid-list-md>
-            <v-layout wrap row>
-              <v-flex xs3 v-for="(item,i) in typeList" :key="`type-${i}`">
-                <v-card ripple @click="toDesignPage(item.type)">
-                  <v-card-text>{{item.name}}</v-card-text>
-                </v-card>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card>
-      </v-dialog>
     </v-content>
   </v-app>
 </template>
@@ -120,15 +137,19 @@ export default class Sheet extends Vue {
   @userModule.Getter("authorization") private authorization: any;
   @sheetModule.Getter("typeList") private typeList: any;
   @sheetModule.Getter("type") private type: any;
+  @sheetModule.Getter("viewMode") private viewMode!: string;
 
   @sheetModule.Mutation("restoreSheetTemplate")
   private restoreSheetTemplate: any;
   @sheetModule.Mutation("updateCurrentTemplateID")
   private updateCurrentTemplateID: any;
+  @sheetModule.Mutation("updateViewMode") private updateViewMode!: (
+    v: string
+  ) => void;
+
   @systemModule.Getter("systemName") private systemName!: string;
 
   private templateList = [];
-  private typeSelectDialog: boolean = false;
 
   private toDesignPage(type: string) {
     this.updateCurrentTemplateID("");

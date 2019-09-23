@@ -59,6 +59,7 @@ const vuexSession: any = new VuexPersistence<any>({
     mutation.type === "sheet/updateSheetTemplate" ||
     mutation.type === "sheet/insertListField" ||
     mutation.type === "sheet/updateSheetList" ||
+    mutation.type === "sheet/updateViewMode" ||
     mutation.type === "file/updateFileList" ||
     mutation.type === "file/updatePath" ||
     mutation.type === "file/updatePathPrettier" ||

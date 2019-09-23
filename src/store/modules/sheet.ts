@@ -8,6 +8,7 @@ interface State {
   currentTemplateID: string;
   typeList: any[];
   sheetList: Sheet[];
+  viewMode: string;
 }
 
 const state: State = {
@@ -28,7 +29,8 @@ const state: State = {
       type: "list"
     }
   ],
-  sheetList: []
+  sheetList: [],
+  viewMode: "grid"
 };
 
 const getters = {
@@ -48,6 +50,9 @@ const getters = {
   },
   sheetList: (s: State) => {
     return s.sheetList;
+  },
+  viewMode: (s: State) => {
+    return s.viewMode;
   }
 };
 
@@ -76,6 +81,9 @@ const mutations = {
   },
   updateSheetList: (s: State, sheetList: Sheet[]) => {
     s.sheetList = sheetList;
+  },
+  updateViewMode: (s: State, viewMode: string) => {
+    s.viewMode = viewMode;
   }
 };
 

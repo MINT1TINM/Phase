@@ -91,11 +91,13 @@
                               class="caption"
                             >{{item.createdAt| format("yyyy-MM-dd")}}</v-list-item-subtitle>
                           </v-list-item-content>
-                          <v-list-item-avatar class="mr-4">
+                          <v-list-item-avatar min-width="100">
                             <v-avatar size="32">
                               <v-img :src="item.headImgURL"></v-img>
                             </v-avatar>
-                            <span class="ml-3 font-weight-black caption">{{item.nickName}}</span>
+                            <span
+                              class="ml-3 font-weight-black caption text-right"
+                            >{{item.nickName}}</span>
                           </v-list-item-avatar>
                         </v-list-item>
                         <v-divider></v-divider>
