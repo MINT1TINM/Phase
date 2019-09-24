@@ -11,13 +11,7 @@
     ></v-progress-linear>
 
     <!-- fullscreen loading -->
-    <v-overlay
-      :value="fullScreenLoading"
-      :absolute="true"
-      opacity="1"
-      color="primary"
-      style="z-index:9"
-    >
+    <v-overlay :value="fullScreenLoading" opacity="1" color="primary" style="z-index:9;height:100%">
       <v-card flat color="transparent">
         <v-container>
           <v-layout justify-center>
@@ -31,7 +25,7 @@
     </v-overlay>
 
     <!-- app switcher -->
-    <v-navigation-drawer v-model="appSwitcherShow" fixed temporary class="acrylic">
+    <v-navigation-drawer v-model="appSwitcherShow" fixed temporary>
       <app-switcher v-if="appSwitcherShow" style="height:calc(100vh - 48px);"></app-switcher>
     </v-navigation-drawer>
 

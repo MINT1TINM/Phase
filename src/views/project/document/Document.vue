@@ -1,6 +1,6 @@
 <template>
   <div style="height:100%">
-    <v-toolbar dense flat class="navbar" style="z-index:2">
+    <v-toolbar dense class="navbar" style="z-index:2">
       <v-toolbar-items>
         <v-btn v-if="path.length>1" text @click="goBack">
           <v-icon size="20">mdi-arrow-left</v-icon>&nbsp;返回上一级

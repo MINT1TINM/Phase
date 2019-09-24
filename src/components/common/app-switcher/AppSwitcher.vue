@@ -2,19 +2,20 @@
   <div>
     <v-toolbar dense flat color="transparent">
       <!-- app switcher toggle -->
-      <v-toolbar-items text style="margin-left:-20px">
-        <v-btn width="62" icon @click="toggleAppSwitcher(false)">
-          <v-icon size="23">mdi-apps</v-icon>
-        </v-btn>
-      </v-toolbar-items>
+      <v-btn icon @click="toggleAppSwitcher(false)">
+        <v-icon size="23">mdi-arrow-left</v-icon>
+      </v-btn>
     </v-toolbar>
     <v-container class="px-5" fluid grid-list-md>
       <h3 class="mt-5">应用</h3>
       <v-layout row wrap class="mt-3">
-        <v-flex xs12 v-for="(item,i) in appList" :key="`app-${i}`">
-          <v-card outlined :to="`/${item.route}`">
-            <v-card-text class="black--text">{{item.name}}</v-card-text>
-          </v-card>
+        <v-flex xs6 v-for="(item,i) in appList" :key="`app-${i}`">
+          <v-hover v-slot:default="{ hover }">
+            <v-card class="transparent" :elevation="hover ? 8 : 0" outlined :to="`/${item.route}`">
+              <v-img class="ma-4" :src="item.icon"></v-img>
+              <v-card-text class="pb-2 pt-0 black--text text-center font-weight-black">{{item.name}}</v-card-text>
+            </v-card>
+          </v-hover>
         </v-flex>
       </v-layout>
     </v-container>
