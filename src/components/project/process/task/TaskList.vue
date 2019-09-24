@@ -82,7 +82,7 @@
                 dark
                 class="font-weight-black"
                 small
-                :color="getDays(item.endDate)<=2?`orange`:`grey`"
+                :color="getDays(item.endDate)<=2&&getDays(item.endDate)>0?`orange`:`grey`"
               >{{item.endDate.slice(0,10)}}&nbsp;截止</v-chip>
             </v-list-item>
           </v-card>
@@ -117,7 +117,6 @@ export default class TaskList extends Vue {
 
   private newTaskName: string = "";
   private taskList: ProcessTask[] = [];
-  private taskListShow: ProcessTask[] = [];
 
   private getDays(date: string) {
     const t1 = new Date().getTime();
@@ -142,9 +141,6 @@ export default class TaskList extends Vue {
       this.processID || this.$route.params.processID
     );
     this.taskList = rsp.taskList;
-    this.taskListShow = this.taskList.sort((a: ProcessTask, b: ProcessTask) => {
-      return a.createdAt < b.createdAt ? 1 : -1;
-    });
     this.updateCurrentProcessTask({
       processID: this.processID || this.$route.params.processID,
       taskList: this.taskListShow
@@ -187,17 +183,20 @@ export default class TaskList extends Vue {
     return this.$route.params.taskID;
   }
 
+  private get taskListShow() {
+    return this.getCurrentProcessFromProp().task.data.sort(
+      (a: ProcessTask, b: ProcessTask) => {
+        return a.createdAt < b.createdAt ? 1 : -1;
+      }
+    );
+  }
+
   // update when list changed
   @Watch("currentProcessList")
   private onCurrentProcessListChanged() {
     console.log("changed");
     if (this.currentProcessList) {
       this.taskList = this.getCurrentProcessFromProp().task.data;
-      this.taskListShow = this.taskList.sort(
-        (a: ProcessTask, b: ProcessTask) => {
-          return a.createdAt < b.createdAt ? 1 : -1;
-        }
-      );
     }
   }
 
@@ -205,16 +204,10 @@ export default class TaskList extends Vue {
   private onProcessIDChanged() {
     console.log(this.processID);
     this.taskList = this.getCurrentProcessFromProp().task.data;
-    this.taskListShow = this.taskList.sort((a: ProcessTask, b: ProcessTask) => {
-      return a.createdAt < b.createdAt ? 1 : -1;
-    });
   }
 
   private mounted() {
     this.taskList = this.getCurrentProcessFromProp().task.data;
-    this.taskListShow = this.taskList.sort((a: ProcessTask, b: ProcessTask) => {
-      return a.createdAt < b.createdAt ? 1 : -1;
-    });
   }
 }
 </script>
