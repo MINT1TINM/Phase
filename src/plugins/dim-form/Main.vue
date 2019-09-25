@@ -25,6 +25,8 @@
               :disabled="content.disabled || disabled"
               :label="dense?`${content.title}`:``"
               :single-line="dense?false:true"
+              :type="content.password?`password`:``"
+              :rules="content.rules"
               outlined
               hide-details
             ></v-text-field>

@@ -33,7 +33,6 @@ interface UserProject {
 interface Login {
   time: string;
   ip: string;
-  device: string;
   os: string;
   browser: string;
   location?: string;
