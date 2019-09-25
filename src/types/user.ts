@@ -19,6 +19,9 @@ interface UserInfo {
   province: string;
   sex: string;
   unionid: string;
+  name?: string;
+  phone?: string;
+  email?: string;
 }
 
 interface UserProject {
@@ -27,4 +30,13 @@ interface UserProject {
   role: [];
 }
 
-export { Authorization, UserInfo, UserProject };
+interface Login {
+  time: string;
+  ip: string;
+  device: string;
+  os: string;
+  browser: string;
+  location?: string;
+}
+
+export { Authorization, UserInfo, UserProject, Login };

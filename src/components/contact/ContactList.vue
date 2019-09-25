@@ -7,11 +7,10 @@
     >
       <v-toolbar flat class="transparent" dense>
         <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn @click="createUserDialog=true" text v-if="privilege.indexOf(`god`)!=-1">
-            <v-icon size="20">mdi-plus</v-icon>&nbsp;新建用户
-          </v-btn>
-        </v-toolbar-items>
+
+        <v-btn rounded @click="createUserDialog=true" text v-if="privilege.indexOf(`god`)!=-1">
+          <v-icon size="20">mdi-plus</v-icon>&nbsp;新建用户
+        </v-btn>
       </v-toolbar>
       <transition appear appear-active-class="fade-up-enter">
         <v-list nav dense color="transparent">

@@ -56,6 +56,11 @@ export default class Profile extends Vue {
       name: "nickName"
     },
     {
+      type: "text-field",
+      title: "真实姓名",
+      name: "name"
+    },
+    {
       type: "select",
       title: "性别",
       name: "sex",

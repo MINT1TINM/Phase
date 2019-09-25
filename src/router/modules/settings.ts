@@ -10,6 +10,16 @@ export default [
         component: () => import("@/components/settings/Profile.vue")
       },
       {
+        path: "/settings/privacy",
+        meta: "隐私",
+        component: () => import("@/components/settings/Privacy.vue")
+      },
+      {
+        path: "/settings/security",
+        meta: "安全",
+        component: () => import("@/components/settings/Security.vue")
+      },
+      {
         path: "/settings/notification",
         meta: "通知",
         component: () => import("@/components/settings/Notification.vue")

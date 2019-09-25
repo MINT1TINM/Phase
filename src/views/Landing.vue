@@ -48,6 +48,8 @@
       </v-layout>
     </v-container>
 
+    <div id="out"></div>
+
     <v-layout class="pb-5 pt-10" justify-center>
       <h5 class="text-center mt-2" style="color:#A64ED1">INSDIM&reg; 出品</h5>
     </v-layout>
@@ -83,12 +85,13 @@ export default class Landing extends Vue {
     }, 500);
 
     if (rsp.msg === "error") {
-      console.log("xxx");
       this.toggleFullScreenLoading(true);
       this.clearAuthorization();
       this.$router.push({ path: "/login" });
     }
   }
+
+  private mounted() {}
 }
 </script>
 

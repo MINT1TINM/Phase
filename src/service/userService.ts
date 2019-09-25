@@ -2,15 +2,9 @@ import Vue from "vue";
 
 import basicService from "@/service/basicService";
 import store from "@/store/store";
+import { UserInfo } from "@/types/user";
 
 const vue = new Vue();
-interface UpdateUserInfo {
-  id: number;
-  nickName: string;
-  sex: string;
-  phone: string;
-  email: string;
-}
 
 class UserService {
   public static async getUserInfo(userID: string) {
@@ -32,9 +26,10 @@ class UserService {
     return rsp;
   }
 
-  public static async updateUserInfo(userInfo: UpdateUserInfo) {
+  public static async updateUserInfo(userInfo: UserInfo) {
     const rsp = await basicService.putRequest("/user/info", {
       id: store.getters["user/authorization"].userID,
+      name: userInfo.name,
       nickName: userInfo.nickName,
       sex: userInfo.sex,
       phone: userInfo.phone,
@@ -75,6 +70,13 @@ class UserService {
   public static async searchUser(content: string) {
     const rsp = await basicService.getRequest("/user/search", {
       content
+    });
+    return rsp;
+  }
+
+  public static async getUserLoginHistory(id: string) {
+    const rsp = await basicService.getRequest("/user/login/history", {
+      id
     });
     return rsp;
   }

@@ -116,6 +116,15 @@
                 ></date-picker>
               </v-flex>
             </v-layout>
+            <!-- switch -->
+            <v-switch
+              v-else-if="content.type === `switch`"
+              class="mt-0"
+              color="primary"
+              hide-details
+              v-model="target[content.name]"
+              :disabled="content.disabled || disabled"
+            ></v-switch>
             <!-- date-select -->
             <date-picker
               :label="dense?`${content.title}`:``"

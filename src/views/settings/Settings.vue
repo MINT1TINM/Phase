@@ -12,7 +12,7 @@
     <v-content>
       <v-container grid-list-lg fluid fill-height>
         <v-layout row wrap>
-          <v-flex xs3>
+          <v-flex xs2>
             <v-list color="transparent" dense shaped>
               <v-list-item-group color="primary">
                 <transition-group appear appear-active-class="fade-up-enter">
@@ -31,15 +31,20 @@
               </v-list-item-group>
             </v-list>
           </v-flex>
-          <v-flex xs9>
+          <v-flex xs10>
             <transition appear appear-active-class="fade-up-enter">
-              <v-card>
-                <v-container fill-height fluid grid-list-lg style="padding:20px">
-                  <v-flex xs8 offset-2>
-                    <router-view></router-view>
-                  </v-flex>
-                </v-container>
-              </v-card>
+              <v-flex xs8 offset-2>
+                <v-card>
+                  <v-toolbar fixed flat class="transparent">
+                    <v-toolbar-title class="subtitle-1 font-weight-black ml-2">{{$route.meta}}</v-toolbar-title>
+                  </v-toolbar>
+                  <v-container fill-height fluid grid-list-lg class="px-4 pb-4 pt-0">
+                    <div style="width:100%">
+                      <router-view></router-view>
+                    </div>
+                  </v-container>
+                </v-card>
+              </v-flex>
             </transition>
           </v-flex>
         </v-layout>
@@ -60,20 +65,26 @@ export default class Settings extends Vue {
   @systemModule.Getter("systemName") private systemName!: string;
 
   private settingsItems = [
-    { title: "通用" },
     {
       text: "个人信息",
       icon: "mdi-account-circle-outline",
       route: "/settings/profile"
     },
     {
+      text: "隐私",
+      icon: "mdi-shield-key-outline",
+      route: "/settings/privacy"
+    },
+    {
+      text: "安全",
+      icon: "mdi-lock-outline",
+      route: "/settings/security"
+    },
+    {
       text: "通知",
       icon: "mdi-bell-outline",
       route: "/settings/notification"
-    },
-    { title: "安全" },
-    { text: "密码", icon: "mdi-textbox-password" },
-    { text: "二次验证", icon: "mdi-key-outline" }
+    }
   ];
 }
 </script>

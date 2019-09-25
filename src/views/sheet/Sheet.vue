@@ -63,7 +63,15 @@
                               style="height: 100%;"
                             >
                               <v-layout justify-center align-center>
-                                <v-tooltip bottom>
+                                <v-tooltip v-if="item.locked" bottom>
+                                  <template v-slot:activator="{ on }">
+                                    <v-btn v-on="on" icon @click="toDesignTool(item.id,item.type)">
+                                      <v-icon size="20" class="white--text">mdi-magnify</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>预览</span>
+                                </v-tooltip>
+                                <v-tooltip v-else bottom>
                                   <template v-slot:activator="{ on }">
                                     <v-btn v-on="on" icon @click="toDesignTool(item.id,item.type)">
                                       <v-icon size="20" class="white--text">mdi-pencil-outline</v-icon>
@@ -76,6 +84,12 @@
                           </v-expand-transition>
                         </v-img>
                         <v-card-title class="body-2 font-weight-black">
+                          <v-icon
+                            color="warning"
+                            v-if="item.locked"
+                            small
+                            class="mr-2"
+                          >mdi-lock-outline</v-icon>
                           {{item.name}}
                           <span
                             class="grey--text ml-2 font-weight-regular"

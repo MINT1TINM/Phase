@@ -4,7 +4,11 @@
       <v-toolbar-title class="subtitle-1 font-weight-black">表单设计器</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text @click="saveTemplate" v-if="sheetTemplate.userID === authorization.userID">
+        <v-btn
+          text
+          @click="saveTemplate"
+          v-if="sheetTemplate.userID === authorization.userID && !sheetTemplate.locked"
+        >
           <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
         </v-btn>
         <v-btn text @click="exportTemplate">
@@ -55,6 +59,7 @@
                                 label="名称"
                                 v-model="item.title"
                                 outlined
+                                :disabled="sheetTemplate.locked"
                                 required
                                 :rules="[v => !!v || 'Item is required']"
                                 hide-details
@@ -68,6 +73,7 @@
                                 class="text-field-semidense"
                                 required
                                 v-model="item.type"
+                                :disabled="sheetTemplate.locked"
                                 :rules="[v => !!v || 'Item is required']"
                                 hide-details
                                 single-line
@@ -96,8 +102,8 @@
                                 class="text-field-dense"
                                 outlined
                                 single-line
+                                :disabled="sheetTemplate.locked"
                                 label="可用的选项 (回车键分隔)"
-                                :disabled="item.disabled"
                                 v-model="item.list"
                                 multiple
                                 chips
@@ -111,7 +117,14 @@
                   </v-layout>
                   <v-layout justify-center class="mt-4">
                     <v-flex xs6>
-                      <v-btn rounded depressed block color="primary" @click="insertField">
+                      <v-btn
+                        v-if="!sheetTemplate.locked"
+                        rounded
+                        depressed
+                        block
+                        color="primary"
+                        @click="insertField"
+                      >
                         <v-icon size="20">mdi-plus</v-icon>&nbsp;增加字段
                       </v-btn>
                     </v-flex>
