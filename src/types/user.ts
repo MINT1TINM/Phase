@@ -38,4 +38,8 @@ interface Login {
   location?: string;
 }
 
-export { Authorization, UserInfo, UserProject, Login };
+interface PrivateInfo {
+  license?: string;
+}
+
+export { Authorization, UserInfo, UserProject, Login, PrivateInfo };

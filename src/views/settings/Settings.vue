@@ -12,7 +12,7 @@
     <v-content>
       <v-container grid-list-lg fluid fill-height>
         <v-layout row wrap>
-          <v-flex xs2>
+          <v-flex xs2 style="position:fixed;width:100%">
             <v-list color="transparent" dense shaped>
               <v-list-item-group color="primary">
                 <transition-group appear appear-active-class="fade-up-enter">
@@ -31,7 +31,7 @@
               </v-list-item-group>
             </v-list>
           </v-flex>
-          <v-flex xs10>
+          <v-flex xs10 offset-2>
             <transition appear appear-active-class="fade-up-enter">
               <v-flex xs8 offset-2>
                 <v-card>
@@ -69,6 +69,11 @@ export default class Settings extends Vue {
       text: "个人信息",
       icon: "mdi-account-circle-outline",
       route: "/settings/profile"
+    },
+    {
+      text: "企业 & 组织",
+      icon: "mdi-domain",
+      route: "/settings/company"
     },
     {
       text: "隐私",

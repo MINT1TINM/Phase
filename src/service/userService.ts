@@ -2,7 +2,7 @@ import Vue from "vue";
 
 import basicService from "@/service/basicService";
 import store from "@/store/store";
-import { UserInfo } from "@/types/user";
+import { UserInfo, PrivateInfo } from "@/types/user";
 
 const vue = new Vue();
 
@@ -13,6 +13,11 @@ class UserService {
     if (!rsp.userInfo.project) {
       store.commit("user/initUserProject");
     }
+    return rsp;
+  }
+
+  public static async getPrivateInfo() {
+    const rsp = await basicService.getRequest("/user/privateinfo", {});
     return rsp;
   }
 
@@ -39,6 +44,14 @@ class UserService {
       // @ts-ignore
       vue.$snackbar.show("更新成功");
     }
+  }
+
+  public static async updatePrivateInfo(privateInfo: PrivateInfo) {
+    const rsp = basicService.putRequest("/user/privateinfo", {
+      license: privateInfo.license
+    });
+
+    return rsp;
   }
 
   public static async updatePrivilege(id: string, privilege: string[]) {
