@@ -63,6 +63,10 @@
                   </v-avatar>
                   <span class="font-weight-black">{{ item.nickName }}</span>
                 </v-chip>
+                <v-chip v-else-if="item.color" pill small>
+                  <v-avatar left :color="item.color"></v-avatar>
+                  <span class="font-weight-black">{{ item[content.text]?item[content.text]:item }}</span>
+                </v-chip>
                 <v-chip v-else>
                   <span class="font-weight-black">{{ item[content.text]?item[content.text]:item }}</span>
                 </v-chip>

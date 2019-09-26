@@ -23,7 +23,7 @@
           ref="calendar"
           v-model="focus"
           color="primary"
-          event-color="primary"
+          :event-color="getEventColor"
           :events="fullTaskList"
           event-start="startDate"
           event-end="endDate"
@@ -117,6 +117,9 @@ export default class Calendar extends Vue {
   }
   private next() {
     this.$refs.calendar.next();
+  }
+  private getEventColor(event: any) {
+    return event.color;
   }
   private showEvent({ nativeEvent, event }: any) {
     const open = () => {

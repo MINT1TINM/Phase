@@ -40,22 +40,18 @@
         <div class="line-area">
           <v-layout wrap style="display:inline-block">
             <div v-for="(item,i) in taskList" :key="`taskline-${i}`">
-              <v-flex
-                style="height:40px"
-                align-center
-                xs12
-                wrap
-                :class="highlightedTaskID===item.id?`card-active-filled`:``"
-              >
+              <v-flex style="height:40px" align-center xs12 wrap>
                 <v-card
                   class="my-1"
-                  color="primary"
+                  :color="item.color"
                   outlined
                   flat
                   height="33"
                   :width="item.length"
+                  :elevation="highlightedTaskID===item.id?8:0"
                   :style="`margin-left:${item.marginLeft}px;display:inline-block`"
                   @click="highlight(item)"
+                  @dblclick="toTaskDetail(item)"
                   ripple
                 >
                   <v-progress-linear absolute :value="item.percentage" color="white"></v-progress-linear>
@@ -126,8 +122,10 @@ export default {
       }
     },
     highlight(item) {
-      console.log(item.id);
       this.highlightedTaskID = item.id;
+    },
+    toTaskDetail(item) {
+      this.$router.push({ path: `task/${item.id}` });
     }
   },
   watch: {

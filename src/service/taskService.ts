@@ -53,7 +53,8 @@ class TaskService {
       endDate: taskInfo.endDate,
       actionStartDate: taskInfo.actionStartDate,
       actionEndDate: taskInfo.actionEndDate,
-      executorID: taskInfo.executorID
+      executorID: taskInfo.executorID,
+      color: taskInfo.color
     });
     if (rsp.msg === "success") {
       // @ts-ignore

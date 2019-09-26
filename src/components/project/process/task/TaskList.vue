@@ -25,6 +25,7 @@
       <v-flex xs12 v-for="(item, i) in taskListShow" :key="`task-${i}`">
         <v-hover v-slot:default="{hover}">
           <v-card v-if="item.status" @click="toTaskDetail(item)">
+            <v-progress-linear absolute value="100" :color="item.color"></v-progress-linear>
             <v-list-item style="min-height:35px">
               <v-list-item-action
                 style="user-select:none"
@@ -46,12 +47,12 @@
           </v-card>
           <v-card
             v-else
-            :class="(currentTask===item.taskID || currentTask===item.id)&&(currentTask)?`card-active`:``"
-            :elevation="hover ? 6 : 0"
+            :elevation="(currentTask===item.taskID || currentTask===item.id)&&(currentTask) ? 6 : 0"
             outlined
             flat
             @click="toTaskDetail(item)"
           >
+            <v-progress-linear absolute value="100" :color="item.color"></v-progress-linear>
             <v-list-item style="min-height:35px">
               <v-list-item-action
                 style="user-select:none"

@@ -8,6 +8,7 @@ interface Task {
   endDate: string;
   actionStartDate: string;
   actionEndDate: string;
+  color?: string;
   status: boolean;
   tags: Tags;
   member?: {

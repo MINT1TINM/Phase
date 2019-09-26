@@ -128,6 +128,35 @@ export default class TaskDetail extends Vue {
       list: []
     },
     {
+      type: "select",
+      title: "颜色",
+      name: "color",
+      text: "name",
+      value: "color",
+      list: [
+        {
+          name: "红色",
+          color: "#E53935"
+        },
+        {
+          name: "橙色",
+          color: "#FB8C00"
+        },
+        {
+          name: "蓝色",
+          color: "#29B6F6"
+        },
+        {
+          name: "绿色",
+          color: "#43A047"
+        },
+        {
+          name: "紫色",
+          color: "#a64ed1"
+        }
+      ]
+    },
+    {
       type: "tags",
       title: "标签",
       name: "tags"

@@ -14,7 +14,14 @@ Vue.use(Router);
 const vue = new Vue({ vuetify });
 
 const router = new Router({
-  routes: [...sheet, ...contact, ...project, ...settings, ...system, ...event]
+  routes: [...sheet, ...contact, ...project, ...settings, ...system, ...event],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  }
 });
 
 router.afterEach((to, from) => {
@@ -32,7 +39,6 @@ router.afterEach((to, from) => {
       break;
     case "event":
       break;
-
     default:
       themeColor = "#a64ed1";
       break;
