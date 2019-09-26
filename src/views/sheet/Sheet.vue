@@ -59,8 +59,8 @@
                           <v-expand-transition>
                             <div
                               v-if="hover"
-                              class="d-flex green-acrylic white--text"
-                              style="height: 100%;"
+                              class="d-flex white--text primary"
+                              style="height: 100%;opacity:0.8"
                             >
                               <v-layout justify-center align-center>
                                 <v-tooltip v-if="item.locked" bottom>

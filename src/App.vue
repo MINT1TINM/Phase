@@ -6,7 +6,7 @@
       :indeterminate="true"
       absolute
       top
-      color="deep-purple accent-4"
+      color="primary accent-4"
       style="z-index:9"
     ></v-progress-linear>
 
@@ -69,6 +69,7 @@ export default class App extends Vue {
   @systemModule.Mutation("toggleNotificationCenter")
   private toggleNotificationCenter: any;
   @systemModule.Getter("systemName") private systemName!: string;
+  @systemModule.Getter("companyName") private companyName!: string;
 
   @systemModule.Mutation("toggleFullScreenLoading")
   private toggleFullScreenLoading: any;
@@ -88,7 +89,7 @@ export default class App extends Vue {
   }
 
   private mounted() {
-    document.title = this.systemName;
+    document.title = `${this.systemName} | ${this.companyName}`;
     this.toggleFullScreenLoading(false);
 
     this.appSwitcherShow = this.appSwitcher;

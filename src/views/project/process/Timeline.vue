@@ -1,7 +1,7 @@
 <template>
   <div>
     <dim-timeline
-      v-if="taskList.length>1"
+      v-if="taskList.length>=1"
       :columnWidth="100"
       :taskList="taskList"
       style="height:calc(100vh - 100px)"
