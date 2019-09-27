@@ -27,7 +27,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import appBar from "@/components/common/app-bar/AppBar.vue";
 import { namespace } from "vuex-class";
 import contactList from "@/components/contact/ContactList.vue";
 
@@ -35,7 +34,6 @@ const contactModule = namespace("contact");
 
 @Component({
   components: {
-    "app-bar": appBar,
     "contact-list": contactList
   }
 })

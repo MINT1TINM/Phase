@@ -7,6 +7,7 @@ import Vue from "vue";
 import App from "@/App.vue";
 import VuetifyConfirm from "@/plugins/confirm-dialog";
 import DimForm from "@/plugins/dim-form/Main.vue";
+import Appbar from "@/components/common/app-bar/AppBar.vue";
 // user-chip components
 import UserChip from "@/plugins/user-chip/Main.vue";
 import vuetify from "@/plugins/vuetify";
@@ -16,8 +17,8 @@ import store from "@/store/store";
 import DateHelper from "@/utils/DateHelper";
 
 Vue.component("user-chip", UserChip);
-
 Vue.component("dim-form", DimForm);
+Vue.component("app-bar", Appbar);
 
 Vue.use(VuetifyConfirm);
 
@@ -72,7 +73,7 @@ new Vue({
   router,
   store,
   vuetify,
-  render: (h) => {
+  render: h => {
     return h(App);
   }
 }).$mount("#app");

@@ -29,7 +29,7 @@
         text
         style="padding:0 5px"
         class="font-weight-black text-none subtitle-1"
-        color="primary"
+        color="#a64ed1"
         @click="goHome"
       >{{systemName}}</v-btn>
     </v-toolbar-items>

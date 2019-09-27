@@ -26,7 +26,7 @@
             <v-container>
               <transition appear appear-active-class="fade-up-enter">
                 <v-layout row wrap>
-                  <v-flex xs15 v-for="(item,i) in appList" :key="`project-${i}`">
+                  <v-flex xs15 v-for="(item,i) in appList" :key="`app-${i}`">
                     <v-hover v-slot:default="{ hover }">
                       <v-card
                         color="transparent"

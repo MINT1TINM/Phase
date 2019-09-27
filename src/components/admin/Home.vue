@@ -1,14 +1,12 @@
 <template>
-  <v-app>
-    <app-bar></app-bar>
-  </v-app>
+  <div></div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class Event extends Vue {}
+export default class AdminHome extends Vue {}
 </script>
 
 <style scoped>

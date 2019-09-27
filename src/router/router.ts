@@ -47,6 +47,7 @@ router.afterEach((to, from) => {
       themeColor = "#26A69A";
       break;
     case "event":
+      themeColor = "#c7521c";
       break;
     case "admin":
       themeColor = "#333333";

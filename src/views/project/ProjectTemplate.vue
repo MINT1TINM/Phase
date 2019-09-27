@@ -30,7 +30,6 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import appBar from "@/components/common/app-bar/AppBar.vue";
 import { namespace } from "vuex-class";
 import { Authorization } from "@/types/user";
 
@@ -38,9 +37,7 @@ const userModule = namespace("user");
 const projectModule = namespace("project");
 
 @Component({
-  components: {
-    "app-bar": appBar
-  }
+  components: {}
 })
 export default class ProjectIndex extends Vue {
   @userModule.Getter("authorization") private authorization!: Authorization;
