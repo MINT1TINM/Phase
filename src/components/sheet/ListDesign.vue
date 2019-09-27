@@ -41,7 +41,7 @@
                         :key="`field-${i}`"
                       >
                         <v-container>
-                          <v-layout row wrap>
+                          <v-layout row wrap align-center>
                             <v-flex xs6>
                               <v-text-field
                                 class="text-field-semidense"
@@ -54,7 +54,7 @@
                                 single-line
                               ></v-text-field>
                             </v-flex>
-                            <v-flex xs5>
+                            <v-flex style="-webkit-box-flex:1">
                               <v-select
                                 dense
                                 :items="typeList"
@@ -70,17 +70,39 @@
                                 outlined
                               ></v-select>
                             </v-flex>
-                            <v-flex>
-                              <v-btn
-                                @click="deleteField(item)"
-                                color="grey"
-                                outlined
-                                height="100%"
-                                width="100%"
-                              >
-                                <v-icon size="20">mdi-close</v-icon>
-                              </v-btn>
-                            </v-flex>
+
+                            <v-menu bottom left>
+                              <template v-slot:activator="{ on }">
+                                <v-btn icon v-on="on">
+                                  <v-icon>mdi-dots-vertical</v-icon>
+                                </v-btn>
+                              </template>
+
+                              <v-list dense>
+                                <v-list-item
+                                  v-if="i!==sheetTemplate.field.data.length-1"
+                                  @click="moveDown(i)"
+                                >
+                                  <v-list-item-icon>
+                                    <v-icon>mdi-arrow-down</v-icon>
+                                  </v-list-item-icon>
+                                  <v-list-item-title>下移</v-list-item-title>
+                                </v-list-item>
+                                <v-list-item v-if="i!==0" @click="moveUp(i)">
+                                  <v-list-item-icon>
+                                    <v-icon>mdi-arrow-up</v-icon>
+                                  </v-list-item-icon>
+                                  <v-list-item-title>上移</v-list-item-title>
+                                </v-list-item>
+                                <v-list-item @click="deleteField(i)">
+                                  <v-list-item-icon>
+                                    <v-icon>mdi-close</v-icon>
+                                  </v-list-item-icon>
+                                  <v-list-item-title>删除</v-list-item-title>
+                                </v-list-item>
+                              </v-list>
+                            </v-menu>
+
                             <v-flex
                               xs12
                               v-if="item.type==='select' || item.type === `multi-select`"
@@ -157,11 +179,24 @@ export default class ListSheetDesign extends Vue {
     }
   }
 
-  private deleteField(item: any) {
-    const index = this.sheetTemplate.field.data.findIndex((e: any) => {
-      return e === item;
-    });
-    this.sheetTemplate.field.data.splice(index, 1);
+  private deleteField(i: number) {
+    this.sheetTemplate.field.data.splice(i, 1);
+  }
+
+  private moveDown(i: number) {
+    this.sheetTemplate.field.data[i] = this.sheetTemplate.field.data.splice(
+      i + 1,
+      1,
+      this.sheetTemplate.field.data[i]
+    )[0];
+  }
+
+  private moveUp(i: number) {
+    this.sheetTemplate.field.data[i] = this.sheetTemplate.field.data.splice(
+      i - 1,
+      1,
+      this.sheetTemplate.field.data[i]
+    )[0];
   }
 
   private async saveTemplate() {

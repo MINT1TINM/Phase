@@ -74,7 +74,7 @@
                             <td width="120px" class="pl-3 pr-2">
                               <v-select
                                 dense
-                                style="height:63px;align-items:center"
+                                style="height:100%;align-items:center"
                                 class="text-field-dense"
                                 :items="[`量化`,`非量化`]"
                                 single-line
@@ -136,7 +136,18 @@
                       </v-simple-table>
                       <v-container fluid>
                         <v-layout justify-center>
-                          <v-btn block color="primary" outlined @click="insertContent">
+                          <!-- complete the last one, then add another one -->
+                          <v-btn
+                            v-if="
+                          currentSubTask.content.length===0 ||
+                           currentSubTask.content.length>0&&
+                           currentSubTask.content[currentSubTask.content.length-1].property
+                          "
+                            block
+                            color="primary"
+                            outlined
+                            @click="insertContent"
+                          >
                             <v-icon size="20">mdi-plus</v-icon>&nbsp;新增项目
                           </v-btn>
                         </v-layout>
