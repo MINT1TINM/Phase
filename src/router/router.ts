@@ -8,13 +8,22 @@ import settings from "./modules/settings";
 import sheet from "./modules/sheet";
 import system from "./modules/system";
 import event from "./modules/event";
+import admin from "./modules/admin";
 
 Vue.use(Router);
 
 const vue = new Vue({ vuetify });
 
 const router = new Router({
-  routes: [...sheet, ...contact, ...project, ...settings, ...system, ...event],
+  routes: [
+    ...sheet,
+    ...contact,
+    ...project,
+    ...settings,
+    ...system,
+    ...event,
+    ...admin
+  ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition;
@@ -38,6 +47,9 @@ router.afterEach((to, from) => {
       themeColor = "#26A69A";
       break;
     case "event":
+      break;
+    case "admin":
+      themeColor = "#333333";
       break;
     default:
       themeColor = "#a64ed1";

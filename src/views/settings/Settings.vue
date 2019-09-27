@@ -16,7 +16,7 @@
             <v-list color="transparent" dense shaped>
               <v-list-item-group color="primary">
                 <transition-group appear appear-active-class="fade-up-enter">
-                  <div v-for="(item, i) in settingsItems" :key="i">
+                  <div v-for="(item, i) in settingsItems" :key="`setting-${i}`">
                     <v-subheader class="mt-3" v-if="item.title">{{item.title}}</v-subheader>
                     <v-list-item v-else :to="item.route">
                       <v-list-item-icon>
@@ -69,11 +69,6 @@ export default class Settings extends Vue {
       text: "个人信息",
       icon: "mdi-account-circle-outline",
       route: "/settings/profile"
-    },
-    {
-      text: "企业 & 组织",
-      icon: "mdi-domain",
-      route: "/settings/company"
     },
     {
       text: "隐私",

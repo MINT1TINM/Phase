@@ -10,11 +10,6 @@ export default [
         component: () => import("@/components/settings/Profile.vue")
       },
       {
-        path: "/settings/company",
-        meta: "企业 & 组织",
-        component: () => import("@/components/settings/Company.vue")
-      },
-      {
         path: "/settings/privacy",
         meta: "隐私",
         component: () => import("@/components/settings/Privacy.vue")

@@ -10,7 +10,7 @@
         <v-btn block rounded depressed color="primary" @click="updatePassword()">保存</v-btn>
       </v-flex>
     </v-layout>
-    <v-subheader class="subtitle-2 pl-0 mb-0">登录历史</v-subheader>
+    <v-subheader class="subtitle-2 pl-0 mb-0">近期登录历史</v-subheader>
     <v-divider class="mb-4"></v-divider>
     <v-card outlined flat>
       <v-simple-table>

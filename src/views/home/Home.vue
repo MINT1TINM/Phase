@@ -83,8 +83,8 @@ export default class ComponentName extends Vue {
   }
 
   private get time() {
-    const now = new Date(),
-      hour = now.getHours();
+    const hour = new Date().getHours();
+
     if (hour < 9) {
       return "早上好,";
     } else if (hour < 12) {
