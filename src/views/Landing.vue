@@ -16,7 +16,7 @@
       </div>
     </v-app-bar>
 
-    <v-container style="height:600px">
+    <v-container style="height:100%">
       <v-layout fill-height align-center justify-center row wrap>
         <v-card flat color="transparent">
           <div class="text-left display-3 font-weight-black mt-2" style="color:#A64ED1">
@@ -28,7 +28,7 @@
       </v-layout>
     </v-container>
 
-    <v-container style="height:600px">
+    <!-- <v-container style="height:600px">
       <v-layout>
         <v-card elevation="12" color="primary" width="100%" height="600">
           <v-container fluid>
@@ -46,7 +46,7 @@
           </v-container>
         </v-card>
       </v-layout>
-    </v-container>
+    </v-container>-->
 
     <div id="out"></div>
 

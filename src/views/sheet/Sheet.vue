@@ -85,7 +85,7 @@
                         </v-img>
                         <v-card-title class="body-2 font-weight-black">
                           <v-icon
-                            color="warning"
+                            color="warning darken-1"
                             v-if="item.locked"
                             small
                             class="mr-2"
@@ -116,6 +116,14 @@
                             <v-list-item-title>
                               <v-chip class="font-weight-black">{{type(item.type).name}}</v-chip>
                             </v-list-item-title>
+                          </v-list-item-avatar>
+                          <v-list-item-avatar>
+                            <v-icon
+                              color="warning darken-1"
+                              v-if="item.locked"
+                              small
+                              class="mr-2"
+                            >mdi-lock-outline</v-icon>
                           </v-list-item-avatar>
                         </v-list-item>
                         <v-divider></v-divider>
