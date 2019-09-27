@@ -35,11 +35,11 @@ export default class AdminTemplate extends Vue {
       icon: "mdi-home-outline",
       route: "/admin/home"
     },
-    {
-      name: "部门",
-      icon: "mdi-file-tree",
-      route: "/admin/department"
-    },
+    // {
+    //   name: "部门",
+    //   icon: "mdi-file-tree",
+    //   route: "/admin/department"
+    // },
     {
       name: "群组",
       icon: "mdi-account-group-outline",

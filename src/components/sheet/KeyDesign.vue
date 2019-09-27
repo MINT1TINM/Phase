@@ -46,7 +46,6 @@
                     <v-flex xs12>
                       <v-card
                         outlined
-                        draggable="true"
                         class="mb-3"
                         v-for="(item,i) in sheetTemplate.field.data"
                         :key="`field-${i}`"

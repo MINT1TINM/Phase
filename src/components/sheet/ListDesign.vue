@@ -36,7 +36,6 @@
                     <v-flex xs12>
                       <v-card
                         outlined
-                        draggable="true"
                         class="mb-3"
                         v-for="(item,i) in sheetTemplate.field.data"
                         :key="`field-${i}`"
@@ -55,7 +54,7 @@
                                 single-line
                               ></v-text-field>
                             </v-flex>
-                            <v-flex xs6>
+                            <v-flex xs5>
                               <v-select
                                 dense
                                 :items="typeList"
@@ -70,6 +69,17 @@
                                 item-value="value"
                                 outlined
                               ></v-select>
+                            </v-flex>
+                            <v-flex>
+                              <v-btn
+                                @click="deleteField(item)"
+                                color="grey"
+                                outlined
+                                height="100%"
+                                width="100%"
+                              >
+                                <v-icon size="20">mdi-close</v-icon>
+                              </v-btn>
                             </v-flex>
                             <v-flex
                               xs12
@@ -145,6 +155,13 @@ export default class ListSheetDesign extends Vue {
     if (this.$refs.sheetDesign.validate()) {
       this.insertNewEmptyField();
     }
+  }
+
+  private deleteField(item: any) {
+    const index = this.sheetTemplate.field.data.findIndex((e: any) => {
+      return e === item;
+    });
+    this.sheetTemplate.field.data.splice(index, 1);
   }
 
   private async saveTemplate() {
