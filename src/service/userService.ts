@@ -2,9 +2,9 @@ import Vue from "vue";
 
 import basicService from "@/service/basicService";
 import store from "@/store/store";
-import { UserInfo, PrivateInfo } from "@/types/user";
+import { UserInfo, PrivateInfo, PrivacySetting } from "@/types/user";
 
-const vue = new Vue();
+const vue = new Vue() as any;
 
 class UserService {
   public static async getUserInfo(userID: string) {
@@ -47,19 +47,38 @@ class UserService {
   }
 
   public static async updatePrivateInfo(privateInfo: PrivateInfo) {
-    const rsp = basicService.putRequest("/user/privateinfo", {
+    const rsp = await basicService.putRequest("/user/privateinfo", {
       license: privateInfo.license
     });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("修改成功");
+    }
+    return rsp;
+  }
 
+  public static async updatePrivacySetting(privacySetting: PrivacySetting) {
+    const rsp = await basicService.putRequest("/user/privacysetting", {
+      hideEmail: privacySetting.hideEmail,
+      hideName: privacySetting.hideName,
+      hidePhone: privacySetting.hidePhone
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("修改成功");
+    }
     return rsp;
   }
 
   public static async updatePrivilege(id: string, privilege: string[]) {
-    const rsp = basicService.putRequest("/user/privilege", {
+    const rsp = await basicService.putRequest("/user/privilege", {
       id,
       privilege
     });
-
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("修改成功");
+    }
     return rsp;
   }
 

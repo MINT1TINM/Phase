@@ -16,9 +16,17 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import UserService from "@/service/userService";
+import { PrivacySetting, Authorization, UserInfo } from "@/types/user";
+import { namespace } from "vuex-class";
+
+const userModule = namespace("user");
 
 @Component
-export default class PrivacySetting extends Vue {
+export default class Privacy extends Vue {
+  @userModule.Getter("userInfo") private userInfo!: UserInfo;
+  @userModule.Getter("authorization") private authorization!: Authorization;
+
   private privacySettingList = [
     {
       type: "switch",
@@ -36,9 +44,19 @@ export default class PrivacySetting extends Vue {
       name: "hidePhone"
     }
   ];
-  private privacySetting = {};
 
-  private async updatePrivacySetting() {}
+  private get privacySetting() {
+    return this.userInfo.privacySetting!;
+  }
+
+  private set privacySetting(v: PrivacySetting) {
+    this.privacySetting = v;
+  }
+
+  private async updatePrivacySetting() {
+    await UserService.updatePrivacySetting(this.privacySetting);
+    await UserService.getUserInfo(this.authorization.userID);
+  }
 }
 </script>
 

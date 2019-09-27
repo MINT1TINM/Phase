@@ -18,7 +18,7 @@
             >{{nickName | avatar}}</span>
             <span v-else class="white--text text-uppercase">{{userInfo.username | avatar}}</span>
           </v-avatar>
-          <v-btn class="ml-5" outlined color="primary">修改</v-btn>
+          <!-- <v-btn class="ml-5" outlined color="primary">修改</v-btn> -->
         </v-list-item>
       </v-list>
       <v-divider class="my-3 mx-2"></v-divider>

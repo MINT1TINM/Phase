@@ -22,6 +22,8 @@ interface UserInfo {
   name?: string;
   phone?: string;
   email?: string;
+  privateInfo?: PrivateInfo;
+  privacySetting?: PrivacySetting;
 }
 
 interface UserProject {
@@ -42,4 +44,17 @@ interface PrivateInfo {
   license?: string;
 }
 
-export { Authorization, UserInfo, UserProject, Login, PrivateInfo };
+interface PrivacySetting {
+  hideName: boolean;
+  hideEmail: boolean;
+  hidePhone: boolean;
+}
+
+export {
+  Authorization,
+  UserInfo,
+  UserProject,
+  Login,
+  PrivateInfo,
+  PrivacySetting
+};
