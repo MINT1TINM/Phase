@@ -65,11 +65,11 @@ class SheetService {
   }
 
   public static async exportTemplate(templateID: string) {
-    // const rsp = await basicService.getRequest("/sheet/template/xlsx", {
-    //   id: templateID
-    // });
-
     window.open("/api/sheet/template/xlsx?id=" + templateID, "_blank");
+  }
+
+  public static async exportSheet(sheetID: string) {
+    window.open("/api/sheet/xlsx?id=" + sheetID, "_blank");
   }
 
   public static async createSheet(

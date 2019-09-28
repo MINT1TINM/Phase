@@ -3,6 +3,9 @@
     <v-btn block outlined color="primary" @click="fillSheetDialog=true">
       <v-icon size="20">mdi-pencil-outline</v-icon>&nbsp;修改
     </v-btn>
+    <v-btn block outlined color="primary" class="mt-2" @click="exportSheet">
+      <v-icon size="20">mdi-reply-outline</v-icon>&nbsp;导出
+    </v-btn>
     <v-btn block outlined color="error" class="mt-2" @click="deleteSheet">
       <v-icon size="20">mdi-delete-outline</v-icon>&nbsp;删除
     </v-btn>
@@ -124,6 +127,10 @@ export default class SheetInfo extends Vue {
     };
     const rsp = await SheetService.getSheetTemplate(templateID);
     this.templateInfo = rsp.template;
+  }
+
+  private async exportSheet() {
+    await SheetService.exportSheet(this.sheetID);
   }
 
   private async deleteSheet() {
