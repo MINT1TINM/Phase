@@ -140,6 +140,10 @@
                           <v-btn
                             v-if="
                           currentSubTask.content.length===0 ||
+
+
+
+                          
                            currentSubTask.content.length>0&&
                            currentSubTask.content[currentSubTask.content.length-1].property
                           "

@@ -53,7 +53,7 @@ const state: State = {
     },
     {
       name: "管理",
-      route: "admin",
+      route: "admin/home",
       icon: "icon/icon_admin.svg"
     }
   ],

@@ -185,7 +185,7 @@ export default class AppBar extends Vue {
   get currentApp() {
     if (this.currentRoute !== "home") {
       return this.appList.find((e: any) => {
-        return this.currentRoute === e.route;
+        return this.currentRoute === e.route.split("/")[0];
       });
     }
     return "";
