@@ -14,7 +14,17 @@ export default [
       },
       {
         path: "/admin/group",
-        component: () => import("@/components/admin/Group.vue")
+        component: () => import("@/components/admin/group/Group.vue"),
+        children: [
+          {
+            path: "/admin/group/:groupID",
+            component: () => import("@/components/admin/group/GroupInfo.vue")
+          }
+        ]
+      },
+      {
+        path: "/admin/user",
+        component: () => import("@/components/admin/user/User.vue")
       }
     ]
   }

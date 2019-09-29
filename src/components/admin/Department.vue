@@ -32,10 +32,9 @@ export default class AdminDepartment extends Vue {
       children: []
     }
   ];
+  private active = [];
 
   private createDepartment() {}
-
-  private active = [];
 
   @Watch("active")
   private onActiveChanged() {
