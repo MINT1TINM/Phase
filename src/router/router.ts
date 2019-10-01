@@ -1,4 +1,5 @@
 import Vue from "vue";
+import store from "@/store/store";
 import Router from "vue-router";
 import vuetify from "@/plugins/vuetify";
 
@@ -36,33 +37,26 @@ const router = new Router({
 });
 
 router.afterEach((to, from) => {
+  // get theme color
   const path = to.path.split("/")[1];
   let themeColor = ``;
-  switch (path) {
-    case "project":
-      themeColor = "#42A5F5";
-      break;
-    case "contact":
-      themeColor = "#7E57C2";
-      break;
-    case "sheet":
-      themeColor = "#26A69A";
-      break;
-    case "event":
-      themeColor = "#c7521c";
-      break;
-    case "certificate":
-      themeColor = "#2979FF";
-      break;
-    case "admin":
-      themeColor = "#333333";
-      break;
-    default:
-      themeColor = "#a64ed1";
-      break;
+  let themeColorDark = ``;
+
+  console.log(path);
+  const currentApp = store.getters["system/currentApp"](path);
+  console.log(currentApp);
+
+  if (currentApp) {
+    // @ts-ignore
+    themeColor = currentApp.themeColor;
+    themeColorDark = currentApp.themeColorDark;
+  } else {
+    themeColor = "#a64ed1";
+    themeColorDark = "#b074cf";
   }
-  // @ts-ignore
+
   vue.$vuetify.theme.themes.light.primary = themeColor;
+  vue.$vuetify.theme.themes.dark.primary = themeColorDark;
 });
 
 export default router;

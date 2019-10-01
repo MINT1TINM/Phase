@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-toolbar dense style="z-index:2">
-      <v-tabs v-model="tab">
+    <v-toolbar dense flat class="navbar">
+      <v-tabs v-model="tab" background-color="transparent">
         <v-tab :to="`/project/process/${$route.params.processID}/timeline`">时间轴</v-tab>
         <v-tab :to="`/project/process/${$route.params.processID}/task`">任务清单</v-tab>
         <v-tab :to="`/project/process/${$route.params.processID}/settings`">过程设置</v-tab>

@@ -1,7 +1,7 @@
 <template>
   <v-layout fill-height>
     <v-flex>
-      <v-toolbar flat color="white">
+      <v-toolbar flat>
         <v-btn outlined class="mr-4" @click="setToday">今日</v-btn>
         <v-btn fab text small @click="prev">
           <v-icon small>mdi-arrow-left</v-icon>

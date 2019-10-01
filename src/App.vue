@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 import appSwitcher from "@/components/common/app-switcher/AppSwitcher.vue";
@@ -86,6 +86,20 @@ export default class App extends Vue {
   }
   set notificationCenterShow(v) {
     this.toggleNotificationCenter(v);
+  }
+
+  get isDarkMode() {
+    if (matchMedia("(prefers-color-scheme: dark)").matches) {
+      this.$vuetify.theme.dark = true;
+    }
+    return;
+  }
+
+  @Watch("isDarkMode")
+  private onModeChanged(v: boolean) {
+    if (v) {
+      this.$vuetify.theme.dark = true;
+    }
   }
 
   private mounted() {

@@ -13,7 +13,7 @@
           <v-hover v-slot:default="{ hover }">
             <v-card class="transparent" :elevation="hover ? 8 : 0" outlined :to="`/${item.route}`">
               <v-img class="ma-4" :src="item.icon"></v-img>
-              <v-card-text class="pb-2 pt-0 black--text text-center font-weight-black">{{item.name}}</v-card-text>
+              <div class="body-2 pb-2 pt-0 text-center font-weight-black">{{item.name}}</div>
             </v-card>
           </v-hover>
         </v-flex>

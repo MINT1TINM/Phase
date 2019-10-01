@@ -13,6 +13,15 @@ export default new Vuetify({
       customProperties: true
     },
     themes: {
+      dark: {
+        primary: "#a64ed1",
+        secondary: "#424242",
+        accent: "#82B1FF",
+        error: colors.red.darken1,
+        info: "#2196F3",
+        success: "#4CAF50",
+        warning: "#FFC107"
+      },
       light: {
         primary: "#a64ed1",
         secondary: "#424242",

@@ -1,5 +1,9 @@
 @import "~vuetify/src/styles/styles.sass";
 
+.app-icon {
+  fill: rgb(0, 0, 0, 0.87);
+}
+
 // text-field
 .text-field-dense.v-text-field--outlined > .v-input__control > .v-input__slot {
   min-height: 36px;
@@ -96,13 +100,13 @@
 }
 
 .inner-sidebar-withoutpadding {
-  box-shadow: 5px 0 20px -5px rgba(0, 0, 0, 0.15);
+  box-shadow: 6px 0px 8px -5px rgba(0, 0, 0, 0.15);
   position: relative;
   z-index: 1;
 }
 
 .inner-sidebar-withoutpadding-reverse {
-  box-shadow: 5px 0 20px -5px rgba(0, 0, 0, 0.15);
+  box-shadow: 6px 0px 8px -5px rgba(0, 0, 0, 0.15);
   position: relative;
   z-index: 1;
 }
@@ -149,6 +153,15 @@ $body-font-family: sans-serif !default;
 .green-acrylic {
   backdrop-filter: saturate(180%) blur(20px);
   background-color: #3e9153c0 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .app-icon {
+    fill: white;
+  }
+  .acrylic {
+    background-color: #363636c0 !important;
+  }
 }
 
 .v-label {

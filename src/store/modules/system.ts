@@ -16,9 +16,11 @@ interface State {
 
 interface App {
   name: string;
+  nameEn: string;
   route: string;
   icon: string;
-  color?: string;
+  themeColor: string;
+  themeColorDark: string;
 }
 
 const state: State = {
@@ -33,33 +35,51 @@ const state: State = {
   appList: [
     {
       name: "项目",
+      nameEn: "project",
       route: "project",
-      icon: "icon/icon_project.svg"
+      icon: "icon/icon_project.svg",
+      themeColor: "#42A5F5",
+      themeColorDark: "#6bb5f2"
     },
     {
       name: "人脉",
+      nameEn: "contact",
       route: "contact",
-      icon: "icon/icon_contact.svg"
+      icon: "icon/icon_contact.svg",
+      themeColor: "#7E57C2",
+      themeColorDark: "#9b7ecc"
     },
     {
       name: "表单",
+      nameEn: "sheet",
       route: "sheet",
-      icon: "icon/icon_sheet.svg"
+      icon: "icon/icon_sheet.svg",
+      themeColor: "#26A69A",
+      themeColorDark: "#26A69A"
     },
     {
       name: "活动",
+      nameEn: "event",
       route: "event",
-      icon: "icon/icon_event.svg"
+      icon: "icon/icon_event.svg",
+      themeColor: "#c7521c",
+      themeColorDark: "#c7521c"
     },
     {
       name: "凭证",
+      nameEn: "certificate",
       route: "certificate",
-      icon: "icon/icon_certificate.svg"
+      icon: "icon/icon_certificate.svg",
+      themeColor: "#2979FF",
+      themeColorDark: "#6099fc"
     },
     {
       name: "管理",
+      nameEn: "admin",
       route: "admin/home",
-      icon: "icon/icon_admin.svg"
+      icon: "icon/icon_admin.svg",
+      themeColor: "#333333",
+      themeColorDark: "#d4d4d4"
     }
   ],
   invitationList: [],
@@ -95,6 +115,12 @@ const getters = {
   },
   appList: (s: State) => {
     return s.appList;
+  },
+  currentApp: (s: State) => (name: string) => {
+    console.log(name);
+    return s.appList.find((e: App) => {
+      return e.nameEn === name;
+    });
   },
   uploadPercent: (s: State) => {
     return s.uploadPercent;
