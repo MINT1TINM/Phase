@@ -52,6 +52,11 @@ const state: State = {
       icon: "icon/icon_event.svg"
     },
     {
+      name: "凭证",
+      route: "certificate",
+      icon: "icon/icon_certificate.svg"
+    },
+    {
       name: "管理",
       route: "admin/home",
       icon: "icon/icon_admin.svg"

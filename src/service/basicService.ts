@@ -2,6 +2,9 @@ import axios from "axios";
 
 import router from "@/router/router";
 import store from "@/store/store";
+import Vue from "vue";
+
+const vue = new Vue() as any;
 
 class BasicService {
   public static async getData(rsp: any) {
@@ -13,7 +16,7 @@ class BasicService {
       console.log(rsp.response.status);
       if (rsp.response.status === 402) {
         // @ts-ignore
-        vue.$snackbar.show("重命名成功");
+        vue.$snackbar.show("令牌过期，请重新登录");
 
         store.commit("user/clearAuthorization");
         store.commit("system/toggleFullScreenLoading", false);

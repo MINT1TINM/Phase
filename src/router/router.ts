@@ -9,6 +9,7 @@ import sheet from "./modules/sheet";
 import system from "./modules/system";
 import event from "./modules/event";
 import admin from "./modules/admin";
+import certificate from "./modules/certificate";
 
 Vue.use(Router);
 
@@ -22,6 +23,7 @@ const router = new Router({
     ...settings,
     ...system,
     ...event,
+    ...certificate,
     ...admin
   ],
   scrollBehavior(to, from, savedPosition) {
@@ -48,6 +50,9 @@ router.afterEach((to, from) => {
       break;
     case "event":
       themeColor = "#c7521c";
+      break;
+    case "certificate":
+      themeColor = "#2979FF";
       break;
     case "admin":
       themeColor = "#333333";

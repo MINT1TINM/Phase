@@ -141,8 +141,10 @@ export default class AdminGroupInfo extends Vue {
   }
 
   private async mounted() {
-    const rsp = await AdminService.getGroupInfo(this.groupID);
-    this.groupInfo = rsp.group;
+    if (this.groupID !== "") {
+      const rsp = await AdminService.getGroupInfo(this.groupID);
+      this.groupInfo = rsp.group;
+    }
   }
 }
 </script>
