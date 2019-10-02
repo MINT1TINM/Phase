@@ -55,11 +55,13 @@ interface ProjectTemplate {
 
 interface ProcessTemplate {
   name: string;
+  description?: string;
   task: TaskTemplate[];
 }
 
 interface TaskTemplate {
   name: string;
+  description?: string;
 }
 
 export {
