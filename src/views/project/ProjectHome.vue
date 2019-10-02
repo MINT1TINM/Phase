@@ -155,7 +155,7 @@
               </v-form>
             </v-container>
             <v-card-actions class="justify-center">
-              <v-btn rounded color="primary" depressed @click="createProject">确认</v-btn>
+              <v-btn rounded color="primary darken-1" depressed @click="createProject">确认</v-btn>
               <v-btn rounded text @click="createProjectDialog=false">取消</v-btn>
             </v-card-actions>
           </v-card>

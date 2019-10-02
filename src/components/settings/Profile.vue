@@ -124,6 +124,11 @@ export default class Profile extends Vue {
       type: "text-field",
       title: "身份证",
       name: "license"
+    },
+    {
+      type: "text-field",
+      title: "工号",
+      name: "workNum"
     }
   ];
   private privateInfo: PrivateInfo = {};

@@ -42,6 +42,7 @@ interface Login {
 
 interface PrivateInfo {
   license?: string;
+  workNum?: string;
 }
 
 interface PrivacySetting {

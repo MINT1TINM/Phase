@@ -48,7 +48,8 @@ class UserService {
 
   public static async updatePrivateInfo(privateInfo: PrivateInfo) {
     const rsp = await basicService.putRequest("/user/privateinfo", {
-      license: privateInfo.license
+      license: privateInfo.license,
+      workNum: privateInfo.workNum
     });
     if (rsp.msg === "success") {
       // @ts-ignore
