@@ -34,7 +34,13 @@
 
                   <v-flex xs3 v-for="(item,i) in templateList.slice(0,3)" :key="`template-${i}`">
                     <v-hover v-slot:default="{ hover }">
-                      <v-card :elevation="hover ? 8 : 0" outlined>
+                      <v-card
+                        :elevation="hover ? 8 : 0"
+                        outlined
+                        @click="generateProjectDialog=true;
+                        getTemplateInfo(item.id);
+                        currentTemplateID=item.id"
+                      >
                         <v-img
                           class="white--text"
                           height="150"
@@ -132,9 +138,12 @@
             </v-container>
           </v-flex>
         </v-layout>
+
         <v-dialog v-model="createProjectDialog" width="300" persistent>
           <v-card>
-            <v-card-title class="subtitle-1 font-weight-black">新建项目</v-card-title>
+            <v-toolbar flat color="transparent">
+              <v-toolbar-title class="subtitle-1 font-weight-black">新建项目</v-toolbar-title>
+            </v-toolbar>
             <v-container fluid>
               <v-form ref="createProjectForm">
                 <dim-form
@@ -148,6 +157,45 @@
             <v-card-actions class="justify-center">
               <v-btn rounded color="primary" depressed @click="createProject">确认</v-btn>
               <v-btn rounded text @click="createProjectDialog=false">取消</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="generateProjectDialog" width="500" persistent>
+          <v-card>
+            <v-toolbar flat color="transparent">
+              <v-toolbar-title class="subtitle-1 font-weight-black">生成项目</v-toolbar-title>
+            </v-toolbar>
+            <v-container fluid>
+              <v-form ref="createProjectForm">
+                <v-text-field
+                  v-model="newProjectName"
+                  outlined
+                  class="text-field-dense"
+                  single-line
+                  hide-details
+                  label="名称"
+                ></v-text-field>
+              </v-form>
+              <v-card outlined class="mt-3">
+                <v-treeview
+                  class="font-weight-black"
+                  dense
+                  hoverable
+                  open-on-click
+                  :items="templateInfo.process"
+                  item-children="task"
+                >
+                  <template v-slot:prepend="{ item, open }">
+                    <span v-if="!item.task">过程</span>
+                    <span v-else>任务</span>
+                  </template>
+                </v-treeview>
+              </v-card>
+            </v-container>
+            <v-card-actions class="justify-center">
+              <v-btn rounded color="primary" depressed @click="generateProject()">确认</v-btn>
+              <v-btn rounded text @click="generateProjectDialog=false">取消</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -177,6 +225,7 @@ const systemModule = namespace("system");
 })
 export default class ProjectHome extends Vue {
   private createProjectDialog: boolean = false;
+  private generateProjectDialog: boolean = false;
   private createProjectContent = [
     {
       title: "名称",
@@ -189,6 +238,14 @@ export default class ProjectHome extends Vue {
   };
   private projectListShow = [];
   private templateList: ProjectTemplate[] = [];
+  private templateInfo: ProjectTemplate = {
+    id: "",
+    userID: "",
+    name: "",
+    process: []
+  };
+  private currentTemplateID: string = "";
+  private newProjectName: string = "";
 
   @projectModule.Getter("projectList") private projectList: any;
   @projectModule.Mutation("updateCurrentProjectID")
@@ -217,6 +274,19 @@ export default class ProjectHome extends Vue {
     this.createProjectDialog = false;
   }
 
+  private async generateProject() {
+    const rsp = await ProjectService.generateProject(
+      this.newProjectName,
+      this.currentTemplateID
+    );
+    if (rsp.msg === "success") {
+      await UserService.getUserInfo(this.authorization.userID);
+      this.getProjectList();
+    }
+    this.newProjectName = "";
+    this.generateProjectDialog = false;
+  }
+
   private async getProjectList() {
     await ProjectService.getProjectList();
   }
@@ -226,6 +296,11 @@ export default class ProjectHome extends Vue {
       this.authorization.userID
     );
     this.templateList = rsp.template;
+  }
+
+  private async getTemplateInfo(templateID: string) {
+    const rsp = await ProjectService.getTemplateInfo(templateID);
+    this.templateInfo = rsp.template;
   }
 
   private mounted() {

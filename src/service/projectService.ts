@@ -171,6 +171,14 @@ class ProjectService {
     });
     return rsp;
   }
+
+  public static async generateProject(name: string, templateID: string) {
+    const rsp = await basicService.postRequest("/project/structure", {
+      templateID,
+      name
+    });
+    return rsp;
+  }
 }
 
 export default ProjectService;
