@@ -44,6 +44,39 @@
         </v-card>
       </v-menu>
     </v-toolbar-items>
+    <!-- exporter -->
+    <v-toolbar-items v-if="currentProjectID">
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on" @click="saveToTemplateDialog=true">
+            <v-icon size="20">mdi-share-outline</v-icon>
+          </v-btn>
+        </template>
+        <span class="caption">导出为模版</span>
+      </v-tooltip>
+    </v-toolbar-items>
+
+    <v-dialog persistent v-model="saveToTemplateDialog" width="300">
+      <v-card>
+        <v-toolbar flat color="transparent">
+          <v-toolbar-title class="subtitle-1 font-weight-black">导出为模版</v-toolbar-title>
+        </v-toolbar>
+        <v-container fluid>
+          <v-text-field
+            v-model="templateName"
+            class="text-field-dense"
+            outlined
+            label="名称"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-container>
+        <v-card-actions class="justify-center">
+          <v-btn rounded color="primary darken-1" depressed @click="saveToTemplate">确认</v-btn>
+          <v-btn rounded text @click="saveToTemplateDialog=false">取消</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -52,6 +85,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { namespace } from "vuex-class";
 import { Prop } from "vue-property-decorator";
+import ProjectService from "../../../../service/projectService";
 
 const projectModule = namespace("project");
 const systemModule = namespace("system");
@@ -61,6 +95,8 @@ export default class ProjectBar extends Vue {
   private searchProjectContent: string = "";
   private projectListShow = [];
   private projectSwitcher: boolean = false;
+  private saveToTemplateDialog: boolean = false;
+  private templateName: string = "";
 
   @projectModule.Getter("projectList") private projectList: any;
   @projectModule.Getter("currentProject") private currentProject: any;
@@ -84,6 +120,15 @@ export default class ProjectBar extends Vue {
     setTimeout(() => {
       this.toggleFullScreenLoading(false);
     }, 500);
+  }
+
+  private async saveToTemplate() {
+    await ProjectService.saveToTemplate(
+      this.currentProjectID,
+      this.templateName
+    );
+    this.templateName = "";
+    this.saveToTemplateDialog = false;
   }
 
   private mounted() {

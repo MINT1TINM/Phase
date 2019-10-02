@@ -88,18 +88,19 @@ export default class App extends Vue {
     this.toggleNotificationCenter(v);
   }
 
-  get isDarkMode() {
+  private isDarkMode() {
     if (matchMedia("(prefers-color-scheme: dark)").matches) {
       this.$vuetify.theme.dark = true;
+    } else {
+      this.$vuetify.theme.dark = false;
     }
-    return;
-  }
-
-  @Watch("isDarkMode")
-  private onModeChanged(v: boolean) {
-    if (v) {
-      this.$vuetify.theme.dark = true;
-    }
+    setInterval(() => {
+      if (matchMedia("(prefers-color-scheme: dark)").matches) {
+        this.$vuetify.theme.dark = true;
+      } else {
+        this.$vuetify.theme.dark = false;
+      }
+    }, 5000);
   }
 
   private mounted() {
@@ -108,6 +109,7 @@ export default class App extends Vue {
 
     this.appSwitcherShow = this.appSwitcher;
     this.notificationCenterShow = this.notificationCenter;
+    this.isDarkMode();
   }
 }
 </script>

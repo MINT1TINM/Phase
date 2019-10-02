@@ -46,7 +46,7 @@
     <project-bar v-if="currentApp.route==='project'"></project-bar>
 
     <v-spacer></v-spacer>
-
+    <v-divider vertical inset></v-divider>
     <!-- notification center -->
 
     <v-badge overlap style="height:100%">

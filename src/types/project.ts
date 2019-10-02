@@ -44,4 +44,30 @@ interface Invitation {
   projectID: string;
 }
 
-export { Project, ProjectMember, ProjectMemberComplete, Invitation };
+interface ProjectTemplate {
+  id: string;
+  createAt?: number;
+  updatedAt?: number;
+  userID: string;
+  name: string;
+  process: ProcessTemplate[];
+}
+
+interface ProcessTemplate {
+  name: string;
+  task: TaskTemplate[];
+}
+
+interface TaskTemplate {
+  name: string;
+}
+
+export {
+  Project,
+  ProjectMember,
+  ProjectMemberComplete,
+  Invitation,
+  ProjectTemplate,
+  ProcessTemplate,
+  TaskTemplate
+};

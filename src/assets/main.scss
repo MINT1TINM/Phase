@@ -147,7 +147,7 @@ $body-font-family: sans-serif !default;
 // acrylic
 .acrylic {
   backdrop-filter: saturate(180%) blur(20px);
-  background-color: #ffffffc0 !important;
+  opacity: 0.85;
 }
 
 .green-acrylic {
@@ -158,9 +158,6 @@ $body-font-family: sans-serif !default;
 @media (prefers-color-scheme: dark) {
   .app-icon {
     fill: white;
-  }
-  .acrylic {
-    background-color: #363636c0 !important;
   }
 }
 

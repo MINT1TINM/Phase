@@ -48,6 +48,7 @@
           <v-card
             v-else
             :elevation="(currentTask===item.taskID || currentTask===item.id)&&(currentTask) ? 6 : 0"
+            :style="(currentTask===item.taskID || currentTask===item.id)&&(currentTask) ?'border:2px solid #42A5F5':''"
             outlined
             flat
             @click="toTaskDetail(item)"

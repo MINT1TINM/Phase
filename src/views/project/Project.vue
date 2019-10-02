@@ -5,7 +5,15 @@
       <v-container grid-list-md>
         <v-layout row wrap>
           <v-flex xs12>
-            <v-card-title class="subtitle-1 font-weight-black">创建</v-card-title>
+            <v-card-title class="subtitle-1 font-weight-black">
+              创建
+              <v-spacer></v-spacer>
+              <v-btn text rounded>
+                更多模版
+                &nbsp;
+                <v-icon size="20">mdi-arrow-right</v-icon>
+              </v-btn>
+            </v-card-title>
             <v-container>
               <transition appear appear-active-class="fade-up-enter">
                 <v-layout row wrap>
@@ -21,6 +29,21 @@
                     </v-hover>
                     <v-card-title class="body-2 font-weight-black">
                       <v-layout justify-center>新建空白项目</v-layout>
+                    </v-card-title>
+                  </v-flex>
+
+                  <v-flex xs3 v-for="(item,i) in templateList.slice(0,3)" :key="`template-${i}`">
+                    <v-hover v-slot:default="{ hover }">
+                      <v-card :elevation="hover ? 8 : 0" outlined>
+                        <v-img
+                          class="white--text"
+                          height="150"
+                          src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                        ></v-img>
+                      </v-card>
+                    </v-hover>
+                    <v-card-title class="body-2 font-weight-black">
+                      <v-layout justify-center>{{item.name}}</v-layout>
                     </v-card-title>
                   </v-flex>
                 </v-layout>
@@ -141,6 +164,7 @@ import appBar from "@/components/common/app-bar/AppBar.vue";
 
 import UserService from "@/service/userService";
 import { Authorization } from "@/types/user";
+import { ProjectTemplate } from "@/types/project";
 
 const projectModule = namespace("project");
 const userModule = namespace("user");
@@ -164,6 +188,7 @@ export default class ProjectHome extends Vue {
     name: ""
   };
   private projectListShow = [];
+  private templateList: ProjectTemplate[] = [];
 
   @projectModule.Getter("projectList") private projectList: any;
   @projectModule.Mutation("updateCurrentProjectID")
@@ -182,6 +207,7 @@ export default class ProjectHome extends Vue {
     this.updateCurrentProjectID(projectId);
     this.$router.push({ path: "/project/process" });
   }
+
   private async createProject() {
     const rsp = await ProjectService.createProject(this.createProjectInfo.name);
     if (rsp.msg === "success") {
@@ -195,9 +221,17 @@ export default class ProjectHome extends Vue {
     await ProjectService.getProjectList();
   }
 
+  private async getTemplateList() {
+    const rsp = await ProjectService.getProjectTemplateList(
+      this.authorization.userID
+    );
+    this.templateList = rsp.template;
+  }
+
   private mounted() {
     this.clearCurrentProjectID();
     this.getProjectList();
+    this.getTemplateList();
   }
 }
 </script>

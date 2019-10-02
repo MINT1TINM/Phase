@@ -5,9 +5,9 @@
         <task-list @func="getKey" :processID="processID"></task-list>
       </v-flex>
       <v-flex xs9>
-        <transition v-if="$route.params.taskID" name="fade-up-enter" mode="out-in">
+        <div v-if="$route.params.taskID">
           <router-view :key="activeTask"></router-view>
-        </transition>
+        </div>
         <v-layout
           class="inner-sidebar-withoutpadding"
           v-else

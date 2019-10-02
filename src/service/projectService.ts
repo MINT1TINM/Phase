@@ -145,6 +145,32 @@ class ProjectService {
     });
     return rsp;
   }
+
+  public static async saveToTemplate(projectID: string, name: string) {
+    const rsp = await basicService.postRequest("/project/template", {
+      projectID,
+      name
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("保存成功");
+    }
+    return rsp;
+  }
+
+  public static async getProjectTemplateList(userID: string) {
+    const rsp = await basicService.getRequest("/project/template/list", {
+      userID
+    });
+    return rsp;
+  }
+
+  public static async getTemplateInfo(templateID: string) {
+    const rsp = await basicService.getRequest("/project/template", {
+      templateID
+    });
+    return rsp;
+  }
 }
 
 export default ProjectService;
