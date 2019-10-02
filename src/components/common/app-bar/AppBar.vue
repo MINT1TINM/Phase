@@ -28,8 +28,7 @@
     <v-toolbar-items text class="mr-2">
       <v-btn
         text
-        style="padding:0 5px"
-        class="font-weight-black text-none subtitle-1"
+        class="font-weight-black text-none subtitle-1 px-2"
         color="primary"
         @click="goHome"
       >{{systemName}}</v-btn>

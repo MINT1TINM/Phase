@@ -2,11 +2,16 @@ export default [
   {
     path: "/project",
     meta: "所有项目",
-    component: () => import("@/views/project/Project.vue")
+    component: () => import("@/views/project/ProjectHome.vue")
+  },
+  {
+    path: "/project/template",
+    meta: "所有项目",
+    component: () => import("@/views/project/ProjectTemplate.vue")
   },
   {
     path: "/project/:processID/index",
-    component: () => import("@/views/project/ProjectTemplate.vue"),
+    component: () => import("@/views/project/Project.vue"),
     children: [
       {
         path: "/project/calendar",
