@@ -19,7 +19,7 @@
           <v-container fluid>
             <v-autocomplete
               :loading="loading"
-              :items="userList"
+              :items="userListShow"
               :search-input.sync="search"
               flat
               @change="insertGroupMember"
@@ -56,7 +56,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item,i) in groupInfo.member" :key="`member-${i}`">
+                <tr v-for="(item,i) in groupInfo.member.data" :key="`member-${i}`">
                   <td class="caption text-left">{{ item.userID }}</td>
                   <td class="caption text-left">{{ item.nickName }}</td>
                   <td class="caption text-left">{{ item.tags }}</td>
@@ -73,7 +73,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import AdminService from "@/service/adminService";
-import { Group } from "@/types/company";
+import { Group, GroupMember } from "@/types/company";
 import UserService from "@/service/userService";
 import { UserInfo } from "@/types/user";
 
@@ -85,7 +85,9 @@ export default class AdminGroupInfo extends Vue {
     id: "",
     name: "",
     description: "",
-    member: [],
+    member: {
+      data: []
+    },
     createdAt: ""
   };
   private loading = false;
@@ -127,6 +129,27 @@ export default class AdminGroupInfo extends Vue {
   private async insertGroupMember(userID: any) {
     this.select = null;
     this.search = "";
+    await AdminService.insertGroupMember(this.groupID, userID);
+    this.getGroupInfo();
+  }
+
+  private get selectedNickNameList() {
+    const userNickNameList: string[] = [];
+    for (const item of this.groupInfo.member.data) {
+      userNickNameList.push((item as GroupMember).nickName.toLowerCase());
+    }
+    return userNickNameList;
+  }
+
+  private get userListShow() {
+    return this.userList.filter((e: GroupMember) => {
+      return this.selectedNickNameList.indexOf(e.nickName.toLowerCase()) === -1;
+    });
+  }
+
+  private async getGroupInfo() {
+    const rsp = await AdminService.getGroupInfo(this.groupID);
+    this.groupInfo = rsp.group;
   }
 
   @Watch("search")
@@ -136,14 +159,12 @@ export default class AdminGroupInfo extends Vue {
 
   @Watch("groupID")
   private async onGroupIDChanged() {
-    const rsp = await AdminService.getGroupInfo(this.groupID);
-    this.groupInfo = rsp.group;
+    this.getGroupInfo();
   }
 
   private async mounted() {
     if (this.groupID !== "") {
-      const rsp = await AdminService.getGroupInfo(this.groupID);
-      this.groupInfo = rsp.group;
+      this.getGroupInfo();
     }
   }
 }

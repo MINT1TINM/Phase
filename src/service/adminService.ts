@@ -40,6 +40,18 @@ class AdminService {
     }
     return rsp;
   }
+
+  public static async insertGroupMember(groupID: string, userID: string) {
+    const rsp = await BasicService.postRequest("/company/group/member", {
+      groupID,
+      userID
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("更新成功");
+    }
+    return rsp;
+  }
 }
 
 export default AdminService;
