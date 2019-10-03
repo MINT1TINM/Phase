@@ -119,7 +119,11 @@ export default class Calendar extends Vue {
     this.$refs.calendar.next();
   }
   private getEventColor(event: any) {
-    return event.color;
+    if (event.color) {
+      return event.color;
+    } else {
+      return `primary darken-1`;
+    }
   }
   private showEvent({ nativeEvent, event }: any) {
     const open = () => {
