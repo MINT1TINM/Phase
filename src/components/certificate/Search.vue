@@ -6,7 +6,7 @@
         @keyup.enter="searchCertificate"
         outlined
         label="搜索凭证"
-        class="text-field-dense"
+        dense
         single-line
         hide-details
       ></v-text-field>

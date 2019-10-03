@@ -19,10 +19,10 @@
               <v-form ref="sheetDesign">
                 <v-toolbar flat class="transparent">
                   <v-text-field
-                    class="text-field-semidense"
                     hide-details
                     v-model="sheetTemplate.name"
                     outlined
+                    dense
                     required
                     :rules="[v => !!v || 'Item is required']"
                     single-line
@@ -44,7 +44,7 @@
                           <v-layout row wrap align-center>
                             <v-flex xs6>
                               <v-text-field
-                                class="text-field-semidense"
+                                dense
                                 label="名称"
                                 v-model="item.title"
                                 outlined
@@ -58,7 +58,6 @@
                               <v-select
                                 dense
                                 :items="typeList"
-                                class="text-field-semidense"
                                 required
                                 v-model="item.type"
                                 :rules="[v => !!v || 'Item is required']"
@@ -108,7 +107,7 @@
                               v-if="item.type==='select' || item.type === `multi-select`"
                             >
                               <v-combobox
-                                class="text-field-dense"
+                                dense
                                 outlined
                                 single-line
                                 label="可用的选项 (回车键分隔)"

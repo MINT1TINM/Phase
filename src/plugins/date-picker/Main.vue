@@ -16,7 +16,7 @@
         :disabled="disabled"
         :single-line="dense?false:true"
         :label="label"
-        class="text-field-dense"
+        dense
         readonly
         v-on="on"
       ></v-text-field>

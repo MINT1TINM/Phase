@@ -75,7 +75,6 @@
                               <v-select
                                 dense
                                 style="height:100%;align-items:center"
-                                class="text-field-dense"
                                 :items="[`量化`,`非量化`]"
                                 single-line
                                 hide-details
@@ -86,10 +85,10 @@
                             <td width="320px" class="px-1 py-1">
                               <v-textarea
                                 single-line
-                                class="text-field-dense"
+                                dense
                                 hide-details
                                 auto-grow
-                                rows="2"
+                                rows="1"
                                 outlined
                                 v-model="item.description"
                               >{{ item.description }}</v-textarea>
@@ -97,21 +96,21 @@
                             <td class="px-1">
                               <v-textarea
                                 single-line
-                                class="text-field-dense"
+                                dense
                                 hide-details
                                 outlined
                                 auto-grow
-                                rows="2"
+                                rows="1"
                                 v-model="item.expect"
                               >{{ item.expect }}</v-textarea>
                             </td>
                             <td class="px-1">
                               <v-textarea
                                 single-line
-                                class="text-field-dense"
+                                dense
                                 hide-details
                                 auto-grow
-                                rows="2"
+                                rows="1"
                                 outlined
                                 v-model="item.reality"
                               >{{ item.reality }}</v-textarea>
@@ -140,12 +139,8 @@
                           <v-btn
                             v-if="
                           currentSubTask.content.length===0 ||
-
-
-
-                          
-                           currentSubTask.content.length>0&&
-                           currentSubTask.content[currentSubTask.content.length-1].property
+                          currentSubTask.content.length>0&&
+                          currentSubTask.content[currentSubTask.content.length-1].property
                           "
                             block
                             color="primary"

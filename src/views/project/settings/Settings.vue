@@ -32,7 +32,8 @@
                         :src="`/api/file/download?sName=${currentProject.folderURL}`"
                       ></v-img>
                       <v-file-input
-                        class="text-field-semidense mt-3"
+                        dense
+                        class="mt-3"
                         accept="image/png, image/jpeg, image/bmp"
                         placeholder="上传封面"
                         prepend-icon="mdi-camera-outline"

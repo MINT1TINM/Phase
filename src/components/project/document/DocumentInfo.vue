@@ -63,14 +63,7 @@
           </v-btn>
         </v-toolbar>
         <v-container fluid>
-          <v-text-field
-            hide-details
-            single-line
-            outlined
-            class="text-field-semidense"
-            label="输入新名称"
-            v-model="currentName"
-          ></v-text-field>
+          <v-text-field hide-details single-line outlined dense label="输入新名称" v-model="currentName"></v-text-field>
           <v-layout class="pt-5" justify-center>
             <v-btn rounded color="primary" depressed @click="renameFile">保存</v-btn>
           </v-layout>

@@ -55,7 +55,7 @@
             <v-text-field
               v-model="newProjectName"
               outlined
-              class="text-field-dense"
+              dense
               single-line
               hide-details
               label="名称"

@@ -31,10 +31,10 @@
                   <v-card-title class="caption grey--text font-weight-black">权限</v-card-title>
                   <v-card-text>
                     <v-select
-                      class="text-field-dense font-weight-black"
+                      dense
+                      class="font-weight-black"
                       chips
                       outlined
-                      dense
                       :items="permissionList"
                       item-text="text"
                       item-value="value"

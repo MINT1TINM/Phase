@@ -50,7 +50,7 @@
           <v-form ref="createUserForm">
             <v-text-field
               v-model="newUserName"
-              class="text-field-semidense"
+              class="dense"
               single-line
               hide-details
               :rules="[v => !!v || '']"
@@ -59,7 +59,8 @@
             ></v-text-field>
             <v-text-field
               v-model="newNickName"
-              class="text-field-semidense mt-3"
+              dense
+              class="mt-3"
               single-line
               hide-details
               :rules="[v => !!v || '']"
@@ -68,7 +69,8 @@
             ></v-text-field>
             <v-text-field
               v-model="newPassword"
-              class="text-field-semidense mt-3"
+              dense
+              class="mt-3"
               single-line
               hide-details
               outlined

@@ -11,7 +11,8 @@
           v-model="searchTemplateContent"
           single-line
           outlined
-          class="text-field-semidense mt-3"
+          dense
+          class="mt-3"
           label="搜索模版"
         ></v-text-field>
         <v-simple-table v-if="templateList.length>=1" height="400" style="overflow-y:auto">

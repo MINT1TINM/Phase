@@ -5,16 +5,26 @@
       <v-toolbar dark color="primary darken-1">
         <v-layout row wrap justify-center>
           <v-flex xs6>
-            <v-text-field
-              label="搜索项目"
+            <v-autocomplete
+              v-model="select"
+              :loading="loading"
+              :items="items"
+              :search-input.sync="search"
+              cache-items
+              class="mx-4"
               flat
-              solo-inverted
+              hide-no-data
               single-line
               hide-details
-              :append-outer-icon="'mdi-magnify'"
-              @click:append-outer="search"
-              @keyup.enter="search"
-            ></v-text-field>
+              label="搜索项目"
+              solo-inverted
+              item-text="name"
+              item-value="name"
+              @change="searchProject"
+              @keyup.enter="searchProject(search)"
+              append-outer-icon="mdi-magnify"
+              @click:append-outer="searchProject(search)"
+            ></v-autocomplete>
           </v-flex>
         </v-layout>
       </v-toolbar>
@@ -30,23 +40,50 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import CertificateService from "@/service/certificateService";
 
 @Component
 export default class Certifcate extends Vue {
+  private search: string = "";
+  private loading: boolean = false;
+  private select = null;
+  private items = [];
+
   private headers = [
     {
       text: "项目代码",
       sortable: false,
-      value: "name"
+      value: "code"
     },
-    { text: "项目名称", value: "calories", sortable: false },
+    { text: "项目名称", value: "name", sortable: false },
     { text: "负责人", value: "fat", sortable: false },
-    { text: "负责人工号", value: "carbs", sortable: false }
+    { text: "负责人工号", value: "chargeSno", sortable: false }
   ];
   private projectList = [];
 
-  private search() {}
+  private async querySelections(v: string) {
+    if (this.loading !== true) {
+      this.loading = true;
+      // Simulated ajax query
+      const rsp = await CertificateService.searchCertificateProject(
+        "pname_prefix",
+        this.search
+      );
+      this.items = rsp.project;
+      this.loading = false;
+    }
+  }
+
+  private async searchProject(v: string) {
+    const rsp = await CertificateService.searchCertificateProject("pname", v);
+    this.projectList = rsp.project;
+  }
+
+  @Watch("search")
+  private async onSearchChanged(val: string) {
+    val && val !== this.select && (await this.querySelections(val));
+  }
 }
 </script>
 

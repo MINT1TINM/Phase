@@ -46,7 +46,7 @@
         <v-container fluid>
           <v-form ref="createGroupForm">
             <v-text-field
-              class="text-field-semidense"
+              dense
               outlined
               single-line
               hide-details

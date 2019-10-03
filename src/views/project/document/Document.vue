@@ -94,7 +94,7 @@
               hide-details
               single-line
               outlined
-              class="text-field-semidense"
+              dense
               label="输入希望创建的文件夹名称"
               :rules="[v => !!v || '']"
               v-model="currentName"
@@ -117,14 +117,7 @@
           </v-btn>
         </v-toolbar>
         <v-container fluid>
-          <v-file-input
-            class="text-field-semidense"
-            single-line
-            hide-details
-            outlined
-            label="选择文件"
-            v-model="file"
-          ></v-file-input>
+          <v-file-input dense single-line hide-details outlined label="选择文件" v-model="file"></v-file-input>
           <v-progress-linear
             height="20"
             class="mt-5"

@@ -29,7 +29,7 @@
               <v-form ref="sheetDesign">
                 <v-toolbar flat class="transparent">
                   <v-text-field
-                    class="text-field-semidense"
+                    dense
                     hide-details
                     v-model="sheetTemplate.name"
                     outlined
@@ -54,10 +54,10 @@
                           <v-layout row wrap align-center>
                             <v-flex xs6>
                               <v-text-field
-                                class="text-field-semidense"
                                 label="名称"
                                 v-model="item.title"
                                 outlined
+                                dense
                                 :disabled="sheetTemplate.locked"
                                 required
                                 :rules="[v => !!v || 'Item is required']"
@@ -67,10 +67,9 @@
                             </v-flex>
                             <v-flex style="-webkit-box-flex:1">
                               <v-select
-                                dense
                                 :items="typeList"
-                                class="text-field-semidense"
                                 required
+                                dense
                                 v-model="item.type"
                                 :disabled="sheetTemplate.locked"
                                 :rules="[v => !!v || 'Item is required']"
@@ -119,8 +118,8 @@
                               v-if="item.type==='select' || item.type === `multi-select`"
                             >
                               <v-combobox
-                                class="text-field-dense"
                                 outlined
+                                dense
                                 single-line
                                 :disabled="sheetTemplate.locked"
                                 label="可用的选项 (回车键分隔)"

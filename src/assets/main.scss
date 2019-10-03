@@ -4,44 +4,6 @@
   fill: rgb(0, 0, 0, 0.87);
 }
 
-// text-field
-.text-field-dense.v-text-field--outlined > .v-input__control > .v-input__slot {
-  min-height: 36px;
-}
-
-.text-field-semidense.v-text-field--outlined
-  > .v-input__control
-  > .v-input__slot {
-  min-height: 48px;
-}
-
-.text-field-semidense.v-text-field--outlined .v-label {
-  top: 14px;
-  font-size: 14px;
-}
-
-.v-input {
-  font-size: 14px;
-}
-
-.text-field-dense.v-text-field--outlined .v-label {
-  top: 8px;
-  font-size: 14px;
-}
-
-.text-field-dense.v-text-field.v-text-field--enclosed .v-input__prepend-inner {
-  margin-top: 7px;
-}
-
-.v-text-field.v-text-field--enclosed .v-input__append-outer,
-.v-text-field.v-text-field--enclosed .v-input__append-inner {
-  margin-top: 12px;
-}
-
-.v-text-field--filled > .v-input__control > .v-input__slot {
-  min-height: 26px;
-}
-
 // nav-bar
 .navbar-logo {
   font-size: 1.15em;

@@ -22,7 +22,7 @@
         </v-flex>
         <v-flex xs9>
           <v-text-field
-            class="text-field-dense"
+            dense
             :disabled="sheetInfoShow.target === `取证单`|| sheetInfoShow.target ===  `审计底稿`?true:false "
             single-line
             hide-details
@@ -47,13 +47,7 @@
         <tbody>
           <tr v-for="(item,i) in sheetInfoShow.content" :key="`c-${i}`">
             <td v-for="(field,i) in templateInfo.field.data" :key="`field-${i}`">
-              <v-text-field
-                outlined
-                single-line
-                hide-details
-                v-model="item[field.name]"
-                class="text-field-dense"
-              ></v-text-field>
+              <v-text-field outlined single-line hide-details v-model="item[field.name]" dense></v-text-field>
             </td>
           </tr>
         </tbody>

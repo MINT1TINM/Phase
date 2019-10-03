@@ -8,7 +8,7 @@
               <div style="width:100%">
                 <v-text-field
                   outlined
-                  class="text-field-semidense"
+                  dense
                   label="搜索成员"
                   single-line
                   hide-details

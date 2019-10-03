@@ -20,7 +20,7 @@
             <!-- text-field -->
             <v-text-field
               v-if="content.type==='text-field'"
-              class="text-field-dense"
+              dense
               v-model="target[content.name]"
               :disabled="content.disabled || disabled"
               :label="dense?`${content.title}`:``"
@@ -33,7 +33,7 @@
             <!-- text-area -->
             <v-textarea
               v-else-if="content.type==='text-area'"
-              class="text-field-dense"
+              dense
               v-model="target[content.name]"
               :disabled="content.disabled || disabled"
               :label="dense?`${content.title}`:``"
@@ -43,14 +43,13 @@
             <!-- select -->
             <v-select
               v-else-if="content.type==='select'"
-              class="text-field-dense"
+              dense
               :items="content.list"
               v-model="target[content.name]"
               :label="dense?`${content.title}`:``"
               outlined
               :chips="content.chips"
               :disabled="content.disabled || disabled"
-              dense
               hide-details
               style="line-height:14px"
               :item-text="content.text"
@@ -75,7 +74,7 @@
             <!-- multi-select -->
             <v-select
               v-else-if="content.type==='multi-select'"
-              class="text-field-dense"
+              dense
               :items="content.list"
               v-model="target[content.name].data"
               :label="dense?`${content.title}`:``"
@@ -83,7 +82,6 @@
               multiple
               outlined
               :disabled="content.disabled || disabled"
-              dense
               hide-details
               style="line-height:14px"
               :item-text="content.text"
@@ -144,7 +142,7 @@
             <!-- tags -->
             <v-combobox
               v-else-if="content.type==='tags'"
-              class="text-field-dense"
+              dense
               :label="dense?`${content.title}`:``"
               outlined
               :disabled="content.disabled || disabled"

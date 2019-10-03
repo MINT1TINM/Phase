@@ -10,7 +10,8 @@
 
               <v-form ref="loginForm">
                 <v-text-field
-                  class="text-field-dense mb-3"
+                  dense
+                  class="mb-3"
                   hide-details
                   outlined
                   single-line
@@ -19,7 +20,7 @@
                   :rules="[v => !!v || '']"
                 ></v-text-field>
                 <v-text-field
-                  class="text-field-dense"
+                  dense
                   type="password"
                   outlined
                   single-line

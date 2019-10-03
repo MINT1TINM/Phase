@@ -10,7 +10,8 @@
                 hide-details
                 outlined
                 single-line
-                class="text-field-dense ml-1"
+                dense
+                class="ml-1"
                 label="搜索过程 & 任务"
                 v-model="searchProcessContent"
               ></v-text-field>
@@ -53,13 +54,7 @@
           <v-toolbar-title class="subtitle-1 font-weight-black">新建过程</v-toolbar-title>
         </v-toolbar>
         <v-container>
-          <v-text-field
-            single-line
-            outlined
-            class="text-field-dense"
-            label="项目名称"
-            v-model="processName"
-          ></v-text-field>
+          <v-text-field single-line outlined dense label="项目名称" v-model="processName"></v-text-field>
         </v-container>
         <v-card-actions class="justify-center">
           <v-btn rounded color="primary" depressed @click="createProcess">确认</v-btn>

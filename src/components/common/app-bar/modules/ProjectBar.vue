@@ -19,7 +19,7 @@
               outlined
               single-line
               hide-details
-              class="text-field-dense"
+              dense
               label="搜索项目"
               v-model="searchProjectContent"
             ></v-text-field>
@@ -62,14 +62,7 @@
           <v-toolbar-title class="subtitle-1 font-weight-black">导出为模版</v-toolbar-title>
         </v-toolbar>
         <v-container fluid>
-          <v-text-field
-            v-model="templateName"
-            class="text-field-dense"
-            outlined
-            label="名称"
-            single-line
-            hide-details
-          ></v-text-field>
+          <v-text-field v-model="templateName" dense outlined label="名称" single-line hide-details></v-text-field>
         </v-container>
         <v-card-actions class="justify-center">
           <v-btn rounded color="primary darken-1" depressed @click="saveToTemplate">确认</v-btn>

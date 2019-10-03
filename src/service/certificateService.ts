@@ -1,15 +1,10 @@
 import basicService from "@/service/basicService";
 
 class CertificateService {
-  public static async searchCertificate(
-    keywords: string,
-    pageSize: number,
-    pageNumber: number
-  ) {
-    const rsp = await basicService.getRequest("/certificate", {
-      keywords,
-      pageNumber,
-      pageSize
+  public static async searchCertificateProject(key: string, value: string) {
+    const rsp = await basicService.getRequest("/certificate/project", {
+      key,
+      value
     });
     return rsp;
   }

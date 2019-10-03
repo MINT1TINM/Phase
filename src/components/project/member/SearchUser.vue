@@ -3,7 +3,7 @@
     <v-flex xs8>
       <v-text-field
         outlined
-        class="text-field-semidense"
+        dense
         single-line
         hide-details
         label="搜索用户"

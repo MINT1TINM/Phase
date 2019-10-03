@@ -5,7 +5,7 @@
         <v-text-field
           v-if="projectPermission(authorization.userID).indexOf(`c`)!=-1"
           hide-details
-          class="text-field-semidense"
+          dense
           outlined
           label="+ 新任务"
           v-model="newTaskName"
