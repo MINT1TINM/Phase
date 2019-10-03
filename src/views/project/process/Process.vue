@@ -24,8 +24,9 @@
             >+ 新过程</v-btn>
           </v-layout>
         </v-toolbar>
-        <transition appear appear-active-class="fade-left-enter">
-          <v-sheet v-if="processListShow.length>=1" color="transparent">
+
+        <v-sheet v-if="processListShow.length>=1" color="transparent">
+          <transition appear appear-active-class="fade-left-enter">
             <v-slide-group center-active show-arrows style="height:100%">
               <v-slide-item
                 draggable="true"
@@ -37,13 +38,13 @@
                 </div>
               </v-slide-item>
             </v-slide-group>
-          </v-sheet>
-          <v-sheet color="transparent" v-else style="height:calc(100vh - 112px)">
-            <v-layout fill-height justify-center align-center>
-              <h3>请创建过程</h3>
-            </v-layout>
-          </v-sheet>
-        </transition>
+          </transition>
+        </v-sheet>
+        <v-sheet color="transparent" v-else style="height:calc(100vh - 112px)">
+          <v-layout fill-height justify-center align-center>
+            <h3>请创建过程</h3>
+          </v-layout>
+        </v-sheet>
       </v-flex>
     </v-layout>
     <v-dialog v-model="createProcessDialog" width="300" persistent>

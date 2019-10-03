@@ -12,9 +12,10 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <transition appear appear-active-class="fade-up-enter">
-      <v-container fluid style="height:calc(100vh - 98px);padding:0;overflow-y:auto">
-        <v-layout fill-height v-if="sheetList.length>=1">
+
+    <v-container fluid style="height:calc(100vh - 98px);padding:0;overflow-y:auto">
+      <v-layout fill-height v-if="sheetList.length>=1">
+        <transition appear appear-active-class="fade-up-enter">
           <!-- sheet list -->
           <v-flex :class="currentProjectID&&currentSheetID?`xs9`:`xs12`">
             <v-simple-table class="transparent">
@@ -47,36 +48,31 @@
               </tbody>
             </v-simple-table>
           </v-flex>
-
-          <v-flex
-            v-if="currentSheetID && currentTemplateID"
-            xs3
-            class="inner-sidebar-withoutpadding"
-          >
-            <transition appear appear-active-class="fade-up-enter">
-              <sheet-info ref="sheetInfo" :sheetID="currentSheetID" :templateID="currentTemplateID"></sheet-info>
-            </transition>
-          </v-flex>
-        </v-layout>
-        <v-layout v-else fill-height justify-center align-center>
-          <h3>请创建表单</h3>
-        </v-layout>
-        <v-bottom-sheet v-model="createSheetDialog" inset>
-          <v-sheet class="text-center" height="900px" style="overflow:auto">
-            <create-sheet :target="`普通`" @closeDialog="createSheetDialog=false"></create-sheet>
-          </v-sheet>
-        </v-bottom-sheet>
-        <v-bottom-sheet v-model="editSheetDialog" inset>
-          <v-sheet class="text-center" height="900px" style="overflow:auto">
-            <v-container fluid>
-              <v-layout row justify-center>
-                <v-flex xs8></v-flex>
-              </v-layout>
-            </v-container>
-          </v-sheet>
-        </v-bottom-sheet>
-      </v-container>
-    </transition>
+        </transition>
+        <v-flex v-if="currentSheetID && currentTemplateID" xs3 class="inner-sidebar-withoutpadding">
+          <transition appear appear-active-class="fade-up-enter">
+            <sheet-info ref="sheetInfo" :sheetID="currentSheetID" :templateID="currentTemplateID"></sheet-info>
+          </transition>
+        </v-flex>
+      </v-layout>
+      <v-layout v-else fill-height justify-center align-center>
+        <h3>请创建表单</h3>
+      </v-layout>
+      <v-bottom-sheet v-model="createSheetDialog" inset>
+        <v-sheet class="text-center" height="900px" style="overflow:auto">
+          <create-sheet :target="`普通`" @closeDialog="createSheetDialog=false"></create-sheet>
+        </v-sheet>
+      </v-bottom-sheet>
+      <v-bottom-sheet v-model="editSheetDialog" inset>
+        <v-sheet class="text-center" height="900px" style="overflow:auto">
+          <v-container fluid>
+            <v-layout row justify-center>
+              <v-flex xs8></v-flex>
+            </v-layout>
+          </v-container>
+        </v-sheet>
+      </v-bottom-sheet>
+    </v-container>
   </div>
 </template>
 

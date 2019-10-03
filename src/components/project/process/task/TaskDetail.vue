@@ -25,20 +25,21 @@
         </v-container>
       </v-flex>
     </transition>
-    <transition appear>
-      <v-flex
-        xs7
-        class="inner-sidebar-withoutpadding"
-        style="height:calc(100vh - 96px);overflow-y:auto"
-      >
+
+    <v-flex
+      xs7
+      class="inner-sidebar-withoutpadding"
+      style="height:calc(100vh - 96px);overflow-y:auto"
+    >
+      <transition appear appear-active-class="fade-up-enter">
         <v-container fluid>
           <sub-task :subTask="currentTask.subTask"></sub-task>
           <related-sheet :sheetIDList="currentTask.sheet.data" class="mt-3"></related-sheet>
           <related-draft :sheetIDList="currentTask.draft.data" class="mt-3"></related-draft>
           <operations class="mt-3"></operations>
         </v-container>
-      </v-flex>
-    </transition>
+      </transition>
+    </v-flex>
   </v-layout>
 </template>
 
