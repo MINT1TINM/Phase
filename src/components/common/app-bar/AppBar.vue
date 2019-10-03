@@ -154,7 +154,8 @@ export default class AppBar extends Vue {
 
         const res = await this.$confirm("", {
           title: "确认注销?",
-          buttonTrueColor: "primary"
+          buttonTrueColor: "primary",
+          dark: this.$vuetify.theme.dark
         });
         if (res) {
           this.clearAuthorization();

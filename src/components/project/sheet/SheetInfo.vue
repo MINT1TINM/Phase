@@ -136,7 +136,8 @@ export default class SheetInfo extends Vue {
   private async deleteSheet() {
     const res = await this.$confirm("此操作无法复原", {
       title: "确认删除?",
-      buttonTrueColor: "primary"
+      buttonTrueColor: "primary",
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       const rsp = await SheetService.deleteSheet(this.sheetID, "", "");

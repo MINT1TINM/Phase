@@ -111,7 +111,7 @@
         <v-container v-else-if="tab===`operations`" fluid grid-list-md>
           <v-layout row wrap justify-center>
             <v-flex xs8>
-              <v-btn block rounded depressed color="error">
+              <v-btn @click="deleteUser" block rounded depressed color="error">
                 <v-icon size="20">mdi-delete-outline</v-icon>释放账户
               </v-btn>
             </v-flex>
@@ -163,6 +163,16 @@ export default class AdminUserInfoNav extends Vue {
   private async getUserLoginHistory() {
     const rsp = await UserService.getUserLoginHistory(this.userID);
     this.loginHistory = rsp.loginHistory;
+  }
+
+  private async deleteUser() {
+    const res = await this.$confirm("此操作无法还原", {
+      title: "确认释放?",
+      buttonTrueColor: "primary",
+      dark: this.$vuetify.theme.dark
+    });
+    if (res) {
+    }
   }
 
   @Watch("userID")

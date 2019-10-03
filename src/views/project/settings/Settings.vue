@@ -11,7 +11,13 @@
 
                   <v-layout row justify-center class="pt-5">
                     <v-flex xs6>
-                      <v-btn block rounded depressed color="primary" @click="updateProjectInfo()">保存</v-btn>
+                      <v-btn
+                        block
+                        rounded
+                        depressed
+                        color="primary darken-1"
+                        @click="updateProjectInfo()"
+                      >保存</v-btn>
                     </v-flex>
                   </v-layout>
                   <v-divider class="my-3"></v-divider>

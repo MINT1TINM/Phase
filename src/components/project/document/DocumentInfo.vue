@@ -133,7 +133,8 @@ export default class DocumentInfo extends Vue {
   private async deleteFile() {
     const res = await this.$confirm("此操作无法恢复", {
       title: "确认删除?",
-      buttonTrueColor: "primary"
+      buttonTrueColor: "primary",
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await FileService.deleteFile(

@@ -24,7 +24,7 @@
             >+ 新过程</v-btn>
           </v-layout>
         </v-toolbar>
-        <transition appear appear-active-class="fade-up-enter">
+        <transition appear appear-active-class="fade-left-enter">
           <v-sheet v-if="processListShow.length>=1" color="transparent">
             <v-slide-group center-active show-arrows style="height:100%">
               <v-slide-item

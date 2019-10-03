@@ -123,7 +123,8 @@ export default class RelatedDocument extends Vue {
   private async deleteTaskDraft(sheetID: string) {
     const res = await this.$confirm("此操作无法恢复", {
       title: "确认删除?",
-      buttonTrueColor: "primary"
+      buttonTrueColor: "primary",
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await SheetService.deleteSheet(

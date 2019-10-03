@@ -304,7 +304,8 @@ export default class SubTaskList extends Vue {
   private async deleteSubTask(subTaskID: string) {
     const res = await this.$confirm("此操作无法恢复", {
       title: "确认删除?",
-      buttonTrueColor: "primary"
+      buttonTrueColor: "primary",
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await TaskService.deleteSubTask(this.$route.params.taskID, subTaskID);

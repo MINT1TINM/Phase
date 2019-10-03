@@ -1,23 +1,27 @@
 <template>
   <v-dialog
     @input="change"
-    light
     value="true"
+    :dark="dark"
     :max-width="width"
     :persistent="persistent"
     @keydown.esc="choose(false)"
   >
-    <v-toolbar v-if="Boolean(title)" dense flat>
-      <v-toolbar-title class="font-weight-black subtitle-1" v-text="title" />
-    </v-toolbar>
     <v-card tile flat>
-      <v-card-text v-html="message" />
+      <v-toolbar v-if="Boolean(title)" dense flat>
+        <v-toolbar-title class="font-weight-black subtitle-1 pl-0" v-text="title" />
+      </v-toolbar>
+
+      <v-container fluid>
+        <div class="body-2 pl-1" v-html="message" />
+      </v-container>
+
       <v-card-actions class="justify-center">
         <v-btn
           v-if="Boolean(buttonTrueText)"
           depressed
           rounded
-          :color="buttonTrueColor"
+          :color="buttonTrueColor+` darken-1`"
           @click="choose(true)"
         >{{ buttonTrueText }}</v-btn>
         <v-btn
@@ -62,6 +66,9 @@ export default {
     width: {
       type: Number,
       default: 350
+    },
+    dark: {
+      type: Boolean
     }
   },
   data() {
@@ -85,3 +92,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.v-dialog__container {
+  display: block;
+}
+</style>

@@ -14,7 +14,7 @@
                     rounded
                     depressed
                     block
-                    color="primary"
+                    color="primary darken-1"
                     class="mt-4"
                   >保存</v-btn>
                 </v-flex>
@@ -129,7 +129,8 @@ export default class Settings extends Vue {
   private async deleteProcess() {
     const res = await this.$confirm("此操作无法恢复", {
       title: "确认删除?",
-      buttonTrueColor: "primary"
+      buttonTrueColor: "primary",
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await ProcessService.deleteProcess(this.$route.params.processID);

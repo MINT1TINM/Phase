@@ -1,6 +1,6 @@
 <template>
   <v-layout fill-height>
-    <transition appear appear-active-class="fade-up-enter">
+    <transition appear>
       <v-flex xs5 class="inner-sidebar-withoutpadding px-3" style="overflow-y:auto">
         <v-toolbar flat color="transparent" class="font-weight-black">
           任务信息
@@ -22,14 +22,15 @@
               :target="currentTask"
             ></dim-form>
           </v-form>
-          <v-layout justify-center>
-            <v-flex xs8></v-flex>
-          </v-layout>
         </v-container>
       </v-flex>
     </transition>
-    <transition appear appear-active-class="fade-up-enter">
-      <v-flex xs7 class="inner-sidebar-withoutpadding" style="overflow-y:auto">
+    <transition appear>
+      <v-flex
+        xs7
+        class="inner-sidebar-withoutpadding"
+        style="height:calc(100vh - 96px);overflow-y:auto"
+      >
         <v-container fluid>
           <sub-task :subTask="currentTask.subTask"></sub-task>
           <related-sheet :sheetIDList="currentTask.sheet.data" class="mt-3"></related-sheet>

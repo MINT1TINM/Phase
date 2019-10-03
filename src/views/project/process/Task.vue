@@ -1,25 +1,16 @@
 <template>
-  <div style="height:calc(100vh - 98px)">
-    <v-layout fill-height>
-      <v-flex xs3 class="inner-sidebar-withoutpadding" style="overflow-y:auto">
-        <task-list @func="getKey" :processID="processID"></task-list>
-      </v-flex>
-      <v-flex xs9>
-        <div v-if="$route.params.taskID">
-          <router-view :key="activeTask"></router-view>
-        </div>
-        <v-layout
-          class="inner-sidebar-withoutpadding"
-          v-else
-          align-center
-          justify-center
-          fill-height
-        >
-          <h3>请选择或新建任务</h3>
-        </v-layout>
-      </v-flex>
-    </v-layout>
-  </div>
+  <v-layout style="height:calc(100vh - 96px)">
+    <v-flex xs3 class="inner-sidebar-withoutpadding" style="overflow-y:auto">
+      <task-list @func="getKey" :processID="processID"></task-list>
+    </v-flex>
+    <v-flex xs9>
+      <router-view v-if="$route.params.taskID" :key="activeTask"></router-view>
+
+      <v-layout class="inner-sidebar-withoutpadding" v-else align-center justify-center>
+        <h3>请选择或新建任务</h3>
+      </v-layout>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script lang="ts">

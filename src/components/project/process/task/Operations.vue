@@ -28,7 +28,8 @@ export default class TaskOperations extends Vue {
   private async deleteTask() {
     const res = await this.$confirm("此操作无法复原", {
       title: "确认删除?",
-      buttonTrueColor: "primary"
+      buttonTrueColor: "primary",
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       const taskID = this.$route.params.taskID;

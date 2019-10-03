@@ -230,7 +230,8 @@ export default class ProjectMemberManagement extends Vue {
   private async removeMember(userID: string) {
     const res = await this.$confirm("", {
       title: "确认移除成员?",
-      buttonTrueColor: "primary"
+      buttonTrueColor: "primary",
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await ProjectService.removeProjectMember(this.currentProject.id, userID);
