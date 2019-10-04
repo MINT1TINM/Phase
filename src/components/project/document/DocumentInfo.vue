@@ -43,7 +43,7 @@
       <v-list-item-content>
         <v-list-item-subtitle class="caption">创建者</v-list-item-subtitle>
         <v-list-item-title class="body-2" height="40px">
-          <user-chip class="my-2" :userID="item.userUUID"></user-chip>
+          <user-chip class="my-2" :userID="item.userID"></user-chip>
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>

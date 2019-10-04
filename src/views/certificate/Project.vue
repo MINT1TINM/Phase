@@ -2,7 +2,7 @@
   <div>
     <app-bar></app-bar>
     <v-content>
-      <v-toolbar dark color="primary darken-1">
+      <v-app-bar app fixed dark color="primary darken-1" style="margin-top:48px">
         <v-layout row wrap justify-center>
           <v-flex xs6>
             <v-autocomplete
@@ -20,21 +20,38 @@
               solo-inverted
               item-text="name"
               item-value="name"
-              @change="searchProject"
               @keyup.enter="searchProject(search)"
               append-outer-icon="mdi-magnify"
               @click:append-outer="searchProject(search)"
+              @click:row="showDetail"
             ></v-autocomplete>
           </v-flex>
         </v-layout>
-      </v-toolbar>
-      <v-data-table
-        class="transparent"
-        :headers="headers"
-        :items="projectList"
-        :items-per-page="50"
-        hide-default-footer
-      ></v-data-table>
+      </v-app-bar>
+      <v-simple-table class="transparent">
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">项目代码</th>
+              <th class="text-left">名称</th>
+              <th class="text-left">负责人</th>
+              <th class="text-left">负责人工号</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(item,i) in projectList"
+              :key="`project-${i}`"
+              @click="$router.push({path:`/certificate/${item.code}/${item.chargeSno}`})"
+            >
+              <td>{{ item.code }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.shit }}</td>
+              <td>{{ item.chargeSno }}</td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
     </v-content>
   </div>
 </template>
@@ -63,21 +80,31 @@ export default class Certifcate extends Vue {
   private projectList = [];
 
   private async querySelections(v: string) {
-    if (this.loading !== true) {
-      this.loading = true;
-      // Simulated ajax query
-      const rsp = await CertificateService.searchCertificateProject(
-        "pname_prefix",
-        this.search
-      );
-      this.items = rsp.project;
-      this.loading = false;
-    }
+    this.loading = true;
+    // Simulated ajax query
+    const rsp = await CertificateService.searchCertificateProject(
+      "NAME",
+      this.search,
+      undefined,
+      undefined,
+      true
+    );
+    this.items = rsp.project;
+    this.loading = false;
   }
 
   private async searchProject(v: string) {
-    const rsp = await CertificateService.searchCertificateProject("pname", v);
+    const rsp = await CertificateService.searchCertificateProject(
+      "NAME",
+      v,
+      50,
+      1
+    );
     this.projectList = rsp.project;
+  }
+
+  private showDetail(v: any) {
+    console.log(v);
   }
 
   @Watch("search")

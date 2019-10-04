@@ -44,12 +44,15 @@
         </v-card>
       </v-menu>
     </v-toolbar-items>
+
+    <v-divider vertical inset></v-divider>
+
     <!-- exporter -->
     <v-toolbar-items v-if="currentProjectID">
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on" @click="saveToTemplateDialog=true">
-            <v-icon size="20">mdi-share-outline</v-icon>
+            <v-icon size="20">mdi-export-variant</v-icon>
           </v-btn>
         </template>
         <span class="caption">导出为模版</span>
