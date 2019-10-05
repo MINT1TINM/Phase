@@ -1,15 +1,15 @@
 import basicService from "@/service/basicService";
 import store from "@/store/store";
 
-class CertificateService {
-  public static async searchCertificateProject(
+class FinanceService {
+  public static async searchFinanceProject(
     key: string,
     value: string,
     pageSize?: number,
     pageNumber?: number,
     prefix?: boolean
   ) {
-    const rsp = await basicService.getRequest("/certificate/project", {
+    const rsp = await basicService.getRequest("/finance/project", {
       key,
       value,
       pageSize,
@@ -17,13 +17,13 @@ class CertificateService {
       prefix
     });
     if (!prefix) {
-      store.commit("certificate/updateSearchProjectResult", rsp.project);
+      store.commit("finance/updateSearchProjectResult", rsp.project);
     }
     return rsp;
   }
 
   public static async searchCertificate(projectCode: string, staffNo: string) {
-    const rsp = await basicService.getRequest("/certificate", {
+    const rsp = await basicService.getRequest("/finance", {
       projectCode,
       staffNo
     });
@@ -31,4 +31,4 @@ class CertificateService {
   }
 }
 
-export default CertificateService;
+export default FinanceService;

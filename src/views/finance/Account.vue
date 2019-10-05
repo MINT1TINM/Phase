@@ -3,7 +3,7 @@
     <app-bar></app-bar>
     <v-content>
       <v-app-bar dense app fixed dark color="primary darken-1" style="margin-top:48px">
-        <v-btn icon @click="$router.push({path:`/certificate/project`})">
+        <v-btn icon @click="$router.push({path:`/finance/project`})">
           <v-icon size="20">mdi-arrow-left</v-icon>
         </v-btn>
         <v-toolbar-title class="subtitle-2">{{currentProject.code}} - {{currentProject.name}}</v-toolbar-title>
@@ -85,15 +85,15 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import CertificateService from "@/service/certificateService";
+import FinanceService from "@/service/financeService";
 import { namespace } from "vuex-class";
-import { AuditProject } from "@/types/certificate";
+import { AuditProject } from "@/types/finance";
 
-const certificateModule = namespace("certificate");
+const financeModule = namespace("finance");
 
 @Component
 export default class CertificateAccount extends Vue {
-  @certificateModule.Getter("currentProject")
+  @financeModule.Getter("currentProject")
   private currentProject!: AuditProject;
 
   private headers = [
@@ -114,7 +114,7 @@ export default class CertificateAccount extends Vue {
   private currentCertificate = {};
 
   private async getCertificateList() {
-    const rsp = await CertificateService.searchCertificate(
+    const rsp = await FinanceService.searchCertificate(
       this.$route.params.projectCode,
       this.$route.params.staffNo
     );

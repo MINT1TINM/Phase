@@ -218,7 +218,6 @@
             <v-icon size="20">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
-        <certificate-search></certificate-search>
       </v-sheet>
     </v-bottom-sheet>
 
@@ -243,11 +242,8 @@ import TaskService from "@/service/taskService";
 import { SubTask } from "@/types/task";
 import document from "@/views/project/document/Document.vue";
 
-import certificateSearch from "@/components/certificate/Search.vue";
-
 @Component({
   components: {
-    "certificate-search": certificateSearch,
     document
   }
 })

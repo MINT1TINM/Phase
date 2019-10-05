@@ -10,7 +10,7 @@ import sheet from "./modules/sheet";
 import system from "./modules/system";
 import event from "./modules/event";
 import admin from "./modules/admin";
-import certificate from "./modules/certificate";
+import finance from "./modules/finance";
 
 Vue.use(Router);
 
@@ -24,7 +24,7 @@ const router = new Router({
     ...settings,
     ...system,
     ...event,
-    ...certificate,
+    ...finance,
     ...admin
   ],
   scrollBehavior(to, from, savedPosition) {

@@ -43,7 +43,7 @@
     </v-toolbar-items>
 
     <project-bar v-if="currentApp.nameEn==='project'"></project-bar>
-    <certificate-bar v-if="currentApp.nameEn==='certificate'"></certificate-bar>
+    <finance-bar v-if="currentApp.nameEn==='finance'"></finance-bar>
 
     <v-spacer></v-spacer>
     <v-divider vertical inset></v-divider>
@@ -106,7 +106,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { namespace } from "vuex-class";
 import projectBar from "./modules/ProjectBar.vue";
-import certificateBar from "./modules/CertificateBar.vue";
+import financeBar from "./modules/FinanceBar.vue";
 import { Invitation } from "@/types/project";
 
 const userModule = namespace("user");
@@ -115,7 +115,7 @@ const systemModule = namespace("system");
 @Component({
   components: {
     "project-bar": projectBar,
-    "certificate-bar": certificateBar
+    "finance-bar": financeBar
   }
 })
 export default class AppBar extends Vue {

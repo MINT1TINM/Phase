@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-app>
     <app-bar></app-bar>
     <v-content>
       <v-app-bar dense app fixed dark color="primary darken-1" style="margin-top:48px">
@@ -48,7 +48,7 @@
         </v-layout>
       </v-app-bar>
     </v-content>
-  </div>
+  </v-app>
 </template>
 
 <script lang="ts">

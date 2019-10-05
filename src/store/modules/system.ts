@@ -67,9 +67,9 @@ const state: State = {
     },
     {
       name: "财务",
-      nameEn: "certificate",
-      route: "certificate/project",
-      icon: "icon/icon_certificate.svg",
+      nameEn: "finance",
+      route: "finance/project",
+      icon: "icon/icon_finance.svg",
       themeColor: "#2979FF",
       themeColorDark: "#6099fc"
     },

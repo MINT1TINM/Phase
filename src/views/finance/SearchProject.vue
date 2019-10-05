@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-app>
     <app-bar></app-bar>
     <v-content>
       <v-app-bar dense app fixed dark color="primary darken-1" style="margin-top:48px">
@@ -58,7 +58,7 @@
               <tr
                 v-for="(item,i) in searchProjectResult"
                 :key="`project-${i}`"
-                @click="$router.push({path:`/certificate/project/${item.code}/${item.chargeSno}`});updateCurrentProject(item)"
+                @click="$router.push({path:`/finance/project/${item.code}/${item.chargeSno}`});updateCurrentProject(item)"
               >
                 <td>{{ item.code }}</td>
                 <td>{{ item.name }}</td>
@@ -70,22 +70,22 @@
         </v-simple-table>
       </transition>
     </v-content>
-  </div>
+  </v-app>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import CertificateService from "@/service/certificateService";
+import FinanceService from "@/service/financeService";
 import { namespace } from "vuex-class";
-import { AuditProject } from "@/types/certificate";
+import { AuditProject } from "@/types/finance";
 
-const certificateModule = namespace("certificate");
+const financeModule = namespace("finance");
 
 @Component
 export default class Certifcate extends Vue {
-  @certificateModule.Getter("searchProjectResult")
+  @financeModule.Getter("searchProjectResult")
   private searchProjectResult!: AuditProject[];
-  @certificateModule.Mutation("updateCurrentProject")
+  @financeModule.Mutation("updateCurrentProject")
   private updateCurrentProject!: (project: AuditProject) => void;
 
   private keyList = [
@@ -114,7 +114,7 @@ export default class Certifcate extends Vue {
   private async querySelections(v: string) {
     this.loading = true;
     // Simulated ajax query
-    const rsp = await CertificateService.searchCertificateProject(
+    const rsp = await FinanceService.searchFinanceProject(
       this.currentKey,
       this.search,
       undefined,
@@ -126,12 +126,7 @@ export default class Certifcate extends Vue {
   }
 
   private async searchProject(v: string) {
-    await CertificateService.searchCertificateProject(
-      this.currentKey,
-      v,
-      50,
-      1
-    );
+    await FinanceService.searchFinanceProject(this.currentKey, v, 50, 1);
   }
 
   private showDetail(v: any) {

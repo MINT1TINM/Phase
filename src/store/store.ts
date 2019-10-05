@@ -10,7 +10,7 @@ import sheet from "@/store/modules/sheet";
 import system from "@/store/modules/system";
 import task from "@/store/modules/task";
 import user from "@/store/modules/user";
-import certificate from "@/store/modules/certificate";
+import finance from "@/store/modules/finance";
 
 Vue.use(Vuex);
 
@@ -37,7 +37,7 @@ const vuexSession: any = new VuexPersistence<any>({
     file: state.file,
     task: state.task,
     contact: state.contact,
-    certificate: state.certificate
+    finance: state.finance
   }),
   filter: (mutation: any) =>
     mutation.type === "system/updateLastPage" ||
@@ -70,8 +70,8 @@ const vuexSession: any = new VuexPersistence<any>({
     mutation.type === "task/updateCurrentTask" ||
     mutation.type === "contact/updateCurrentGroup" ||
     mutation.type === "contact/updateCurrentContactID" ||
-    mutation.type === "certificate/updateSearchProjectResult" ||
-    mutation.type === "certificate/updateCurrentProject"
+    mutation.type === "finance/updateSearchProjectResult" ||
+    mutation.type === "finance/updateCurrentProject"
 });
 
 export default new Vuex.Store({
@@ -85,7 +85,7 @@ export default new Vuex.Store({
     file,
     task,
     contact,
-    certificate
+    finance
   },
   plugins: [vuexLocal.plugin, vuexSession.plugin]
 });

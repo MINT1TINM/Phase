@@ -1,4 +1,4 @@
-import { AuditProject } from "@/types/certificate";
+import { AuditProject } from "@/types/finance";
 interface State {
   searchProjectResult: AuditProject[];
   currentProject: AuditProject;
