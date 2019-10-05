@@ -45,7 +45,7 @@
       </v-menu>
     </v-toolbar-items>
 
-    <v-divider vertical inset></v-divider>
+    <v-divider v-if="currentProjectID" vertical inset></v-divider>
 
     <!-- exporter -->
     <v-toolbar-items v-if="currentProjectID">

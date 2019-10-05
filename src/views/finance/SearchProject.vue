@@ -44,7 +44,7 @@
         </v-layout>
       </v-app-bar>
       <transition appear appear-active-class="fade-left-enter">
-        <v-simple-table class="transparent">
+        <v-simple-table height="calc(100vh - 96px)" fixed-header class="transparent">
           <template v-slot:default>
             <thead>
               <tr>

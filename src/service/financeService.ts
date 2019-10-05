@@ -23,9 +23,16 @@ class FinanceService {
   }
 
   public static async searchCertificate(projectCode: string, staffNo: string) {
-    const rsp = await basicService.getRequest("/finance", {
+    const rsp = await basicService.getRequest("/finance/certificate/group", {
       projectCode,
       staffNo
+    });
+    return rsp;
+  }
+
+  public static async searchCertificateBill(certificateNo: string) {
+    const rsp = await basicService.getRequest("/finance/certificate", {
+      certificateNo
     });
     return rsp;
   }

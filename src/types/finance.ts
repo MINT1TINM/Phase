@@ -5,4 +5,20 @@ interface AuditProject {
   chargeSno: string;
 }
 
-export { AuditProject };
+interface Certificate {
+  chargeSno: string;
+  dAmount: number;
+  jAmount: number;
+  ord: string;
+  sDay: string;
+  sMonth: string;
+  sYear: string;
+  sabstract: string;
+  subj: string;
+  subjName: string;
+  uniNo: string;
+  uniPrjName: string;
+  uniPrjOrder: string;
+}
+
+export { AuditProject, Certificate };

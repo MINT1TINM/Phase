@@ -11,7 +11,7 @@
         <v-toolbar-title class="subtitle-2">{{currentProject.chargeSno}}</v-toolbar-title>
       </v-app-bar>
       <transition appear appear-active-class="fade-left-enter">
-        <v-simple-table class="transparent">
+        <v-simple-table fixed-header class="transparent">
           <template v-slot:default>
             <thead>
               <tr>
@@ -51,7 +51,7 @@
           </v-toolbar>
         </v-card-title>
         <v-card-text class="pa-0">
-          <v-simple-table class="transparent">
+          <v-simple-table fixed-header class="transparent">
             <template v-slot:default>
               <thead>
                 <tr>
@@ -87,7 +87,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import FinanceService from "@/service/financeService";
 import { namespace } from "vuex-class";
-import { AuditProject } from "@/types/finance";
+import { AuditProject, Certificate } from "@/types/finance";
 
 const financeModule = namespace("finance");
 
@@ -109,7 +109,7 @@ export default class CertificateAccount extends Vue {
     { text: "负责人", value: "carsbs", sortable: false },
     { text: "工号", value: "carbs", sortable: false }
   ];
-  private certificateList = [];
+  private certificateList: Certificate[] = [];
   private detailNav: boolean = false;
   private currentCertificate = {};
 
