@@ -1,4 +1,5 @@
 import basicService from "@/service/basicService";
+import store from "@/store/store";
 
 class CertificateService {
   public static async searchCertificateProject(
@@ -15,6 +16,9 @@ class CertificateService {
       pageNumber,
       prefix
     });
+    if (!prefix) {
+      store.commit("certificate/updateSearchProjectResult", rsp.project);
+    }
     return rsp;
   }
 

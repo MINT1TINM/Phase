@@ -66,9 +66,9 @@ const state: State = {
       themeColorDark: "#c7521c"
     },
     {
-      name: "凭证",
+      name: "财务",
       nameEn: "certificate",
-      route: "certificate",
+      route: "certificate/project",
       icon: "icon/icon_certificate.svg",
       themeColor: "#2979FF",
       themeColorDark: "#6099fc"

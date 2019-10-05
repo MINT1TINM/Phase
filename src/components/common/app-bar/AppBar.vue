@@ -42,7 +42,8 @@
       </template>
     </v-toolbar-items>
 
-    <project-bar v-if="currentApp.route==='project'"></project-bar>
+    <project-bar v-if="currentApp.nameEn==='project'"></project-bar>
+    <certificate-bar v-if="currentApp.nameEn==='certificate'"></certificate-bar>
 
     <v-spacer></v-spacer>
     <v-divider vertical inset></v-divider>
@@ -105,6 +106,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { namespace } from "vuex-class";
 import projectBar from "./modules/ProjectBar.vue";
+import certificateBar from "./modules/CertificateBar.vue";
 import { Invitation } from "@/types/project";
 
 const userModule = namespace("user");
@@ -112,7 +114,8 @@ const systemModule = namespace("system");
 
 @Component({
   components: {
-    "project-bar": projectBar
+    "project-bar": projectBar,
+    "certificate-bar": certificateBar
   }
 })
 export default class AppBar extends Vue {
@@ -190,6 +193,10 @@ export default class AppBar extends Vue {
       });
     }
     return "";
+  }
+
+  private mounted() {
+    console.log(this.currentApp);
   }
 }
 </script>
