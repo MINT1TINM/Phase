@@ -13,6 +13,7 @@ interface Certificate {
   sDay: string;
   sMonth: string;
   sYear: string;
+  date: string;
   sabstract: string;
   subj: string;
   subjName: string;

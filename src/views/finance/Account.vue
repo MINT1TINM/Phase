@@ -67,7 +67,7 @@
               <tbody>
                 <tr v-for="(item,i) in currentCertificate.pzds" :key="`cert-${i}`">
                   <td class="caption">{{ item.uniNo }}.{{item.ord}}</td>
-                  <td class="caption">{{ item.sYear}}-{{item.sMonth}}-{{item.sDay }}</td>
+                  <td class="caption">{{ item.date }}</td>
                   <td class="caption">{{ item.sabstract }}</td>
                   <td class="caption">¥ {{ item.jAmount.toFixed(2) }}</td>
                   <td class="caption">¥ {{ item.dAmount.toFixed(2) }}</td>

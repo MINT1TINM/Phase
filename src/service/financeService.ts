@@ -22,10 +22,17 @@ class FinanceService {
     return rsp;
   }
 
-  public static async searchCertificate(projectCode: string, staffNo: string) {
+  public static async searchCertificate(
+    projectCode: string,
+    staffNo: string,
+    startDate?: number,
+    endDate?: number
+  ) {
     const rsp = await basicService.getRequest("/finance/certificate/group", {
       projectCode,
-      staffNo
+      staffNo,
+      startDate,
+      endDate
     });
     return rsp;
   }
@@ -33,6 +40,24 @@ class FinanceService {
   public static async searchCertificateBill(certificateNo: string) {
     const rsp = await basicService.getRequest("/finance/certificate", {
       certificateNo
+    });
+    return rsp;
+  }
+
+  public static async searchSubject(projectCode: string) {
+    const rsp = await basicService.getRequest("/finance/subject", {
+      projectCode
+    });
+    return rsp;
+  }
+
+  public static async searchSubjectDetail(
+    projectCode: string,
+    subjectCode: string
+  ) {
+    const rsp = await basicService.getRequest("/finance/subject/detail", {
+      projectCode,
+      subjectCode
     });
     return rsp;
   }
