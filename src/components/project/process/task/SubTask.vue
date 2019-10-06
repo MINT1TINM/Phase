@@ -142,7 +142,7 @@
                           currentSubTask.content.length>0&&
                           currentSubTask.content[currentSubTask.content.length-1].property
                           "
-                            block
+                            rounded
                             color="primary"
                             outlined
                             @click="insertContent"
@@ -160,7 +160,7 @@
                   <v-card outlined width="100%">
                     <v-card-title class="subtitle-1 font-weight-black">相关凭证</v-card-title>
                     <v-container fluid>
-                      <v-btn block color="primary" outlined @click="searchCertificateDialog=true">
+                      <v-btn rounded color="primary" outlined @click="searchCertificateDialog=true">
                         <v-icon size="20">mdi-plus</v-icon>&nbsp;新增凭证
                       </v-btn>
                     </v-container>
@@ -198,7 +198,7 @@
                       </tr>
                     </tbody>
                   </v-simple-table>
-                  <v-btn class="mt-3" block color="primary" outlined @click="fileDialog=true">
+                  <v-btn class="mt-3" rounded color="primary" outlined @click="fileDialog=true">
                     <v-icon size="20">mdi-plus</v-icon>&nbsp;链接文件
                   </v-btn>
                 </v-container>
@@ -209,7 +209,7 @@
       </v-sheet>
     </v-bottom-sheet>
 
-    <v-bottom-sheet v-model="searchCertificateDialog" inset persistent>
+    <v-bottom-sheet v-model="searchCertificateDialog" persistent>
       <v-sheet class="text-center" height="750" style="overflow:auto">
         <v-toolbar flat>
           <v-toolbar-title class="subtitle-1 font-weight-black">搜索凭证</v-toolbar-title>

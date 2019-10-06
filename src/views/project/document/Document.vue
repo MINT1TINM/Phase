@@ -67,7 +67,7 @@
           </v-container>
         </v-flex>
         <!-- file info -->
-        <v-flex xs3 class="inner-sidebar-withoutpadding" style="height:100%">
+        <v-flex xs3 class="inner-sidebar-withoutpadding elevation-6" style="height:100%">
           <doc-info
             @clearDocumentInfo="clearDocumentInfo"
             v-if="currentObject&&currentUUID"

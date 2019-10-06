@@ -93,7 +93,7 @@
                   <v-flex xs6>
                     <v-bottom-sheet v-model="addMemberDialog" inset>
                       <template v-slot:activator="{ on }">
-                        <v-btn block rounded depressed color="primary" v-on="on">
+                        <v-btn block rounded depressed color="primary darken-1" v-on="on">
                           <v-icon size="20">mdi-plus</v-icon>&nbsp;新增成员
                         </v-btn>
                       </template>
