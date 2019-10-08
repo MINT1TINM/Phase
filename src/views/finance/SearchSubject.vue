@@ -29,7 +29,7 @@
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker type="month" range v-model="dateRange"></v-date-picker>
+                <v-date-picker range v-model="dateRange"></v-date-picker>
               </v-menu>
               <v-text-field
                 dense
@@ -117,6 +117,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import FinanceService from "@/service/financeService";
+import { Certificate } from "@/types/finance";
 
 @Component
 export default class SearchSubject extends Vue {
@@ -124,23 +125,21 @@ export default class SearchSubject extends Vue {
   private dateRange = [];
   private projectCode = "";
   private subjectList = [];
-  private certificateList = [];
+  private certificateList: any[] | undefined = [];
   private detailNav: boolean = false;
 
   private async searchSubject() {
-    const rsp = await FinanceService.searchSubject(this.projectCode);
+    const rsp = await FinanceService.searchSubject(
+      this.projectCode,
+      this.dateRange[0],
+      this.dateRange[1]
+    );
     this.subjectList = rsp.subject;
   }
 
-  private async showDetail(item: any) {
+  private async showDetail(item: Certificate) {
     this.detailNav = true;
-    const projectCode = this.projectCode;
-    const subjectCode = item.subj;
-    const rsp = await FinanceService.searchSubjectDetail(
-      projectCode,
-      subjectCode
-    );
-    this.certificateList = rsp.certificate;
+    this.certificateList = item.pzds;
   }
 
   private get dateRangeText() {

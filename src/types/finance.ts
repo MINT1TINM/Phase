@@ -1,8 +1,10 @@
 interface AuditProject {
   code: string;
   name: string;
-  shit: string;
+  chargeName: string;
   chargeSno: string;
+  balance: number;
+  balanceSyear: string;
 }
 
 interface Certificate {
@@ -20,6 +22,7 @@ interface Certificate {
   uniNo: string;
   uniPrjName: string;
   uniPrjOrder: string;
+  pzds?: any[];
 }
 
 export { AuditProject, Certificate };

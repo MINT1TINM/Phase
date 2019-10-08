@@ -218,6 +218,7 @@
             <v-icon size="20">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
+        <search-certificate></search-certificate>
       </v-sheet>
     </v-bottom-sheet>
 
@@ -241,10 +242,12 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import TaskService from "@/service/taskService";
 import { SubTask } from "@/types/task";
 import document from "@/views/project/document/Document.vue";
+import searchCertificate from "@/components/finance/certificate/SearchCertificate.vue";
 
 @Component({
   components: {
-    document
+    document,
+    "search-certificate": searchCertificate
   }
 })
 export default class SubTaskList extends Vue {

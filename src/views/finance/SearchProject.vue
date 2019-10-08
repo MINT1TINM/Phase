@@ -52,6 +52,7 @@
                 <th class="text-left">名称</th>
                 <th class="text-left">负责人</th>
                 <th class="text-left">负责人工号</th>
+                <th class="text-left">项目余额</th>
               </tr>
             </thead>
             <tbody>
@@ -62,8 +63,9 @@
               >
                 <td>{{ item.code }}</td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.shit }}</td>
+                <td>{{ item.chargeName }}</td>
                 <td>{{ item.chargeSno }}</td>
+                <td>¥ {{ item.balance.toFixed(2) }}</td>
               </tr>
             </tbody>
           </template>
