@@ -71,7 +71,7 @@
                             v-for="(item,i) in currentSubTask.content"
                             :key="`c-${i}`"
                           >
-                            <td width="120px" class="pl-3 pr-2">
+                            <td width="130px" class="pl-3 pr-2">
                               <v-select
                                 dense
                                 style="height:100%;align-items:center"
@@ -185,9 +185,6 @@
                         <td class="pl-3 pr-2">{{item.name}}</td>
                         <td class="pl-3 pr-2">{{item.createdAt | format("yyyy-MM-dd hh:mm")}}</td>
                         <td class="pl-3 pr-2">
-                          <!-- <v-btn icon @click="showFile(item)">
-                            <v-icon size="20">mdi-file-find-outline</v-icon>
-                          </v-btn>-->
                           <v-btn icon @click="downloadFile(item)">
                             <v-icon size="20">mdi-download-outline</v-icon>
                           </v-btn>

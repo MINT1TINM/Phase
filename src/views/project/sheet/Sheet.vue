@@ -33,7 +33,7 @@
                   v-for="(item,i) in sheetListShow"
                   :key="`sheet-${i}`"
                   @click="currentSheetID = item.id;currentTemplateID = item.templateID"
-                  :style="currentSheetID === item.id?`background-color:#efefef`:``"
+                  :style="currentSheetID === item.id?`background-color:#efefef36`:``"
                 >
                   <td class="text-center">{{ item.name }}</td>
                   <td class="text-center">{{ item.createdAt | format("yyyy-MM-dd hh:mm") }}</td>

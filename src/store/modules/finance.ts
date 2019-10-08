@@ -9,8 +9,10 @@ const state: State = {
   currentProject: {
     name: "",
     code: "",
-    shit: "",
-    chargeSno: ""
+    chargeName: "",
+    chargeSno: "",
+    balance: 0,
+    balanceSyear: ""
   }
 };
 
