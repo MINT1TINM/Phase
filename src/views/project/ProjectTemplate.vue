@@ -71,8 +71,8 @@
               item-children="task"
             >
               <template v-slot:prepend="{ item, open }">
-                <span v-if="!item.task">过程</span>
-                <span v-else>任务</span>
+                <span v-if="!item.task">任务</span>
+                <span v-else>过程</span>
               </template>
             </v-treeview>
           </v-card>
