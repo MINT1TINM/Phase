@@ -1,11 +1,19 @@
 <template>
   <v-app>
-    <app-bar></app-bar>
-    <v-content>
-      <v-app-bar dense app fixed dark color="primary darken-1" style="margin-top:48px">
-        <v-layout row wrap justify-center>
-          <v-flex xs6>
-            <v-layout>
+    <v-navigation-drawer
+      height="calc(100vh - 48px)"
+      style="overflow:auto"
+      width="300"
+      class="acrylic"
+      permanent
+      fixed
+      app
+      clipped
+    >
+      <v-container fluid grid-list-lg class="pa-5">
+        <v-form ref="searchSubjectForm" style="wiidth:100%">
+          <v-layout row wrap>
+            <v-flex xs12>
               <v-menu
                 ref="datePickerMenu"
                 v-model="datePickerMenu"
@@ -13,7 +21,6 @@
                 :nudge-right="40"
                 transition="scale-transition"
                 offset-y
-                min-width="290px"
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
@@ -31,24 +38,41 @@
                 </template>
                 <v-date-picker range v-model="dateRange"></v-date-picker>
               </v-menu>
+            </v-flex>
+
+            <v-flex xs12 v-for="(item,i) in projectCode" :key="`code-${i}`">
               <v-text-field
                 dense
                 solo-inverted
                 flat
-                class="body-2 ml-1"
-                v-model="projectCode"
+                class="body-2"
+                v-model="projectCode[i]"
+                :rules="[v => !!v || 'Item is required']"
                 single-line
                 hide-details
-                label="项目代码"
-                append-outer-icon="mdi-magnify"
-                @click:append-outer="searchSubject"
+                label="项目代码 ( 回车以新增 )"
+                @keyup.enter="insertProjectCode"
               ></v-text-field>
-            </v-layout>
-          </v-flex>
-        </v-layout>
-      </v-app-bar>
+            </v-flex>
+
+            <v-flex xs12>
+              <v-btn block rounded depressed @click="searchSubject">搜索</v-btn>
+            </v-flex>
+          </v-layout>
+        </v-form>
+      </v-container>
+    </v-navigation-drawer>
+
+    <app-bar></app-bar>
+
+    <v-content>
       <transition appear appear-active-class="fade-left-enter">
-        <v-simple-table height="calc(100vh - 96px)" fixed-header class="transparent">
+        <v-simple-table
+          height="calc(100vh - 48px)"
+          style="overflow:auto"
+          fixed-header
+          class="transparent"
+        >
           <template v-slot:default>
             <thead>
               <tr>
@@ -121,25 +145,37 @@ import { Certificate } from "@/types/finance";
 
 @Component
 export default class SearchSubject extends Vue {
+  public $refs!: {
+    searchSubjectForm: HTMLFormElement;
+  };
+
   private datePickerMenu: boolean = false;
   private dateRange = [];
-  private projectCode = "";
+  private projectCode: string[] = [""];
   private subjectList = [];
   private certificateList: any[] | undefined = [];
   private detailNav: boolean = false;
 
   private async searchSubject() {
-    const rsp = await FinanceService.searchSubject(
-      this.projectCode,
-      this.dateRange[0],
-      this.dateRange[1]
-    );
-    this.subjectList = rsp.subject;
+    if (this.$refs.searchSubjectForm.validate()) {
+      const rsp = await FinanceService.searchSubject(
+        this.projectCode,
+        this.dateRange[0],
+        this.dateRange[1]
+      );
+      this.subjectList = rsp.subject;
+    }
   }
 
   private async showDetail(item: Certificate) {
     this.detailNav = true;
     this.certificateList = item.pzds;
+  }
+
+  private insertProjectCode() {
+    if (this.$refs.searchSubjectForm.validate()) {
+      this.projectCode.push("");
+    }
   }
 
   private get dateRangeText() {

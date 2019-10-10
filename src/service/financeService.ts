@@ -45,7 +45,7 @@ class FinanceService {
   }
 
   public static async searchSubject(
-    projectCode: string,
+    projectCode: string[],
     startDate: string,
     endDate: string
   ) {
