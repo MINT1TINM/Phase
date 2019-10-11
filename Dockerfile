@@ -1,5 +1,5 @@
 # build environment
-FROM node as build-stage
+FROM node:alpine as build-stage
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package*.json ./
@@ -9,7 +9,7 @@ COPY . .
 RUN npm run build
 
 # production environment
-FROM nginx
+FROM nginx:alpine
 COPY --from=build-stage /app/dim-step /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY --from=build-stage /app/serv.conf /etc/nginx/conf.d
