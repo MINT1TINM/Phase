@@ -33,7 +33,7 @@
     >
       <transition appear appear-active-class="fade-up-enter">
         <v-container fluid>
-          <sub-task :subTask="currentTask.subTask"></sub-task>
+          <sub-task :subTask="currentTask.subTask || {data:[]}"></sub-task>
           <related-sheet :sheetIDList="currentTask.sheet.data" class="mt-3"></related-sheet>
           <related-draft :sheetIDList="currentTask.draft.data" class="mt-3"></related-draft>
           <operations class="mt-3"></operations>

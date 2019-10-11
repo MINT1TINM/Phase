@@ -1,4 +1,4 @@
-import "@/assets/animation.css";
+import "@/styles/animation.css";
 import "@/plugins/snackbar/index";
 
 import axios from "axios";
