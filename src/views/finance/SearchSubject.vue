@@ -11,7 +11,7 @@
       clipped
     >
       <v-container fluid grid-list-lg class="pa-5">
-        <v-form ref="searchSubjectForm" style="wiidth:100%">
+        <v-form ref="searchSubjectForm" style="width:100%">
           <v-layout row wrap>
             <v-flex xs12>
               <v-menu
@@ -66,32 +66,48 @@
     <app-bar></app-bar>
 
     <v-content>
+      <v-toolbar dense>
+        <v-toolbar-title class="subtitle-1 font-weight-black">借方发生数 ¥ {{sumJAmount.toFixed(2)}}</v-toolbar-title>
+        <v-divider vertical inset class="mx-3"></v-divider>
+        <v-toolbar-title class="subtitle-1 font-weight-black">
+          贷方发生数
+          ¥ {{sumDAmount.toFixed(2)}}
+        </v-toolbar-title>
+      </v-toolbar>
       <transition appear appear-active-class="fade-left-enter">
-        <v-simple-table
-          height="calc(100vh - 48px)"
-          style="overflow:auto"
-          fixed-header
-          class="transparent"
-        >
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">科目名称</th>
-                <th class="text-left">科目代码</th>
-                <th class="text-left">借方发生数</th>
-                <th class="text-left">贷方发生数</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item,i) in subjectList" :key="`cert-${i}`" @click="showDetail(item)">
-                <td class="caption">{{ item.subjName }}</td>
-                <td class="caption">{{ item.subj }}</td>
-                <td class="caption">¥ {{ item.jAmount.toFixed(2) }}</td>
-                <td class="caption">¥ {{ item.dAmount.toFixed(2) }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+        <v-container fluid>
+          <v-expansion-panels multiple>
+            <v-expansion-panel v-for="(item,i) in subjectGroupList" :key="`group-${i}`">
+              <v-expansion-panel-header>{{i}}</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-simple-table class="transparent">
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th class="text-left">科目名称</th>
+                        <th class="text-left">科目代码</th>
+                        <th class="text-left">借方发生数</th>
+                        <th class="text-left">贷方发生数</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(subject,j) in item"
+                        :key="`cert-${j}`"
+                        @click="showDetail(subject)"
+                      >
+                        <td class="caption">{{ subject.subjName }}</td>
+                        <td class="caption">{{ subject.subj }}</td>
+                        <td class="caption">¥ {{ subject.jAmount.toFixed(2) }}</td>
+                        <td class="caption">¥ {{ subject.dAmount.toFixed(2) }}</td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-container>
       </transition>
 
       <v-dialog scrollable transition="slide-x-reverse-transition" v-model="detailNav">
@@ -152,9 +168,12 @@ export default class SearchSubject extends Vue {
   private datePickerMenu: boolean = false;
   private dateRange = [];
   private projectCode: string[] = [""];
-  private subjectList = [];
+  private subjectGroupList: any = {};
   private certificateList: any[] | undefined = [];
   private detailNav: boolean = false;
+
+  private sumDAmount: number = 0;
+  private sumJAmount: number = 0;
 
   private async searchSubject() {
     if (this.$refs.searchSubjectForm.validate()) {
@@ -163,7 +182,7 @@ export default class SearchSubject extends Vue {
         this.dateRange[0],
         this.dateRange[1]
       );
-      this.subjectList = rsp.subject;
+      this.subjectGroupList = rsp.subject;
     }
   }
 
@@ -187,6 +206,19 @@ export default class SearchSubject extends Vue {
       new Date(this.dateRange[0]).getTime() / 1000,
       new Date(this.dateRange[1]).getTime() / 1000
     ];
+  }
+
+  @Watch("subjectGroupList")
+  private onSubjectGroupListChanged() {
+    if (Object.keys(this.subjectGroupList).length > 0) {
+      for (const group in this.subjectGroupList) {
+        console.log(group);
+        for (const subject of this.subjectGroupList[group]) {
+          this.sumDAmount += subject.dAmount;
+          this.sumJAmount += subject.jAmount;
+        }
+      }
+    }
   }
 }
 </script>

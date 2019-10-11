@@ -50,7 +50,7 @@ class FinanceService {
     endDate: string
   ) {
     const rsp = await basicService.getRequest("/finance/subject", {
-      projectCode,
+      code: projectCode,
       startDate,
       endDate
     });
