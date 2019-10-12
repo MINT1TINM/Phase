@@ -158,11 +158,55 @@
               <v-layout class="mt-4">
                 <v-flex xs12>
                   <v-card outlined width="100%">
-                    <v-card-title class="subtitle-1 font-weight-black">相关凭证</v-card-title>
                     <v-container fluid>
-                      <v-btn rounded color="primary" outlined @click="searchCertificateDialog=true">
-                        <v-icon size="20">mdi-plus</v-icon>&nbsp;新增凭证
-                      </v-btn>
+                      <v-layout>
+                        <v-flex xs6>
+                          <v-card-title class="subtitle-1 font-weight-black">相关凭证</v-card-title>
+                          <v-simple-table>
+                            <thead>
+                              <tr>
+                                <th class="text-center">凭证号</th>
+                                <th class="text-center">顺序</th>
+                                <th class="text-center">操作</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                class="my-2"
+                                v-for="(item,i) in currentSubTask.certificate"
+                                :key="`f-${i}`"
+                                @click="currentCertificate=item"
+                                :style="currentCertificate.uniNo === item.uniNo?`background-color:#efefef36`:``"
+                              >
+                                <td>{{item.uniNo}}</td>
+                                <td>{{item.ord}}</td>
+                                <td>
+                                  <v-btn color="error" icon @click="removeCertificate(i)">
+                                    <v-icon>mdi-close</v-icon>
+                                  </v-btn>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </v-simple-table>
+                          <v-btn
+                            class="mt-3"
+                            rounded
+                            color="primary"
+                            outlined
+                            @click="searchCertificateDialog=true"
+                          >
+                            <v-icon size="20">mdi-plus</v-icon>&nbsp;新增凭证
+                          </v-btn>
+                        </v-flex>
+                        <v-flex xs6 d-flex>
+                          <v-layout fill-height justify-center align-center>
+                            <preview-certificate
+                              :ord="currentCertificate.ord"
+                              :uniNo="currentCertificate.uniNo"
+                            ></preview-certificate>
+                          </v-layout>
+                        </v-flex>
+                      </v-layout>
                     </v-container>
                   </v-card>
                 </v-flex>
@@ -215,7 +259,7 @@
             <v-icon size="20">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
-        <search-certificate></search-certificate>
+        <search-certificate @insertCertificate="insertCertificate"></search-certificate>
       </v-sheet>
     </v-bottom-sheet>
 
@@ -237,14 +281,16 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import TaskService from "@/service/taskService";
-import { SubTask } from "@/types/task";
+import { SubTask, SubTaskCertificate } from "@/types/task";
 import document from "@/views/project/document/Document.vue";
 import searchCertificate from "@/components/finance/certificate/SearchCertificate.vue";
+import previewCertificate from "@/components/finance/certificate/PreviewCertificate.vue";
 
 @Component({
   components: {
     document,
-    "search-certificate": searchCertificate
+    "search-certificate": searchCertificate,
+    "preview-certificate": previewCertificate
   }
 })
 export default class SubTaskList extends Vue {
@@ -256,13 +302,16 @@ export default class SubTaskList extends Vue {
   private searchCertificateDialog: boolean = false;
   private fileDialog: boolean = false;
 
+  private currentCertificate: SubTaskCertificate = { uniNo: "", ord: "" };
+
   private currentSubTask: SubTask = {
     id: "",
     name: "",
     createdAt: "",
     status: 0,
     file: [],
-    content: []
+    content: [],
+    certificate: []
   };
   private headers = [
     { text: "状态", value: "status", align: "center", sortable: false },
@@ -286,7 +335,8 @@ export default class SubTaskList extends Vue {
       this.currentSubTask.id,
       this.currentSubTask.name,
       this.currentSubTask.content,
-      this.currentSubTask.file
+      this.currentSubTask.file,
+      this.currentSubTask.certificate
     );
     await TaskService.getTaskInfo(this.$route.params.taskID);
     this.editSubTaskDialog = false;
@@ -315,8 +365,24 @@ export default class SubTaskList extends Vue {
   }
 
   private removeContent(i: number) {
-    console.log("shit");
     this.currentSubTask.content.splice(i, 1);
+  }
+
+  private insertCertificate(certificate: SubTaskCertificate) {
+    if (
+      this.currentSubTask.certificate === undefined ||
+      this.currentSubTask.certificate === null
+    ) {
+      this.currentSubTask.certificate = [];
+    }
+    this.currentSubTask.certificate.push({
+      uniNo: certificate.uniNo,
+      ord: certificate.ord
+    });
+  }
+
+  private removeCertificate(i: number) {
+    this.currentSubTask.certificate.splice(i, 1);
   }
 
   private linkFile(v: any) {

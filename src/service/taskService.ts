@@ -2,7 +2,12 @@ import Vue from "vue";
 
 import basicService from "@/service/basicService";
 import store from "@/store/store";
-import { SubTaskContent, Task, TaskMember } from "@/types/task";
+import {
+  SubTaskContent,
+  Task,
+  TaskMember,
+  SubTaskCertificate
+} from "@/types/task";
 
 const vue = new Vue();
 
@@ -107,14 +112,16 @@ class TaskService {
     subTaskID: string,
     name: string,
     content: SubTaskContent[],
-    file: any[]
+    file: any[],
+    certificate: SubTaskCertificate[]
   ) {
     const rsp = await basicService.putRequest("/task/subtask", {
       taskID,
       subTaskID,
       name,
       content,
-      file
+      file,
+      certificate
     });
     if (rsp.msg === "success") {
       // @ts-ignore

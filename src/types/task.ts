@@ -43,6 +43,7 @@ interface SubTask {
   status?: number;
   file: [];
   content: SubTaskContent[];
+  certificate: SubTaskCertificate[];
 }
 
 interface SubTaskContent {
@@ -53,4 +54,9 @@ interface SubTaskContent {
   status: boolean;
 }
 
-export { Task, Tags, TaskMember, SubTask, SubTaskContent };
+interface SubTaskCertificate {
+  uniNo: string;
+  ord: string;
+}
+
+export { Task, Tags, TaskMember, SubTask, SubTaskContent, SubTaskCertificate };

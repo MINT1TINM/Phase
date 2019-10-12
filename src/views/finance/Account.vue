@@ -114,7 +114,7 @@ export default class CertificateAccount extends Vue {
   private currentCertificate = {};
 
   private async getCertificateList() {
-    const rsp = await FinanceService.searchCertificate(
+    const rsp = await FinanceService.searchCertificateGroup(
       this.$route.params.projectCode,
       this.$route.params.staffNo
     );

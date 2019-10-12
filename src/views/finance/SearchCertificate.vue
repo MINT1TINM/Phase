@@ -14,7 +14,7 @@
                 label="凭证账号"
                 hide-details
                 v-model="certificateNo"
-                @keyup.enter="searchCertificateBill"
+                @keyup.enter="searchCertificate"
               ></v-text-field>
             </v-layout>
           </v-flex>
@@ -66,8 +66,8 @@ export default class SearchCertificate extends Vue {
   private certificateNo: string = "";
   private certificateList: Certificate[] = [];
 
-  private async searchCertificateBill() {
-    const rsp = await FinanceService.searchCertificateBill(this.certificateNo);
+  private async searchCertificate() {
+    const rsp = await FinanceService.searchCertificate(this.certificateNo);
     this.certificateList = rsp.certificate;
   }
 }
