@@ -56,7 +56,7 @@ class SheetService {
     templateName: string,
     userID: string
   ) {
-    const rsp = await basicService.getRequest("/sheet/templatelist", {
+    const rsp = await basicService.getRequest("/sheet/template/list", {
       userID,
       templateName
     });

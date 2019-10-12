@@ -7,7 +7,8 @@
         <v-btn
           text
           @click="saveTemplate"
-          v-if="sheetTemplate.userID === authorization.userID && !sheetTemplate.locked"
+          :disabled="sheetTemplate.locked"
+          v-if="sheetTemplate.userID === authorization.userID || sheetTemplate.locked==undefined"
         >
           <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
         </v-btn>

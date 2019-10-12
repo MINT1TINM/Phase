@@ -3,7 +3,12 @@
     <v-toolbar dense flat class="navbar" style="z-index:2">
       <v-toolbar-title class="subtitle-1 font-weight-black">表单设计器</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn rounded text @click="saveTemplate">
+      <v-btn
+        text
+        @click="saveTemplate"
+        :disabled="sheetTemplate.locked"
+        v-if="sheetTemplate.userID === authorization.userID || sheetTemplate.locked==undefined"
+      >
         <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
       </v-btn>
       <v-divider vertical></v-divider>
