@@ -83,6 +83,18 @@ class UserService {
     return rsp;
   }
 
+  public static async updateUserAppList(id: string, appList: string[]) {
+    const rsp = await basicService.putRequest("/user/applist", {
+      id,
+      appList
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("修改成功");
+    }
+    return rsp;
+  }
+
   public static async createUser(
     username: string,
     nickName: string,

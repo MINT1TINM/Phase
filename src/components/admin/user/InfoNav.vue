@@ -20,7 +20,7 @@
         </v-layout>
         <v-tabs v-model="tab" class="mt-2" background-color="transparent">
           <v-tab href="#info">信息</v-tab>
-          <v-tab href="#activity">动态</v-tab>
+          <v-tab href="#activity">权限</v-tab>
           <v-tab href="#security">安全</v-tab>
           <v-tab href="#operations">操作</v-tab>
         </v-tabs>
@@ -75,7 +75,39 @@
           </v-layout>
         </v-container>
         <v-container v-else-if="tab===`activity`" fluid grid-list-md>
-          <v-layout row wrap>xxxxx</v-layout>
+          <v-subheader class="subtitle-2 pl-0">可使用的应用</v-subheader>
+          <v-subheader class="caption pl-0">*对管理员用户无效</v-subheader>
+          <v-card outlined flat>
+            <v-list nav dense>
+              <v-list-item-group multiple v-model="userInfo.applicationList">
+                <template v-for="(item, i) in selectableAppList">
+                  <v-divider v-if="!item" :key="`divider-${i}`"></v-divider>
+
+                  <v-list-item v-else :key="`item-${i}`" :value="item.nameEn">
+                    <template v-slot:default="{ active, toggle }">
+                      <v-list-item-avatar>
+                        <v-img :src="item.icon"></v-img>
+                      </v-list-item-avatar>
+                      <v-list-item-content>
+                        <v-list-item-title v-text="item.name"></v-list-item-title>
+                      </v-list-item-content>
+
+                      <v-list-item-action>
+                        <v-checkbox :input-value="active" :true-value="item.nameEn" @click="toggle"></v-checkbox>
+                      </v-list-item-action>
+                    </template>
+                  </v-list-item>
+                </template>
+              </v-list-item-group>
+            </v-list>
+            <v-layout row wrap justify-center class="my-3">
+              <v-flex xs8>
+                <v-btn @click="updateUserAppList" block rounded depressed>
+                  <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
+                </v-btn>
+              </v-flex>
+            </v-layout>
+          </v-card>
         </v-container>
         <v-container v-else-if="tab===`security`" fluid grid-list-md>
           <v-layout row wrap>
@@ -112,7 +144,7 @@
           <v-layout row wrap justify-center>
             <v-flex xs8>
               <v-btn @click="deleteUser" block rounded depressed color="error">
-                <v-icon size="20">mdi-delete-outline</v-icon>释放账户
+                <v-icon size="20">mdi-delete-outline</v-icon>&nbsp;释放账户
               </v-btn>
             </v-flex>
           </v-layout>
@@ -127,6 +159,7 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UserService from "@/service/userService";
 import { UserInfo, Login } from "@/types/user";
 import { namespace } from "vuex-class";
+import { App } from "@/types/system";
 
 const userModule = namespace("user");
 const systemModule = namespace("system");
@@ -137,6 +170,7 @@ export default class AdminUserInfoNav extends Vue {
 
   @userModule.Getter("privilege") private privilege!: string[];
   @systemModule.Getter("permissionList") private permissionList: any;
+  @systemModule.Getter("appList") private applicationList!: App[];
 
   private userInfo: UserInfo = {
     city: "",
@@ -145,6 +179,7 @@ export default class AdminUserInfoNav extends Vue {
     nickName: "",
     openid: "",
     privilege: [],
+    applicationList: [],
     project: {
       data: []
     },
@@ -158,6 +193,14 @@ export default class AdminUserInfoNav extends Vue {
   private async updateUserPrivilege(privilege: string[]) {
     console.log(privilege);
     await UserService.updatePrivilege(this.userID, privilege);
+  }
+
+  private async updateUserAppList() {
+    console.log(this.userInfo.applicationList);
+    await UserService.updateUserAppList(
+      this.userID,
+      this.userInfo.applicationList || []
+    );
   }
 
   private async getUserLoginHistory() {
@@ -175,6 +218,10 @@ export default class AdminUserInfoNav extends Vue {
     }
   }
 
+  private get selectableAppList() {
+    return this.applicationList.slice(0, this.applicationList.length - 1);
+  }
+
   @Watch("userID")
   private async onUserIDChanged() {
     this.userInfo = {
@@ -187,6 +234,7 @@ export default class AdminUserInfoNav extends Vue {
       project: {
         data: []
       },
+      applicationList: [],
       province: "",
       sex: "",
       unionid: ""
@@ -194,6 +242,7 @@ export default class AdminUserInfoNav extends Vue {
     if (this.userID) {
       const rsp = await UserService.getOtherUserInfo(this.userID);
       this.userInfo = rsp.userInfo;
+      console.log(rsp.userInfo.applicationList);
       this.getUserLoginHistory();
     }
   }
@@ -209,6 +258,7 @@ export default class AdminUserInfoNav extends Vue {
       project: {
         data: []
       },
+      applicationList: [],
       province: "",
       sex: "",
       unionid: ""

@@ -8,7 +8,7 @@
       <v-toolbar flat class="transparent" dense>
         <v-spacer></v-spacer>
 
-        <v-btn rounded @click="createUserDialog=true" text v-if="privilege.indexOf(`god`)!=-1">
+        <v-btn rounded @click="createUserDialog=true" text v-if="isGod">
           <v-icon size="20">mdi-plus</v-icon>&nbsp;新建用户
         </v-btn>
       </v-toolbar>
@@ -107,6 +107,7 @@ const contactModule = namespace("contact");
 })
 export default class ContactList extends Vue {
   @userModule.Getter("privilege") private privilege!: string[];
+  @userModule.Getter("isGod") private isGod!: boolean;
   @userModule.Getter("authorization") private authorization!: Authorization;
   @contactModule.Getter("currentContactID") private currentContactID!: string;
   @contactModule.Mutation("updateCurrentContactID")

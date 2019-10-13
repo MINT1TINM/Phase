@@ -12,7 +12,7 @@ interface UserInfo {
   headImgURL: string;
   nickName: string;
   openid: string;
-  privilege: [];
+  privilege: string[];
   project: {
     data: UserProject[];
   };
@@ -24,6 +24,7 @@ interface UserInfo {
   email?: string;
   privateInfo?: PrivateInfo;
   privacySetting?: PrivacySetting;
+  applicationList?: string[];
 }
 
 interface UserProject {

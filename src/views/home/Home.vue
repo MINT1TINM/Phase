@@ -25,8 +25,29 @@
             </v-card-title>
             <v-container>
               <transition appear appear-active-class="fade-up-enter">
-                <v-layout row wrap>
+                <v-layout row wrap v-if="isGod">
                   <v-flex xs15 v-for="(item,i) in appList" :key="`app-${i}`">
+                    <v-hover v-slot:default="{ hover }">
+                      <v-card
+                        color="transparent"
+                        :elevation="hover ? 8 : 0"
+                        @click="goToApp(item.route)"
+                      >
+                        <v-layout align-center justify-center style="padding:10%">
+                          <v-img
+                            aspect-ratio="1"
+                            class="ma-2"
+                            style="display:block;margin:auto"
+                            :src="item.icon"
+                          ></v-img>
+                        </v-layout>
+                        <div class="body-2 pb-5 pt-0 font-weight-black text-center">{{item.name}}</div>
+                      </v-card>
+                    </v-hover>
+                  </v-flex>
+                </v-layout>
+                <v-layout row wrap v-else>
+                  <v-flex xs15 v-for="(item,i) in availableAppList" :key="`app-${i}`">
                     <v-hover v-slot:default="{ hover }">
                       <v-card
                         color="transparent"
@@ -63,6 +84,7 @@ import { namespace } from "vuex-class";
 import BasicService from "@/service/basicService";
 import ProjectService from "@/service/projectService";
 import { Authorization, UserInfo } from "@/types/user";
+import { App } from "@/types/system";
 
 const systemModule = namespace("system");
 const userModule = namespace("user");
@@ -73,10 +95,11 @@ const userModule = namespace("user");
   }
 })
 export default class ComponentName extends Vue {
-  @systemModule.Getter("appList") private appList: any;
+  @systemModule.Getter("appList") private appList!: App[];
   @systemModule.Getter("systemName") private systemName!: string;
   @userModule.Getter("authorization") private authorization!: Authorization;
   @userModule.Getter("userInfo") private userInfo!: UserInfo;
+  @userModule.Getter("isGod") private isGod!: boolean;
 
   private goToApp(route: string) {
     this.$router.push({ path: `/${route}` });
@@ -84,7 +107,6 @@ export default class ComponentName extends Vue {
 
   private get time() {
     const hour = new Date().getHours();
-
     if (hour < 9) {
       return "早上好,";
     } else if (hour < 12) {
@@ -96,6 +118,16 @@ export default class ComponentName extends Vue {
     } else {
       return "晚上好,";
     }
+  }
+
+  private get availableAppList() {
+    let availableAppList: App[] = [];
+    for (const app of this.appList) {
+      if ((this.userInfo.applicationList! || []).indexOf(app.nameEn) !== -1) {
+        availableAppList.push(app);
+      }
+    }
+    return availableAppList;
   }
 
   private async mounted() {

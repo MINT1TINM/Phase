@@ -1,4 +1,5 @@
 import { Invitation } from "@/types/project";
+import { App } from "@/types/system";
 
 interface State {
   companyName: string;
@@ -12,15 +13,6 @@ interface State {
   uploadPercent: number;
   invitationList: Invitation[];
   permissionList: object[];
-}
-
-interface App {
-  name: string;
-  nameEn: string;
-  route: string;
-  icon: string;
-  themeColor: string;
-  themeColorDark: string;
 }
 
 const state: State = {
@@ -79,7 +71,8 @@ const state: State = {
       route: "admin/home",
       icon: "icon/icon_admin.svg",
       themeColor: "#333333",
-      themeColorDark: "#d4d4d4"
+      themeColorDark: "#d4d4d4",
+      privilege: ["god"]
     }
   ],
   invitationList: [],

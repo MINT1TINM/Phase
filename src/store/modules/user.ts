@@ -22,7 +22,8 @@ const state: State = {
     project: { data: [] },
     province: "",
     sex: "",
-    unionid: ""
+    unionid: "",
+    applicationList: []
   }
 };
 
@@ -46,6 +47,9 @@ const getters = {
   },
   privilege: (s: State) => {
     return s.userInfo.privilege;
+  },
+  isGod: (s: State) => {
+    return s.userInfo.privilege.indexOf("god") !== -1;
   }
 };
 

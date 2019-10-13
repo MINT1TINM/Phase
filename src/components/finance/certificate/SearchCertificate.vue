@@ -69,7 +69,7 @@ import { Certificate } from "@/types/finance";
 @Component
 export default class CertificateSearch extends Vue {
   private searchContent: string = "";
-  private certificateList: (Certificate | { addable: boolean })[] = [];
+  private certificateList: Certificate[] = [];
 
   private async searchCertificate() {
     const rsp = await FinanceService.searchCertificate(this.searchContent);
@@ -77,7 +77,6 @@ export default class CertificateSearch extends Vue {
   }
 
   private insertCertificate(uniNo: string, ord: string, i: number) {
-    this.certificateList[i].addable = false;
     this.$emit("insertCertificate", { uniNo, ord });
   }
 }

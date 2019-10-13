@@ -1,7 +1,7 @@
 <template>
   <v-layout fill-height>
     <v-flex>
-      <v-toolbar flat>
+      <v-toolbar flat dense>
         <v-btn outlined class="mr-4" @click="setToday">今日</v-btn>
         <v-btn fab text small @click="prev">
           <v-icon small>mdi-arrow-left</v-icon>
@@ -11,14 +11,14 @@
         </v-btn>
         <v-toolbar-title>{{ title }}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn-toggle v-model="type">
+        <v-btn-toggle dense v-model="type">
           <v-btn text @click="type = 'day'" value="day">日</v-btn>
           <v-btn text @click="type = 'week'" value="week">周</v-btn>
           <v-btn text @click="type = 'month'" value="month">月</v-btn>
         </v-btn-toggle>
       </v-toolbar>
 
-      <v-sheet style="height:calc(100vh - 112px);overflow-y:auto">
+      <v-sheet style="height:calc(100vh - 96px);overflow-y:auto">
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -75,9 +75,11 @@ import { VCalendar } from "vuetify/lib";
 import { namespace } from "vuex-class";
 import { ProcessTask } from "@/types/process";
 import TaskService from "@/service/taskService";
+import { App } from "@/types/system";
 
 const processModule = namespace("process");
 const projectModule = namespace("project");
+const systemModule = namespace("system");
 
 @Component
 export default class Calendar extends Vue {
@@ -89,6 +91,7 @@ export default class Calendar extends Vue {
   @processModule.Getter("fullTaskList") private fullTaskList!: ProcessTask[];
   @processModule.Getter("currentProcessIDList")
   private currentProcessIDList!: string[];
+  @systemModule.Getter("appList") private appList!: App[];
 
   private today: string = new Date().toISOString().slice(0, 10);
   private focus: string = new Date().toISOString().slice(0, 10);
