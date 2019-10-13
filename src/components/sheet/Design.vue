@@ -12,14 +12,14 @@
         >
           <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
         </v-btn>
-        <v-btn
+        <!-- <v-btn
           text
           @click="deleteTemplate(currentTemplateID)"
           :disabled="sheetTemplate.locked"
           v-if="sheetTemplate.userID === authorization.userID || sheetTemplate.locked==undefined"
         >
           <v-icon size="20">mdi-delete-outline</v-icon>&nbsp;删除
-        </v-btn>
+        </v-btn>-->
         <v-btn text @click="exportTemplate">
           <v-icon size="20">mdi-export</v-icon>&nbsp;导出
         </v-btn>
