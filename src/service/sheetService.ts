@@ -72,6 +72,14 @@ class SheetService {
     window.open("/api/sheet/xlsx?id=" + sheetID, "_blank");
   }
 
+  public static async deleteTemplate(templateID: string) {
+    const rsp = await basicService.deleteRequest("/sheet/template", {
+      templateID
+    });
+
+    return rsp;
+  }
+
   public static async createSheet(
     projectID: string,
     templateID: string,
