@@ -5,7 +5,10 @@
     </v-layout>
     <v-btn
       class="mb-2"
-      v-if="!item.data && (item.type.indexOf(`png`)!=-1 || item.type.indexOf(`jpg`)!=-1 || item.type.indexOf(`pdf`)!=-1)"
+      v-if="!item.data && (item.type.indexOf(`png`)!==-1 
+      || item.type.indexOf(`jpg`)!==-1 
+      || item.type.indexOf(`jpeg`)!==-1 
+      || item.type.indexOf(`pdf`)!==-1)"
       block
       outlined
       color="green darken-1"
@@ -17,7 +20,7 @@
       <v-icon size="20">mdi-download-outline</v-icon>&nbsp;下载
     </v-btn>
     <v-btn
-      v-if="projectPermission(authorization.userID).indexOf(`u`)!=-1"
+      v-if="projectPermission(authorization.userID).indexOf(`u`)!==-1"
       class="mt-2"
       block
       outlined
@@ -27,7 +30,7 @@
       <v-icon size="20">mdi-pencil-outline</v-icon>&nbsp;重命名
     </v-btn>
     <v-btn
-      v-if="projectPermission(authorization.userID).indexOf(`d`)!=-1"
+      v-if="projectPermission(authorization.userID).indexOf(`d`)!==-1"
       class="mt-2"
       block
       outlined
@@ -89,6 +92,7 @@ import docIcon from "@/components/project/document/DocIcon.vue";
 import { namespace } from "vuex-class";
 import FileService from "@/service/fileService";
 import { Authorization } from "@/types/user";
+import {} from "@/utils/FileType";
 
 const projectModule = namespace("project");
 const fileModule = namespace("file");
