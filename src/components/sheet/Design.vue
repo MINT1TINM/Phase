@@ -225,7 +225,7 @@ export default class SheetDesign extends Vue {
     if (this.$refs.sheetDesign.validate()) {
       this.updateSheetTemplate(this.sheetTemplate);
       console.log(this.sheetTemplate);
-      this.sheetTemplate.type = "key";
+      this.sheetTemplate.type = this.$route.params.type;
 
       // create new template if no templateID
       if (!this.currentTemplateID) {

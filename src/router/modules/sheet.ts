@@ -8,12 +8,8 @@ export default [
     component: () => import("@/views/sheet/SheetTemplate.vue"),
     children: [
       {
-        path: "/sheet/design/key",
-        component: () => import("@/components/sheet/KeyDesign.vue")
-      },
-      {
-        path: "/sheet/design/list",
-        component: () => import("@/components/sheet/ListDesign.vue")
+        path: "/sheet/design/:type",
+        component: () => import("@/components/sheet/Design.vue")
       }
     ]
   }

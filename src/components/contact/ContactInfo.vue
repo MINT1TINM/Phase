@@ -26,27 +26,6 @@
           <v-divider></v-divider>
           <v-container v-if="tab===`info`" fluid grid-list-md>
             <v-layout row wrap>
-              <v-flex xs4 v-if="privilege.indexOf(`god`)!==-1">
-                <v-card outlined>
-                  <v-card-title class="caption grey--text font-weight-black">权限</v-card-title>
-                  <v-card-text>
-                    <v-select
-                      dense
-                      class="font-weight-black"
-                      chips
-                      outlined
-                      :items="permissionList"
-                      item-text="text"
-                      item-value="value"
-                      multiple
-                      @change="updateUserPrivilege"
-                      single-line
-                      hide-details
-                      v-model="userInfo.privilege"
-                    ></v-select>
-                  </v-card-text>
-                </v-card>
-              </v-flex>
               <v-flex class="d-flex align-stretch" xs4 v-if="userInfo.phone">
                 <v-card width="100%" outlined>
                   <v-card-title class="caption grey--text font-weight-black">移动电话</v-card-title>
@@ -111,11 +90,6 @@ export default class ContactInfo extends Vue {
     unionid: ""
   };
   private tab = null;
-
-  private async updateUserPrivilege(privilege: string[]) {
-    console.log(privilege);
-    await UserService.updatePrivilege(this.userID, privilege);
-  }
 
   @Watch("userID")
   private async onUserIDChanged() {
