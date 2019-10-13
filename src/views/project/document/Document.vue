@@ -1,6 +1,6 @@
 <template>
   <div style="height:100%">
-    <v-toolbar dense class="navbar" style="z-index:2">
+    <v-toolbar flat dense class="navbar" style="z-index:2">
       <v-toolbar-items>
         <v-btn v-if="path.length>1" text @click="goBack">
           <v-icon size="20">mdi-arrow-left</v-icon>&nbsp;返回上一级
@@ -30,7 +30,7 @@
     <v-container fluid pa-0 style="height:calc(100vh - 98px)">
       <v-layout fill-height>
         <!-- file grid -->
-        <v-flex xs9 style="height:100%" v-on:click="clickBlank">
+        <v-flex style="height:100%" v-on:click="clickBlank">
           <v-container grid-list-md fluid>
             <transition appear appear-active-class="fade-up-enter">
               <v-layout row wrap>
@@ -67,7 +67,10 @@
           </v-container>
         </v-flex>
         <!-- file info -->
-        <v-flex xs3 class="inner-sidebar-withoutpadding elevation-6" style="height:100%">
+        <v-flex
+          class="inner-sidebar-withoutpadding elevation-6"
+          style="height:100%;max-width:300px"
+        >
           <doc-info
             @clearDocumentInfo="clearDocumentInfo"
             v-if="currentObject&&currentUUID"
@@ -146,6 +149,7 @@ import catalogInfo from "@/components/project/document/CatalogInfo.vue";
 import FileService from "@/service/fileService";
 import { namespace } from "vuex-class";
 import docIcon from "@/components/project/document/DocIcon.vue";
+import { searchNode } from "@/utils/SearchNode";
 
 const projectModule = namespace("project");
 const fileModule = namespace("file");
@@ -251,6 +255,11 @@ export default class Document extends Vue {
       console.log("blank");
       this.clearDocumentInfo();
     }
+  }
+
+  private searchDocument() {
+    const result = searchNode(this.fileListShow, this.searchDocumentContent);
+    console.log(result);
   }
 
   private clearDocumentInfo() {

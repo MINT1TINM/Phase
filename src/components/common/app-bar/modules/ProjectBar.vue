@@ -1,5 +1,5 @@
 <template>
-  <div style="display:flex;height:100%" class="navbar">
+  <div style="display:flex;height:100%">
     <v-toolbar-items v-if="currentProject">
       <v-icon small>mdi-chevron-right</v-icon>
     </v-toolbar-items>
