@@ -3,6 +3,16 @@
     <v-layout justify-center>
       <doc-icon class="py-10" :item="item"></doc-icon>
     </v-layout>
+    <v-btn
+      class="mb-2"
+      v-if="!item.data && (item.type.indexOf(`png`)!=-1 || item.type.indexOf(`jpg`)!=-1 || item.type.indexOf(`pdf`)!=-1)"
+      block
+      outlined
+      color="green darken-1"
+      @click="previewFile(item)"
+    >
+      <v-icon size="20">mdi-magnify</v-icon>&nbsp;预览
+    </v-btn>
     <v-btn v-if="!item.data" block outlined color="green darken-1" @click="downloadFile(item)">
       <v-icon size="20">mdi-download-outline</v-icon>&nbsp;下载
     </v-btn>
@@ -140,8 +150,12 @@ export default class DocumentInfo extends Vue {
   }
 
   private async downloadFile(item: any) {
-    window.open("/api/file/download?sName=" + item.sName, "_blank");
+    window.open(`/api/file/download?sName=${item.sName}`, "_blank");
     // await FileService.downloadFile(item.sName);
+  }
+
+  private async previewFile(item: any) {
+    window.open(`/api/file/preview?sName=${item.sName}`, "_blank");
   }
 
   private mounted() {}

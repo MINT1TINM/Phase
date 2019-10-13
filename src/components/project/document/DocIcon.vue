@@ -13,6 +13,10 @@
     >mdi-file-excel</v-icon>
     <v-icon size="90" color="red darken-2" v-else-if="item.type.indexOf(`pdf`)!=-1">mdi-file-pdf</v-icon>
     <v-icon size="90" color="primary lighten-1" v-else-if="item.data">mdi-folder</v-icon>
+    <v-icon
+      size="90"
+      v-else-if="item.type.indexOf(`png`)!=-1 || item.type.indexOf(`jpg`)!=-1"
+    >mdi-image</v-icon>
     <v-icon size="90" color="grey lighten-1" v-else>mdi-file</v-icon>
   </div>
 </template>
