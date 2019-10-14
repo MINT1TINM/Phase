@@ -11,15 +11,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import docIcon from "@/components/project/document/DocIcon.vue";
 import { namespace } from "vuex-class";
 
 const fileModule = namespace("file");
 
 @Component({
-  components: {
-    "doc-icon": docIcon
-  }
+  components: {}
 })
 export default class CatalogInfo extends Vue {
   @fileModule.Getter("fileList") private fileList: any;

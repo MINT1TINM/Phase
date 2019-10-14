@@ -4,13 +4,16 @@ import "@/plugins/snackbar/index";
 import axios from "axios";
 import Vue from "vue";
 
+import vuetify from "@/plugins/vuetify";
+
 import App from "@/App.vue";
 import VuetifyConfirm from "@/plugins/confirm-dialog";
 import DimForm from "@/plugins/dim-form/Main.vue";
 import Appbar from "@/components/common/app-bar/AppBar.vue";
 // user-chip components
 import UserChip from "@/plugins/user-chip/Main.vue";
-import vuetify from "@/plugins/vuetify";
+import DocIcon from "@/plugins/doc-icon/Main.vue";
+
 import router from "@/router/router";
 import store from "@/store/store";
 // format date
@@ -19,6 +22,7 @@ import DateHelper from "@/utils/DateHelper";
 Vue.component("user-chip", UserChip);
 Vue.component("dim-form", DimForm);
 Vue.component("app-bar", Appbar);
+Vue.component("doc-icon", DocIcon);
 
 Vue.use(VuetifyConfirm);
 

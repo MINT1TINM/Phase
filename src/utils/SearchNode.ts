@@ -8,10 +8,12 @@ const hasChildren = (node: any) => {
 const searchNode = (node: any, value: string) => {
   const n = node;
   const fileList = [];
+  let path: string[] = [];
   // tslint:disable-next-line: forin
   for (const key in n) {
     if (n[key].name.indexOf(value) !== -1) {
-      fileList.push(n[key]);
+      fileList.push({ file: n[key], path });
+      path = [];
     }
 
     let subNode = n[key];
@@ -21,7 +23,9 @@ const searchNode = (node: any, value: string) => {
           subNode.data[subKey].name &&
           subNode.data[subKey].name.indexOf(value) !== -1
         ) {
-          fileList.push(subNode.data[subKey]);
+          path.push(subNode.name);
+          fileList.push({ file: subNode.data[subKey], path });
+          path = [];
         }
       }
       subNode = subNode.data;

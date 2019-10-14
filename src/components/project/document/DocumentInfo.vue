@@ -88,7 +88,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import docIcon from "@/components/project/document/DocIcon.vue";
 import { namespace } from "vuex-class";
 import FileService from "@/service/fileService";
 import { Authorization } from "@/types/user";
@@ -99,9 +98,7 @@ const fileModule = namespace("file");
 const userModule = namespace("user");
 
 @Component({
-  components: {
-    "doc-icon": docIcon
-  }
+  components: {}
 })
 export default class DocumentInfo extends Vue {
   @Prop({ default: "" }) public uuid!: string;

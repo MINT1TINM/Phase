@@ -59,6 +59,18 @@
       </v-tooltip>
     </v-toolbar-items>
 
+    <!-- search -->
+    <v-toolbar-items v-if="currentProjectID">
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on" @click="commonSearchDialog=true">
+            <v-icon size="20">mdi-magnify</v-icon>
+          </v-btn>
+        </template>
+        <span class="caption">搜索</span>
+      </v-tooltip>
+    </v-toolbar-items>
+
     <v-dialog persistent v-model="saveToTemplateDialog" width="300">
       <v-card>
         <v-toolbar flat color="transparent">
@@ -73,6 +85,10 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="commonSearchDialog" width="700">
+      <common-search @closeDialog="commonSearchDialog=false"></common-search>
+    </v-dialog>
   </div>
 </template>
 
@@ -81,17 +97,23 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { namespace } from "vuex-class";
 import { Prop } from "vue-property-decorator";
-import ProjectService from "../../../../service/projectService";
+import ProjectService from "@/service/projectService";
+import commonSearch from "@/components/common/search/Search.vue";
 
 const projectModule = namespace("project");
 const systemModule = namespace("system");
 
-@Component
+@Component({
+  components: {
+    "common-search": commonSearch
+  }
+})
 export default class ProjectBar extends Vue {
   private searchProjectContent: string = "";
   private projectListShow = [];
   private projectSwitcher: boolean = false;
   private saveToTemplateDialog: boolean = false;
+  private commonSearchDialog: boolean = false;
   private templateName: string = "";
 
   @projectModule.Getter("projectList") private projectList: any;

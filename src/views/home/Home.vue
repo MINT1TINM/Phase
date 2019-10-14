@@ -121,7 +121,7 @@ export default class ComponentName extends Vue {
   }
 
   private get availableAppList() {
-    let availableAppList: App[] = [];
+    const availableAppList: App[] = [];
     for (const app of this.appList) {
       if ((this.userInfo.applicationList! || []).indexOf(app.nameEn) !== -1) {
         availableAppList.push(app);

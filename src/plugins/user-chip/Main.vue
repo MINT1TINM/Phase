@@ -2,7 +2,7 @@
   <v-chip pill small>
     <v-avatar size="10" left>
       <v-img v-if="headImgURL!==``" :src="headImgURL"></v-img>
-      <span v-else class="white--text">{{nickName | avatar}}</span>
+      <span v-else>{{nickName | avatar}}</span>
     </v-avatar>
     <span class="font-weight-black">{{nickName}}</span>
   </v-chip>

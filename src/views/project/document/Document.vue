@@ -148,8 +148,6 @@ import documentInfo from "@/components/project/document/DocumentInfo.vue";
 import catalogInfo from "@/components/project/document/CatalogInfo.vue";
 import FileService from "@/service/fileService";
 import { namespace } from "vuex-class";
-import docIcon from "@/components/project/document/DocIcon.vue";
-import { searchNode } from "@/utils/SearchNode";
 
 const projectModule = namespace("project");
 const fileModule = namespace("file");
@@ -158,7 +156,6 @@ const systemModule = namespace("system");
 @Component({
   components: {
     "doc-info": documentInfo,
-    "doc-icon": docIcon,
     "catalog-info": catalogInfo
   }
 })
@@ -187,7 +184,6 @@ export default class Document extends Vue {
   private fileListShow = {};
   private createCatalogDialog: boolean = false;
   private uploadDialog: boolean = false;
-  private searchDocumentContent: string = "";
   private file: any = null;
 
   private async getFileList() {
@@ -255,11 +251,6 @@ export default class Document extends Vue {
       console.log("blank");
       this.clearDocumentInfo();
     }
-  }
-
-  private searchDocument() {
-    const result = searchNode(this.fileListShow, this.searchDocumentContent);
-    console.log(result);
   }
 
   private clearDocumentInfo() {
