@@ -65,7 +65,7 @@
       <template v-slot:activator="{ on }">
         <v-toolbar-items style="margin-right:-20px">
           <v-btn class="app-bar-btn" text v-on="on">
-            <v-avatar color="primary" size="32">
+            <v-avatar color="primary darken-2" size="32">
               <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
               <span v-else-if="userInfo.nickname" class="white--text">{{nickName | avatar}}</span>
               <span v-else class="white--text">{{userInfo.username | avatar}}</span>
@@ -76,7 +76,7 @@
       <v-list dense>
         <v-list-item class="pb-2">
           <v-list-item-avatar color="primary">
-            <v-avatar color="primary" size="36">
+            <v-avatar color="primary darken-2" size="36">
               <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
               <span
                 v-else-if="userInfo.nickname"

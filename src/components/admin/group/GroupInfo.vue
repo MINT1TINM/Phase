@@ -22,7 +22,6 @@
               :items="userListShow"
               :search-input.sync="search"
               flat
-              @change="insertGroupMember"
               hide-no-data
               dense
               hide-details
@@ -52,14 +51,20 @@
                 <tr>
                   <th class="text-left">ID</th>
                   <th class="text-left">昵称</th>
-                  <th class="text-left">标签</th>
+                  <!-- <th class="text-left">标签</th> -->
+                  <th class="text-left">操作</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item,i) in groupInfo.member.data" :key="`member-${i}`">
                   <td class="caption text-left">{{ item.userID }}</td>
                   <td class="caption text-left">{{ item.nickName }}</td>
-                  <td class="caption text-left">{{ item.tags }}</td>
+                  <!-- <td class="caption text-left">{{ item.tags }}</td> -->
+                  <td class="text-left">
+                    <v-btn icon color="error" @click="deleteGroupUser(item.userID)">
+                      <v-icon size="20">mdi-close</v-icon>
+                    </v-btn>
+                  </td>
                 </tr>
               </tbody>
             </template>
@@ -131,6 +136,18 @@ export default class AdminGroupInfo extends Vue {
     this.search = "";
     await AdminService.insertGroupMember(this.groupID, userID);
     this.getGroupInfo();
+  }
+
+  private async deleteGroupUser(userID: string) {
+    const res = await this.$confirm("此操作无法还原", {
+      title: "确认删除?",
+      buttonTrueColor: "primary",
+      dark: this.$vuetify.theme.dark
+    });
+    if (res) {
+      await AdminService.deleteGroupMember(this.groupID, userID);
+      this.getGroupInfo();
+    }
   }
 
   private get selectedNickNameList() {

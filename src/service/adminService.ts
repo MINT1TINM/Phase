@@ -52,6 +52,18 @@ class AdminService {
     }
     return rsp;
   }
+
+  public static async deleteGroupMember(groupID: string, userID: string) {
+    const rsp = await BasicService.deleteRequest("/company/group/member", {
+      groupID,
+      userID
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("删除成功");
+    }
+    return rsp;
+  }
 }
 
 export default AdminService;
