@@ -1,6 +1,6 @@
 <template>
   <v-chip pill small>
-    <v-avatar size="10" left>
+    <v-avatar size="10" left color="primary">
       <v-img v-if="headImgURL!==``" :src="headImgURL"></v-img>
       <span v-else>{{nickName | avatar}}</span>
     </v-avatar>
@@ -23,7 +23,7 @@ export default class UserChip extends Vue {
   @Prop(String) private userID!: string;
 
   private get headImgURL() {
-    if (this.userID) {
+    if (this.userID && this.projectMemberCache(this.userID).headImgURL !== "") {
       return (
         `https` + this.projectMemberCache(this.userID).headImgURL.substring(4)
       );
