@@ -17,7 +17,7 @@ interface State {
 
 const state: State = {
   companyName: "华东理工大学",
-  systemName: "Audit",
+  systemName: "DIMStep",
   uploadPercent: 0,
   lastPage: "",
   loading: false,

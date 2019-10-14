@@ -79,12 +79,12 @@ export default class Settings extends Vue {
       text: "安全",
       icon: "mdi-lock-outline",
       route: "/settings/security"
-    },
-    {
-      text: "通知",
-      icon: "mdi-bell-outline",
-      route: "/settings/notification"
     }
+    // {
+    //   text: "通知",
+    //   icon: "mdi-bell-outline",
+    //   route: "/settings/notification"
+    // }
   ];
 }
 </script>

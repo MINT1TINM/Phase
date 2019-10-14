@@ -30,7 +30,8 @@
                     <tr v-for="(item,i) in memberListShow" :key="`member-${i}`">
                       <td class="text-center">
                         <v-avatar color="primary" size="32" class="white--text font-weight-black">
-                          <img :src="item.headImgURL | httpsfy" />
+                          <img v-if="item.headImgURL!==``" :src="item.headImgURL | httpsfy" />
+                          <span v-else class="caption font-weight-black">{{item.nickName | avatar}}</span>
                         </v-avatar>
                       </td>
                       <td class="font-weight-black text-center">{{ item.nickName }}</td>

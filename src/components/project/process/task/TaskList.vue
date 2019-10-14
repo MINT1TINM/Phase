@@ -36,11 +36,15 @@
               </v-list-item-action>
               <v-list-item-title class="body-2 grey--text font-weight-black">{{item.name}}</v-list-item-title>
               <v-list-item-avatar size="25">
-                <v-avatar size="25" color="primary">
+                <v-avatar size="25" color="primary" v-if="projectMemberCache(item.userID)">
                   <img
-                    v-if="projectMemberCache(item.userID)"
+                    v-if="projectMemberCache(item.userID).headImgURL!==``"
                     :src="projectMemberCache(item.userID).headImgURL"
                   />
+                  <span
+                    v-else
+                    class="caption font-weight-black"
+                  >{{projectMemberCache(item.userID).nickName | avatar}}</span>
                 </v-avatar>
               </v-list-item-avatar>
             </v-list-item>
@@ -66,9 +70,13 @@
               <v-list-item-avatar size="25">
                 <v-avatar size="25" color="primary">
                   <img
-                    v-if="projectMemberCache(item.userID)"
+                    v-if="projectMemberCache(item.userID).headImgURL!==``"
                     :src="projectMemberCache(item.userID).headImgURL"
                   />
+                  <span
+                    v-else
+                    class="caption font-weight-black"
+                  >{{projectMemberCache(item.userID).nickName | avatar}}</span>
                 </v-avatar>
               </v-list-item-avatar>
             </v-list-item>
