@@ -35,7 +35,7 @@
         <v-container fluid>
           <sub-task :subTask="currentTask.subTask || {data:[]}"></sub-task>
           <related-sheet :sheetIDList="currentTask.sheet.data" class="mt-3"></related-sheet>
-          <related-draft :sheetIDList="currentTask.draft.data" class="mt-3"></related-draft>
+          <related-file :fileList="currentTask.file.data" class="mt-3"></related-file>
           <operations class="mt-3"></operations>
         </v-container>
       </transition>
@@ -48,7 +48,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import subTask from "./SubTask.vue";
 import operations from "./Operations.vue";
 import relatedSheet from "./RelatedSheet.vue";
-import relatedDraft from "./RelatedDraft.vue";
+import relatedFile from "./RelatedFile.vue";
 import TaskService from "@/service/taskService";
 import { Task } from "@/types/task";
 
@@ -66,7 +66,7 @@ const userModule = namespace("user");
     "sub-task": subTask,
     operations,
     "related-sheet": relatedSheet,
-    "related-draft": relatedDraft
+    "related-file": relatedFile
   }
 })
 export default class TaskDetail extends Vue {

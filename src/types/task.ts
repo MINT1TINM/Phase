@@ -17,7 +17,7 @@ interface Task {
   sheet?: {
     data: [];
   };
-  draft?: {
+  file?: {
     data: [];
   };
   subTask?: {

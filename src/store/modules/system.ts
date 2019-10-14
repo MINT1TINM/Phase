@@ -16,7 +16,7 @@ interface State {
 }
 
 const state: State = {
-  companyName: "华东理工大学",
+  companyName: "DEMO",
   systemName: "DIMStep",
   uploadPercent: 0,
   lastPage: "",
@@ -57,14 +57,14 @@ const state: State = {
     //   themeColor: "#c7521c",
     //   themeColorDark: "#c7521c"
     // },
-    {
-      name: "财务",
-      nameEn: "finance",
-      route: "finance/project",
-      icon: "icon/icon_finance.svg",
-      themeColor: "#2979FF",
-      themeColorDark: "#6099fc"
-    },
+    // {
+    //   name: "财务",
+    //   nameEn: "finance",
+    //   route: "finance/project",
+    //   icon: "icon/icon_finance.svg",
+    //   themeColor: "#2979FF",
+    //   themeColorDark: "#6099fc"
+    // },
     {
       name: "管理",
       nameEn: "admin",
