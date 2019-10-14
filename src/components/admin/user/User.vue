@@ -38,7 +38,7 @@
     </v-flex>
 
     <v-navigation-drawer width="800" right temporary fixed v-model="infoNav">
-      <info-nav :userID="currentContactID"></info-nav>
+      <info-nav :userID="currentContactID" @closeNav="infoNav=false"></info-nav>
     </v-navigation-drawer>
 
     <v-dialog persistent v-model="createUserDialog" width="300">

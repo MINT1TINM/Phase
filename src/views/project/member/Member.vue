@@ -65,6 +65,7 @@
                           <template v-slot:activator="{ on }">
                             <v-btn
                               small
+                              v-if="item.id!==currentProject.userID&&authorization.userID === currentProject.userID"
                               icon
                               v-on="on"
                               @click="editMemberRoleDialog=true;targetMember = item;targetMember.role = item.projectRole"

@@ -215,6 +215,8 @@ export default class AdminUserInfoNav extends Vue {
       dark: this.$vuetify.theme.dark
     });
     if (res) {
+      await UserService.deleteUser(this.userInfo.id || "");
+      this.$emit("closeNav");
     }
   }
 

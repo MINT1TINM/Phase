@@ -179,6 +179,13 @@ class ProjectService {
     });
     return rsp;
   }
+
+  public static async deleteProject(projectID: string) {
+    const rsp = await basicService.deleteRequest("/project", {
+      projectID
+    });
+    return rsp;
+  }
 }
 
 export default ProjectService;

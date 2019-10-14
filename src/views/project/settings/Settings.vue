@@ -44,6 +44,14 @@
                       ></v-file-input>
                     </v-flex>
                   </v-layout>
+                  <v-divider class="my-3"></v-divider>
+                  <v-layout justify-center>
+                    <v-flex xs6>
+                      <v-btn @click="deleteProject" color="error" block rounded depressed>
+                        <v-icon size="20">mdi-delete-outline</v-icon>&nbsp;删除项目
+                      </v-btn>
+                    </v-flex>
+                  </v-layout>
                 </div>
               </v-container>
             </v-card>
@@ -108,6 +116,18 @@ export default class Settings extends Vue {
 
   private async updateProjectInfo() {
     await ProjectService.updateProjectInfo(this.currentProject);
+  }
+
+  private async deleteProject() {
+    const res = await this.$confirm("此操作无法还原", {
+      title: "确认删除?",
+      buttonTrueColor: "primary",
+      dark: this.$vuetify.theme.dark
+    });
+    if (res) {
+      await ProjectService.deleteProject(this.currentProjectID);
+      this.$router.push({ path: "/project" });
+    }
   }
 
   private async updateProjectFolder(v: any) {

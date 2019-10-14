@@ -125,6 +125,13 @@ class UserService {
     });
     return rsp;
   }
+
+  public static async deleteUser(userID: string) {
+    const rsp = await basicService.deleteRequest("/user", {
+      userID
+    });
+    return rsp;
+  }
 }
 
 export default UserService;
