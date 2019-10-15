@@ -96,6 +96,30 @@ class TaskService {
     return rsp;
   }
 
+  public static async insertTaskFile(taskID: string, file: any) {
+    const rsp = await basicService.postRequest("/task/file", {
+      taskID,
+      file
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("链接成功");
+    }
+    return rsp;
+  }
+
+  public static async deleteTaskFile(taskID: string, fileID: string) {
+    const rsp = await basicService.deleteRequest("/task/file", {
+      taskID,
+      fileID
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("删除成功");
+    }
+    return rsp;
+  }
+
   public static async createSubTask(taskID: string) {
     const rsp = await basicService.postRequest("/task/subtask", {
       taskID

@@ -4,35 +4,34 @@
       <v-card-title class="font-weight-black subtitle-1">
         相关文件
         <v-spacer></v-spacer>
-        <v-btn class="mt-3" rounded text @click="fileDialog=true">
+        <v-btn rounded text @click="fileDialog=true">
           <v-icon size="20">mdi-plus</v-icon>&nbsp;链接文件
         </v-btn>
       </v-card-title>
-      <v-container fluid>
-        <v-simple-table>
-          <thead>
-            <tr>
-              <th class="text-center">名称</th>
-              <th class="text-center">创建时间</th>
-              <th class="text-center">操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="my-2" v-for="(item,i) in fileList" :key="`f-${i}`">
-              <td class="pl-3 pr-2 text-center">{{item.name}}</td>
-              <td class="pl-3 pr-2 text-center">{{item.createdAt | format("yyyy-MM-dd hh:mm")}}</td>
-              <td class="pl-3 pr-2 text-center">
-                <v-btn icon @click="downloadFile(item)">
-                  <v-icon size="20">mdi-download-outline</v-icon>
-                </v-btn>
-                <v-btn icon @click="removeFile(item)" color="error">
-                  <v-icon size="20">mdi-close</v-icon>
-                </v-btn>
-              </td>
-            </tr>
-          </tbody>
-        </v-simple-table>
-      </v-container>
+
+      <v-simple-table>
+        <thead>
+          <tr>
+            <th class="text-center">名称</th>
+            <th class="text-center">创建时间</th>
+            <th class="text-center">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="my-2" v-for="(item,i) in fileList" :key="`f-${i}`">
+            <td class="pl-3 pr-2 text-center">{{item.name}}</td>
+            <td class="pl-3 pr-2 text-center">{{item.createdAt | format("yyyy-MM-dd hh:mm")}}</td>
+            <td class="pl-3 pr-2 text-center">
+              <v-btn icon @click="downloadFile(item)">
+                <v-icon size="20">mdi-download-outline</v-icon>
+              </v-btn>
+              <v-btn icon @click="removeFile(item)" color="error">
+                <v-icon size="20">mdi-close</v-icon>
+              </v-btn>
+            </td>
+          </tr>
+        </tbody>
+      </v-simple-table>
     </v-card>
 
     <v-bottom-sheet v-model="fileDialog" persistent>
@@ -53,6 +52,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import document from "@/views/project/document/Document.vue";
+import TaskService from "@/service/taskService";
 
 @Component({
   components: {
@@ -65,14 +65,16 @@ export default class RelatedFile extends Vue {
   private fileDialog: boolean = false;
   private fileListShow: any[] = [];
 
-  private linkFile(v: any) {
-    if (!this.fileListShow) {
-      (this.fileListShow as any) = [];
-    }
-    (this.fileListShow as any).push(v);
-    // remove duplicated
-    (this.fileListShow as any) = Array.from(new Set(this.fileListShow));
-    console.log(this.fileListShow);
+  private async linkFile(v: any) {
+    console.log(v);
+    // if (!this.fileListShow) {
+    //   (this.fileListShow as any) = [];
+    // }
+    // (this.fileListShow as any).push(v);
+    // // remove duplicated
+    // (this.fileListShow as any) = Array.from(new Set(this.fileListShow));
+    await TaskService.insertTaskFile(this.$route.params.taskID, v);
+    await TaskService.getTaskInfo(this.$route.params.taskID);
     this.fileDialog = false;
   }
 
@@ -83,9 +85,11 @@ export default class RelatedFile extends Vue {
 
   // private showFile(item: any) {}
 
-  private removeFile(item: any) {
-    const index = (this.fileListShow as any).indexOf(item);
-    (this.fileListShow as any).splice(index, 1);
+  private async removeFile(item: any) {
+    // const index = (this.fileListShow as any).indexOf(item);
+    // (this.fileListShow as any).splice(index, 1);
+    await TaskService.deleteTaskFile(this.$route.params.taskID, item.fileID);
+    await TaskService.getTaskInfo(this.$route.params.taskID);
   }
 
   @Watch("fileList")

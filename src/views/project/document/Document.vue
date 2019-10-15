@@ -230,6 +230,7 @@ export default class Document extends Vue {
   private linkFile() {
     console.log(this.currentObject);
     (this.currentObject as any).path = this.path;
+    (this.currentObject as any).fileID = this.currentUUID;
     this.$emit("linkFile", this.currentObject);
   }
 
