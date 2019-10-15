@@ -86,7 +86,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="commonSearchDialog" width="700">
+    <v-dialog :transition="false" v-model="commonSearchDialog" width="700">
       <common-search @closeDialog="commonSearchDialog=false"></common-search>
     </v-dialog>
   </div>
@@ -155,5 +155,3 @@ export default class ProjectBar extends Vue {
   }
 }
 </script>
-
-

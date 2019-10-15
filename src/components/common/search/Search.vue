@@ -1,5 +1,5 @@
 <template>
-  <v-card class="acrylic">
+  <v-card flat class="acrylic">
     <v-toolbar class="transparent mb-2">
       <v-text-field
         dense
@@ -94,7 +94,10 @@ export default class CommonSearch extends Vue {
 
   private searchDocument() {
     if (this.searchDocumentContent !== "") {
-      this.result = searchNode(this.fileListShow, this.searchDocumentContent);
+      this.result = searchNode(
+        this.fileListShow,
+        this.searchDocumentContent.toLowerCase()
+      );
     }
     console.log(this.result);
   }
