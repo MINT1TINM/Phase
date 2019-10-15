@@ -94,7 +94,10 @@ export default class CommonSearch extends Vue {
 
   private searchDocument() {
     if (this.searchDocumentContent !== "") {
-      this.result = searchNode(this.fileListShow, this.searchDocumentContent);
+      this.result = searchNode(
+        this.fileListShow,
+        this.searchDocumentContent.toLowerCase()
+      );
     }
     console.log(this.result);
   }
