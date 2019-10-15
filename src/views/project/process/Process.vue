@@ -17,12 +17,7 @@
               ></v-text-field>
             </v-flex>
             <v-spacer></v-spacer>
-            <v-btn
-              v-if="projectPermission(authorization.userID).indexOf(`c`)!=-1"
-              outlined
-              color="primary"
-              @click="createProcessDialog=true"
-            >+ 新过程</v-btn>
+            <v-btn outlined color="primary" @click="createProcessDialog=true">+ 新过程</v-btn>
           </v-layout>
         </v-toolbar>
 

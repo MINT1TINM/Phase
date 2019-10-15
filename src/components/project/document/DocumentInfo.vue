@@ -20,7 +20,6 @@
       <v-icon size="20">mdi-download-outline</v-icon>&nbsp;下载
     </v-btn>
     <v-btn
-      v-if="projectPermission(authorization.userID).indexOf(`u`)!==-1"
       class="mt-2"
       block
       outlined
@@ -29,14 +28,7 @@
     >
       <v-icon size="20">mdi-pencil-outline</v-icon>&nbsp;重命名
     </v-btn>
-    <v-btn
-      v-if="projectPermission(authorization.userID).indexOf(`d`)!==-1"
-      class="mt-2"
-      block
-      outlined
-      color="error"
-      @click="deleteFile()"
-    >
+    <v-btn class="mt-2" block outlined color="error" @click="deleteFile()">
       <v-icon size="20">mdi-delete-outline</v-icon>&nbsp;删除
     </v-btn>
     <h4 class="pt-5">文件信息</h4>

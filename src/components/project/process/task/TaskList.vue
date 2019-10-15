@@ -2,15 +2,7 @@
   <v-container fluid grid-list-md>
     <v-layout row wrap>
       <v-flex xs12 style="display:flex">
-        <v-text-field
-          v-if="projectPermission(authorization.userID).indexOf(`c`)!=-1"
-          hide-details
-          dense
-          outlined
-          label="+ 新任务"
-          v-model="newTaskName"
-          single-line
-        ></v-text-field>
+        <v-text-field hide-details dense outlined label="+ 新任务" v-model="newTaskName" single-line></v-text-field>
 
         <v-btn
           v-if="newTaskName"
