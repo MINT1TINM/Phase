@@ -31,7 +31,7 @@
                 ></v-text-field>
               </v-form>
               <v-btn outlined block color="primary" dark @click="standardLogin()">登录</v-btn>
-              <v-btn outlined class="mt-3" block color="green" dark @click="wechatLogin()">微信登录</v-btn>
+              <!-- <v-btn outlined class="mt-3" block color="green" dark @click="wechatLogin()">微信登录</v-btn> -->
               <v-btn class="mt-3" text color="primary">忘记密码?</v-btn>
               <!-- <v-divider class="my-3"></v-divider>
               <v-btn block text color="primary" :to="'/register'">注册新用户</v-btn>-->
