@@ -5,14 +5,15 @@ const hasChildren = (node: any) => {
   return false;
 };
 
+// search in file structure
 const searchNode = (node: any, value: string) => {
   const n = node;
-  const fileList = [];
+  const result = [];
   let path: string[] = [];
   // tslint:disable-next-line: forin
   for (const key in n) {
     if (n[key].name.indexOf(value) !== -1) {
-      fileList.push({ file: n[key], path });
+      result.push({ file: n[key], path });
       path = [];
     }
 
@@ -24,7 +25,7 @@ const searchNode = (node: any, value: string) => {
           subNode.data[subKey].name.indexOf(value) !== -1
         ) {
           path.push(subNode.name);
-          fileList.push({ file: subNode.data[subKey], path });
+          result.push({ file: subNode.data[subKey], path });
           path = [];
         }
       }
@@ -32,7 +33,31 @@ const searchNode = (node: any, value: string) => {
     }
   }
 
-  return fileList;
+  return result;
 };
 
-export { searchNode };
+// insert to department tree
+const insertNodeToTree = (node: any, parentID: string, insertContent: any) => {
+  console.log(node, parentID);
+
+  for (const d of node) {
+    if (d.id === parentID) {
+      d.children.push(insertContent);
+      return node;
+    }
+
+    let subNode = d;
+    if (subNode.children) {
+      for (const sn of subNode.children) {
+        if (sn.id === parentID) {
+          sn.push(insertContent);
+          return node;
+        }
+        subNode = sn;
+      }
+    }
+  }
+  return node;
+};
+
+export { searchNode, insertNodeToTree };

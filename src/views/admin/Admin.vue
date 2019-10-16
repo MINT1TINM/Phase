@@ -44,6 +44,11 @@ export default class AdminTemplate extends Vue {
       name: "群组",
       icon: "mdi-account-group-outline",
       route: "/admin/group"
+    },
+    {
+      name: "部门",
+      icon: "mdi-format-line-style",
+      route: "/admin/department"
     }
   ];
 }

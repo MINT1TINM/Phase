@@ -10,7 +10,13 @@ export default [
       },
       {
         path: "/admin/department",
-        component: () => import("@/components/admin/Department.vue")
+        component: () => import("@/components/admin/department/Department.vue"),
+        children: [
+          {
+            path: "/admin/department/:departmentID",
+            component: () => import("@/components/admin/department/Member.vue")
+          }
+        ]
       },
       {
         path: "/admin/group",
