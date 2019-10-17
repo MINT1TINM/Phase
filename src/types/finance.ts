@@ -4,7 +4,7 @@ interface AuditProject {
   chargeName: string;
   chargeSno: string;
   balance: number;
-  balanceSyear: string;
+  balanceSyear?: string;
 }
 
 interface Certificate {

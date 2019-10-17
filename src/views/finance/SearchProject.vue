@@ -3,7 +3,7 @@
     <app-bar></app-bar>
     <v-content>
       <v-app-bar dense app fixed dark color="primary darken-1" style="margin-top:48px">
-        <v-layout row wrap justify-center>
+        <v-layout>
           <v-flex xs6>
             <v-layout>
               <v-select
@@ -42,24 +42,23 @@
             </v-layout>
           </v-flex>
         </v-layout>
+        <v-btn outlined rounded small @click="exportResult">
+          <v-icon size="15">mdi-export-variant</v-icon>&nbsp;导出结果
+        </v-btn>
       </v-app-bar>
       <transition appear appear-active-class="fade-left-enter">
         <v-simple-table height="calc(100vh - 96px)" fixed-header class="transparent">
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-left">项目代码</th>
-                <th class="text-left">名称</th>
-                <th class="text-left">负责人</th>
-                <th class="text-left">负责人工号</th>
-                <th class="text-left">项目余额</th>
+                <th v-for="(item,i) in headers" :key="`head-${i}`" class="text-left">{{item}}</th>
               </tr>
             </thead>
             <tbody>
               <tr
                 v-for="(item,i) in searchProjectResult"
                 :key="`project-${i}`"
-                @click="$router.push({path:`/finance/project/${item.code}/${item.chargeSno}`});updateCurrentProject(item)"
+                @click="showDetail(item)"
               >
                 <td>{{ item.code }}</td>
                 <td>{{ item.name }}</td>
@@ -80,6 +79,7 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import FinanceService from "@/service/financeService";
 import { namespace } from "vuex-class";
 import { AuditProject } from "@/types/finance";
+import ToolkitService from "@/service/toolkitService";
 
 const financeModule = namespace("finance");
 
@@ -103,14 +103,11 @@ export default class Certifcate extends Vue {
   private result = [];
 
   private headers = [
-    {
-      text: "项目代码",
-      sortable: false,
-      value: "code"
-    },
-    { text: "项目名称", value: "name", sortable: false },
-    { text: "负责人", value: "fat", sortable: false },
-    { text: "负责人工号", value: "chargeSno", sortable: false }
+    "项目代码",
+    "项目名称",
+    "负责人",
+    "负责人工号",
+    "项目余额"
   ];
 
   private async querySelections(v: string) {
@@ -131,8 +128,32 @@ export default class Certifcate extends Vue {
     await FinanceService.searchFinanceProject(this.currentKey, v, 50, 1);
   }
 
-  private showDetail(v: any) {
-    console.log(v);
+  private async exportResult() {
+    // adjust head & data field
+    const head: string[] = [];
+    for (const field of this.headers) {
+      head.push(field);
+    }
+
+    const data: AuditProject[] = [];
+    for (const item of this.searchProjectResult) {
+      data.push({
+        code: item.code,
+        name: item.name,
+        chargeName: item.chargeName,
+        chargeSno: item.chargeSno,
+        balance: item.balance
+      });
+    }
+
+    const rsp = await ToolkitService.exportListToXlsx(head, data);
+  }
+
+  private showDetail(item: AuditProject) {
+    this.$router.push({
+      path: `/finance/project/${item.code}/${item.chargeSno}`
+    });
+    this.updateCurrentProject(item);
   }
 
   @Watch("search")

@@ -3,7 +3,7 @@
     <app-bar></app-bar>
     <v-content>
       <v-app-bar dense app fixed dark color="primary darken-1" style="margin-top:48px">
-        <v-layout row wrap justify-center>
+        <v-layout row wrap>
           <v-flex xs6>
             <v-layout>
               <v-text-field
@@ -15,25 +15,22 @@
                 hide-details
                 v-model="certificateNo"
                 @keyup.enter="searchCertificate"
+                append-outer-icon="mdi-magnify"
+                @click:append-outer="searchCertificate"
               ></v-text-field>
             </v-layout>
           </v-flex>
         </v-layout>
+        <v-btn outlined rounded small>
+          <v-icon size="15">mdi-export-variant</v-icon>&nbsp;导出结果
+        </v-btn>
       </v-app-bar>
       <transition appear appear-active-class="fade-left-enter">
         <v-simple-table height="calc(100vh - 96px)" fixed-header class="transparent">
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-left">凭证账号</th>
-                <th class="text-left">日期</th>
-                <th class="text-left">摘要</th>
-                <th class="text-left">借方发生数</th>
-                <th class="text-left">贷方发生数</th>
-                <th class="text-left">科目名称</th>
-                <th class="text-left">科目代码</th>
-                <th class="text-left">负责人姓名</th>
-                <th class="text-left">负责人工号</th>
+                <th class="text-left" v-for="(item,i) in headers" :key="`head-${i}`">{{item}}</th>
               </tr>
             </thead>
             <tbody>
@@ -65,6 +62,18 @@ import { Certificate } from "@/types/finance";
 export default class SearchCertificate extends Vue {
   private certificateNo: string = "";
   private certificateList: Certificate[] = [];
+
+  private headers = [
+    "凭证账号",
+    "日期",
+    "摘要",
+    "借方发生数",
+    "贷方发生数",
+    "科目名称",
+    "科目代码",
+    "负责人姓名",
+    "负责人工号"
+  ];
 
   private async searchCertificate() {
     const rsp = await FinanceService.searchCertificate(this.certificateNo);
