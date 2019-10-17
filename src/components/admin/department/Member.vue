@@ -92,12 +92,19 @@ export default class DepartmentMemberManage extends Vue {
   private search: string = "";
   private select = null;
 
+  private async getDepartment() {
+    const rsp = await AdminService.getDepartment(this.currentDepartmentID);
+    this.departmentMemberList = rsp.department.member.data;
+  }
+
   private async insertDepartmentMember(userID: string) {
     await AdminService.insertDepartmentMember(this.currentDepartmentID, userID);
+    this.getDepartment();
   }
 
   private async removeDepartmentMember(userID: string) {
     await AdminService.removeDepartmentMember(this.currentDepartmentID, userID);
+    this.getDepartment();
   }
 
   private async querySelections(v: string) {
@@ -135,8 +142,7 @@ export default class DepartmentMemberManage extends Vue {
   @Watch("currentDepartmentID")
   private async onChanged() {
     if (this.currentDepartmentID !== "root") {
-      const rsp = await AdminService.getDepartment(this.currentDepartmentID);
-      this.departmentMemberList = rsp.department.member.data;
+      this.getDepartment();
       console.log(this.departmentMemberList);
     }
   }
@@ -144,6 +150,10 @@ export default class DepartmentMemberManage extends Vue {
   @Watch("search")
   private async onSearchContentChanged(val: string) {
     val && val !== this.select && this.querySelections(val);
+  }
+
+  private mounted() {
+    this.getDepartment();
   }
 }
 </script>
