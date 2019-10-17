@@ -34,7 +34,7 @@
                 v-for="(item,i) in processListShow"
                 :key="`process-${i}`"
               >
-                <div :class="i==0?'ml-5 my-2':`mx-2 my-2`" style="width:300px">
+                <div :class="i==0?'ml-5 my-2 mr-2':`mx-2 my-2`" style="width:300px">
                   <process-column :processID="item.id" :processName="item.name"></process-column>
                 </div>
               </v-slide-item>

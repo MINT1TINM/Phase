@@ -65,8 +65,8 @@ class AdminService {
     return rsp;
   }
 
-  public static async updateDepartment(department: any) {
-    const rsp = await BasicService.putRequest("/company/department", {
+  public static async updateDepartmentTree(department: any) {
+    const rsp = await BasicService.putRequest("/company/department/tree", {
       department
     });
     if (rsp.msg === "success") {
@@ -76,8 +76,45 @@ class AdminService {
     return rsp;
   }
 
-  public static async getDepartment() {
-    const rsp = await BasicService.getRequest("/company/department", {});
+  public static async getDepartmentTree() {
+    const rsp = await BasicService.getRequest("/company/department/tree", {});
+    return rsp;
+  }
+
+  public static async getDepartment(departmentID: string) {
+    const rsp = await BasicService.getRequest("/company/department", {
+      departmentID
+    });
+    return rsp;
+  }
+
+  public static async insertDepartmentMember(
+    departmentID: string,
+    userID: string
+  ) {
+    const rsp = await BasicService.postRequest("/company/department/member", {
+      departmentID,
+      userID
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("更新成功");
+    }
+    return rsp;
+  }
+
+  public static async removeDepartmentMember(
+    departmentID: string,
+    userID: string
+  ) {
+    const rsp = await BasicService.deleteRequest("/company/department/member", {
+      departmentID,
+      userID
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("删除成功");
+    }
     return rsp;
   }
 }

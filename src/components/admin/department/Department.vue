@@ -18,6 +18,7 @@
               rounded
               dense
               open-on
+              open-all
               activatable
               return-object
               :items="departmentTree"
@@ -59,7 +60,7 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { insertNodeToTree } from "@/utils/SearchNode";
-import AdminService from "../../../service/adminService";
+import AdminService from "@/service/adminService";
 const uuidv1 = require("uuid/v1");
 
 const systemModule = namespace("system");
@@ -81,7 +82,7 @@ export default class AdminDepartment extends Vue {
     });
     this.departmentName = "";
     this.createDepartmentDialog = false;
-    AdminService.updateDepartment(result);
+    AdminService.updateDepartmentTree(result);
   }
 
   @Watch("active")
@@ -93,7 +94,7 @@ export default class AdminDepartment extends Vue {
   }
 
   private async mounted() {
-    const rsp = await AdminService.getDepartment();
+    const rsp = await AdminService.getDepartmentTree();
     this.departmentTree = rsp.department.data;
   }
 }
