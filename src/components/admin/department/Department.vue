@@ -7,16 +7,17 @@
             <v-toolbar-title class="subtitle-1 font-weight-black">部门树</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
-              <v-btn text rounded @click="createDepartment()" v-if="active[0]">
+              <v-btn text rounded @click="createDepartmentDialog=true" v-if="active[0]">
                 <v-icon size="20">mdi-plus</v-icon>&nbsp;部门
               </v-btn>
             </v-toolbar-items>
           </v-toolbar>
           <v-container fluid>
             <v-treeview
-              class="body-2"
+              class="body-2 font-weight-bold"
               rounded
               dense
+              open-on
               activatable
               return-object
               :items="departmentTree"
@@ -29,6 +30,28 @@
         <router-view></router-view>
       </v-flex>
     </v-layout>
+
+    <v-dialog v-model="createDepartmentDialog" width="300">
+      <v-card>
+        <v-toolbar flat color="transparent">
+          <v-toolbar-title class="subtitle-1 font-weight-black">创建部门</v-toolbar-title>
+        </v-toolbar>
+        <v-container fluid>
+          <v-text-field
+            single-line
+            hide-details
+            outlined
+            dense
+            label="部门名称"
+            v-model="departmentName"
+          ></v-text-field>
+        </v-container>
+        <v-card-actions class="justify-center">
+          <v-btn rounded color="primary darken-2" depressed @click="createDepartment">确认</v-btn>
+          <v-btn rounded text @click="createDepartmentDialog=false">取消</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -36,6 +59,7 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { insertNodeToTree } from "@/utils/SearchNode";
+import AdminService from "../../../service/adminService";
 const uuidv1 = require("uuid/v1");
 
 const systemModule = namespace("system");
@@ -44,22 +68,20 @@ const systemModule = namespace("system");
 export default class AdminDepartment extends Vue {
   @systemModule.Getter("companyName") private companyName!: string;
 
-  private departmentTree: any = [
-    {
-      id: "xxxxxx",
-      name: "INSDIM",
-      children: []
-    }
-  ];
+  private departmentTree: any = [];
   private active: any[] = [];
+  private createDepartmentDialog: boolean = false;
+  private departmentName: string = "";
 
   private createDepartment() {
-    console.log(this.active[0]);
-    insertNodeToTree(this.active, this.active[0]!.id, {
+    const result = insertNodeToTree(this.active, this.active[0]!.id, {
       id: uuidv1(),
-      name: "shit",
+      name: this.departmentName,
       children: []
     });
+    this.departmentName = "";
+    this.createDepartmentDialog = false;
+    AdminService.updateDepartment(result);
   }
 
   @Watch("active")
@@ -70,7 +92,10 @@ export default class AdminDepartment extends Vue {
     }
   }
 
-  private mounted() {}
+  private async mounted() {
+    const rsp = await AdminService.getDepartment();
+    this.departmentTree = rsp.department.data;
+  }
 }
 </script>
 

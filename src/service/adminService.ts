@@ -64,6 +64,22 @@ class AdminService {
     }
     return rsp;
   }
+
+  public static async updateDepartment(department: any) {
+    const rsp = await BasicService.putRequest("/company/department", {
+      department
+    });
+    if (rsp.msg === "success") {
+      // @ts-ignore
+      vue.$snackbar.show("更新成功");
+    }
+    return rsp;
+  }
+
+  public static async getDepartment() {
+    const rsp = await BasicService.getRequest("/company/department", {});
+    return rsp;
+  }
 }
 
 export default AdminService;
