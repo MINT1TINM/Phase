@@ -169,7 +169,7 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Vue, Watch,
+ Component, Prop, Vue, Watch 
 } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { Field } from '@/types/sheet';
@@ -208,7 +208,7 @@ export default class SheetDesign extends Vue {
     { label: '文本框', value: 'text-area' },
     { label: '选择', value: 'select' },
     { label: '多项选择', value: 'multi-select' },
-    { label: '日期', value: 'date-picker' },
+    { label: '日期', value: 'date-picker' }
   ];
 
   private insertField() {
@@ -225,7 +225,7 @@ export default class SheetDesign extends Vue {
     this.sheetTemplate.field.data[i] = this.sheetTemplate.field.data.splice(
       i + 1,
       1,
-      this.sheetTemplate.field.data[i],
+      this.sheetTemplate.field.data[i]
     )[0];
   }
 
@@ -233,7 +233,7 @@ export default class SheetDesign extends Vue {
     this.sheetTemplate.field.data[i] = this.sheetTemplate.field.data.splice(
       i - 1,
       1,
-      this.sheetTemplate.field.data[i],
+      this.sheetTemplate.field.data[i]
     )[0];
   }
 
@@ -253,7 +253,7 @@ export default class SheetDesign extends Vue {
         // save changes
         const rsp = await SheetService.updateSheetTemplate(
           this.sheetTemplate,
-          this.currentTemplateID,
+          this.currentTemplateID
         );
       }
     }
@@ -263,11 +263,11 @@ export default class SheetDesign extends Vue {
     const res = await this.$confirm('此操作无法还原', {
       title: '确认释放?',
       buttonTrueColor: 'primary',
-      dark: this.$vuetify.theme.dark,
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await SheetService.deleteTemplate(templateID);
-      this.$router.push({ path: '/sheet' });
+      this.$router.push({ path: '/' });
     }
   }
 
@@ -279,7 +279,7 @@ export default class SheetDesign extends Vue {
     // clear cache
     this.restoreSheetTemplate();
     this.updateCurrentTemplateID('');
-    this.$router.push({ path: '/sheet' });
+    this.$router.push({ path: '/' });
   }
 
   @Watch('currentTemplateID')

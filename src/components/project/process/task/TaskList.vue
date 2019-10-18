@@ -104,7 +104,7 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Vue, Watch 
+ Component, Prop, Vue, Watch 
 } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import TaskService from '@/service/taskService';
@@ -167,7 +167,7 @@ export default class TaskList extends Vue {
   private toTaskDetail(task: ProcessTask) {
     this.$emit('func', task.taskID || task.id);
     this.$router.push({
-      path: `/project/process/${this.processID}/task/${task.taskID || task.id}`
+      path: `/process/${this.processID}/task/${task.taskID || task.id}`
     });
   }
 

@@ -2,7 +2,7 @@
   <v-app>
     <v-navigation-drawer mini-variant-width="62" app clipped permanent fixed>
       <v-toolbar flat dense>
-        <v-btn icon @click="$router.push({path:`/project`})">
+        <v-btn icon @click="$router.push({path:`/`})">
           <v-icon size="20">mdi-arrow-left</v-icon>
         </v-btn>
         <v-toolbar-title class="pl-0 subtitle-1 font-weight-black">项目模版</v-toolbar-title>
@@ -15,35 +15,33 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <app-bar></app-bar>
-    <v-content style="height:calc(100vh - 48px);overflow-y:hidden">
-      <v-container grid-list-lg class="pa-6">
-        <transition appear appear-active-class="fade-up-enter">
-          <v-layout row wrap>
-            <v-flex xs3 v-for="(item,i) in templateList" :key="`template-${i}`">
-              <v-hover v-slot:default="{ hover }">
-                <v-card
-                  :elevation="hover ? 8 : 0"
-                  outlined
-                  @click="generateProjectDialog=true;
+
+    <v-container grid-list-lg class="pa-6">
+      <transition appear appear-active-class="fade-up-enter">
+        <v-layout row wrap>
+          <v-flex xs3 v-for="(item,i) in templateList" :key="`template-${i}`">
+            <v-hover v-slot:default="{ hover }">
+              <v-card
+                :elevation="hover ? 8 : 0"
+                outlined
+                @click="generateProjectDialog=true;
                         getTemplateInfo(item.id);
                         currentTemplateID=item.id"
-                >
-                  <v-img
-                    class="white--text"
-                    height="150"
-                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                  ></v-img>
-                </v-card>
-              </v-hover>
-              <v-card-title class="body-2 font-weight-black">
-                <v-layout justify-center>{{item.name}}</v-layout>
-              </v-card-title>
-            </v-flex>
-          </v-layout>
-        </transition>
-      </v-container>
-    </v-content>
+              >
+                <v-img
+                  class="white--text"
+                  height="150"
+                  src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                ></v-img>
+              </v-card>
+            </v-hover>
+            <v-card-title class="body-2 font-weight-black">
+              <v-layout justify-center>{{item.name}}</v-layout>
+            </v-card-title>
+          </v-flex>
+        </v-layout>
+      </transition>
+    </v-container>
 
     <v-dialog v-model="generateProjectDialog" width="500" persistent>
       <v-card>
@@ -104,8 +102,8 @@ export default class ProjectTemplateList extends Vue {
   private typeList = [
     {
       name: '推荐',
-      route: '#foryou',
-    },
+      route: '#foryou'
+    }
   ];
 
   private templateList: ProjectTemplate[] = [];
@@ -116,7 +114,7 @@ export default class ProjectTemplateList extends Vue {
     id: '',
     userID: '',
     name: '',
-    process: [],
+    process: []
   };
 
   private currentTemplateID: string = '';
@@ -125,7 +123,7 @@ export default class ProjectTemplateList extends Vue {
 
   private async getTemplateList() {
     const rsp = await ProjectService.getProjectTemplateList(
-      this.authorization.userID,
+      this.authorization.userID
     );
     this.templateList = rsp.template;
   }
@@ -133,7 +131,7 @@ export default class ProjectTemplateList extends Vue {
   private async generateProject() {
     const rsp = await ProjectService.generateProject(
       this.newProjectName,
-      this.currentTemplateID,
+      this.currentTemplateID
     );
     if (rsp.msg === 'success') {
       this.newProjectName = '';

@@ -90,7 +90,7 @@ export default class Login extends Vue {
           );
 
           this.toggleFullScreenLoading(false);
-          this.$router.push({ path: '/home' });
+          window.location.href = '/home';
           break;
         case 'wrongpasswd':
           this.toggleFullScreenLoading(false);

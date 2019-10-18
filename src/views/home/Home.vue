@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <app-bar></app-bar>
+    <app-common></app-common>
     <v-content>
       <v-container grid-list-md fluid>
         <v-layout row wrap>
@@ -91,8 +92,8 @@ const userModule = namespace('user');
 
 @Component({
   components: {
-    'app-bar': appBar,
-  },
+    'app-bar': appBar
+  }
 })
 export default class ComponentName extends Vue {
   @systemModule.Getter('appList') private appList!: App[];
@@ -106,18 +107,21 @@ export default class ComponentName extends Vue {
   @userModule.Getter('isGod') private isGod!: boolean;
 
   private goToApp(route: string) {
-    this.$router.push({ path: `/${route}` });
+    window.location.href = `/${route}`;
   }
 
   private get time() {
     const hour = new Date().getHours();
     if (hour < 9) {
       return '早上好,';
-    } if (hour < 12) {
+    }
+    if (hour < 12) {
       return '上午好,';
-    } if (hour < 14) {
+    }
+    if (hour < 14) {
       return '中午好,';
-    } if (hour < 18) {
+    }
+    if (hour < 18) {
       return '下午好,';
     }
     return '晚上好,';

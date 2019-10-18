@@ -23,6 +23,7 @@ Vue.component('user-chip', UserChip);
 Vue.component('dim-form', DimForm);
 Vue.component('app-bar', Appbar);
 Vue.component('doc-icon', DocIcon);
+Vue.component('app-common', App);
 
 Vue.use(VuetifyConfirm);
 
@@ -68,9 +69,7 @@ Vue.filter('cut', (v: string) => {
   return v;
 });
 
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: (h: any) => h(App)
-}).$mount('#app');
+export {
+  Vue,
+  store
+};

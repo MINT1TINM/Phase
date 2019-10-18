@@ -16,10 +16,7 @@
         <v-list nav dense color="transparent">
           <template v-for="(item,i) in userList">
             <div :key="`user-${i}`">
-              <v-list-item
-                :class="item.id === currentContactID?`v-list-item--active`:``"
-                @click="showInfo(item)"
-              >
+              <v-list-item :to="`/${$route.params.group}/${item.id}`">
                 <v-list-item-avatar>
                   <v-avatar color="primary" size="32">
                     <img v-if="item.headImgURL" :src="item.headImgURL | httpsfy" />
@@ -41,7 +38,7 @@
       </transition>
     </v-flex>
     <v-flex xs9>
-      <contact-info :userID="currentContactID"></contact-info>
+      <router-view></router-view>
     </v-flex>
 
     <v-dialog persistent v-model="createUserDialog" width="300">
@@ -102,8 +99,8 @@ const contactModule = namespace('contact');
 
 @Component({
   components: {
-    'contact-info': contactInfo,
-  },
+    'contact-info': contactInfo
+  }
 })
 export default class ContactList extends Vue {
   @userModule.Getter('privilege') private privilege!: string[];
@@ -136,7 +133,7 @@ export default class ContactList extends Vue {
     await UserService.createUser(
       this.newUserName,
       this.newNickName,
-      this.newPassword,
+      this.newPassword
     );
     this.createUserDialog = false;
     this.newUserName = '';
@@ -146,8 +143,7 @@ export default class ContactList extends Vue {
   }
 
   private showInfo(user: UserInfo) {
-    console.log(user.id);
-    this.updateCurrentContactID(user.id!);
+    this.$router.push({ path: `/${this.$route.params.group}/${user.id}` });
   }
 
   private mounted() {

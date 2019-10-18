@@ -1,6 +1,6 @@
 <template>
-  <v-card class="acrylic">
-    <v-toolbar class="transparent mb-2">
+  <v-card>
+    <v-toolbar class="mb-2">
       <v-text-field
         dense
         flat
@@ -10,7 +10,7 @@
         v-model="searchDocumentContent"
         prepend-inner-icon="mdi-magnify"
         label="搜索项目内容"
-        solo-inverted
+        solo
       ></v-text-field>
     </v-toolbar>
     <v-layout style="height:500px;overflow:auto">
@@ -67,7 +67,7 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Vue, Watch,
+ Component, Prop, Vue, Watch 
 } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { searchNode } from '@/utils/SearchNode';
@@ -105,7 +105,7 @@ export default class CommonSearch extends Vue {
     if (this.searchDocumentContent !== '') {
       this.result = searchNode(
         this.fileListShow,
-        this.searchDocumentContent.toLowerCase(),
+        this.searchDocumentContent.toLowerCase()
       );
     }
     console.log(this.result);
@@ -115,7 +115,7 @@ export default class CommonSearch extends Vue {
     this.$emit('closeDialog');
     this.updatePath(['data', ...this.result[this.currentFileIndex].path]);
     this.updatePathPrettier([...this.pathPrettier]);
-    this.$router.push({ path: '/project/document' });
+    this.$router.push({ path: '/document' });
   }
 
   private get pathPrettier() {
@@ -123,8 +123,8 @@ export default class CommonSearch extends Vue {
       return [
         '根目录',
         ...this.fileList[this.currentFileIndex].path.filter(
-          (e: string) => e !== 'data',
-        ),
+          (e: string) => e !== 'data'
+        )
       ];
     }
     return ['根目录'];

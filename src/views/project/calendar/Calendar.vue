@@ -56,7 +56,7 @@
               <v-btn
                 rounded
                 text
-                :to="`/project/process/${selectedEvent.processID}/task/${selectedEvent.id}`"
+                :to="`/process/${selectedEvent.processID}/task/${selectedEvent.id}`"
               >
                 查看任务
                 <v-icon size="20">mdi-arrow-right</v-icon>
@@ -105,7 +105,7 @@ export default class Calendar extends Vue {
   private typeToLabel = {
     month: '月视图',
     week: '周视图',
-    day: '日视图',
+    day: '日视图'
   };
 
   private start = null;
@@ -195,7 +195,7 @@ export default class Calendar extends Vue {
   private get monthFormatter() {
     return this.$refs.calendar.getFormatter({
       timeZone: 'UTC',
-      month: 'long',
+      month: 'long'
     });
   }
 

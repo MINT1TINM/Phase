@@ -26,7 +26,9 @@ module.exports = {
     'no-return-assign': 0,
     camelcase: 0,
     'guard-for-in': 0,
-    'import/prefer-default-export': 0
+    'import/prefer-default-export': 0,
+    'linebreak-style': 0,
+    indent: 0
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',

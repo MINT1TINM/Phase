@@ -61,7 +61,7 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Vue, Watch,
+ Component, Prop, Vue, Watch 
 } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import UserService from '@/service/userService';
@@ -72,8 +72,6 @@ const systemModule = namespace('system');
 
 @Component
 export default class ContactInfo extends Vue {
-  @Prop(String) public userID!: string;
-
   @userModule.Getter('privilege') private privilege!: string[];
 
   @systemModule.Getter('permissionList') private permissionList: any;
@@ -86,14 +84,18 @@ export default class ContactInfo extends Vue {
     openid: '',
     privilege: [],
     project: {
-      data: [],
+      data: []
     },
     province: '',
     sex: '',
-    unionid: '',
+    unionid: ''
   };
 
   private tab = null;
+
+  private get userID() {
+    return this.$route.params.userID;
+  }
 
   @Watch('userID')
   private async onUserIDChanged() {
@@ -105,11 +107,11 @@ export default class ContactInfo extends Vue {
       openid: '',
       privilege: [],
       project: {
-        data: [],
+        data: []
       },
       province: '',
       sex: '',
-      unionid: '',
+      unionid: ''
     };
     if (this.userID) {
       const rsp = await UserService.getOtherUserInfo(this.userID);
@@ -126,11 +128,11 @@ export default class ContactInfo extends Vue {
       openid: '',
       privilege: [],
       project: {
-        data: [],
+        data: []
       },
       province: '',
       sex: '',
-      unionid: '',
+      unionid: ''
     };
     if (this.userID) {
       const rsp = await UserService.getOtherUserInfo(this.userID);

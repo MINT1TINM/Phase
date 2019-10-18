@@ -177,20 +177,18 @@ export default class AppBar extends Vue {
           this.clearAuthorization();
           this.clearUserInfo();
 
-          this.$router.push({ path: '/' });
+          window.location.href = '/login';
         }
-
-        // this.$router.push({ path: "/" });
         break;
     }
   }
 
   private toCurrentAppHome() {
-    this.$router.push({ path: `/${this.currentApp.route}` });
+    this.$router.push({ path: '/' });
   }
 
   private goHome() {
-    this.$router.push({ path: '/home' });
+    window.location.href = '/home';
   }
 
   get nickName() {
@@ -198,7 +196,7 @@ export default class AppBar extends Vue {
   }
 
   get currentRoute() {
-    return this.$route.fullPath.split('/')[1];
+    return window.location.pathname.split('/')[1];
   }
 
   get currentApp() {
@@ -208,10 +206,6 @@ export default class AppBar extends Vue {
       );
     }
     return '';
-  }
-
-  private mounted() {
-    console.log(this.currentApp);
   }
 }
 </script>

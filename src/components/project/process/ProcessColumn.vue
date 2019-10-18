@@ -3,7 +3,7 @@
     <v-toolbar dense flat color="transparent">
       <v-toolbar-title class="subtitle-1 font-weight-black">{{processName}}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn class="mr-0" small icon :to="`/project/process/${processID}/timeline`">
+      <v-btn class="mr-0" small icon :to="`/process/${processID}/timeline`">
         <v-icon size="20">mdi-arrow-right</v-icon>
       </v-btn>
     </v-toolbar>
@@ -21,8 +21,8 @@ import taskList from './task/TaskList.vue';
 
 @Component({
   components: {
-    'task-list': taskList,
-  },
+    'task-list': taskList
+  }
 })
 export default class ProjectColumn extends Vue {
   @Prop({ default: 0 }) public processID!: number;

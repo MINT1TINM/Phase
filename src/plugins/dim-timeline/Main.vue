@@ -56,7 +56,7 @@
                 >
                   <v-progress-linear absolute :value="item.percentage" color="white"></v-progress-linear>
                   <v-card-text
-                    class="text-left white--text caption font-weight-black align-center"
+                    class="text-left caption font-weight-black align-center"
                     style="padding:5px; margin-top:2px"
                   >{{item.name}}</v-card-text>
                 </v-card>
@@ -77,14 +77,14 @@ import { getDayCount, getAllDaysBetween, getBarLength } from './timeline';
 export default {
   props: {
     columnWidth: Number,
-    taskList: Array,
+    taskList: Array
   },
   data() {
     return {
       startDate: '',
       endDate: '',
       dateRange: [],
-      highlightedTaskID: '',
+      highlightedTaskID: ''
     };
   },
   methods: {
@@ -95,7 +95,7 @@ export default {
           this.startDate,
           e.startDate.slice(0, 10),
           e.endDate.slice(0, 10),
-          this.columnWidth,
+          this.columnWidth
         );
         e.length = para.length;
         e.marginLeft = para.marginLeft;
@@ -123,7 +123,7 @@ export default {
     },
     toTaskDetail(item) {
       this.$router.push({ path: `task/${item.id}` });
-    },
+    }
   },
   watch: {
     taskList() {
@@ -131,13 +131,13 @@ export default {
       this.setBarLength();
 
       this.dateRange = getAllDaysBetween(this.startDate, this.endDate);
-    },
+    }
   },
   mounted() {
     this.getTimeRange();
     this.setBarLength();
     this.dateRange = getAllDaysBetween(this.startDate, this.endDate);
-  },
+  }
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app">
+  <div>
     <!-- loading -->
     <v-progress-linear
       :active="loading"
@@ -40,9 +40,7 @@
     >
       <notification-center v-if="notificationCenterShow" style="height:calc(100vh - 48px);"></notification-center>
     </v-navigation-drawer>
-
-    <router-view />
-  </v-app>
+  </div>
 </template>
 
 <script lang="ts">
@@ -57,8 +55,8 @@ const systemModule = namespace('system');
 @Component({
   components: {
     'app-switcher': appSwitcher,
-    'notification-center': notificationCenter,
-  },
+    'notification-center': notificationCenter
+  }
 })
 export default class App extends Vue {
   @systemModule.Getter('fullScreenLoading') private fullScreenLoading: any;
