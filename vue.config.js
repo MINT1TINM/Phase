@@ -1,6 +1,10 @@
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const glob = require('glob');
 const merge = require('webpack-merge');
+const OS = require('os');
+const HappyPack = require('happypack');
+
+const happyThreadPool = HappyPack.ThreadPool({ size: OS.cpus().length });
 
 // eslint-disable-next-line func-names
 const page = function () {
@@ -37,7 +41,9 @@ module.exports = {
       // terser
       const terserWebpackPlugin = config.optimization.minimizer[0];
       const { terserOptions } = terserWebpackPlugin.options;
-      // terserOptions.compress["drop_console"] = true;
+      terserOptions.compress.drop_console = true;
+      terserWebpackPlugin.cache = true;
+      terserWebpackPlugin.parallel = true;
       // gzip
       config.plugins.push(
         new CompressionWebpackPlugin({
@@ -46,17 +52,15 @@ module.exports = {
           threshold: 10240,
           minRatio: 0.8,
         }),
+        new HappyPack({
+          id: 'happybabel',
+          loaders: ['babel-loader', 'sass-loader'],
+          threadPool: happyThreadPool,
+          verbose: true
+        })
       );
       config.devtool = 'source-map';
     }
-  },
-
-  css: {
-    loaderOptions: {
-      sass: {
-        data: '@import "~@/assets/main.scss"',
-      },
-    },
   },
 
   devServer: {
@@ -66,21 +70,6 @@ module.exports = {
         ws: false,
       },
     },
-  },
-
-  pwa: {
-    name: 'DIM Step',
-    themeColor: '#a64ed1',
-    background_color: '#ffffff',
-    appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: 'white',
-    iconPaths: {
-      favicon32: 'img/icons/icon-72x72.png',
-      favicon16: 'img/icons/icon-72x72.png',
-      appleTouchIcon: 'img/icons/icon-152x152.png',
-      msTileImage: 'img/icons/icon-144x144.png',
-    },
-    manifestOptions: {},
   },
 
   outputDir: 'dim-step',
