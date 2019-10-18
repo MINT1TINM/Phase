@@ -205,69 +205,85 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import ProjectService from "@/service/projectService";
-import appBar from "@/components/common/app-bar/AppBar.vue";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import ProjectService from '@/service/projectService';
+import appBar from '@/components/common/app-bar/AppBar.vue';
 
-import UserService from "@/service/userService";
-import { Authorization } from "@/types/user";
-import { ProjectTemplate } from "@/types/project";
+import UserService from '@/service/userService';
+import { Authorization } from '@/types/user';
+import { ProjectTemplate } from '@/types/project';
 
-const projectModule = namespace("project");
-const userModule = namespace("user");
-const systemModule = namespace("system");
+const projectModule = namespace('project');
+const userModule = namespace('user');
+const systemModule = namespace('system');
 
 @Component({
   components: {
-    "app-bar": appBar
-  }
+    'app-bar': appBar,
+  },
 })
 export default class ProjectHome extends Vue {
   private createProjectDialog: boolean = false;
+
   private generateProjectDialog: boolean = false;
+
   private createProjectContent = [
     {
-      title: "名称",
-      type: "text-field",
-      name: "name"
-    }
+      title: '名称',
+      type: 'text-field',
+      name: 'name',
+    },
   ];
-  private createProjectInfo = {
-    name: ""
-  };
-  private projectListShow = [];
-  private templateList: ProjectTemplate[] = [];
-  private templateInfo: ProjectTemplate = {
-    id: "",
-    userID: "",
-    name: "",
-    process: []
-  };
-  private currentTemplateID: string = "";
-  private newProjectName: string = "";
 
-  @projectModule.Getter("projectList") private projectList: any;
-  @projectModule.Mutation("updateCurrentProjectID")
+  private createProjectInfo = {
+    name: '',
+  };
+
+  private projectListShow = [];
+
+  private templateList: ProjectTemplate[] = [];
+
+  private templateInfo: ProjectTemplate = {
+    id: '',
+    userID: '',
+    name: '',
+    process: [],
+  };
+
+  private currentTemplateID: string = '';
+
+  private newProjectName: string = '';
+
+  @projectModule.Getter('projectList') private projectList: any;
+
+  @projectModule.Mutation('updateCurrentProjectID')
   private updateCurrentProjectID: any;
-  @projectModule.Mutation("clearCurrentProjectID")
+
+  @projectModule.Mutation('clearCurrentProjectID')
   private clearCurrentProjectID: any;
-  @projectModule.Getter("viewMode") private viewMode!: string;
-  @projectModule.Mutation("updateViewMode") private updateViewMode!: (
+
+  @projectModule.Getter('viewMode') private viewMode!: string;
+
+  @projectModule.Mutation('updateViewMode') private updateViewMode!: (
     v: string
   ) => void;
-  @userModule.Getter("authorization")
+
+  @userModule.Getter('authorization')
   private authorization!: Authorization;
-  @systemModule.Getter("systemName") private systemName!: string;
+
+  @systemModule.Getter('systemName') private systemName!: string;
 
   private goToProject(projectId: number) {
     this.updateCurrentProjectID(projectId);
-    this.$router.push({ path: "/project/process" });
+    this.$router.push({ path: '/project/process' });
   }
 
   private async createProject() {
     const rsp = await ProjectService.createProject(this.createProjectInfo.name);
-    if (rsp.msg === "success") {
+    if (rsp.msg === 'success') {
       await UserService.getUserInfo(this.authorization.userID);
       this.getProjectList();
     }
@@ -277,13 +293,13 @@ export default class ProjectHome extends Vue {
   private async generateProject() {
     const rsp = await ProjectService.generateProject(
       this.newProjectName,
-      this.currentTemplateID
+      this.currentTemplateID,
     );
-    if (rsp.msg === "success") {
+    if (rsp.msg === 'success') {
       await UserService.getUserInfo(this.authorization.userID);
       this.getProjectList();
     }
-    this.newProjectName = "";
+    this.newProjectName = '';
     this.generateProjectDialog = false;
   }
 
@@ -293,7 +309,7 @@ export default class ProjectHome extends Vue {
 
   private async getTemplateList() {
     const rsp = await ProjectService.getProjectTemplateList(
-      this.authorization.userID
+      this.authorization.userID,
     );
     this.templateList = rsp.template;
   }

@@ -190,18 +190,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import TaskService from "@/service/taskService";
-import { SubTask, SubTaskCertificate } from "@/types/task";
-import document from "@/views/project/document/Document.vue";
-import searchCertificate from "@/components/finance/certificate/SearchCertificate.vue";
-import previewCertificate from "@/components/finance/certificate/PreviewCertificate.vue";
+import {
+  Component, Prop, Vue, Watch 
+} from 'vue-property-decorator';
+import TaskService from '@/service/taskService';
+import { SubTask, SubTaskCertificate } from '@/types/task';
+import document from '@/views/project/document/Document.vue';
+import searchCertificate from '@/components/finance/certificate/SearchCertificate.vue';
+import previewCertificate from '@/components/finance/certificate/PreviewCertificate.vue';
 
 @Component({
   components: {
     document,
-    "search-certificate": searchCertificate,
-    "preview-certificate": previewCertificate
+    'search-certificate': searchCertificate,
+    'preview-certificate': previewCertificate
   }
 })
 export default class SubTaskList extends Vue {
@@ -210,30 +212,43 @@ export default class SubTaskList extends Vue {
   };
 
   private editSubTaskDialog: boolean = false;
+
   private searchCertificateDialog: boolean = false;
+
   private fileDialog: boolean = false;
 
-  private currentCertificate: SubTaskCertificate = { uniNo: "", ord: "" };
+  private currentCertificate: SubTaskCertificate = { uniNo: '', ord: '' };
 
   private currentSubTask: SubTask = {
-    id: "",
-    name: "",
-    createdAt: "",
+    id: '',
+    name: '',
+    createdAt: '',
     status: 0,
     file: [],
     content: [],
     certificate: []
   };
-  private headers = [
-    { text: "状态", value: "status", align: "center", sortable: false },
-    { text: "名称", value: "name", align: "center", sortable: false },
-    { text: "操作", value: "actions", align: "center", sortable: false }
-  ];
 
-  private async toggleItemStatus(item: any) {
-    item.status = !item.status;
-    await this.save(item);
-  }
+  private headers = [
+    {
+      text: '状态',
+      value: 'status',
+      align: 'center',
+      sortable: false
+    },
+    {
+      text: '名称',
+      value: 'name',
+      align: 'center',
+      sortable: false
+    },
+    {
+      text: '操作',
+      value: 'actions',
+      align: 'center',
+      sortable: false
+    }
+  ];
 
   private async createSubTask() {
     await TaskService.createSubTask(this.$route.params.taskID);
@@ -254,9 +269,9 @@ export default class SubTaskList extends Vue {
   }
 
   private async deleteSubTask(subTaskID: string) {
-    const res = await this.$confirm("此操作无法恢复", {
-      title: "确认删除?",
-      buttonTrueColor: "primary",
+    const res = await this.$confirm('此操作无法恢复', {
+      title: '确认删除?',
+      buttonTrueColor: 'primary',
       dark: this.$vuetify.theme.dark
     });
     if (res) {
@@ -267,10 +282,10 @@ export default class SubTaskList extends Vue {
 
   private insertContent() {
     this.currentSubTask.content.push({
-      property: "",
-      description: "",
-      expect: "",
-      reality: "",
+      property: '',
+      description: '',
+      expect: '',
+      reality: '',
       status: false
     });
   }
@@ -281,8 +296,8 @@ export default class SubTaskList extends Vue {
 
   private insertCertificate(certificate: SubTaskCertificate) {
     if (
-      this.currentSubTask.certificate === undefined ||
-      this.currentSubTask.certificate === null
+      this.currentSubTask.certificate === undefined
+      || this.currentSubTask.certificate === null
     ) {
       this.currentSubTask.certificate = [];
     }
@@ -310,7 +325,7 @@ export default class SubTaskList extends Vue {
   }
 
   private async downloadFile(item: any) {
-    window.open("/api/file/download?sName=" + item.sName, "_blank");
+    window.open(`/api/file/download?sName=${item.sName}`, '_blank');
     // await FileService.downloadFile(item.sName);
   }
 
@@ -322,27 +337,25 @@ export default class SubTaskList extends Vue {
   }
 
   get subTaskShow() {
-    const subTask = this.subTask;
+    const { subTask } = this;
     if (subTask.data) {
-      for (const item of subTask.data as any) {
+      for (let i = 0; i < subTask.data.length; i += 1) {
+        const item = subTask.data[i] as any;
         item.status = 1;
-        for (const j of item.content as any) {
+        for (let j = 0; j < item.content.length; j += 1) {
+          const contentItem = item.content[j];
           // if any of subtask_content's status is 2,
           // this subtask's status will be false
-          if (!j.status) {
+          if (!contentItem.status) {
             item.status = 2;
             break;
           }
         }
       }
+
       return subTask;
     }
     return [];
   }
-
-  private async save(item: any) {
-    console.log(item);
-  }
 }
 </script>
-

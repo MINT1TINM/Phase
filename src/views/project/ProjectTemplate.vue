@@ -87,40 +87,45 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import { Authorization } from "@/types/user";
-import ProjectService from "@/service/projectService";
-import UserService from "@/service/userService";
-import { ProjectTemplate } from "@/types/project";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { Authorization } from '@/types/user';
+import ProjectService from '@/service/projectService';
+import UserService from '@/service/userService';
+import { ProjectTemplate } from '@/types/project';
 
-const userModule = namespace("user");
+const userModule = namespace('user');
 
 @Component
 export default class ProjectTemplateList extends Vue {
-  @userModule.Getter("authorization")
+  @userModule.Getter('authorization')
   private authorization!: Authorization;
 
   private typeList = [
     {
-      name: "推荐",
-      route: "#foryou"
-    }
+      name: '推荐',
+      route: '#foryou',
+    },
   ];
+
   private templateList: ProjectTemplate[] = [];
+
   private generateProjectDialog: boolean = false;
+
   private templateInfo: ProjectTemplate = {
-    id: "",
-    userID: "",
-    name: "",
-    process: []
+    id: '',
+    userID: '',
+    name: '',
+    process: [],
   };
-  private currentTemplateID: string = "";
-  private newProjectName: string = "";
+
+  private currentTemplateID: string = '';
+
+  private newProjectName: string = '';
 
   private async getTemplateList() {
     const rsp = await ProjectService.getProjectTemplateList(
-      this.authorization.userID
+      this.authorization.userID,
     );
     this.templateList = rsp.template;
   }
@@ -128,13 +133,13 @@ export default class ProjectTemplateList extends Vue {
   private async generateProject() {
     const rsp = await ProjectService.generateProject(
       this.newProjectName,
-      this.currentTemplateID
+      this.currentTemplateID,
     );
-    if (rsp.msg === "success") {
-      this.newProjectName = "";
+    if (rsp.msg === 'success') {
+      this.newProjectName = '';
       this.generateProjectDialog = false;
       await UserService.getUserInfo(this.authorization.userID);
-      this.$router.push({ path: `/project` });
+      this.$router.push({ path: '/project' });
     }
   }
 

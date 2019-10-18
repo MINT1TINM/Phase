@@ -66,27 +66,31 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import AdminService from "@/service/adminService";
-import { Group } from "@/types/company";
-import groupInfo from "./GroupInfo.vue";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import AdminService from '@/service/adminService';
+import { Group } from '@/types/company';
+import groupInfo from './GroupInfo.vue';
 
 @Component({
   components: {
-    "group-info": groupInfo
-  }
+    'group-info': groupInfo,
+  },
 })
 export default class AdminGroup extends Vue {
   private groupList: Group[] = [];
+
   private createGroupDialog: boolean = false;
+
   private infoNav: boolean = false;
-  private newGroupName: string = "";
-  private currentGroupID: string = "";
+
+  private newGroupName: string = '';
+
+  private currentGroupID: string = '';
 
   private async createGroup() {
     await AdminService.createGroup(this.newGroupName);
     this.createGroupDialog = false;
-    this.newGroupName = "";
+    this.newGroupName = '';
     await this.getGroup();
   }
 

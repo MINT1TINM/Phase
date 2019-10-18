@@ -93,39 +93,48 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { namespace } from "vuex-class";
-import { Prop } from "vue-property-decorator";
-import ProjectService from "@/service/projectService";
-import commonSearch from "@/components/common/search/Search.vue";
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { namespace } from 'vuex-class';
+import { Prop } from 'vue-property-decorator';
+import ProjectService from '@/service/projectService';
+import commonSearch from '@/components/common/search/Search.vue';
 
-const projectModule = namespace("project");
-const systemModule = namespace("system");
+const projectModule = namespace('project');
+const systemModule = namespace('system');
 
 @Component({
   components: {
-    "common-search": commonSearch
-  }
+    'common-search': commonSearch,
+  },
 })
 export default class ProjectBar extends Vue {
-  private searchProjectContent: string = "";
-  private projectListShow = [];
-  private projectSwitcher: boolean = false;
-  private saveToTemplateDialog: boolean = false;
-  private commonSearchDialog: boolean = false;
-  private templateName: string = "";
+  private searchProjectContent: string = '';
 
-  @projectModule.Getter("projectList") private projectList: any;
-  @projectModule.Getter("currentProject") private currentProject: any;
-  @projectModule.Getter("currentProjectID") private currentProjectID!: string;
-  @projectModule.Mutation("updateCurrentProjectID")
+  private projectListShow = [];
+
+  private projectSwitcher: boolean = false;
+
+  private saveToTemplateDialog: boolean = false;
+
+  private commonSearchDialog: boolean = false;
+
+  private templateName: string = '';
+
+  @projectModule.Getter('projectList') private projectList: any;
+
+  @projectModule.Getter('currentProject') private currentProject: any;
+
+  @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+
+  @projectModule.Mutation('updateCurrentProjectID')
   private updateCurrentProjectID: any;
-  @systemModule.Mutation("toggleFullScreenLoading")
+
+  @systemModule.Mutation('toggleFullScreenLoading')
   private toggleFullScreenLoading: any;
 
   private goToAllProject() {
-    this.$router.push({ path: "/project" });
+    this.$router.push({ path: '/project' });
   }
 
   private alterProject(projectID: number) {
@@ -134,7 +143,7 @@ export default class ProjectBar extends Vue {
 
     // some loading content
     this.updateCurrentProjectID(projectID);
-    this.$router.push({ path: `/project/process` });
+    this.$router.push({ path: '/project/process' });
     setTimeout(() => {
       this.toggleFullScreenLoading(false);
     }, 500);
@@ -143,9 +152,9 @@ export default class ProjectBar extends Vue {
   private async saveToTemplate() {
     await ProjectService.saveToTemplate(
       this.currentProjectID,
-      this.templateName
+      this.templateName,
     );
-    this.templateName = "";
+    this.templateName = '';
     this.saveToTemplateDialog = false;
   }
 

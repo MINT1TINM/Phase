@@ -60,78 +60,83 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import UserService from "@/service/userService";
-import { Authorization, UserInfo, PrivateInfo } from "@/types/user";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import UserService from '@/service/userService';
+import { Authorization, UserInfo, PrivateInfo } from '@/types/user';
 
-const userModule = namespace("user");
+const userModule = namespace('user');
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class Profile extends Vue {
-  @userModule.Getter("userInfo") private userInfo!: any;
-  @userModule.Getter("authorization") private authorization!: Authorization;
+  @userModule.Getter('userInfo') private userInfo!: any;
+
+  @userModule.Getter('authorization') private authorization!: Authorization;
+
   private profileList = [
     {
-      type: "text-field",
-      title: "用户名",
-      name: "username",
-      disabled: true
+      type: 'text-field',
+      title: '用户名',
+      name: 'username',
+      disabled: true,
     },
     {
-      type: "text-field",
-      title: "昵称",
-      name: "nickName"
+      type: 'text-field',
+      title: '昵称',
+      name: 'nickName',
     },
     {
-      type: "text-field",
-      title: "真实姓名",
-      name: "name"
+      type: 'text-field',
+      title: '真实姓名',
+      name: 'name',
     },
     {
-      type: "select",
-      title: "性别",
-      name: "sex",
-      text: "title",
-      value: "value",
+      type: 'select',
+      title: '性别',
+      name: 'sex',
+      text: 'title',
+      value: 'value',
       chips: false,
       list: [
         {
           value: 0,
-          title: "男"
+          title: '男',
         },
         {
           value: 1,
-          title: "女"
-        }
-      ]
+          title: '女',
+        },
+      ],
     },
     {
-      type: "text-field",
-      title: "移动电话",
-      name: "phone"
+      type: 'text-field',
+      title: '移动电话',
+      name: 'phone',
     },
     {
-      type: "text-field",
-      title: "电子邮箱",
-      name: "email"
-    }
+      type: 'text-field',
+      title: '电子邮箱',
+      name: 'email',
+    },
   ];
+
   private privateInfoList = [
     {
-      type: "text-field",
-      title: "身份证",
-      name: "license"
+      type: 'text-field',
+      title: '身份证',
+      name: 'license',
     },
     {
-      type: "text-field",
-      title: "工号",
-      name: "workNum"
-    }
+      type: 'text-field',
+      title: '工号',
+      name: 'workNum',
+    },
   ];
+
   private privateInfo: PrivateInfo = {};
+
   private privateInfoShow: boolean = false;
 
   private togglePrivateInfo() {

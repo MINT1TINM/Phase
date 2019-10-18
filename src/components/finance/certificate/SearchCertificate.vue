@@ -62,13 +62,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import FinanceService from "@/service/financeService";
-import { Certificate } from "@/types/finance";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import FinanceService from '@/service/financeService';
+import { Certificate } from '@/types/finance';
 
 @Component
 export default class CertificateSearch extends Vue {
-  private searchContent: string = "";
+  private searchContent: string = '';
+
   private certificateList: Certificate[] = [];
 
   private async searchCertificate() {
@@ -77,7 +78,7 @@ export default class CertificateSearch extends Vue {
   }
 
   private insertCertificate(uniNo: string, ord: string, i: number) {
-    this.$emit("insertCertificate", { uniNo, ord });
+    this.$emit('insertCertificate', { uniNo, ord });
   }
 }
 </script>

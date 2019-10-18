@@ -26,20 +26,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import contactList from "@/components/contact/ContactList.vue";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import contactList from '@/components/contact/ContactList.vue';
 
-const contactModule = namespace("contact");
+const contactModule = namespace('contact');
 
 @Component({
   components: {
-    "contact-list": contactList
-  }
+    'contact-list': contactList,
+  },
 })
 export default class Contact extends Vue {
-  @contactModule.Getter("currentGroup") private currentGroup!: string;
-  @contactModule.Mutation("updateCurrentGroup") private updateCurrentGroup!: (
+  @contactModule.Getter('currentGroup') private currentGroup!: string;
+
+  @contactModule.Mutation('updateCurrentGroup') private updateCurrentGroup!: (
     v: string
   ) => void;
 

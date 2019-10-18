@@ -50,25 +50,31 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import UserService from "@/service/userService";
-import { namespace } from "vuex-class";
-import { ProjectMemberComplete, Invitation } from "@/types/project";
-import ProjectService from "@/service/projectService";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import UserService from '@/service/userService';
+import { ProjectMemberComplete, Invitation } from '@/types/project';
+import ProjectService from '@/service/projectService';
 
-const projectModule = namespace("project");
-const userModule = namespace("user");
+const projectModule = namespace('project');
+const userModule = namespace('user');
 
 @Component
 export default class ComponentName extends Vue {
-  @projectModule.Getter("currentProjectMemberIDList")
+  @projectModule.Getter('currentProjectMemberIDList')
   private currentProjectMemberIDList: any;
-  @projectModule.Getter("currentProjectID") private currentProjectID: any;
-  @userModule.Getter("authorization") private authorization: any;
+
+  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+
+  @userModule.Getter('authorization') private authorization: any;
 
   private userList: ProjectMemberComplete[] = [];
+
   private searching: boolean = false;
-  private searchUserContent: string = "";
+
+  private searchUserContent: string = '';
 
   private async searchUser() {
     // search user via api
@@ -89,13 +95,13 @@ export default class ComponentName extends Vue {
     const rsp = await ProjectService.submitInvitation(
       this.currentProjectID,
       this.authorization.userID,
-      toUserID
+      toUserID,
     );
   }
 
   private hasSentInvitation() {}
 
-  @Watch("searchUserContent")
+  @Watch('searchUserContent')
   private onSearchUserContentChanged() {
     if (this.searching) {
       return;

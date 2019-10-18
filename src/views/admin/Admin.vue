@@ -20,31 +20,36 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import appBar from "@/components/common/app-bar/AppBar.vue";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import appBar from '@/components/common/app-bar/AppBar.vue';
 
 @Component({
   components: {
-    "app-bar": appBar
-  }
+    'app-bar': appBar,
+  },
 })
 export default class AdminTemplate extends Vue {
   private appList = [
     {
-      name: "主页",
-      icon: "mdi-home-outline",
-      route: "/admin/home"
+      name: '主页',
+      icon: 'mdi-home-outline',
+      route: '/admin/home',
     },
     {
-      name: "用户",
-      icon: "mdi-account-outline",
-      route: "/admin/user"
+      name: '用户',
+      icon: 'mdi-account-outline',
+      route: '/admin/user',
     },
     {
-      name: "群组",
-      icon: "mdi-account-group-outline",
-      route: "/admin/group"
-    }
+      name: '群组',
+      icon: 'mdi-account-group-outline',
+      route: '/admin/group',
+    },
+    {
+      name: '部门',
+      icon: 'mdi-format-line-style',
+      route: '/admin/department',
+    },
   ];
 }
 </script>

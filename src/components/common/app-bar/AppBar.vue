@@ -107,69 +107,77 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { namespace } from "vuex-class";
-import projectBar from "./modules/ProjectBar.vue";
-import financeBar from "./modules/FinanceBar.vue";
-import { Invitation } from "@/types/project";
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { namespace } from 'vuex-class';
+import projectBar from './modules/ProjectBar.vue';
+import financeBar from './modules/FinanceBar.vue';
+import { Invitation } from '@/types/project';
 
-const userModule = namespace("user");
-const systemModule = namespace("system");
+const userModule = namespace('user');
+const systemModule = namespace('system');
 
 @Component({
   components: {
-    "project-bar": projectBar,
-    "finance-bar": financeBar
+    'project-bar': projectBar,
+    'finance-bar': financeBar
   }
 })
 export default class AppBar extends Vue {
   private userMenu = [
     {
-      icon: "mdi-settings-outline",
-      title: "设置"
+      icon: 'mdi-settings-outline',
+      title: '设置'
     },
     {
-      icon: "mdi-logout-variant",
-      title: "注销"
+      icon: 'mdi-logout-variant',
+      title: '注销'
     }
   ];
 
-  @userModule.Getter("userInfo") private userInfo: any;
-  @userModule.Mutation("clearAuthorization") private clearAuthorization: any;
-  @userModule.Mutation("clearUserInfo") private clearUserInfo: any;
+  @userModule.Getter('userInfo') private userInfo: any;
 
-  @systemModule.Mutation("toggleFullScreenLoading")
+  @userModule.Mutation('clearAuthorization') private clearAuthorization: any;
+
+  @userModule.Mutation('clearUserInfo') private clearUserInfo: any;
+
+  @systemModule.Mutation('toggleFullScreenLoading')
   private toggleFullScreenLoading: any;
-  @systemModule.Mutation("toggleAppSwitcher") private toggleAppSwitcher: any;
-  @systemModule.Mutation("toggleNotificationCenter")
-  private toggleNotificationCenter: any;
-  @systemModule.Getter("invitationList") private invitationList!: Invitation[];
-  @systemModule.Getter("systemName") private systemName!: string;
 
-  @systemModule.Mutation("updateLastPage") private updateLastPage: any;
-  @systemModule.Getter("appList") private appList: any;
+  @systemModule.Mutation('toggleAppSwitcher') private toggleAppSwitcher: any;
+
+  @systemModule.Mutation('toggleNotificationCenter')
+  private toggleNotificationCenter: any;
+
+  @systemModule.Getter('invitationList') private invitationList!: Invitation[];
+
+  @systemModule.Getter('systemName') private systemName!: string;
+
+  @systemModule.Mutation('updateLastPage') private updateLastPage: any;
+
+  @systemModule.Getter('appList') private appList: any;
 
   private async userMenuActions(num: number) {
     switch (num) {
       case 0:
         // setting
         this.updateLastPage(this.$route.fullPath);
-        this.$router.push({ path: "/settings/profile" });
+        this.$router.push({ path: '/settings/profile' });
         break;
       case 1:
         // exit
 
-        const res = await this.$confirm("", {
-          title: "确认注销?",
-          buttonTrueColor: "primary",
+        // eslint-disable-next-line no-case-declarations
+        const res = await this.$confirm('', {
+          title: '确认注销?',
+          buttonTrueColor: 'primary',
           dark: this.$vuetify.theme.dark
         });
         if (res) {
           this.clearAuthorization();
           this.clearUserInfo();
 
-          this.$router.push({ path: "/" });
+          this.$router.push({ path: '/' });
         }
 
         // this.$router.push({ path: "/" });
@@ -182,22 +190,24 @@ export default class AppBar extends Vue {
   }
 
   private goHome() {
-    this.$router.push({ path: `/home` });
+    this.$router.push({ path: '/home' });
   }
 
   get nickName() {
     return this.userInfo.nickname.substring(0, 1);
   }
+
   get currentRoute() {
-    return this.$route.fullPath.split("/")[1];
+    return this.$route.fullPath.split('/')[1];
   }
+
   get currentApp() {
-    if (this.currentRoute !== "home") {
-      return this.appList.find((e: any) => {
-        return this.currentRoute === e.route.split("/")[0];
-      });
+    if (this.currentRoute !== 'home') {
+      return this.appList.find(
+        (e: any) => this.currentRoute === e.route.split('/')[0]
+      );
     }
-    return "";
+    return '';
   }
 
   private mounted() {

@@ -38,43 +38,45 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import { Authorization, Login } from "@/types/user";
-import UserService from "@/service/userService";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { Authorization, Login } from '@/types/user';
+import UserService from '@/service/userService';
 
-const userModule = namespace("user");
+const userModule = namespace('user');
 
 @Component
 export default class SecuritySetting extends Vue {
-  @userModule.Getter("authorization") private authorization!: Authorization;
+  @userModule.Getter('authorization') private authorization!: Authorization;
 
   private loginHistory: Login[] = [];
+
   private updatePasswordFormList = [
     {
-      type: "text-field",
-      title: "当前密码",
-      name: "currentPassword",
-      password: true
+      type: 'text-field',
+      title: '当前密码',
+      name: 'currentPassword',
+      password: true,
     },
     {
-      type: "text-field",
-      title: "新密码",
-      name: "newPassword",
-      password: true
+      type: 'text-field',
+      title: '新密码',
+      name: 'newPassword',
+      password: true,
     },
     {
-      type: "text-field",
-      title: "确认密码",
-      name: "confirmPassword",
-      password: true
-    }
+      type: 'text-field',
+      title: '确认密码',
+      name: 'confirmPassword',
+      password: true,
+    },
   ];
+
   private updatePasswordTarget = {};
 
   private async getUserLoginHistory() {
     const rsp = await UserService.getUserLoginHistory(
-      this.authorization.userID
+      this.authorization.userID,
     );
     this.loginHistory = rsp.loginHistory;
   }

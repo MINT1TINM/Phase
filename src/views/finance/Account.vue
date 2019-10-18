@@ -84,39 +84,42 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import FinanceService from "@/service/financeService";
-import { namespace } from "vuex-class";
-import { AuditProject, Certificate } from "@/types/finance";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import FinanceService from '@/service/financeService';
+import { AuditProject, Certificate } from '@/types/finance';
 
-const financeModule = namespace("finance");
+const financeModule = namespace('finance');
 
 @Component
 export default class CertificateAccount extends Vue {
-  @financeModule.Getter("currentProject")
+  @financeModule.Getter('currentProject')
   private currentProject!: AuditProject;
 
   private headers = [
     {
-      text: "日期",
+      text: '日期',
       sortable: false,
-      value: "name"
+      value: 'name',
     },
-    { text: "凭证账号", value: "uniNo", sortable: false },
-    { text: "摘要", value: "sabstract", sortable: false },
-    { text: "借方发生数", value: "jAmount", sortable: false },
-    { text: "贷方发生数", value: "dAmount", sortable: false },
-    { text: "负责人", value: "carsbs", sortable: false },
-    { text: "工号", value: "carbs", sortable: false }
+    { text: '凭证账号', value: 'uniNo', sortable: false },
+    { text: '摘要', value: 'sabstract', sortable: false },
+    { text: '借方发生数', value: 'jAmount', sortable: false },
+    { text: '贷方发生数', value: 'dAmount', sortable: false },
+    { text: '负责人', value: 'carsbs', sortable: false },
+    { text: '工号', value: 'carbs', sortable: false },
   ];
+
   private certificateList: Certificate[] = [];
+
   private detailNav: boolean = false;
+
   private currentCertificate = {};
 
   private async getCertificateList() {
     const rsp = await FinanceService.searchCertificateGroup(
       this.$route.params.projectCode,
-      this.$route.params.staffNo
+      this.$route.params.staffNo,
     );
     this.certificateList = rsp.certificate;
   }

@@ -15,24 +15,25 @@
 
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
 
-import invitation from "./modules/Invitation.vue";
-import { Invitation } from "@/types/project";
-import ProjectService from "@/service/projectService";
+import invitation from './modules/Invitation.vue';
+import { Invitation } from '@/types/project';
+import ProjectService from '@/service/projectService';
 
-const systemModule = namespace("system");
+const systemModule = namespace('system');
 
 @Component({
   components: {
-    invitation
-  }
+    invitation,
+  },
 })
 export default class NotificationCenter extends Vue {
   public $refs!: {
     invitation: HTMLFormElement;
   };
+
   private mounted() {}
 }
 </script>

@@ -71,5 +71,5 @@ export {
   Invitation,
   ProjectTemplate,
   ProcessTemplate,
-  TaskTemplate
+  TaskTemplate,
 };

@@ -15,4 +15,21 @@ interface GroupMember {
   tags: string[];
 }
 
-export { Group, GroupMember };
+interface Department {
+  id: string;
+  departmentID: string;
+  member: {
+    data: [];
+  };
+}
+
+interface DepartmentMember {
+  userID: string;
+  nickName: string;
+  headImgURL: string;
+  tags: string[];
+}
+
+export {
+  Group, GroupMember, Department, DepartmentMember,
+};

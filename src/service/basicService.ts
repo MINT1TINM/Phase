@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
-import router from "@/router/router";
-import store from "@/store/store";
-import Vue from "vue";
+import Vue from 'vue';
+import router from '@/router/router';
+import store from '@/store/store';
 
 const vue = new Vue() as any;
 
@@ -16,11 +16,11 @@ class BasicService {
       console.log(rsp.response.status);
       if (rsp.response.status === 402) {
         // @ts-ignore
-        vue.$snackbar.show("令牌过期，请重新登录");
+        vue.$snackbar.show('令牌过期，请重新登录');
 
-        store.commit("user/clearAuthorization");
-        store.commit("system/toggleFullScreenLoading", false);
-        router.push({ path: "/login" });
+        store.commit('user/clearAuthorization');
+        store.commit('system/toggleFullScreenLoading', false);
+        router.push({ path: '/login' });
       }
     }
     // err => no data
@@ -28,82 +28,81 @@ class BasicService {
   }
 
   public static async getRequest(url: string, params: any) {
-    store.commit("system/toggleLoading", true);
+    store.commit('system/toggleLoading', true);
     try {
-      const rsp = await axios.get("/api" + url, {
-        params
+      const rsp = await axios.get(`/api${url}`, {
+        params,
       });
       const json = rsp.data;
       const msg = { url, params, rsp: json };
       console.log(msg);
 
-      store.commit("system/toggleLoading", false);
-      return await this.getData(rsp);
+      store.commit('system/toggleLoading', false);
+      return this.getData(rsp);
     } catch (err) {
-      store.commit("system/toggleLoading", false);
-      return await this.getData(err);
+      store.commit('system/toggleLoading', false);
+      return this.getData(err);
     }
   }
 
   public static async postRequest(url: string, params: any) {
-    store.commit("system/toggleLoading", true);
+    store.commit('system/toggleLoading', true);
     try {
       const config = {
         onUploadProgress: (progressEvent: any) => {
           const totalLength = progressEvent.lengthComputable
             ? progressEvent.total
-            : progressEvent.target.getResponseHeader("content-length") ||
-              progressEvent.target.getResponseHeader(
-                "x-decompressed-content-length"
-              );
+            : progressEvent.target.getResponseHeader('content-length')
+            || progressEvent.target.getResponseHeader(
+              'x-decompressed-content-length',
+            );
 
-          const complete =
-            ((progressEvent.loaded / totalLength) * 100 || 0) + "%";
-          store.commit("system/updateUploadPercent", progressEvent.loaded);
-        }
+          const complete = `${(progressEvent.loaded / totalLength) * 100 || 0}%`;
+          store.commit('system/updateUploadPercent', progressEvent.loaded);
+        },
       };
-      const rsp = await axios.post("/api" + url, params, config);
+      const rsp = await axios.post(`/api${url}`, params, config);
       const json = rsp.data;
       const msg = { url, params, rsp: json };
       console.log(msg);
-      store.commit("system/toggleLoading", false);
-      return await this.getData(rsp);
+      store.commit('system/toggleLoading', false);
+      return this.getData(rsp);
     } catch (err) {
-      store.commit("system/toggleLoading", false);
-      return await this.getData(err);
+      store.commit('system/toggleLoading', false);
+      return this.getData(err);
     }
   }
 
   public static async putRequest(url: string, params: any) {
-    store.commit("system/toggleLoading", true);
+    store.commit('system/toggleLoading', true);
     try {
-      const rsp = await axios.put("/api" + url, params);
+      const rsp = await axios.put(`/api${url}`, params);
       const json = rsp.data;
       const msg = { url, params, rsp: json };
       console.log(msg);
-      store.commit("system/toggleLoading", false);
+      store.commit('system/toggleLoading', false);
       return this.getData(rsp);
     } catch (err) {
-      store.commit("system/toggleLoading", false);
-      return await this.getData(err);
+      store.commit('system/toggleLoading', false);
+      return this.getData(err);
     }
   }
 
   public static async deleteRequest(url: string, params: any) {
-    store.commit("system/toggleLoading", true);
+    store.commit('system/toggleLoading', true);
     try {
-      const rsp = await axios.delete("/api" + url, {
-        params
+      const rsp = await axios.delete(`/api${url}`, {
+        params,
       });
       const json = rsp.data;
       const msg = { url, params, rsp: json };
-      store.commit("system/toggleLoading", false);
+      store.commit('system/toggleLoading', false);
       console.log(msg);
 
       return this.getData(rsp);
     } catch (err) {
-      store.commit("system/toggleLoading", false);
-      return await this.getData(err);
+      store.commit('system/toggleLoading', false);
+      return this.getData(err);
     }
   }
 }

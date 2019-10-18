@@ -143,20 +143,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import documentInfo from "@/components/project/document/DocumentInfo.vue";
-import catalogInfo from "@/components/project/document/CatalogInfo.vue";
-import FileService from "@/service/fileService";
-import { namespace } from "vuex-class";
+import {
+  Component, Prop, Vue, Watch 
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import documentInfo from '@/components/project/document/DocumentInfo.vue';
+import catalogInfo from '@/components/project/document/CatalogInfo.vue';
+import FileService from '@/service/fileService';
 
-const projectModule = namespace("project");
-const fileModule = namespace("file");
-const systemModule = namespace("system");
+const projectModule = namespace('project');
+const fileModule = namespace('file');
+const systemModule = namespace('system');
 
 @Component({
   components: {
-    "doc-info": documentInfo,
-    "catalog-info": catalogInfo
+    'doc-info': documentInfo,
+    'catalog-info': catalogInfo
   }
 })
 export default class Document extends Vue {
@@ -166,24 +168,39 @@ export default class Document extends Vue {
 
   @Prop(Boolean) private window!: boolean;
 
-  @projectModule.Getter("currentProjectID") private currentProjectID: any;
-  @fileModule.Getter("fileList") private fileList: any;
-  @fileModule.Getter("path") private path!: string[];
-  @fileModule.Getter("pathPrettier") private pathPrettier!: string[];
-  @fileModule.Mutation("updatePath") private updatePath!: any;
-  @fileModule.Mutation("updatePathPrettier") private updatePathPrettier!: any;
-  @fileModule.Mutation("restorePath") private restorePath!: any;
-  @fileModule.Mutation("restorePathPrettier") private restorePathPrettier!: any;
-  @systemModule.Getter("uploadPercent") private uploadPercent!: number;
-  @systemModule.Mutation("updateUploadPercent")
+  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+
+  @fileModule.Getter('fileList') private fileList: any;
+
+  @fileModule.Getter('path') private path!: string[];
+
+  @fileModule.Getter('pathPrettier') private pathPrettier!: string[];
+
+  @fileModule.Mutation('updatePath') private updatePath!: any;
+
+  @fileModule.Mutation('updatePathPrettier') private updatePathPrettier!: any;
+
+  @fileModule.Mutation('restorePath') private restorePath!: any;
+
+  @fileModule.Mutation('restorePathPrettier') private restorePathPrettier!: any;
+
+  @systemModule.Getter('uploadPercent') private uploadPercent!: number;
+
+  @systemModule.Mutation('updateUploadPercent')
   private updateUploadPercent: any;
 
   private currentObject = {};
-  private currentName: string = "";
-  private currentUUID: string = "";
+
+  private currentName: string = '';
+
+  private currentUUID: string = '';
+
   private fileListShow = {};
+
   private createCatalogDialog: boolean = false;
+
   private uploadDialog: boolean = false;
+
   private file: any = null;
 
   private async getFileList() {
@@ -200,11 +217,11 @@ export default class Document extends Vue {
   private openCatalog(item: any, i: any) {
     // open catalog
     if (item.data) {
-      this.updatePath([...this.path, i, "data"]);
+      this.updatePath([...this.path, i, 'data']);
       this.updatePathPrettier([...this.pathPrettier, item.name]);
       this.currentObject = {};
-      this.currentName = "";
-      this.currentUUID = "";
+      this.currentName = '';
+      this.currentUUID = '';
     }
   }
 
@@ -231,7 +248,7 @@ export default class Document extends Vue {
     console.log(this.currentObject);
     (this.currentObject as any).path = this.path;
     (this.currentObject as any).fileID = this.currentUUID;
-    this.$emit("linkFile", this.currentObject);
+    this.$emit('linkFile', this.currentObject);
   }
 
   private goBack() {
@@ -241,23 +258,23 @@ export default class Document extends Vue {
         this.pathPrettier.slice(0, this.pathPrettier.length - 1)
       );
       this.currentObject = {};
-      this.currentName = "";
-      this.currentUUID = "";
+      this.currentName = '';
+      this.currentUUID = '';
     }
   }
 
   private clickBlank(v: any) {
     // check if user has clicked in blank area
-    if (v.target.id !== "file-grid") {
-      console.log("blank");
+    if (v.target.id !== 'file-grid') {
+      console.log('blank');
       this.clearDocumentInfo();
     }
   }
 
   private clearDocumentInfo() {
     this.currentObject = {};
-    this.currentName = "";
-    this.currentUUID = "";
+    this.currentName = '';
+    this.currentUUID = '';
   }
 
   get pathCrumbs() {
@@ -271,12 +288,12 @@ export default class Document extends Vue {
     return pathCrumbs;
   }
 
-  @Watch("path")
+  @Watch('path')
   private async onPathChanged() {
     await this.getFileList();
   }
 
-  @Watch("fileList", {
+  @Watch('fileList', {
     deep: true
   })
   private onFileListChanged() {

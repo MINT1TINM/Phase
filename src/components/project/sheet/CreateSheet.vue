@@ -45,24 +45,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { Template } from "@/types/sheet";
-import SheetService from "@/service/sheetService";
-import { namespace } from "vuex-class";
-import TaskService from "@/service/taskService";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { Template } from '@/types/sheet';
+import SheetService from '@/service/sheetService';
+import TaskService from '@/service/taskService';
 
-const projectModule = namespace("project");
+const projectModule = namespace('project');
 
 @Component
 export default class CreateSheet extends Vue {
-  @Prop({ default: "" }) private taskID?: string;
+  @Prop({ default: '' }) private taskID?: string;
+
   // check draft or sheet
-  @Prop({ default: "" }) private target?: string;
+  @Prop({ default: '' }) private target?: string;
 
-  @projectModule.Getter("currentProjectID") private currentProjectID: any;
+  @projectModule.Getter('currentProjectID') private currentProjectID: any;
 
-  private searchTemplateContent: string = "";
+  private searchTemplateContent: string = '';
+
   private templateList: Template[] = [];
+
   private searching: boolean = false;
 
   private async searchTemplate() {
@@ -70,7 +75,7 @@ export default class CreateSheet extends Vue {
     this.searching = true;
     const rsp = await SheetService.getSheetTemplateList(
       this.searchTemplateContent,
-      ""
+      '',
     );
     this.templateList = rsp.template;
     this.searching = false;
@@ -82,17 +87,17 @@ export default class CreateSheet extends Vue {
       this.currentProjectID,
       templateID,
       type,
-      this.taskID || "",
-      this.target || ""
+      this.taskID || '',
+      this.target || '',
     );
     await SheetService.getSheetList(this.currentProjectID);
-    this.$emit("closeDialog");
-    if ((this.taskID || "").length > 5) {
+    this.$emit('closeDialog');
+    if ((this.taskID || '').length > 5) {
       await TaskService.getTaskInfo(this.taskID!);
     }
   }
 
-  @Watch("searchTemplateContent")
+  @Watch('searchTemplateContent')
   private onSearchUserContentChanged() {
     if (this.searching) {
       return;

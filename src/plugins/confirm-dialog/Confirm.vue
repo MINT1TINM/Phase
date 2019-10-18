@@ -41,55 +41,55 @@ export default {
   props: {
     buttonTrueText: {
       type: String,
-      default: "确认"
+      default: '确认',
     },
     buttonFalseText: {
       type: String,
-      default: "取消"
+      default: '取消',
     },
     buttonTrueColor: {
       type: String,
-      default: "red"
+      default: 'red',
     },
     buttonFalseColor: {
       type: String,
-      default: "grey"
+      default: 'grey',
     },
     message: {
       type: String,
-      required: true
+      required: true,
     },
     persistent: Boolean,
     title: {
-      type: String
+      type: String,
     },
     width: {
       type: Number,
-      default: 350
+      default: 350,
     },
     dark: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   data() {
     return {
-      value: false
+      value: false,
     };
   },
   methods: {
     choose(value) {
-      this.$emit("result", value);
+      this.$emit('result', value);
       this.value = value;
       this.$destroy();
     },
     change(res) {
       this.$destroy();
-    }
+    },
   },
   mounted() {
     // wtf???
     this.$vuetify.breakpoint = {};
-  }
+  },
 };
 </script>
 

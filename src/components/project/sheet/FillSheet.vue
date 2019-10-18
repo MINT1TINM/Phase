@@ -64,30 +64,32 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
-import SheetService from "@/service/sheetService";
-import { Sheet, Field, Template } from "@/types/sheet";
-import { namespace } from "vuex-class";
+import { namespace } from 'vuex-class';
+import SheetService from '@/service/sheetService';
+import { Sheet, Field, Template } from '@/types/sheet';
 
-const projectModule = namespace("project");
+const projectModule = namespace('project');
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class FillSheet extends Vue {
-  @projectModule.Getter("currentProjectID") private currentProjectID: any;
+  @projectModule.Getter('currentProjectID') private currentProjectID: any;
 
   @Prop({ default: {} }) private templateInfo!: Template;
+
   @Prop({ default: {} }) private sheetInfo!: Sheet;
 
   private target = {};
+
   private async saveSheet() {
     const rsp = await SheetService.updateSheet(
       this.sheetInfoShow.id,
       this.sheetInfoShow.name,
       this.sheetInfoShow.target,
-      this.sheetInfoShow.content
+      this.sheetInfoShow.content,
     );
     await SheetService.getSheetList(this.currentProjectID);
     this.closeDialog();
@@ -99,17 +101,17 @@ export default class FillSheet extends Vue {
   }
 
   private closeDialog() {
-    this.$emit("closeDialog");
+    this.$emit('closeDialog');
   }
 
   private get sheetInfoShow() {
     for (let i = 0; i < this.templateInfo.field.data.length; i++) {
       const e = this.templateInfo.field.data[i];
-      if (e.type === "multi-select") {
+      if (e.type === 'multi-select') {
         if (this.sheetInfo.content[e.name] === undefined) {
-          console.log("new");
+          console.log('new');
           this.sheetInfo.content[e.name] = {
-            data: []
+            data: [],
           };
         }
         console.log(this.sheetInfo.content);

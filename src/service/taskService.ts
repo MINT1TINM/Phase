@@ -1,55 +1,55 @@
-import Vue from "vue";
+import Vue from 'vue';
 
-import basicService from "@/service/basicService";
-import store from "@/store/store";
+import basicService from '@/service/basicService';
+import store from '@/store/store';
 import {
   SubTaskContent,
   Task,
   TaskMember,
-  SubTaskCertificate
-} from "@/types/task";
+  SubTaskCertificate,
+} from '@/types/task';
 
 const vue = new Vue();
 
 class TaskService {
   public static async getTaskList(processID: string) {
-    const rsp = await basicService.getRequest("/task/list", {
-      processID
-    });
-    store.commit("process/updateCurrentProcessTask", {
+    const rsp = await basicService.getRequest('/task/list', {
       processID,
-      taskList: await rsp.taskList
+    });
+    store.commit('process/updateCurrentProcessTask', {
+      processID,
+      taskList: await rsp.taskList,
     });
     return rsp;
   }
 
   public static async getMultiProcessTaskList(processIDList: string[]) {
-    const rsp = await basicService.getRequest("/task/list/full", {
-      id: processIDList
+    const rsp = await basicService.getRequest('/task/list/full', {
+      id: processIDList,
     });
-    store.commit("process/updateFullTaskList", rsp.taskList);
+    store.commit('process/updateFullTaskList', rsp.taskList);
     return rsp;
   }
 
   public static async createTask(processID: string, name: string) {
-    const rsp = await basicService.postRequest("/task", {
+    const rsp = await basicService.postRequest('/task', {
       processID,
-      name
+      name,
     });
 
     return rsp;
   }
 
   public static async getTaskInfo(taskID: string) {
-    const rsp = await basicService.getRequest("/task/info", {
-      taskID
+    const rsp = await basicService.getRequest('/task/info', {
+      taskID,
     });
-    store.commit("task/updateCurrentTask", rsp.task);
+    store.commit('task/updateCurrentTask', rsp.task);
     return rsp;
   }
 
   public static async updateTaskInfo(taskInfo: Task) {
-    const rsp = await basicService.putRequest("/task/info", {
+    const rsp = await basicService.putRequest('/task/info', {
       taskID: taskInfo.id,
       name: taskInfo.name,
       description: taskInfo.description,
@@ -59,18 +59,18 @@ class TaskService {
       actionStartDate: taskInfo.actionStartDate,
       actionEndDate: taskInfo.actionEndDate,
       executorID: taskInfo.executorID,
-      color: taskInfo.color
+      color: taskInfo.color,
     });
-    if (rsp.msg === "success") {
+    if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show("更新成功");
+      vue.$snackbar.show('更新成功');
     }
     return rsp;
   }
 
   public static async deleteTask(taskID: string) {
-    const rsp = await basicService.deleteRequest("/task", {
-      taskID
+    const rsp = await basicService.deleteRequest('/task', {
+      taskID,
     });
     return rsp;
   }
@@ -78,55 +78,55 @@ class TaskService {
   public static async toggleTaskStatus(
     ProcessID: string,
     taskID: string,
-    status: boolean
+    status: boolean,
   ) {
-    const rsp = await basicService.putRequest("/task/status", {
+    const rsp = await basicService.putRequest('/task/status', {
       ProcessID,
       taskID,
-      status
+      status,
     });
     return rsp;
   }
 
   public static async updateTaskMember(taskID: string, member: TaskMember[]) {
-    const rsp = await basicService.putRequest("/task/member", {
+    const rsp = await basicService.putRequest('/task/member', {
       taskID,
-      member
+      member,
     });
     return rsp;
   }
 
   public static async insertTaskFile(taskID: string, file: any) {
-    const rsp = await basicService.postRequest("/task/file", {
+    const rsp = await basicService.postRequest('/task/file', {
       taskID,
       file
     });
-    if (rsp.msg === "success") {
+    if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show("链接成功");
+      vue.$snackbar.show('链接成功');
     }
     return rsp;
   }
 
   public static async deleteTaskFile(taskID: string, fileID: string) {
-    const rsp = await basicService.deleteRequest("/task/file", {
+    const rsp = await basicService.deleteRequest('/task/file', {
       taskID,
       fileID
     });
-    if (rsp.msg === "success") {
+    if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show("删除成功");
+      vue.$snackbar.show('删除成功');
     }
     return rsp;
   }
 
   public static async createSubTask(taskID: string) {
-    const rsp = await basicService.postRequest("/task/subtask", {
-      taskID
+    const rsp = await basicService.postRequest('/task/subtask', {
+      taskID,
     });
-    if (rsp.msg === "success") {
+    if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show("创建成功");
+      vue.$snackbar.show('创建成功');
     }
     return rsp;
   }
@@ -137,31 +137,31 @@ class TaskService {
     name: string,
     content: SubTaskContent[],
     file: any[],
-    certificate: SubTaskCertificate[]
+    certificate: SubTaskCertificate[],
   ) {
-    const rsp = await basicService.putRequest("/task/subtask", {
+    const rsp = await basicService.putRequest('/task/subtask', {
       taskID,
       subTaskID,
       name,
       content,
       file,
-      certificate
+      certificate,
     });
-    if (rsp.msg === "success") {
+    if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show("修改成功");
+      vue.$snackbar.show('修改成功');
     }
     return rsp;
   }
 
   public static async deleteSubTask(taskID: string, subTaskID: string) {
-    const rsp = await basicService.deleteRequest("/task/subtask", {
+    const rsp = await basicService.deleteRequest('/task/subtask', {
       taskID,
-      subTaskID
+      subTaskID,
     });
-    if (rsp.msg === "success") {
+    if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show("删除成功");
+      vue.$snackbar.show('删除成功');
     }
     return rsp;
   }

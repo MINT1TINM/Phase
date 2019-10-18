@@ -66,34 +66,43 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { searchNode } from "@/utils/SearchNode";
-import { namespace } from "vuex-class";
-import FileService from "@/service/fileService";
+import {
+  Component, Prop, Vue, Watch 
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { searchNode } from '@/utils/SearchNode';
+import FileService from '@/service/fileService';
 
-const projectModule = namespace("project");
-const fileModule = namespace("file");
+const projectModule = namespace('project');
+const fileModule = namespace('file');
 
 @Component
 export default class CommonSearch extends Vue {
-  @projectModule.Getter("currentProjectID") private currentProjectID: any;
-  @fileModule.Getter("fileList") private fileList: any;
-  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
-  @fileModule.Mutation("updatePath") private updatePath!: any;
-  @fileModule.Mutation("updatePathPrettier") private updatePathPrettier!: any;
+  @projectModule.Getter('currentProjectID') private currentProjectID: any;
 
-  private searchDocumentContent: string = "";
+  @fileModule.Getter('fileList') private fileList: any;
+
+  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+
+  @fileModule.Mutation('updatePath') private updatePath!: any;
+
+  @fileModule.Mutation('updatePathPrettier') private updatePathPrettier!: any;
+
+  private searchDocumentContent: string = '';
+
   private fileListShow = {};
+
   private result: any[] = [];
+
   private currentFileIndex = 0;
 
   private async getFileList() {
-    const rsp = await FileService.getFile(this.currentProjectID, ["data"]);
+    const rsp = await FileService.getFile(this.currentProjectID, ['data']);
     this.fileListShow = rsp.fileList;
   }
 
   private searchDocument() {
-    if (this.searchDocumentContent !== "") {
+    if (this.searchDocumentContent !== '') {
       this.result = searchNode(
         this.fileListShow,
         this.searchDocumentContent.toLowerCase()
@@ -103,30 +112,30 @@ export default class CommonSearch extends Vue {
   }
 
   private toFile() {
-    this.$emit("closeDialog");
-    this.updatePath(["data", ...this.result[this.currentFileIndex].path]);
+    this.$emit('closeDialog');
+    this.updatePath(['data', ...this.result[this.currentFileIndex].path]);
     this.updatePathPrettier([...this.pathPrettier]);
-    this.$router.push({ path: "/project/document" });
+    this.$router.push({ path: '/project/document' });
   }
 
   private get pathPrettier() {
     if (this.fileList[this.currentFileIndex]) {
       return [
-        "根目录",
+        '根目录',
         ...this.fileList[this.currentFileIndex].path.filter(
-          (e: string) => e !== `data`
+          (e: string) => e !== 'data'
         )
       ];
     }
-    return ["根目录"];
+    return ['根目录'];
   }
 
-  @Watch("currentProjectID")
+  @Watch('currentProjectID')
   private onProjectIDChanged() {
     this.getFileList();
   }
 
-  @Watch("searchDocumentContent")
+  @Watch('searchDocumentContent')
   private onSearchContentChanged() {
     this.searchDocument();
   }

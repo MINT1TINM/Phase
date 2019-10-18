@@ -11,38 +11,38 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import TaskService from "@/service/taskService";
-import { namespace } from "vuex-class";
-import ProcessService from "@/service/processService";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import TaskService from '@/service/taskService';
+import ProcessService from '@/service/processService';
 
-const processModule = namespace("process");
-const projectModule = namespace("project");
+const processModule = namespace('process');
+const projectModule = namespace('project');
 
 @Component
 export default class TaskOperations extends Vue {
-  @projectModule.Getter("currentProjectID") private currentProjectID: any;
-  @processModule.Mutation("updateCurrentProcessList")
+  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+
+  @processModule.Mutation('updateCurrentProcessList')
   private updateCurrentProcessList: any;
 
   private async deleteTask() {
-    const res = await this.$confirm("此操作无法复原", {
-      title: "确认删除?",
-      buttonTrueColor: "primary",
-      dark: this.$vuetify.theme.dark
+    const res = await this.$confirm('此操作无法复原', {
+      title: '确认删除?',
+      buttonTrueColor: 'primary',
+      dark: this.$vuetify.theme.dark,
     });
     if (res) {
-      const taskID = this.$route.params.taskID;
+      const { taskID } = this.$route.params;
       await TaskService.deleteTask(taskID);
 
       const rsp = await ProcessService.getProcessList(this.currentProjectID);
       this.updateCurrentProcessList(rsp.process);
 
       this.$router.push({
-        path: `/project/process/${this.$route.params.processID}/task`
+        path: `/project/process/${this.$route.params.processID}/task`,
       });
     }
   }
 }
 </script>
-

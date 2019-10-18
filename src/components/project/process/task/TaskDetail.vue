@@ -35,144 +35,151 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import subTask from "./SubTask.vue";
-import operations from "./Operations.vue";
-import relatedSheet from "./RelatedSheet.vue";
-import relatedFile from "./RelatedFile.vue";
-import TaskService from "@/service/taskService";
-import { Task } from "@/types/task";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import subTask from './SubTask.vue';
+import operations from './Operations.vue';
+import relatedSheet from './RelatedSheet.vue';
+import relatedDraft from './RelatedDraft.vue';
+import TaskService from '@/service/taskService';
+import { Task } from '@/types/task';
 
-import { namespace } from "vuex-class";
-import ProcessService from "@/service/processService";
-import { Authorization } from "@/types/user";
+import ProcessService from '@/service/processService';
+import { Authorization } from '@/types/user';
 
-const processModule = namespace("process");
-const projectModule = namespace("project");
-const taskModule = namespace("task");
-const userModule = namespace("user");
+const processModule = namespace('process');
+const projectModule = namespace('project');
+const taskModule = namespace('task');
+const userModule = namespace('user');
 
 @Component({
   components: {
-    "sub-task": subTask,
+    'sub-task': subTask,
     operations,
-    "related-sheet": relatedSheet,
-    "related-file": relatedFile
+    'related-sheet': relatedSheet,
+    'related-file': relatedFile
   }
 })
 export default class TaskDetail extends Vue {
-  @userModule.Getter("authorization") private authorization!: Authorization;
-  @projectModule.Getter("currentProjectID") private currentProjectID!: string;
-  @projectModule.Getter("projectPermission")
+  @userModule.Getter('authorization') private authorization!: Authorization;
+
+  @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+
+  @projectModule.Getter('projectPermission')
   private projectPermission: any;
 
-  @processModule.Getter("currentProcess") private currentProcess: any;
-  @processModule.Mutation("updateCurrentProcessTask")
+  @processModule.Getter('currentProcess') private currentProcess: any;
+
+  @processModule.Mutation('updateCurrentProcessTask')
   private updateCurrentProcessTask: any;
-  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
-  @taskModule.Getter("currentTask") private currentTask!: Task;
+
+  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+
+  @taskModule.Getter('currentTask') private currentTask!: Task;
 
   private taskMember = [];
+
   private statusList = [
     {
-      text: "已完成",
+      text: '已完成',
       value: true
     },
     {
-      text: "未完成",
+      text: '未完成',
       value: false
     }
   ];
+
   private tagList = [
     {
-      text: "红色",
-      color: "red"
+      text: '红色',
+      color: 'red'
     }
   ];
 
   private taskInfoContent = [
     {
-      type: "text-field",
-      title: "任务名称",
-      name: "name"
+      type: 'text-field',
+      title: '任务名称',
+      name: 'name'
     },
     {
-      type: "date-picker",
-      title: "创建时间",
-      name: "createdAt",
+      type: 'date-picker',
+      title: '创建时间',
+      name: 'createdAt',
       disabled: true
     },
     {
-      type: "select",
-      title: "执行者",
-      name: "userID",
+      type: 'select',
+      title: '执行者',
+      name: 'userID',
       chips: true,
-      text: "nickName",
-      value: "userID",
+      text: 'nickName',
+      value: 'userID',
       list: []
     },
     {
-      type: "multi-select",
-      title: "参与人员",
-      name: "member",
+      type: 'multi-select',
+      title: '参与人员',
+      name: 'member',
       chips: true,
-      text: "nickName",
-      value: "userID",
+      text: 'nickName',
+      value: 'userID',
       list: []
     },
     {
-      type: "select",
-      title: "颜色",
-      name: "color",
-      text: "name",
-      value: "color",
+      type: 'select',
+      title: '颜色',
+      name: 'color',
+      text: 'name',
+      value: 'color',
       list: [
         {
-          name: "红色",
-          color: "#E53935"
+          name: '红色',
+          color: '#E53935'
         },
         {
-          name: "橙色",
-          color: "#FB8C00"
+          name: '橙色',
+          color: '#FB8C00'
         },
         {
-          name: "蓝色",
-          color: "#29B6F6"
+          name: '蓝色',
+          color: '#29B6F6'
         },
         {
-          name: "绿色",
-          color: "#43A047"
+          name: '绿色',
+          color: '#43A047'
         },
         {
-          name: "紫色",
-          color: "#a64ed1"
+          name: '紫色',
+          color: '#a64ed1'
         }
       ]
     },
     {
-      type: "tags",
-      title: "标签",
-      name: "tags"
+      type: 'tags',
+      title: '标签',
+      name: 'tags'
     },
     {
       divider: true
     },
     {
-      type: "date-range",
-      title: "计划",
-      nameStart: "startDate",
-      nameEnd: "endDate"
+      type: 'date-range',
+      title: '计划',
+      nameStart: 'startDate',
+      nameEnd: 'endDate'
     },
     {
-      type: "date-range",
-      title: "执行",
-      nameStart: "actionStartDate",
-      nameEnd: "actionEndDate"
+      type: 'date-range',
+      title: '执行',
+      nameStart: 'actionStartDate',
+      nameEnd: 'actionEndDate'
     },
     {
-      type: "text-area",
-      title: "审计方案",
-      name: "description"
+      type: 'text-area',
+      title: '审计方案',
+      name: 'description'
     }
   ];
 
@@ -186,8 +193,8 @@ export default class TaskDetail extends Vue {
       (this.taskMember as any).push(this.projectMemberCache(item));
     }
 
-    this.taskInfoContent[2].list = this.taskInfoContent[3].list = this
-      .taskMember as any;
+    this.taskInfoContent[2].list = this.taskMember as any;
+    this.taskInfoContent[3].list = this.taskMember as any;
   }
 
   private async updateTaskInfo() {

@@ -22,14 +22,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class DocIcon extends Vue {
   @Prop({ default: {} }) private item!: any;
 
   private mounted() {
-    console.log(this.item.type.indexOf(``));
+    console.log(this.item.type.indexOf(''));
   }
 }
 </script>

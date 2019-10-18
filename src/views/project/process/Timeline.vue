@@ -15,24 +15,27 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import dimTimeline from "@/plugins/dim-timeline/Main.vue";
-import { namespace } from "vuex-class";
-import { Process, ProcessTask } from "@/types/process";
-import TaskService from "@/service/taskService";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import dimTimeline from '@/plugins/dim-timeline/Main.vue';
+import { Process, ProcessTask } from '@/types/process';
+import TaskService from '@/service/taskService';
 
-const processModule = namespace("process");
+const processModule = namespace('process');
 
 @Component({
   components: {
-    "dim-timeline": dimTimeline
-  }
+    'dim-timeline': dimTimeline,
+  },
 })
 export default class Timeline extends Vue {
-  @processModule.Mutation("updateCurrentProcessTask")
+  @processModule.Mutation('updateCurrentProcessTask')
   private updateCurrentProcessTask: any;
 
   private taskList = [];
+
   private taskListShow = [];
 
   private async getTaskListManually() {
@@ -41,7 +44,7 @@ export default class Timeline extends Vue {
 
     this.updateCurrentProcessTask({
       processID: this.$route.params.processID,
-      taskList: rsp.taskList
+      taskList: rsp.taskList,
     });
   }
 

@@ -1,5 +1,5 @@
-import { Project, ProjectMember } from "@/types/project";
-import { Task } from "@/types/task";
+import { Project, ProjectMember } from '@/types/project';
+import { Task } from '@/types/task';
 
 interface State {
   currentProjectID: string;
@@ -8,58 +8,38 @@ interface State {
 }
 
 const state: State = {
-  currentProjectID: "",
+  currentProjectID: '',
   projectList: [],
-  viewMode: "grid"
+  viewMode: 'grid',
 };
 
 const getters = {
-  currentProjectID: (s: State) => {
-    return s.currentProjectID;
-  },
-  currentProject: (s: State) => {
-    return s.projectList.find((e: Project) => {
-      return e.id === s.currentProjectID;
-    });
-  },
+  currentProjectID: (s: State) => s.currentProjectID,
+  currentProject: (s: State) => s.projectList.find((e: Project) => e.id === s.currentProjectID),
   currentProjectMemberIDList: (s: State) => {
-    if (s.currentProjectID === "") {
+    if (s.currentProjectID === '') {
       return [];
     }
     const memberIDList = [];
-    const memberList = s.projectList.find((e: Project) => {
-      return e.id === s.currentProjectID;
-    })!.member;
+    const memberList = s.projectList.find((e: Project) => e.id === s.currentProjectID)!.member;
     for (const item of memberList!.data || { data: [] }) {
       memberIDList.push(item.userID);
     }
     return memberIDList;
   },
-  projectList: (s: State) => {
-    return s.projectList;
-  },
+  projectList: (s: State) => s.projectList,
   projectMemberCache: (s: State) => (userID: string) => {
-    const memberList = s.projectList.find((e: Project) => {
-      return e.id === s.currentProjectID;
-    })!.member!.data;
+    const memberList = s.projectList.find((e: Project) => e.id === s.currentProjectID)!.member!.data;
 
-    const member = memberList.find((e: ProjectMember) => {
-      return e.userID === userID || e.id === userID;
-    });
+    const member = memberList.find((e: ProjectMember) => e.userID === userID || e.id === userID);
 
     return member;
   },
   projectPermission: (s: State) => (userID: string) => {
-    const currentProject = s.projectList.find((e: Project) => {
-      return e.id === s.currentProjectID;
-    });
-    return currentProject!.member!.data.find((e: ProjectMember) => {
-      return e.userID === userID;
-    })!.role;
+    const currentProject = s.projectList.find((e: Project) => e.id === s.currentProjectID);
+    return currentProject!.member!.data.find((e: ProjectMember) => e.userID === userID)!.role;
   },
-  viewMode: (s: State) => {
-    return s.viewMode;
-  }
+  viewMode: (s: State) => s.viewMode,
 };
 
 const mutations = {
@@ -67,13 +47,11 @@ const mutations = {
     s.currentProjectID = currentProjectID;
   },
   clearCurrentProjectID: (s: State) => {
-    s.currentProjectID = "";
+    s.currentProjectID = '';
   },
   updateCurrentProject: (s: State, projectInfo: Project) => {
     // find and update current project
-    const index = s.projectList.findIndex((e: Project) => {
-      return e.id === projectInfo.id;
-    });
+    const index = s.projectList.findIndex((e: Project) => e.id === projectInfo.id);
     s.projectList[index] = projectInfo;
   },
   updateProjectList: (s: State, projectList: Project[]) => {
@@ -81,7 +59,7 @@ const mutations = {
   },
   updateViewMode: (s: State, viewMode: string) => {
     s.viewMode = viewMode;
-  }
+  },
 };
 
 const actions = {};
@@ -91,5 +69,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

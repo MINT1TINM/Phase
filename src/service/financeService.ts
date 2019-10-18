@@ -1,5 +1,5 @@
-import basicService from "@/service/basicService";
-import store from "@/store/store";
+import basicService from '@/service/basicService';
+import store from '@/store/store';
 
 class FinanceService {
   public static async searchFinanceProject(
@@ -7,17 +7,17 @@ class FinanceService {
     value: string,
     pageSize?: number,
     pageNumber?: number,
-    prefix?: boolean
+    prefix?: boolean,
   ) {
-    const rsp = await basicService.getRequest("/finance/project", {
+    const rsp = await basicService.getRequest('/finance/project', {
       key,
       value,
       pageSize,
       pageNumber,
-      prefix
+      prefix,
     });
     if (!prefix) {
-      store.commit("finance/updateSearchProjectResult", rsp.project);
+      store.commit('finance/updateSearchProjectResult', rsp.project);
     }
     return rsp;
   }
@@ -26,20 +26,20 @@ class FinanceService {
     projectCode: string,
     staffNo: string,
     startDate?: number,
-    endDate?: number
+    endDate?: number,
   ) {
-    const rsp = await basicService.getRequest("/finance/certificate/group", {
+    const rsp = await basicService.getRequest('/finance/certificate/group', {
       projectCode,
       staffNo,
       startDate,
-      endDate
+      endDate,
     });
     return rsp;
   }
 
   public static async searchCertificate(certificateNo: string) {
-    const rsp = await basicService.getRequest("/finance/certificate", {
-      certificateNo: certificateNo.replace(/ /g, "")
+    const rsp = await basicService.getRequest('/finance/certificate', {
+      certificateNo: certificateNo.replace(/ /g, ''),
     });
     return rsp;
   }
@@ -47,23 +47,23 @@ class FinanceService {
   public static async searchSubject(
     projectCode: string[],
     startDate: string,
-    endDate: string
+    endDate: string,
   ) {
-    const rsp = await basicService.getRequest("/finance/subject", {
+    const rsp = await basicService.getRequest('/finance/subject', {
       code: projectCode,
       startDate,
-      endDate
+      endDate,
     });
     return rsp;
   }
 
   public static async searchSubjectDetail(
     projectCode: string,
-    subjectCode: string
+    subjectCode: string,
   ) {
-    const rsp = await basicService.getRequest("/finance/subject/detail", {
+    const rsp = await basicService.getRequest('/finance/subject/detail', {
       projectCode,
-      subjectCode
+      subjectCode,
     });
     return rsp;
   }

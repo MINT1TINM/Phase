@@ -61,38 +61,39 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, PropSync, Watch } from "vue-property-decorator";
-import FinanceService from "@/service/financeService";
-import { Certificate } from "@/types/finance";
+import {
+  Component, Prop, Vue, PropSync, Watch,
+} from 'vue-property-decorator';
+import FinanceService from '@/service/financeService';
+import { Certificate } from '@/types/finance';
 
 @Component
 export default class CertificatePreview extends Vue {
   @Prop(String) public uniNo!: string;
+
   @Prop(String) public ord!: string;
 
   private certificate: Certificate = {
-    uniPrjName: "",
-    uniPrjOrder: "",
-    uniNo: "",
-    ord: "",
+    uniPrjName: '',
+    uniPrjOrder: '',
+    uniNo: '',
+    ord: '',
     dAmount: 0,
     jAmount: 0,
-    chargeSno: "",
-    sDay: "",
-    sMonth: "",
-    sYear: "",
-    date: "",
-    sabstract: "",
-    subj: "",
-    subjName: ""
+    chargeSno: '',
+    sDay: '',
+    sMonth: '',
+    sYear: '',
+    date: '',
+    sabstract: '',
+    subj: '',
+    subjName: '',
   };
 
-  @Watch("uniNo")
+  @Watch('uniNo')
   private async onUniNoChanged() {
     const rsp = await FinanceService.searchCertificate(this.uniNo);
-    this.certificate = rsp.certificate.find((e: Certificate) => {
-      return e.ord === this.ord;
-    });
+    this.certificate = rsp.certificate.find((e: Certificate) => e.ord === this.ord);
   }
 }
 </script>

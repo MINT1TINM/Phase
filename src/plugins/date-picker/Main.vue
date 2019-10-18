@@ -32,26 +32,34 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
 
 @Component
 export default class DatePicker extends Vue {
   @Prop({ default: () => new Date() }) private date!: Date;
-  @Prop({ default: () => "" }) private label!: string;
+
+  @Prop({ default: () => '' }) private label!: string;
+
   @Prop({ default: false }) private dense!: boolean;
+
   @Prop({ default: false }) private disabled!: boolean;
+
   @Prop(String) private max!: string;
+
   @Prop(String) private min!: string;
 
-  private dateShow: string = "";
+  private dateShow: string = '';
+
   private menu: boolean = false;
 
-  @Watch("dateShow")
+  @Watch('dateShow')
   private onDateShowChanged() {
-    this.$emit("update:date", this.dateShow);
+    this.$emit('update:date', this.dateShow);
   }
 
-  @Watch("date")
+  @Watch('date')
   private onDateChanged() {
     this.dateShow = new Date(this.date).toISOString().slice(0, 10);
   }

@@ -29,7 +29,7 @@
                 v-for="(item,i) in processListShow"
                 :key="`process-${i}`"
               >
-                <div :class="i==0?'ml-5 my-2':`mx-2 my-2`" style="width:300px">
+                <div :class="i==0?'ml-5 my-2 mr-2':`mx-2 my-2`" style="width:300px">
                   <process-column :processID="item.id" :processName="item.name"></process-column>
                 </div>
               </v-slide-item>
@@ -61,41 +61,51 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import processColumn from "@/components/project/process/ProcessColumn.vue";
-import { namespace } from "vuex-class";
-import ProcessService from "@/service/processService";
-import { Process } from "@/types/process";
-import { Authorization } from "@/types/user";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import processColumn from '@/components/project/process/ProcessColumn.vue';
+import ProcessService from '@/service/processService';
+import { Process } from '@/types/process';
+import { Authorization } from '@/types/user';
 
-const projectModule = namespace("project");
-const processModule = namespace("process");
-const userModule = namespace("user");
+const projectModule = namespace('project');
+const processModule = namespace('process');
+const userModule = namespace('user');
 
 @Component({
   components: {
-    "process-column": processColumn
-  }
+    'process-column': processColumn,
+  },
 })
 export default class ProcessList extends Vue {
-  @userModule.Getter("authorization") private authorization!: Authorization;
-  @projectModule.Getter("currentProjectID") private currentProjectID!: string;
-  @processModule.Mutation("updateCurrentProcessList")
+  @userModule.Getter('authorization') private authorization!: Authorization;
+
+  @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+
+  @processModule.Mutation('updateCurrentProcessList')
   private updateCurrentProcessList: any;
-  @projectModule.Getter("projectPermission")
+
+  @projectModule.Getter('projectPermission')
   private projectPermission: any;
 
   private processList: Process[] = [];
+
   private processListShow: Process[] = [];
+
   private createProcessDialog: boolean = false;
-  private processName: string = "";
-  private searchProcessContent: string = "";
+
+  private processName: string = '';
+
+  private searchProcessContent: string = '';
 
   private async createProcess() {
     await ProcessService.createProcess(this.processName, this.currentProjectID);
     this.createProcessDialog = false;
     this.getProcessList();
   }
+
   private async getProcessList() {
     const rsp = await ProcessService.getProcessList(this.currentProjectID);
     this.processList = rsp.process;
@@ -103,11 +113,11 @@ export default class ProcessList extends Vue {
     this.updateCurrentProcessList(rsp.process);
   }
 
-  @Watch("searchProcessContent")
+  @Watch('searchProcessContent')
   private onSearchProcessContentChanged() {
     this.processListShow = [];
-    const processList = this.processList;
-    const searchProcessContent = this.searchProcessContent;
+    const { processList } = this;
+    const { searchProcessContent } = this;
     for (let i = processList.length - 1; i >= 0; i--) {
       const e = processList[i];
       let flag = false;
@@ -136,7 +146,7 @@ export default class ProcessList extends Vue {
     }
   }
 
-  @Watch("currentProjectID")
+  @Watch('currentProjectID')
   private onCurrentProjectIDChanged() {
     this.getProcessList();
   }

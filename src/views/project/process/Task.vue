@@ -14,16 +14,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import taskList from "@/components/project/process/task/TaskList.vue";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import taskList from '@/components/project/process/task/TaskList.vue';
 
 @Component({
   components: {
-    "task-list": taskList
-  }
+    'task-list': taskList,
+  },
 })
 export default class Task extends Vue {
-  public activeTask: string = "";
+  public activeTask: string = '';
 
   private get processID() {
     return this.$route.params.processID;

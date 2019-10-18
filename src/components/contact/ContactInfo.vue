@@ -60,52 +60,56 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import UserService from "@/service/userService";
-import { UserInfo } from "@/types/user";
-import { namespace } from "vuex-class";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import UserService from '@/service/userService';
+import { UserInfo } from '@/types/user';
 
-const userModule = namespace("user");
-const systemModule = namespace("system");
+const userModule = namespace('user');
+const systemModule = namespace('system');
 
 @Component
 export default class ContactInfo extends Vue {
   @Prop(String) public userID!: string;
 
-  @userModule.Getter("privilege") private privilege!: string[];
-  @systemModule.Getter("permissionList") private permissionList: any;
+  @userModule.Getter('privilege') private privilege!: string[];
+
+  @systemModule.Getter('permissionList') private permissionList: any;
 
   private userInfo: UserInfo = {
-    city: "",
-    country: "",
-    headImgURL: "",
-    nickName: "",
-    openid: "",
+    city: '',
+    country: '',
+    headImgURL: '',
+    nickName: '',
+    openid: '',
     privilege: [],
     project: {
-      data: []
+      data: [],
     },
-    province: "",
-    sex: "",
-    unionid: ""
+    province: '',
+    sex: '',
+    unionid: '',
   };
+
   private tab = null;
 
-  @Watch("userID")
+  @Watch('userID')
   private async onUserIDChanged() {
     this.userInfo = {
-      city: "",
-      country: "",
-      headImgURL: "",
-      nickName: "",
-      openid: "",
+      city: '',
+      country: '',
+      headImgURL: '',
+      nickName: '',
+      openid: '',
       privilege: [],
       project: {
-        data: []
+        data: [],
       },
-      province: "",
-      sex: "",
-      unionid: ""
+      province: '',
+      sex: '',
+      unionid: '',
     };
     if (this.userID) {
       const rsp = await UserService.getOtherUserInfo(this.userID);
@@ -115,18 +119,18 @@ export default class ContactInfo extends Vue {
 
   private async mounted() {
     this.userInfo = {
-      city: "",
-      country: "",
-      headImgURL: "",
-      nickName: "",
-      openid: "",
+      city: '',
+      country: '',
+      headImgURL: '',
+      nickName: '',
+      openid: '',
       privilege: [],
       project: {
-        data: []
+        data: [],
       },
-      province: "",
-      sex: "",
-      unionid: ""
+      province: '',
+      sex: '',
+      unionid: '',
     };
     if (this.userID) {
       const rsp = await UserService.getOtherUserInfo(this.userID);

@@ -1,5 +1,5 @@
-import { Invitation } from "@/types/project";
-import { App } from "@/types/system";
+import { Invitation } from '@/types/project';
+import { App } from '@/types/system';
 
 interface State {
   companyName: string;
@@ -19,35 +19,35 @@ const state: State = {
   companyName: "DEMO",
   systemName: "DIMStep",
   uploadPercent: 0,
-  lastPage: "",
+  lastPage: '',
   loading: false,
   appSwitcher: false,
   notificationCenter: false,
   fullScreenLoading: false,
   appList: [
     {
-      name: "项目",
-      nameEn: "project",
-      route: "project",
-      icon: "icon/icon_project.svg",
-      themeColor: "#42A5F5",
-      themeColorDark: "#6bb5f2"
+      name: '项目',
+      nameEn: 'project',
+      route: 'project',
+      icon: 'icon/icon_project.svg',
+      themeColor: '#42A5F5',
+      themeColorDark: '#6bb5f2',
     },
     {
-      name: "人脉",
-      nameEn: "contact",
-      route: "contact",
-      icon: "icon/icon_contact.svg",
-      themeColor: "#7E57C2",
-      themeColorDark: "#9b7ecc"
+      name: '人脉',
+      nameEn: 'contact',
+      route: 'contact',
+      icon: 'icon/icon_contact.svg',
+      themeColor: '#7E57C2',
+      themeColorDark: '#9b7ecc',
     },
     {
-      name: "表单",
-      nameEn: "sheet",
-      route: "sheet",
-      icon: "icon/icon_sheet.svg",
-      themeColor: "#26A69A",
-      themeColorDark: "#26A69A"
+      name: '表单',
+      nameEn: 'sheet',
+      route: 'sheet',
+      icon: 'icon/icon_sheet.svg',
+      themeColor: '#26A69A',
+      themeColorDark: '#26A69A',
     },
     // {
     //   name: "活动",
@@ -66,64 +66,40 @@ const state: State = {
     //   themeColorDark: "#6099fc"
     // },
     {
-      name: "管理",
-      nameEn: "admin",
-      route: "admin/home",
-      icon: "icon/icon_admin.svg",
-      themeColor: "#333333",
-      themeColorDark: "#d4d4d4",
-      privilege: ["god"]
-    }
+      name: '管理',
+      nameEn: 'admin',
+      route: 'admin/home',
+      icon: 'icon/icon_admin.svg',
+      themeColor: '#333333',
+      themeColorDark: '#d4d4d4',
+      privilege: ['god'],
+    },
   ],
   invitationList: [],
   permissionList: [
     {
-      text: "管理",
-      value: "god"
-    }
-  ]
+      text: '管理',
+      value: 'god',
+    },
+  ],
 };
 
 const getters = {
-  companyName: (s: State) => {
-    return s.companyName;
-  },
-  systemName: (s: State) => {
-    return s.systemName;
-  },
-  lastPage: (s: State) => {
-    return s.lastPage;
-  },
-  loading: (s: State) => {
-    return s.loading;
-  },
-  appSwitcher: (s: State) => {
-    return s.appSwitcher;
-  },
-  notificationCenter: (s: State) => {
-    return s.notificationCenter;
-  },
-  fullScreenLoading: (s: State) => {
-    return s.fullScreenLoading;
-  },
-  appList: (s: State) => {
-    return s.appList;
-  },
+  companyName: (s: State) => s.companyName,
+  systemName: (s: State) => s.systemName,
+  lastPage: (s: State) => s.lastPage,
+  loading: (s: State) => s.loading,
+  appSwitcher: (s: State) => s.appSwitcher,
+  notificationCenter: (s: State) => s.notificationCenter,
+  fullScreenLoading: (s: State) => s.fullScreenLoading,
+  appList: (s: State) => s.appList,
   currentApp: (s: State) => (name: string) => {
     console.log(name);
-    return s.appList.find((e: App) => {
-      return e.nameEn === name;
-    });
+    return s.appList.find((e: App) => e.nameEn === name);
   },
-  uploadPercent: (s: State) => {
-    return s.uploadPercent;
-  },
-  invitationList: (s: State) => {
-    return s.invitationList;
-  },
-  permissionList: (s: State) => {
-    return s.permissionList;
-  }
+  uploadPercent: (s: State) => s.uploadPercent,
+  invitationList: (s: State) => s.invitationList,
+  permissionList: (s: State) => s.permissionList,
 };
 
 const mutations = {
@@ -147,7 +123,7 @@ const mutations = {
   },
   updateInvitationList: (s: State, invitationList: Invitation[]) => {
     s.invitationList = invitationList;
-  }
+  },
 };
 
 const actions = {};
@@ -157,5 +133,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

@@ -7,19 +7,19 @@
 
 <script>
 export default {
-  name: "SnackBar",
+  name: 'SnackBar',
   data: () => ({
     snackbar: false,
-    message: "",
-    color: ""
+    message: '',
+    color: '',
   }),
   methods: {
     show(message, color) {
       this.message = message;
       this.color = color;
       this.snackbar = true;
-    }
-  }
+    },
+  },
 };
 </script>
 
