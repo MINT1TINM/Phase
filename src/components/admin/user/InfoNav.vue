@@ -155,39 +155,45 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import UserService from "@/service/userService";
-import { UserInfo, Login } from "@/types/user";
-import { namespace } from "vuex-class";
-import { App } from "@/types/system";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import UserService from '@/service/userService';
+import { UserInfo, Login } from '@/types/user';
+import { App } from '@/types/system';
 
-const userModule = namespace("user");
-const systemModule = namespace("system");
+const userModule = namespace('user');
+const systemModule = namespace('system');
 
 @Component
 export default class AdminUserInfoNav extends Vue {
   @Prop(String) public userID!: string;
 
-  @userModule.Getter("privilege") private privilege!: string[];
-  @systemModule.Getter("permissionList") private permissionList: any;
-  @systemModule.Getter("appList") private applicationList!: App[];
+  @userModule.Getter('privilege') private privilege!: string[];
+
+  @systemModule.Getter('permissionList') private permissionList: any;
+
+  @systemModule.Getter('appList') private applicationList!: App[];
 
   private userInfo: UserInfo = {
-    city: "",
-    country: "",
-    headImgURL: "",
-    nickName: "",
-    openid: "",
+    city: '',
+    country: '',
+    headImgURL: '',
+    nickName: '',
+    openid: '',
     privilege: [],
     applicationList: [],
     project: {
-      data: []
+      data: [],
     },
-    province: "",
-    sex: "",
-    unionid: ""
+    province: '',
+    sex: '',
+    unionid: '',
   };
+
   private tab = null;
+
   private loginHistory: Login[] = [];
 
   private async updateUserPrivilege(privilege: string[]) {
@@ -199,7 +205,7 @@ export default class AdminUserInfoNav extends Vue {
     console.log(this.userInfo.applicationList);
     await UserService.updateUserAppList(
       this.userID,
-      this.userInfo.applicationList || []
+      this.userInfo.applicationList || [],
     );
   }
 
@@ -209,14 +215,14 @@ export default class AdminUserInfoNav extends Vue {
   }
 
   private async deleteUser() {
-    const res = await this.$confirm("此操作无法还原", {
-      title: "确认释放?",
-      buttonTrueColor: "primary",
-      dark: this.$vuetify.theme.dark
+    const res = await this.$confirm('此操作无法还原', {
+      title: '确认释放?',
+      buttonTrueColor: 'primary',
+      dark: this.$vuetify.theme.dark,
     });
     if (res) {
-      await UserService.deleteUser(this.userInfo.id || "");
-      this.$emit("closeNav");
+      await UserService.deleteUser(this.userInfo.id || '');
+      this.$emit('closeNav');
     }
   }
 
@@ -224,22 +230,22 @@ export default class AdminUserInfoNav extends Vue {
     return this.applicationList.slice(0, this.applicationList.length - 1);
   }
 
-  @Watch("userID")
+  @Watch('userID')
   private async onUserIDChanged() {
     this.userInfo = {
-      city: "",
-      country: "",
-      headImgURL: "",
-      nickName: "",
-      openid: "",
+      city: '',
+      country: '',
+      headImgURL: '',
+      nickName: '',
+      openid: '',
       privilege: [],
       project: {
-        data: []
+        data: [],
       },
       applicationList: [],
-      province: "",
-      sex: "",
-      unionid: ""
+      province: '',
+      sex: '',
+      unionid: '',
     };
     if (this.userID) {
       const rsp = await UserService.getOtherUserInfo(this.userID);
@@ -251,19 +257,19 @@ export default class AdminUserInfoNav extends Vue {
 
   private async mounted() {
     this.userInfo = {
-      city: "",
-      country: "",
-      headImgURL: "",
-      nickName: "",
-      openid: "",
+      city: '',
+      country: '',
+      headImgURL: '',
+      nickName: '',
+      openid: '',
       privilege: [],
       project: {
-        data: []
+        data: [],
       },
       applicationList: [],
-      province: "",
-      sex: "",
-      unionid: ""
+      province: '',
+      sex: '',
+      unionid: '',
     };
     if (this.userID) {
       const rsp = await UserService.getOtherUserInfo(this.userID);

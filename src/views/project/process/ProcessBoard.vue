@@ -16,20 +16,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import taskList from "@/components/project/process/task/TaskList.vue";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import taskList from '@/components/project/process/task/TaskList.vue';
 
 @Component({
   components: {
-    "task-list": taskList
-  }
+    'task-list': taskList,
+  },
 })
 export default class ProcessBoard extends Vue {
   private tab: number = 0;
+
   private close() {
-    this.$router.push({ path: "/project/process" });
+    this.$router.push({ path: '/project/process' });
   }
 }
 </script>
-
-

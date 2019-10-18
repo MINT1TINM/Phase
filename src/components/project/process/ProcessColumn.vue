@@ -14,21 +14,22 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import taskList from "./task/TaskList.vue";
-import { Prop, Watch } from "vue-property-decorator";
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop, Watch } from 'vue-property-decorator';
+import taskList from './task/TaskList.vue';
 
 @Component({
   components: {
-    "task-list": taskList
-  }
+    'task-list': taskList,
+  },
 })
 export default class ProjectColumn extends Vue {
   @Prop({ default: 0 }) public processID!: number;
-  @Prop({ default: "" }) public processName!: string;
 
-  @Watch("processID")
+  @Prop({ default: '' }) public processName!: string;
+
+  @Watch('processID')
   private onProcessIDChanged() {
     console.log(this.processID);
   }

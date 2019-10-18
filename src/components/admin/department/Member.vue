@@ -76,20 +76,26 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import AdminService from "@/service/adminService";
-import { DepartmentMember } from "@/types/company";
-import UserService from "@/service/userService";
-import { UserInfo } from "@/types/user";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import AdminService from '@/service/adminService';
+import { DepartmentMember } from '@/types/company';
+import UserService from '@/service/userService';
+import { UserInfo } from '@/types/user';
 
 @Component
 export default class DepartmentMemberManage extends Vue {
   private departmentMemberList: DepartmentMember[] = [];
+
   private insertMemberDialog: boolean = false;
 
   private loading = false;
+
   private userList = [];
-  private search: string = "";
+
+  private search: string = '';
+
   private select = null;
 
   private async getDepartment() {
@@ -111,11 +117,9 @@ export default class DepartmentMemberManage extends Vue {
     this.loading = true;
     // Simulated ajax query
     const rsp = await UserService.searchUser(v);
-    this.userList = rsp.user.filter((e: UserInfo) => {
-      return (
-        (e.nickName || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1
-      );
-    });
+    this.userList = rsp.user.filter((e: UserInfo) => (
+      (e.nickName || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+    ));
     console.log(this.userList);
     this.loading = false;
   }
@@ -134,20 +138,18 @@ export default class DepartmentMemberManage extends Vue {
 
   private get userListShow() {
     console.log(this.userList);
-    return this.userList.filter((e: DepartmentMember) => {
-      return this.selectedNickNameList.indexOf(e.nickName.toLowerCase()) === -1;
-    });
+    return this.userList.filter((e: DepartmentMember) => this.selectedNickNameList.indexOf(e.nickName.toLowerCase()) === -1);
   }
 
-  @Watch("currentDepartmentID")
+  @Watch('currentDepartmentID')
   private async onChanged() {
-    if (this.currentDepartmentID !== "root") {
+    if (this.currentDepartmentID !== 'root') {
       this.getDepartment();
       console.log(this.departmentMemberList);
     }
   }
 
-  @Watch("search")
+  @Watch('search')
   private async onSearchContentChanged(val: string) {
     val && val !== this.select && this.querySelections(val);
   }

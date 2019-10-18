@@ -44,27 +44,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import AuthService from "@/service/authService";
-import UserService from "@/service/userService";
-import { Authorization } from "@/types/user";
-import ProjectService from "@/service/projectService";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import AuthService from '@/service/authService';
+import UserService from '@/service/userService';
+import { Authorization } from '@/types/user';
+import ProjectService from '@/service/projectService';
 
-const systemModule = namespace("system");
-const userModule = namespace("user");
+const systemModule = namespace('system');
+const userModule = namespace('user');
 
 @Component
 export default class Login extends Vue {
   private loginForm = {
-    username: "",
-    password: ""
+    username: '',
+    password: ''
   };
 
-  @systemModule.Mutation("toggleFullScreenLoading")
+  @systemModule.Mutation('toggleFullScreenLoading')
   private toggleFullScreenLoading!: (v: boolean) => void;
-  @userModule.Getter("authorization") private authorization!: Authorization;
-  @userModule.Mutation("clearAuthorization") private clearAuthorization: any;
+
+  @userModule.Getter('authorization') private authorization!: Authorization;
+
+  @userModule.Mutation('clearAuthorization') private clearAuthorization: any;
 
   // login through username & password
   private async standardLogin() {
@@ -79,20 +81,20 @@ export default class Login extends Vue {
       );
 
       switch (rsp.msg) {
-        case "success":
+        case 'success':
           await UserService.getUserInfo(await rsp.authorization.userID);
           await ProjectService.getInvitationList(
-            "",
-            "",
+            '',
+            '',
             this.authorization.userID
           );
 
           this.toggleFullScreenLoading(false);
-          this.$router.push({ path: "/home" });
+          this.$router.push({ path: '/home' });
           break;
-        case "wrongpasswd":
+        case 'wrongpasswd':
           this.toggleFullScreenLoading(false);
-
+          break;
         default:
           this.toggleFullScreenLoading(false);
           break;
@@ -102,11 +104,11 @@ export default class Login extends Vue {
 
   // login with wechat
   private async wechatLogin() {
-    const appid = "wxdfa1c9397935814c";
-    const redirectUri = "https://phase.insdim.com/#/wechat/login";
-    const responseType = "code";
-    const scope = "snsapi_login";
-    const state = "state";
+    const appid = 'wxdfa1c9397935814c';
+    const redirectUri = 'https://phase.insdim.com/#/wechat/login';
+    const responseType = 'code';
+    const scope = 'snsapi_login';
+    const state = 'state';
     window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${appid}&redirect_uri=${encodeURIComponent(
       redirectUri
     )}&response_type=${responseType}&scope=${scope}&state=${state}#wechat_redirect`;

@@ -24,15 +24,16 @@
 
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
 
-const systemModule = namespace("system");
+const systemModule = namespace('system');
 
 @Component
 export default class AppSwitcher extends Vue {
-  @systemModule.Mutation("toggleAppSwitcher") private toggleAppSwitcher: any;
-  @systemModule.Getter("appList") private appList: any;
+  @systemModule.Mutation('toggleAppSwitcher') private toggleAppSwitcher: any;
+
+  @systemModule.Getter('appList') private appList: any;
 }
 </script>
 

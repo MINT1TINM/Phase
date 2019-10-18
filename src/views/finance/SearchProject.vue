@@ -75,39 +75,46 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import FinanceService from "@/service/financeService";
-import { namespace } from "vuex-class";
-import { AuditProject } from "@/types/finance";
-import ToolkitService from "@/service/toolkitService";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import FinanceService from '@/service/financeService';
+import { AuditProject } from '@/types/finance';
+import ToolkitService from '@/service/toolkitService';
 
-const financeModule = namespace("finance");
+const financeModule = namespace('finance');
 
 @Component
 export default class Certifcate extends Vue {
-  @financeModule.Getter("searchProjectResult")
+  @financeModule.Getter('searchProjectResult')
   private searchProjectResult!: AuditProject[];
-  @financeModule.Mutation("updateCurrentProject")
+
+  @financeModule.Mutation('updateCurrentProject')
   private updateCurrentProject!: (project: AuditProject) => void;
 
   private keyList = [
-    { text: "项目名称", value: "NAME" },
-    { text: "项目代码", value: "CODE" },
-    { text: "负责人工号", value: "CHARGE_SNO" }
+    { text: '项目名称', value: 'NAME' },
+    { text: '项目代码', value: 'CODE' },
+    { text: '负责人工号', value: 'CHARGE_SNO' },
   ];
-  private currentKey = "NAME";
 
-  private search: string = "";
+  private currentKey = 'NAME';
+
+  private search: string = '';
+
   private loading: boolean = false;
+
   private select = null;
+
   private result = [];
 
   private headers = [
-    "项目代码",
-    "项目名称",
-    "负责人",
-    "负责人工号",
-    "项目余额"
+    '项目代码',
+    '项目名称',
+    '负责人',
+    '负责人工号',
+    '项目余额',
   ];
 
   private async querySelections(v: string) {
@@ -118,7 +125,7 @@ export default class Certifcate extends Vue {
       this.search,
       undefined,
       undefined,
-      true
+      true,
     );
     this.result = rsp.project;
     this.loading = false;
@@ -142,7 +149,7 @@ export default class Certifcate extends Vue {
         name: item.name,
         chargeName: item.chargeName,
         chargeSno: item.chargeSno,
-        balance: item.balance
+        balance: item.balance,
       });
     }
 
@@ -151,12 +158,12 @@ export default class Certifcate extends Vue {
 
   private showDetail(item: AuditProject) {
     this.$router.push({
-      path: `/finance/project/${item.code}/${item.chargeSno}`
+      path: `/finance/project/${item.code}/${item.chargeSno}`,
     });
     this.updateCurrentProject(item);
   }
 
-  @Watch("search")
+  @Watch('search')
   private async onSearchChanged(val: string) {
     val && val !== this.select && (await this.querySelections(val));
   }

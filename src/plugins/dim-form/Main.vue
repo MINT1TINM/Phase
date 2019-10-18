@@ -181,23 +181,24 @@
 </template>
 
 <script>
-import datePicker from "../date-picker/Main";
+import datePicker from '../date-picker/Main.vue';
+
 export default {
   components: {
-    "date-picker": datePicker
+    'date-picker': datePicker,
   },
-  name: "dim-form",
+  name: 'dim-form',
   props: {
     dense: Boolean,
     keyName: String,
     formContent: Array,
     target: Object,
-    disabled: Boolean
+    disabled: Boolean,
   },
   data() {
     return {};
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

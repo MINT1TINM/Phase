@@ -54,32 +54,33 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
 
-const systemModule = namespace("system");
+const systemModule = namespace('system');
 
 @Component
 export default class Settings extends Vue {
-  @systemModule.Getter("lastPage") private lastPage: any;
-  @systemModule.Getter("systemName") private systemName!: string;
+  @systemModule.Getter('lastPage') private lastPage: any;
+
+  @systemModule.Getter('systemName') private systemName!: string;
 
   private settingsItems = [
     {
-      text: "个人信息",
-      icon: "mdi-account-circle-outline",
-      route: "/settings/profile"
+      text: '个人信息',
+      icon: 'mdi-account-circle-outline',
+      route: '/settings/profile',
     },
     {
-      text: "隐私",
-      icon: "mdi-shield-key-outline",
-      route: "/settings/privacy"
+      text: '隐私',
+      icon: 'mdi-shield-key-outline',
+      route: '/settings/privacy',
     },
     {
-      text: "安全",
-      icon: "mdi-lock-outline",
-      route: "/settings/security"
-    }
+      text: '安全',
+      icon: 'mdi-lock-outline',
+      route: '/settings/security',
+    },
     // {
     //   text: "通知",
     //   icon: "mdi-bell-outline",

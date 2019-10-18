@@ -4,17 +4,13 @@ interface State {
 }
 
 const state: State = {
-  currentGroup: "all",
-  currentContactID: ""
+  currentGroup: 'all',
+  currentContactID: '',
 };
 
 const getters = {
-  currentGroup: (s: State) => {
-    return s.currentGroup;
-  },
-  currentContactID: (s: State) => {
-    return s.currentContactID;
-  }
+  currentGroup: (s: State) => s.currentGroup,
+  currentContactID: (s: State) => s.currentContactID,
 };
 
 const mutations = {
@@ -23,7 +19,7 @@ const mutations = {
   },
   updateCurrentContactID: (s: State, contactID: string) => {
     s.currentContactID = contactID;
-  }
+  },
 };
 
 const actions = {};
@@ -33,5 +29,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

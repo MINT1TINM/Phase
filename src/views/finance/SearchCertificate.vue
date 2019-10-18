@@ -54,25 +54,26 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import FinanceService from "@/service/financeService";
-import { Certificate } from "@/types/finance";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import FinanceService from '@/service/financeService';
+import { Certificate } from '@/types/finance';
 
 @Component
 export default class SearchCertificate extends Vue {
-  private certificateNo: string = "";
+  private certificateNo: string = '';
+
   private certificateList: Certificate[] = [];
 
   private headers = [
-    "凭证账号",
-    "日期",
-    "摘要",
-    "借方发生数",
-    "贷方发生数",
-    "科目名称",
-    "科目代码",
-    "负责人姓名",
-    "负责人工号"
+    '凭证账号',
+    '日期',
+    '摘要',
+    '借方发生数',
+    '贷方发生数',
+    '科目名称',
+    '科目代码',
+    '负责人姓名',
+    '负责人工号',
   ];
 
   private async searchCertificate() {

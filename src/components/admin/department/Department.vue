@@ -57,35 +57,41 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import { insertNodeToTree } from "@/utils/SearchNode";
-import AdminService from "@/service/adminService";
-const uuidv1 = require("uuid/v1");
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { insertNodeToTree } from '@/utils/SearchNode';
+import AdminService from '@/service/adminService';
 
-const systemModule = namespace("system");
+const uuidv1 = require('uuid/v1');
+
+const systemModule = namespace('system');
 
 @Component
 export default class AdminDepartment extends Vue {
-  @systemModule.Getter("companyName") private companyName!: string;
+  @systemModule.Getter('companyName') private companyName!: string;
 
   private departmentTree: any = [];
+
   private active: any[] = [];
+
   private createDepartmentDialog: boolean = false;
-  private departmentName: string = "";
+
+  private departmentName: string = '';
 
   private createDepartment() {
     const result = insertNodeToTree(this.active, this.active[0]!.id, {
       id: uuidv1(),
       name: this.departmentName,
-      children: []
+      children: [],
     });
-    this.departmentName = "";
+    this.departmentName = '';
     this.createDepartmentDialog = false;
     AdminService.updateDepartmentTree(result);
   }
 
-  @Watch("active")
+  @Watch('active')
   private onActiveChanged() {
     console.log(this.active);
     if (this.active[0] && this.active[0]!.id) {

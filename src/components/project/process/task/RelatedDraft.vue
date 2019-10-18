@@ -53,51 +53,64 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import createSheet from "@/components/project/sheet/CreateSheet.vue";
-import SheetService from "@/service/sheetService";
-import { Sheet, Template } from "@/types/sheet";
-import { namespace } from "vuex-class";
-import fillSheet from "@/components/project/sheet/FillSheet.vue";
-import TaskService from "@/service/taskService";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import createSheet from '@/components/project/sheet/CreateSheet.vue';
+import SheetService from '@/service/sheetService';
+import { Sheet, Template } from '@/types/sheet';
+import fillSheet from '@/components/project/sheet/FillSheet.vue';
+import TaskService from '@/service/taskService';
 
-const projectModule = namespace("project");
+const projectModule = namespace('project');
 
 @Component({
   components: {
-    "create-sheet": createSheet,
-    "fill-sheet": fillSheet
-  }
+    'create-sheet': createSheet,
+    'fill-sheet': fillSheet,
+  },
 })
 export default class RelatedDocument extends Vue {
   @Prop({ default: [] }) private sheetIDList!: [];
 
-  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
+  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
 
   private createSheetDialog: boolean = false;
+
   private editSheetDialog: boolean = false;
+
   private sheetList: Sheet[] = [];
+
   private currentSheet: Sheet = {
-    id: "",
-    name: "",
+    id: '',
+    name: '',
     content: {},
-    target: ""
+    target: '',
   };
+
   private templateInfo: Template = {
-    name: "",
+    name: '',
     field: {
-      data: []
+      data: [],
     },
-    type: "",
-    locked: false
+    type: '',
+    locked: false,
   };
+
   private headers = [
-    { text: "名称", value: "name", align: "center", sortable: false },
-    { text: "创建者", value: "userID", align: "center", sortable: false },
-    { text: "操作", value: "actions", align: "center", sortable: false }
+    {
+      text: '名称', value: 'name', align: 'center', sortable: false,
+    },
+    {
+      text: '创建者', value: 'userID', align: 'center', sortable: false,
+    },
+    {
+      text: '操作', value: 'actions', align: 'center', sortable: false,
+    },
   ];
 
-  @Watch("sheetIDList")
+  @Watch('sheetIDList')
   private async onSheetIDListChanged(v: string[]) {
     if (v.length > 0) {
       const rsp = await SheetService.getSheetInfoList(v);
@@ -109,28 +122,28 @@ export default class RelatedDocument extends Vue {
 
   private async getTemplateInfo(templateID: string) {
     this.templateInfo = {
-      name: "",
+      name: '',
       field: {
-        data: []
+        data: [],
       },
-      type: "",
-      locked: false
+      type: '',
+      locked: false,
     };
     const rsp = await SheetService.getSheetTemplate(templateID);
     this.templateInfo = rsp.template;
   }
 
   private async deleteTaskDraft(sheetID: string) {
-    const res = await this.$confirm("此操作无法恢复", {
-      title: "确认删除?",
-      buttonTrueColor: "primary",
-      dark: this.$vuetify.theme.dark
+    const res = await this.$confirm('此操作无法恢复', {
+      title: '确认删除?',
+      buttonTrueColor: 'primary',
+      dark: this.$vuetify.theme.dark,
     });
     if (res) {
       await SheetService.deleteSheet(
         sheetID,
         this.$route.params.taskID,
-        "draft"
+        'draft',
       );
       await TaskService.getTaskInfo(this.$route.params.taskID);
     }

@@ -1,4 +1,4 @@
-import Vue, { PluginFunction } from "vue";
+import Vue, { PluginFunction } from 'vue';
 
 export interface VuetifyConfirmUseOptions extends VuetifyConfirmObject {
   property?: string;
@@ -22,7 +22,7 @@ export interface VuetifyConfirmObject {
   width?: number;
   dark?: boolean;
 }
-declare module "vue/types/vue" {
+declare module 'vue/types/vue' {
   interface Vue {
     $confirm(
       message: string,

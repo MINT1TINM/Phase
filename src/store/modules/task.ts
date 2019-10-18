@@ -1,4 +1,4 @@
-import { Task } from "@/types/task";
+import { Task } from '@/types/task';
 
 interface State {
   currentTask: Task;
@@ -6,45 +6,43 @@ interface State {
 
 const state: State = {
   currentTask: {
-    id: "",
-    name: "",
-    description: "",
-    startDate: "",
-    endDate: "",
-    actionStartDate: "",
-    actionEndDate: "",
+    id: '',
+    name: '',
+    description: '',
+    startDate: '',
+    endDate: '',
+    actionStartDate: '',
+    actionEndDate: '',
     status: false,
     tags: {
-      data: []
+      data: [],
     },
     member: {
-      data: []
+      data: [],
     },
     subTask: {
-      data: []
+      data: [],
     },
     sheet: {
-      data: []
+      data: [],
     },
     draft: {
-      data: []
+      data: [],
     },
-    userID: "",
-    processID: "",
-    executorID: ""
-  }
+    userID: '',
+    processID: '',
+    executorID: '',
+  },
 };
 
 const getters = {
-  currentTask: (s: State) => {
-    return s.currentTask;
-  }
+  currentTask: (s: State) => s.currentTask,
 };
 
 const mutations = {
   updateCurrentTask: (s: State, task: Task) => {
     s.currentTask = task;
-  }
+  },
 };
 
 const actions = {};
@@ -54,5 +52,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

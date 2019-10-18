@@ -9,35 +9,33 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
 
-const projectModule = namespace("project");
+const projectModule = namespace('project');
 
 @Component({
-  name: "user-chip"
+  name: 'user-chip',
 })
 export default class UserChip extends Vue {
-  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
+  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
 
   @Prop(String) private userID!: string;
 
   private get headImgURL() {
     if (this.userID && this.projectMemberCache(this.userID).headImgURL) {
       return (
-        `https` + this.projectMemberCache(this.userID).headImgURL.substring(4)
+        `https${this.projectMemberCache(this.userID).headImgURL.substring(4)}`
       );
-    } else {
-      return "";
     }
+    return '';
   }
 
   private get nickName() {
     if (this.userID) {
       return this.projectMemberCache(this.userID).nickName;
-    } else {
-      return "";
     }
+    return '';
   }
 }
 </script>

@@ -76,73 +76,77 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import AdminService from "@/service/adminService";
-import { Group, GroupMember } from "@/types/company";
-import UserService from "@/service/userService";
-import { UserInfo } from "@/types/user";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import AdminService from '@/service/adminService';
+import { Group, GroupMember } from '@/types/company';
+import UserService from '@/service/userService';
+import { UserInfo } from '@/types/user';
 
 @Component
 export default class AdminGroupInfo extends Vue {
   @Prop(String) public groupID!: string;
 
   private groupInfo: Group = {
-    id: "",
-    name: "",
-    description: "",
+    id: '',
+    name: '',
+    description: '',
     member: {
-      data: []
+      data: [],
     },
-    createdAt: ""
+    createdAt: '',
   };
+
   private loading = false;
+
   private userList = [];
-  private search: string = "";
+
+  private search: string = '';
+
   private select = null;
 
   private groupInfoContent = [
     {
-      type: "text-field",
-      title: "群组名称",
-      name: "name"
+      type: 'text-field',
+      title: '群组名称',
+      name: 'name',
     },
     {
-      type: "text-area",
-      title: "简介",
-      name: "description"
-    }
+      type: 'text-area',
+      title: '简介',
+      name: 'description',
+    },
   ];
 
   private async updateGroupInfo() {
     await AdminService.updateGroupInfo(this.groupID, this.groupInfo);
-    this.$emit("updateGroupList");
+    this.$emit('updateGroupList');
   }
 
   private async querySelections(v: string) {
     this.loading = true;
     // Simulated ajax query
     const rsp = await UserService.searchUser(v);
-    this.userList = rsp.user.filter((e: UserInfo) => {
-      return (
-        (e.nickName || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1
-      );
-    });
+    this.userList = rsp.user.filter((e: UserInfo) => (
+      (e.nickName || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+    ));
     console.log(this.userList);
     this.loading = false;
   }
 
   private async insertGroupMember(userID: any) {
     this.select = null;
-    this.search = "";
+    this.search = '';
     await AdminService.insertGroupMember(this.groupID, userID);
     this.getGroupInfo();
   }
 
   private async deleteGroupUser(userID: string) {
-    const res = await this.$confirm("此操作无法还原", {
-      title: "确认删除?",
-      buttonTrueColor: "primary",
-      dark: this.$vuetify.theme.dark
+    const res = await this.$confirm('此操作无法还原', {
+      title: '确认删除?',
+      buttonTrueColor: 'primary',
+      dark: this.$vuetify.theme.dark,
     });
     if (res) {
       await AdminService.deleteGroupMember(this.groupID, userID);
@@ -159,9 +163,7 @@ export default class AdminGroupInfo extends Vue {
   }
 
   private get userListShow() {
-    return this.userList.filter((e: GroupMember) => {
-      return this.selectedNickNameList.indexOf(e.nickName.toLowerCase()) === -1;
-    });
+    return this.userList.filter((e: GroupMember) => this.selectedNickNameList.indexOf(e.nickName.toLowerCase()) === -1);
   }
 
   private async getGroupInfo() {
@@ -169,22 +171,20 @@ export default class AdminGroupInfo extends Vue {
     this.groupInfo = rsp.group;
   }
 
-  @Watch("search")
+  @Watch('search')
   private async onSearchContentChanged(val: string) {
     val && val !== this.select && this.querySelections(val);
   }
 
-  @Watch("groupID")
+  @Watch('groupID')
   private async onGroupIDChanged() {
     this.getGroupInfo();
   }
 
   private async mounted() {
-    if (this.groupID !== "") {
+    if (this.groupID !== '') {
       this.getGroupInfo();
     }
   }
 }
 </script>
-
-

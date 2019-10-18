@@ -180,60 +180,65 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import searchUser from "@/components/project/member/SearchUser.vue";
-import { namespace } from "vuex-class";
-import ProjectService from "@/service/projectService";
-import { UserProject } from "@/types/user";
-import { ProjectMemberComplete, ProjectMember } from "@/types/project";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import searchUser from '@/components/project/member/SearchUser.vue';
+import ProjectService from '@/service/projectService';
+import { UserProject } from '@/types/user';
+import { ProjectMemberComplete, ProjectMember } from '@/types/project';
 
-const projectModule = namespace("project");
-const userModule = namespace("user");
+const projectModule = namespace('project');
+const userModule = namespace('user');
 
 @Component({
   components: {
-    "search-user": searchUser
-  }
+    'search-user': searchUser,
+  },
 })
 export default class ProjectMemberManagement extends Vue {
-  @projectModule.Getter("currentProject") private currentProject: any;
-  @projectModule.Getter("projectList") private projectList: any;
-  @userModule.Getter("authorization") private authorization: any;
+  @projectModule.Getter('currentProject') private currentProject: any;
+
+  @projectModule.Getter('projectList') private projectList: any;
+
+  @userModule.Getter('authorization') private authorization: any;
 
   private memberList: ProjectMemberComplete[] = [];
+
   private memberListShow: ProjectMemberComplete[] = [];
-  private searchMemberContent: string = "";
+
+  private searchMemberContent: string = '';
+
   private targetMember: ProjectMember = {
-    userID: "",
+    userID: '',
     role: [],
-    tag: []
+    tag: [],
   };
+
   private addMemberDialog: boolean = false;
+
   private editMemberRoleDialog: boolean = false;
 
   private async getProjectMember() {
     const rsp = await ProjectService.getProjectMember(
-      this.currentProject.member.data
+      this.currentProject.member.data,
     );
     for (const e of rsp.memberList) {
       // find user role in this particular project
-      e.projectRole = e.project.data.find((u: UserProject) => {
-        return u.projectID === this.currentProject.id;
-      }).role;
+      e.projectRole = e.project.data.find((u: UserProject) => u.projectID === this.currentProject.id).role;
 
-      e.tag = e.project.data.find((u: UserProject) => {
-        return u.projectID === this.currentProject.id;
-      }).tag;
+      e.tag = e.project.data.find((u: UserProject) => u.projectID === this.currentProject.id).tag;
     }
     this.memberList = rsp.memberList;
     this.memberListShow = this.memberList;
   }
 
   private async removeMember(userID: string) {
-    const res = await this.$confirm("", {
-      title: "确认移除成员?",
-      buttonTrueColor: "primary",
-      dark: this.$vuetify.theme.dark
+    const res = await this.$confirm('', {
+      title: '确认移除成员?',
+      buttonTrueColor: 'primary',
+      dark: this.$vuetify.theme.dark,
     });
     if (res) {
       await ProjectService.removeProjectMember(this.currentProject.id, userID);
@@ -249,25 +254,25 @@ export default class ProjectMemberManagement extends Vue {
       this.currentProject.id,
       userID,
       role,
-      tag
+      tag,
     );
     this.getProjectMember();
   }
 
-  @Watch("searchMemberContent")
+  @Watch('searchMemberContent')
   private onSearchMemberContentChanged() {
     this.memberListShow = [];
     for (const e of this.memberList) {
       if (
         e.nickName
           .toLowerCase()
-          .indexOf(this.searchMemberContent.toLowerCase()) !== -1 ||
+          .indexOf(this.searchMemberContent.toLowerCase()) !== -1
         // serach email before .com
-        e.email
-          .split(".")[0]
+        || e.email
+          .split('.')[0]
           .toLowerCase()
-          .indexOf(this.searchMemberContent.toLowerCase()) !== -1 ||
-        e.phone
+          .indexOf(this.searchMemberContent.toLowerCase()) !== -1
+        || e.phone
           .toLowerCase()
           .indexOf(this.searchMemberContent.toLowerCase()) !== -1
       ) {

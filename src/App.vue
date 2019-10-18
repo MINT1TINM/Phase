@@ -46,37 +46,45 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
-import { namespace } from "vuex-class";
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
 
-import appSwitcher from "@/components/common/app-switcher/AppSwitcher.vue";
-import notificationCenter from "@/components/common/notification-center/NotificationCenter.vue";
+import appSwitcher from '@/components/common/app-switcher/AppSwitcher.vue';
+import notificationCenter from '@/components/common/notification-center/NotificationCenter.vue';
 
-const systemModule = namespace("system");
+const systemModule = namespace('system');
 
 @Component({
   components: {
-    "app-switcher": appSwitcher,
-    "notification-center": notificationCenter
-  }
+    'app-switcher': appSwitcher,
+    'notification-center': notificationCenter,
+  },
 })
 export default class App extends Vue {
-  @systemModule.Getter("fullScreenLoading") private fullScreenLoading: any;
-  @systemModule.Getter("loading") private loading: any;
-  @systemModule.Getter("appSwitcher") private appSwitcher: any;
-  @systemModule.Mutation("toggleAppSwitcher") private toggleAppSwitcher: any;
-  @systemModule.Getter("notificationCenter") private notificationCenter: any;
-  @systemModule.Mutation("toggleNotificationCenter")
-  private toggleNotificationCenter: any;
-  @systemModule.Getter("systemName") private systemName!: string;
-  @systemModule.Getter("companyName") private companyName!: string;
+  @systemModule.Getter('fullScreenLoading') private fullScreenLoading: any;
 
-  @systemModule.Mutation("toggleFullScreenLoading")
+  @systemModule.Getter('loading') private loading: any;
+
+  @systemModule.Getter('appSwitcher') private appSwitcher: any;
+
+  @systemModule.Mutation('toggleAppSwitcher') private toggleAppSwitcher: any;
+
+  @systemModule.Getter('notificationCenter') private notificationCenter: any;
+
+  @systemModule.Mutation('toggleNotificationCenter')
+  private toggleNotificationCenter: any;
+
+  @systemModule.Getter('systemName') private systemName!: string;
+
+  @systemModule.Getter('companyName') private companyName!: string;
+
+  @systemModule.Mutation('toggleFullScreenLoading')
   private toggleFullScreenLoading: any;
 
   get appSwitcherShow() {
     return this.appSwitcher;
   }
+
   set appSwitcherShow(v) {
     this.toggleAppSwitcher(v);
   }
@@ -84,18 +92,19 @@ export default class App extends Vue {
   get notificationCenterShow() {
     return this.notificationCenter;
   }
+
   set notificationCenterShow(v) {
     this.toggleNotificationCenter(v);
   }
 
   private isDarkMode() {
-    if (matchMedia("(prefers-color-scheme: dark)").matches) {
+    if (matchMedia('(prefers-color-scheme: dark)').matches) {
       this.$vuetify.theme.dark = true;
     } else {
       this.$vuetify.theme.dark = false;
     }
     setInterval(() => {
-      if (matchMedia("(prefers-color-scheme: dark)").matches) {
+      if (matchMedia('(prefers-color-scheme: dark)').matches) {
         this.$vuetify.theme.dark = true;
       } else {
         this.$vuetify.theme.dark = false;
@@ -113,5 +122,3 @@ export default class App extends Vue {
   }
 }
 </script>
-
-

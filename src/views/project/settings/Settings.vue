@@ -63,55 +63,57 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import ProjectService from "@/service/projectService";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import ProjectService from '@/service/projectService';
 
-const systemModule = namespace("system");
-const projectModule = namespace("project");
+const systemModule = namespace('system');
+const projectModule = namespace('project');
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class Settings extends Vue {
-  @systemModule.Getter("lastPage") private lastPage: any;
-  @projectModule.Getter("currentProject") private currentProject: any;
-  @projectModule.Getter("currentProjectID") private currentProjectID!: string;
+  @systemModule.Getter('lastPage') private lastPage: any;
+
+  @projectModule.Getter('currentProject') private currentProject: any;
+
+  @projectModule.Getter('currentProjectID') private currentProjectID!: string;
 
   private projectInfoList = [
     {
-      subheader: "信息"
+      subheader: '信息',
     },
     {
-      divider: true
+      divider: true,
     },
     {
-      type: "text-field",
-      title: "名称",
-      name: "name"
+      type: 'text-field',
+      title: '名称',
+      name: 'name',
     },
     {
-      type: "text-area",
-      title: "简介",
-      name: "description"
+      type: 'text-area',
+      title: '简介',
+      name: 'description',
     },
     {
-      type: "date-range",
-      title: "审计期间",
-      nameStart: "startDate",
-      nameEnd: "endDate"
+      type: 'date-range',
+      title: '审计期间',
+      nameStart: 'startDate',
+      nameEnd: 'endDate',
     },
     {
-      type: "date-picker",
+      type: 'date-picker',
       disabled: true,
-      title: "创建时间",
-      name: "createdAt"
+      title: '创建时间',
+      name: 'createdAt',
     },
     {
-      type: "date-picker",
-      title: "实施时间",
-      name: "actionDate"
-    }
+      type: 'date-picker',
+      title: '实施时间',
+      name: 'actionDate',
+    },
   ];
 
   private async updateProjectInfo() {
@@ -119,14 +121,14 @@ export default class Settings extends Vue {
   }
 
   private async deleteProject() {
-    const res = await this.$confirm("此操作无法还原", {
-      title: "确认删除?",
-      buttonTrueColor: "primary",
-      dark: this.$vuetify.theme.dark
+    const res = await this.$confirm('此操作无法还原', {
+      title: '确认删除?',
+      buttonTrueColor: 'primary',
+      dark: this.$vuetify.theme.dark,
     });
     if (res) {
       await ProjectService.deleteProject(this.currentProjectID);
-      this.$router.push({ path: "/project" });
+      this.$router.push({ path: '/project' });
     }
   }
 

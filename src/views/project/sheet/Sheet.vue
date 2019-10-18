@@ -77,36 +77,45 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
 
-import { Template, Sheet } from "@/types/sheet";
-import createSheet from "@/components/project/sheet/CreateSheet.vue";
-import sheetInfo from "@/components/project/sheet/SheetInfo.vue";
-import SheetService from "@/service/sheetService";
-import { namespace } from "vuex-class";
+import { namespace } from 'vuex-class';
+import { Template, Sheet } from '@/types/sheet';
+import createSheet from '@/components/project/sheet/CreateSheet.vue';
+import sheetInfo from '@/components/project/sheet/SheetInfo.vue';
+import SheetService from '@/service/sheetService';
 
-const projectModule = namespace("project");
-const sheetModule = namespace("sheet");
+const projectModule = namespace('project');
+const sheetModule = namespace('sheet');
 
 @Component({
   components: {
-    "create-sheet": createSheet,
-    "sheet-info": sheetInfo
-  }
+    'create-sheet': createSheet,
+    'sheet-info': sheetInfo,
+  },
 })
 export default class ProjectSheet extends Vue {
-  @projectModule.Getter("currentProjectID") private currentProjectID: any;
-  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
-  @sheetModule.Getter("sheetList") private sheetList: any;
+  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+
+  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+
+  @sheetModule.Getter('sheetList') private sheetList: any;
 
   private createSheetDialog: boolean = false;
+
   private editSheetDialog: boolean = false;
-  private searchSheetContent: string = "";
+
+  private searchSheetContent: string = '';
+
   private sheetListShow: any[] = [];
 
-  private currentSheetID: string = "";
-  private currentTemplateID: string = "";
-  private currentType: string = "all";
+  private currentSheetID: string = '';
+
+  private currentTemplateID: string = '';
+
+  private currentType: string = 'all';
 
   private searchSheet() {
     this.sheetListShow = [];
@@ -132,21 +141,21 @@ export default class ProjectSheet extends Vue {
     return typeList;
   }
 
-  @Watch("searchSheetContent")
+  @Watch('searchSheetContent')
   private onSearchSheetContentChanged() {
     this.searchSheet();
   }
 
-  @Watch("sheetList")
+  @Watch('sheetList')
   private onSheetListChanged() {
-    this.currentType = "全部";
+    this.currentType = '全部';
     this.sheetListShow = this.sheetList;
   }
 
-  @Watch("currentType")
+  @Watch('currentType')
   private onCurrentTypeChanged() {
     this.sheetListShow = [];
-    if (this.currentType === "全部") {
+    if (this.currentType === '全部') {
       this.sheetListShow = this.sheetList;
     } else {
       for (const item of this.sheetList) {

@@ -57,37 +57,41 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
+import { Component, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
 
-import UserService from "@/service/userService";
+import UserService from '@/service/userService';
 
-const userModule = namespace("user");
-const systemModule = namespace("system");
+const userModule = namespace('user');
+const systemModule = namespace('system');
 
 @Component
 export default class Landing extends Vue {
-  @userModule.Getter("authorization") private authorization: any;
-  @userModule.Mutation("clearAuthorization") private clearAuthorization: any;
-  @systemModule.Mutation("toggleFullScreenLoading")
+  @userModule.Getter('authorization') private authorization: any;
+
+  @userModule.Mutation('clearAuthorization') private clearAuthorization: any;
+
+  @systemModule.Mutation('toggleFullScreenLoading')
   private toggleFullScreenLoading: any;
-  @systemModule.Getter("systemName") private systemName!: string;
-  @systemModule.Getter("companyName") private companyName!: string;
+
+  @systemModule.Getter('systemName') private systemName!: string;
+
+  @systemModule.Getter('companyName') private companyName!: string;
 
   private async autoLogin() {
     this.toggleFullScreenLoading(true);
-    const userID = this.authorization.userID;
+    const { userID } = this.authorization;
 
     const rsp = await UserService.getUserInfo(userID);
     setTimeout(() => {
       this.toggleFullScreenLoading(false);
-      this.$router.push({ path: "/home" });
+      this.$router.push({ path: '/home' });
     }, 500);
 
-    if (rsp.msg === "error") {
+    if (rsp.msg === 'error') {
       this.toggleFullScreenLoading(true);
       this.clearAuthorization();
-      this.$router.push({ path: "/login" });
+      this.$router.push({ path: '/login' });
     }
   }
 

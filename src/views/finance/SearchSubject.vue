@@ -159,9 +159,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import FinanceService from "@/service/financeService";
-import { Certificate } from "@/types/finance";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import FinanceService from '@/service/financeService';
+import { Certificate } from '@/types/finance';
 
 @Component
 export default class SearchSubject extends Vue {
@@ -170,13 +172,19 @@ export default class SearchSubject extends Vue {
   };
 
   private datePickerMenu: boolean = false;
+
   private dateRange = [];
-  private projectCode: string[] = [""];
+
+  private projectCode: string[] = [''];
+
   private subjectGroupList: any = {};
+
   private certificateList: any[] | undefined = [];
+
   private detailNav: boolean = false;
 
   private sumDAmount: number = 0;
+
   private sumJAmount: number = 0;
 
   private async searchSubject() {
@@ -184,7 +192,7 @@ export default class SearchSubject extends Vue {
       const rsp = await FinanceService.searchSubject(
         this.projectCode,
         this.dateRange[0],
-        this.dateRange[1]
+        this.dateRange[1],
       );
       this.subjectGroupList = rsp.subject;
     }
@@ -197,22 +205,22 @@ export default class SearchSubject extends Vue {
 
   private insertProjectCode() {
     if (this.$refs.searchSubjectForm.validate()) {
-      this.projectCode.push("");
+      this.projectCode.push('');
     }
   }
 
   private get dateRangeText() {
-    return this.dateRange.join(" ~ ");
+    return this.dateRange.join(' ~ ');
   }
 
   private get dateRangeNum() {
     return [
       new Date(this.dateRange[0]).getTime() / 1000,
-      new Date(this.dateRange[1]).getTime() / 1000
+      new Date(this.dateRange[1]).getTime() / 1000,
     ];
   }
 
-  @Watch("subjectGroupList")
+  @Watch('subjectGroupList')
   private onSubjectGroupListChanged() {
     if (Object.keys(this.subjectGroupList).length > 0) {
       for (const group in this.subjectGroupList) {

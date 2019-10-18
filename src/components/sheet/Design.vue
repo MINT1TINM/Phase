@@ -168,15 +168,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { Field } from "@/types/sheet";
-import { namespace } from "vuex-class";
-import SheetService from "@/service/sheetService";
-import { encodeUnicode } from "@/utils/ConvertType";
-import { Authorization } from "@/types/user";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { Field } from '@/types/sheet';
+import SheetService from '@/service/sheetService';
+import { encodeUnicode } from '@/utils/ConvertType';
+import { Authorization } from '@/types/user';
 
-const sheetModule = namespace("sheet");
-const userModule = namespace("user");
+const sheetModule = namespace('sheet');
+const userModule = namespace('user');
 
 @Component
 export default class SheetDesign extends Vue {
@@ -184,23 +186,29 @@ export default class SheetDesign extends Vue {
     sheetDesign: HTMLFormElement;
   };
 
-  @userModule.Getter("authorization") private authorization!: Authorization;
-  @sheetModule.Getter("sheetTemplate") private sheetTemplate: any;
-  @sheetModule.Getter("currentTemplateID") private currentTemplateID!: string;
-  @sheetModule.Mutation("insertNewEmptyField") private insertNewEmptyField: any;
-  @sheetModule.Mutation("updateCurrentTemplateID")
+  @userModule.Getter('authorization') private authorization!: Authorization;
+
+  @sheetModule.Getter('sheetTemplate') private sheetTemplate: any;
+
+  @sheetModule.Getter('currentTemplateID') private currentTemplateID!: string;
+
+  @sheetModule.Mutation('insertNewEmptyField') private insertNewEmptyField: any;
+
+  @sheetModule.Mutation('updateCurrentTemplateID')
   private updateCurrentTemplateID: any;
-  @sheetModule.Mutation("updateSheetTemplate")
+
+  @sheetModule.Mutation('updateSheetTemplate')
   private updateSheetTemplate: any;
-  @sheetModule.Mutation("restoreSheetTemplate")
+
+  @sheetModule.Mutation('restoreSheetTemplate')
   private restoreSheetTemplate: any;
 
   private typeList = [
-    { label: "文本", value: "text-field" },
-    { label: "文本框", value: "text-area" },
-    { label: "选择", value: "select" },
-    { label: "多项选择", value: "multi-select" },
-    { label: "日期", value: "date-picker" }
+    { label: '文本', value: 'text-field' },
+    { label: '文本框', value: 'text-area' },
+    { label: '选择', value: 'select' },
+    { label: '多项选择', value: 'multi-select' },
+    { label: '日期', value: 'date-picker' },
   ];
 
   private insertField() {
@@ -217,7 +225,7 @@ export default class SheetDesign extends Vue {
     this.sheetTemplate.field.data[i] = this.sheetTemplate.field.data.splice(
       i + 1,
       1,
-      this.sheetTemplate.field.data[i]
+      this.sheetTemplate.field.data[i],
     )[0];
   }
 
@@ -225,7 +233,7 @@ export default class SheetDesign extends Vue {
     this.sheetTemplate.field.data[i] = this.sheetTemplate.field.data.splice(
       i - 1,
       1,
-      this.sheetTemplate.field.data[i]
+      this.sheetTemplate.field.data[i],
     )[0];
   }
 
@@ -238,28 +246,28 @@ export default class SheetDesign extends Vue {
       // create new template if no templateID
       if (!this.currentTemplateID) {
         const rsp = await SheetService.createSheetTemplate(this.sheetTemplate);
-        if (rsp.msg === "success") {
+        if (rsp.msg === 'success') {
           this.updateCurrentTemplateID(rsp.template.id);
         }
       } else {
         // save changes
         const rsp = await SheetService.updateSheetTemplate(
           this.sheetTemplate,
-          this.currentTemplateID
+          this.currentTemplateID,
         );
       }
     }
   }
 
   private async deleteTemplate(templateID: string) {
-    const res = await this.$confirm("此操作无法还原", {
-      title: "确认释放?",
-      buttonTrueColor: "primary",
-      dark: this.$vuetify.theme.dark
+    const res = await this.$confirm('此操作无法还原', {
+      title: '确认释放?',
+      buttonTrueColor: 'primary',
+      dark: this.$vuetify.theme.dark,
     });
     if (res) {
       await SheetService.deleteTemplate(templateID);
-      this.$router.push({ path: "/sheet" });
+      this.$router.push({ path: '/sheet' });
     }
   }
 
@@ -270,11 +278,11 @@ export default class SheetDesign extends Vue {
   private goHome() {
     // clear cache
     this.restoreSheetTemplate();
-    this.updateCurrentTemplateID("");
-    this.$router.push({ path: "/sheet" });
+    this.updateCurrentTemplateID('');
+    this.$router.push({ path: '/sheet' });
   }
 
-  @Watch("currentTemplateID")
+  @Watch('currentTemplateID')
   private async onCurrentTemplateIDChanged() {
     const rsp = await SheetService.getSheetTemplate(this.currentTemplateID);
     this.updateSheetTemplate(rsp.template);

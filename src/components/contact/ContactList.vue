@@ -91,34 +91,41 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import { Authorization, UserInfo } from "@/types/user";
-import UserService from "@/service/userService";
-import contactInfo from "./ContactInfo.vue";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { Authorization, UserInfo } from '@/types/user';
+import UserService from '@/service/userService';
+import contactInfo from './ContactInfo.vue';
 
-const userModule = namespace("user");
-const contactModule = namespace("contact");
+const userModule = namespace('user');
+const contactModule = namespace('contact');
 
 @Component({
   components: {
-    "contact-info": contactInfo
-  }
+    'contact-info': contactInfo,
+  },
 })
 export default class ContactList extends Vue {
-  @userModule.Getter("privilege") private privilege!: string[];
-  @userModule.Getter("isGod") private isGod!: boolean;
-  @userModule.Getter("authorization") private authorization!: Authorization;
-  @contactModule.Getter("currentContactID") private currentContactID!: string;
-  @contactModule.Mutation("updateCurrentContactID")
+  @userModule.Getter('privilege') private privilege!: string[];
+
+  @userModule.Getter('isGod') private isGod!: boolean;
+
+  @userModule.Getter('authorization') private authorization!: Authorization;
+
+  @contactModule.Getter('currentContactID') private currentContactID!: string;
+
+  @contactModule.Mutation('updateCurrentContactID')
   private updateCurrentContactID!: (v: string) => void;
 
   private userList: UserInfo[] = [];
+
   private createUserDialog: boolean = false;
 
-  private newUserName = "";
-  private newNickName = "";
-  private newPassword = "";
+  private newUserName = '';
+
+  private newNickName = '';
+
+  private newPassword = '';
 
   private async getUserList() {
     const rsp = await UserService.getUserList();
@@ -129,12 +136,12 @@ export default class ContactList extends Vue {
     await UserService.createUser(
       this.newUserName,
       this.newNickName,
-      this.newPassword
+      this.newPassword,
     );
     this.createUserDialog = false;
-    this.newUserName = "";
-    this.newNickName = "";
-    this.newPassword = "";
+    this.newUserName = '';
+    this.newNickName = '';
+    this.newPassword = '';
     this.getUserList();
   }
 

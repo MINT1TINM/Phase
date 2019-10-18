@@ -103,29 +103,36 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import TaskService from "@/service/taskService";
-import { namespace } from "vuex-class";
-import { Process, ProcessTask } from "@/types/process";
-import { Authorization } from "@/types/user";
+import {
+  Component, Prop, Vue, Watch 
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import TaskService from '@/service/taskService';
+import { Process, ProcessTask } from '@/types/process';
+import { Authorization } from '@/types/user';
 
-const processModule = namespace("process");
-const projectModule = namespace("project");
-const userModule = namespace("user");
+const processModule = namespace('process');
+const projectModule = namespace('project');
+const userModule = namespace('user');
 
 @Component
 export default class TaskList extends Vue {
-  @Prop({ default: "" }) public processID!: string;
+  @Prop({ default: '' }) public processID!: string;
 
-  @userModule.Getter("authorization") private authorization!: Authorization;
-  @processModule.Getter("currentProcessList") private currentProcessList: any;
-  @processModule.Mutation("updateCurrentProcessTask")
+  @userModule.Getter('authorization') private authorization!: Authorization;
+
+  @processModule.Getter('currentProcessList') private currentProcessList: any;
+
+  @processModule.Mutation('updateCurrentProcessTask')
   private updateCurrentProcessTask: any;
-  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
-  @projectModule.Getter("projectPermission")
+
+  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+
+  @projectModule.Getter('projectPermission')
   private projectPermission: any;
 
-  private newTaskName: string = "";
+  private newTaskName: string = '';
+
   private taskList: ProcessTask[] = [];
 
   private getDays(date: string) {
@@ -142,7 +149,7 @@ export default class TaskList extends Vue {
       this.processID || this.$route.params.processID,
       this.newTaskName
     );
-    this.newTaskName = "";
+    this.newTaskName = '';
     this.getTaskListManually();
   }
 
@@ -158,30 +165,31 @@ export default class TaskList extends Vue {
   }
 
   private toTaskDetail(task: ProcessTask) {
-    this.$emit("func", task.taskID || task.id);
+    this.$emit('func', task.taskID || task.id);
     this.$router.push({
       path: `/project/process/${this.processID}/task/${task.taskID || task.id}`
     });
   }
 
   private getCurrentProcessFromProp() {
-    return this.currentProcessList.find((e: Process) => {
-      return e.id === this.processID;
-    });
+    return this.currentProcessList.find(
+      (e: Process) => e.id === this.processID
+    );
   }
 
   private async toggleTaskStatus(taskID: string) {
     // stop task card click event
+    // eslint-disable-next-line no-restricted-globals
     event!.stopPropagation();
     // find the task
-    const i = this.taskList.findIndex((e: ProcessTask) => {
-      return (e.id || e.taskID) === taskID;
-    });
+    const i = this.taskList.findIndex(
+      (e: ProcessTask) => (e.id || e.taskID) === taskID
+    );
 
     // update task list
     await TaskService.toggleTaskStatus(
       this.$route.params.processID || this.processID,
-      this.taskList[i].taskID || this.taskList[i].id || "",
+      this.taskList[i].taskID || this.taskList[i].id || '',
       // @ts-ignore
       this.taskList[i].status
     );
@@ -195,22 +203,20 @@ export default class TaskList extends Vue {
 
   private get taskListShow() {
     return this.getCurrentProcessFromProp().task.data.sort(
-      (a: ProcessTask, b: ProcessTask) => {
-        return a.createdAt < b.createdAt ? 1 : -1;
-      }
+      (a: ProcessTask, b: ProcessTask) => (a.createdAt < b.createdAt ? 1 : -1)
     );
   }
 
   // update when list changed
-  @Watch("currentProcessList")
+  @Watch('currentProcessList')
   private onCurrentProcessListChanged() {
-    console.log("changed");
+    console.log('changed');
     if (this.currentProcessList) {
       this.taskList = this.getCurrentProcessFromProp().task.data;
     }
   }
 
-  @Watch("processID")
+  @Watch('processID')
   private onProcessIDChanged() {
     console.log(this.processID);
     this.taskList = this.getCurrentProcessFromProp().task.data;

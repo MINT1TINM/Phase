@@ -58,5 +58,5 @@ export {
   UserProject,
   Login,
   PrivateInfo,
-  PrivacySetting
+  PrivacySetting,
 };

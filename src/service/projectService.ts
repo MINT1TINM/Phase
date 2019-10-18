@@ -1,75 +1,76 @@
-import Vue from "vue";
+import Vue from 'vue';
 
-import basicService from "@/service/basicService";
-import store from "@/store/store";
-import { Project, ProjectMember } from "@/types/project";
+import basicService from '@/service/basicService';
+import store from '@/store/store';
+import { Project, ProjectMember } from '@/types/project';
 
 const vue = new Vue();
 
 class ProjectService {
   public static async createProject(name: string) {
-    const rsp = await basicService.postRequest("/project", {
-      name
+    const rsp = await basicService.postRequest('/project', {
+      name,
     });
 
     return rsp;
   }
 
   public static async getProjectList() {
-    if (store.getters["user/projectIDList"].length >= 1) {
-      const rsp = await basicService.getRequest("/project/list", {
+    if (store.getters['user/projectIDList'].length >= 1) {
+      const rsp = await basicService.getRequest('/project/list', {
         // use array as params
-        id: store.getters["user/projectIDList"]
+        id: store.getters['user/projectIDList'],
       });
-      store.commit("project/updateProjectList", rsp.projectList);
-
-      return rsp;
-    } else {
-      const rsp = {
-        msg: "success",
-        projectList: []
-      };
+      store.commit('project/updateProjectList', rsp.projectList);
 
       return rsp;
     }
+    const rsp = {
+      msg: 'success',
+      projectList: [],
+    };
+
+    return rsp;
   }
 
   public static async getProjectMember(memberList: ProjectMember[]) {
     const memberIDList = [];
-    for (const item of memberList) {
-      memberIDList.push(item.userID);
+    for (let i = 0; i < memberList.length; i++) {
+      const e = memberList[i];
+      memberIDList.push(e.userID);
     }
-    const rsp = await basicService.getRequest("/project/member", {
-      id: memberIDList
+
+    const rsp = await basicService.getRequest('/project/member', {
+      id: memberIDList,
     });
     return rsp;
   }
 
   public static async updateProjectInfo(projectInfo: Project) {
-    const rsp = await basicService.putRequest("/project/info", {
+    const rsp = await basicService.putRequest('/project/info', {
       projectID: projectInfo.id,
       name: projectInfo.name,
       description: projectInfo.description,
       startDate: projectInfo.startDate,
       endDate: projectInfo.endDate,
-      actionDate: projectInfo.actionDate
+      actionDate: projectInfo.actionDate,
     });
-    store.commit("project/updateCurrentProject", rsp.project);
-    if (rsp.msg === "success") {
+    store.commit('project/updateCurrentProject', rsp.project);
+    if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show("更新成功");
+      vue.$snackbar.show('更新成功');
     }
     return rsp;
   }
 
   public static async removeProjectMember(projectID: string, userID: string) {
-    const rsp = await basicService.putRequest("/project/member", {
+    const rsp = await basicService.putRequest('/project/member', {
       projectID,
-      userID
+      userID,
     });
-    if (rsp.msg === "success") {
+    if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show("已移除成员");
+      vue.$snackbar.show('已移除成员');
     }
     return rsp;
   }
@@ -78,28 +79,28 @@ class ProjectService {
     projectID: string,
     userID: string,
     role: [],
-    tag: []
+    tag: [],
   ) {
-    const rsp = await basicService.putRequest("/project/memberrole", {
+    const rsp = await basicService.putRequest('/project/memberrole', {
       projectID,
       userID,
       role,
-      tag
+      tag,
     });
 
-    if (rsp.msg === "success") {
+    if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show("更新成功");
+      vue.$snackbar.show('更新成功');
     }
     return rsp;
   }
 
   public static async updateProjectFolder(file: any, projectID: string) {
     const fileForm = new FormData();
-    fileForm.append("file", file);
-    fileForm.append("projectID", projectID);
+    fileForm.append('file', file);
+    fileForm.append('projectID', projectID);
 
-    const rsp = await basicService.postRequest("/project/folder", fileForm);
+    const rsp = await basicService.postRequest('/project/folder', fileForm);
     return rsp;
   }
 
@@ -107,16 +108,16 @@ class ProjectService {
   public static async submitInvitation(
     projectID: string,
     fromUserID: string,
-    toUserID: string
+    toUserID: string,
   ) {
-    const rsp = await basicService.postRequest("/project/invitation", {
+    const rsp = await basicService.postRequest('/project/invitation', {
       fromUserID,
       toUserID,
-      projectID
+      projectID,
     });
-    if (rsp.msg === "success") {
+    if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show("已发送邀请");
+      vue.$snackbar.show('已发送邀请');
     }
     return rsp;
   }
@@ -124,65 +125,65 @@ class ProjectService {
   public static async getInvitationList(
     projectID: string,
     fromUserID: string,
-    toUserID: string
+    toUserID: string,
   ) {
-    const rsp = await basicService.getRequest("/project/invitation", {
+    const rsp = await basicService.getRequest('/project/invitation', {
       fromUserID,
       toUserID,
-      projectID
+      projectID,
     });
-    store.commit("system/updateInvitationList", rsp.invitation);
+    store.commit('system/updateInvitationList', rsp.invitation);
     return rsp;
   }
 
   public static async updateInvitationStatus(
     invitationID: string,
-    status: number
+    status: number,
   ) {
-    const rsp = await basicService.putRequest("/project/invitation", {
+    const rsp = await basicService.putRequest('/project/invitation', {
       invitationID,
-      status
+      status,
     });
     return rsp;
   }
 
   public static async saveToTemplate(projectID: string, name: string) {
-    const rsp = await basicService.postRequest("/project/template", {
+    const rsp = await basicService.postRequest('/project/template', {
       projectID,
-      name
+      name,
     });
-    if (rsp.msg === "success") {
+    if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show("保存成功");
+      vue.$snackbar.show('保存成功');
     }
     return rsp;
   }
 
   public static async getProjectTemplateList(userID: string) {
-    const rsp = await basicService.getRequest("/project/template/list", {
-      userID
+    const rsp = await basicService.getRequest('/project/template/list', {
+      userID,
     });
     return rsp;
   }
 
   public static async getTemplateInfo(templateID: string) {
-    const rsp = await basicService.getRequest("/project/template", {
-      templateID
+    const rsp = await basicService.getRequest('/project/template', {
+      templateID,
     });
     return rsp;
   }
 
   public static async generateProject(name: string, templateID: string) {
-    const rsp = await basicService.postRequest("/project/structure", {
+    const rsp = await basicService.postRequest('/project/structure', {
       templateID,
-      name
+      name,
     });
     return rsp;
   }
 
   public static async deleteProject(projectID: string) {
-    const rsp = await basicService.deleteRequest("/project", {
-      projectID
+    const rsp = await basicService.deleteRequest('/project', {
+      projectID,
     });
     return rsp;
   }

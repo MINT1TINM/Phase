@@ -141,51 +141,56 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import appBar from "@/components/common/app-bar/AppBar.vue";
-import SheetService from "@/service/sheetService";
-import { namespace } from "vuex-class";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import appBar from '@/components/common/app-bar/AppBar.vue';
+import SheetService from '@/service/sheetService';
 
-const sheetModule = namespace("sheet");
-const userModule = namespace("user");
-const systemModule = namespace("system");
+const sheetModule = namespace('sheet');
+const userModule = namespace('user');
+const systemModule = namespace('system');
 
 @Component({
   components: {
-    "app-bar": appBar
-  }
+    'app-bar': appBar,
+  },
 })
 export default class Sheet extends Vue {
-  @userModule.Getter("authorization") private authorization: any;
-  @sheetModule.Getter("typeList") private typeList: any;
-  @sheetModule.Getter("type") private type: any;
-  @sheetModule.Getter("viewMode") private viewMode!: string;
+  @userModule.Getter('authorization') private authorization: any;
 
-  @sheetModule.Mutation("restoreSheetTemplate")
+  @sheetModule.Getter('typeList') private typeList: any;
+
+  @sheetModule.Getter('type') private type: any;
+
+  @sheetModule.Getter('viewMode') private viewMode!: string;
+
+  @sheetModule.Mutation('restoreSheetTemplate')
   private restoreSheetTemplate: any;
-  @sheetModule.Mutation("updateCurrentTemplateID")
+
+  @sheetModule.Mutation('updateCurrentTemplateID')
   private updateCurrentTemplateID: any;
-  @sheetModule.Mutation("updateViewMode") private updateViewMode!: (
+
+  @sheetModule.Mutation('updateViewMode') private updateViewMode!: (
     v: string
   ) => void;
 
-  @systemModule.Getter("systemName") private systemName!: string;
+  @systemModule.Getter('systemName') private systemName!: string;
 
   private templateList = [];
 
   private toDesignPage(type: string) {
-    this.updateCurrentTemplateID("");
+    this.updateCurrentTemplateID('');
     this.restoreSheetTemplate();
 
     this.$router.push({
-      path: `/sheet/design/${type}`
+      path: `/sheet/design/${type}`,
     });
   }
 
   private async getTemplateList() {
     const rsp = await SheetService.getSheetTemplateList(
-      "",
-      this.authorization.userID
+      '',
+      this.authorization.userID,
     );
     this.templateList = rsp.template;
   }
@@ -195,13 +200,13 @@ export default class Sheet extends Vue {
     this.restoreSheetTemplate();
 
     this.$router.push({
-      path: `/sheet/design/${type}`
+      path: `/sheet/design/${type}`,
     });
   }
 
   private toPreviewTool(templateID: string) {
     this.$router.push({
-      path: `/sheet/preview/${templateID}`
+      path: `/sheet/preview/${templateID}`,
     });
   }
 

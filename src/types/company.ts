@@ -30,4 +30,6 @@ interface DepartmentMember {
   tags: string[];
 }
 
-export { Group, GroupMember, Department, DepartmentMember };
+export {
+  Group, GroupMember, Department, DepartmentMember,
+};

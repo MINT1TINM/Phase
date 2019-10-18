@@ -68,49 +68,55 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { Sheet, Template } from "@/types/sheet";
-import SheetService from "@/service/sheetService";
-import fillSheet from "@/components/project/sheet/FillSheet.vue";
-import { namespace } from "vuex-class";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { Sheet, Template } from '@/types/sheet';
+import SheetService from '@/service/sheetService';
+import fillSheet from '@/components/project/sheet/FillSheet.vue';
 
-const sheetModule = namespace("sheet");
-const projectModule = namespace("project");
+const sheetModule = namespace('sheet');
+const projectModule = namespace('project');
 
 @Component({
   components: {
-    "fill-sheet": fillSheet
-  }
+    'fill-sheet': fillSheet,
+  },
 })
 export default class SheetInfo extends Vue {
-  @sheetModule.Getter("type") private type: any;
-  @projectModule.Getter("currentProjectID") private currentProjectID: any;
+  @sheetModule.Getter('type') private type: any;
 
-  @Prop({ default: "" }) private templateID!: string;
-  @Prop({ default: "" }) private sheetID!: string;
+  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+
+  @Prop({ default: '' }) private templateID!: string;
+
+  @Prop({ default: '' }) private sheetID!: string;
 
   private sheetInfo: Sheet = {
-    id: "",
-    name: "",
+    id: '',
+    name: '',
     content: null,
-    target: ""
+    target: '',
   };
+
   private templateInfo: Template = {
-    name: "",
+    name: '',
     field: {
-      data: []
+      data: [],
     },
-    type: "",
-    locked: false
+    type: '',
+    locked: false,
   };
+
   private fillSheetDialog: boolean = false;
 
   private async getSheetInfo(sheetID: string) {
     this.sheetInfo = {
-      id: "",
-      name: "",
+      id: '',
+      name: '',
       content: {},
-      target: ""
+      target: '',
     };
     const rsp = await SheetService.getSheetInfo(sheetID);
     this.sheetInfo = rsp.sheet;
@@ -118,12 +124,12 @@ export default class SheetInfo extends Vue {
 
   private async getTemplateInfo(templateID: string) {
     this.templateInfo = {
-      name: "",
+      name: '',
       field: {
-        data: []
+        data: [],
       },
-      type: "",
-      locked: false
+      type: '',
+      locked: false,
     };
     const rsp = await SheetService.getSheetTemplate(templateID);
     this.templateInfo = rsp.template;
@@ -134,23 +140,23 @@ export default class SheetInfo extends Vue {
   }
 
   private async deleteSheet() {
-    const res = await this.$confirm("此操作无法复原", {
-      title: "确认删除?",
-      buttonTrueColor: "primary",
-      dark: this.$vuetify.theme.dark
+    const res = await this.$confirm('此操作无法复原', {
+      title: '确认删除?',
+      buttonTrueColor: 'primary',
+      dark: this.$vuetify.theme.dark,
     });
     if (res) {
-      const rsp = await SheetService.deleteSheet(this.sheetID, "", "");
+      const rsp = await SheetService.deleteSheet(this.sheetID, '', '');
       await SheetService.getSheetList(this.currentProjectID);
     }
   }
 
-  @Watch("templateID")
+  @Watch('templateID')
   private onTemplateIDChanged() {
     this.getTemplateInfo(this.templateID);
   }
 
-  @Watch("sheetID")
+  @Watch('sheetID')
   private onSheetIDChanged() {
     this.getSheetInfo(this.sheetID);
   }
@@ -158,9 +164,8 @@ export default class SheetInfo extends Vue {
   get templateType() {
     if (this.templateInfo.type) {
       return this.type(this.templateInfo.type).name;
-    } else {
-      return "";
     }
+    return '';
   }
 
   private mounted() {

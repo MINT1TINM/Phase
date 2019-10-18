@@ -70,16 +70,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { VCalendar } from "vuetify/lib";
-import { namespace } from "vuex-class";
-import { ProcessTask } from "@/types/process";
-import TaskService from "@/service/taskService";
-import { App } from "@/types/system";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { VCalendar } from 'vuetify/lib';
+import { namespace } from 'vuex-class';
+import { ProcessTask } from '@/types/process';
+import TaskService from '@/service/taskService';
+import { App } from '@/types/system';
 
-const processModule = namespace("process");
-const projectModule = namespace("project");
-const systemModule = namespace("system");
+const processModule = namespace('process');
+const projectModule = namespace('project');
+const systemModule = namespace('system');
 
 @Component
 export default class Calendar extends Vue {
@@ -87,47 +87,61 @@ export default class Calendar extends Vue {
     calendar: any;
   };
 
-  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
-  @processModule.Getter("fullTaskList") private fullTaskList!: ProcessTask[];
-  @processModule.Getter("currentProcessIDList")
+  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+
+  @processModule.Getter('fullTaskList') private fullTaskList!: ProcessTask[];
+
+  @processModule.Getter('currentProcessIDList')
   private currentProcessIDList!: string[];
-  @systemModule.Getter("appList") private appList!: App[];
+
+  @systemModule.Getter('appList') private appList!: App[];
 
   private today: string = new Date().toISOString().slice(0, 10);
+
   private focus: string = new Date().toISOString().slice(0, 10);
-  private type: string = "month";
+
+  private type: string = 'month';
+
   private typeToLabel = {
-    month: "月视图",
-    week: "周视图",
-    day: "日视图"
+    month: '月视图',
+    week: '周视图',
+    day: '日视图',
   };
+
   private start = null;
+
   private end = null;
+
   private selectedEvent = {};
+
   private selectedElement = null;
+
   private selectedOpen: boolean = false;
 
   private viewDay({ date }: any) {
     this.focus = date;
-    this.type = "day";
+    this.type = 'day';
   }
 
   private setToday() {
     this.focus = this.today;
   }
+
   private prev() {
     this.$refs.calendar.prev();
   }
+
   private next() {
     this.$refs.calendar.next();
   }
+
   private getEventColor(event: any) {
     if (event.color) {
       return event.color;
-    } else {
-      return `primary darken-1`;
     }
+    return 'primary darken-1';
   }
+
   private showEvent({ nativeEvent, event }: any) {
     const open = () => {
       this.selectedEvent = event;
@@ -144,6 +158,7 @@ export default class Calendar extends Vue {
 
     nativeEvent.stopPropagation();
   }
+
   private updateRange({ start, end }: any) {
     this.start = start;
     this.end = end;
@@ -152,35 +167,35 @@ export default class Calendar extends Vue {
   private get title() {
     const { start, end } = this;
     if (!start || !end) {
-      return "";
+      return '';
     }
 
     const startMonth = this.monthFormatter(start);
     const endMonth = this.monthFormatter(end);
-    const suffixMonth = startMonth === endMonth ? "" : endMonth;
+    const suffixMonth = startMonth === endMonth ? '' : endMonth;
 
     const startYear = (start || { year: null }).year;
     const endYear = (end || { year: null }).year;
-    const suffixYear = startYear === endYear ? "" : endYear;
+    const suffixYear = startYear === endYear ? '' : endYear;
 
-    const startDay = (start || { day: null }).day + "日";
-    const endDay = (end || { day: null }).day + `日`;
+    const startDay = `${(start || { day: null }).day}日`;
+    const endDay = `${(end || { day: null }).day}日`;
 
     switch (this.type) {
-      case "month":
+      case 'month':
         return `${startMonth} ${startYear}`;
-      case "week":
-      case "day":
+      case 'week':
+      case 'day':
         return `${startMonth} ${startDay} ${startYear}`;
     }
 
-    return "";
+    return '';
   }
 
   private get monthFormatter() {
     return this.$refs.calendar.getFormatter({
-      timeZone: "UTC",
-      month: "long"
+      timeZone: 'UTC',
+      month: 'long',
     });
   }
 
@@ -190,5 +205,3 @@ export default class Calendar extends Vue {
   }
 }
 </script>
-
-

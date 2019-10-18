@@ -15,34 +15,35 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import UserService from "@/service/userService";
-import { PrivacySetting, Authorization, UserInfo } from "@/types/user";
-import { namespace } from "vuex-class";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import UserService from '@/service/userService';
+import { PrivacySetting, Authorization, UserInfo } from '@/types/user';
 
-const userModule = namespace("user");
+const userModule = namespace('user');
 
 @Component
 export default class Privacy extends Vue {
-  @userModule.Getter("userInfo") private userInfo!: UserInfo;
-  @userModule.Getter("authorization") private authorization!: Authorization;
+  @userModule.Getter('userInfo') private userInfo!: UserInfo;
+
+  @userModule.Getter('authorization') private authorization!: Authorization;
 
   private privacySettingList = [
     {
-      type: "switch",
-      title: "隐藏真实姓名",
-      name: "hideName"
+      type: 'switch',
+      title: '隐藏真实姓名',
+      name: 'hideName',
     },
     {
-      type: "switch",
-      title: "隐藏邮箱",
-      name: "hideEmail"
+      type: 'switch',
+      title: '隐藏邮箱',
+      name: 'hideEmail',
     },
     {
-      type: "switch",
-      title: "隐藏电话号码",
-      name: "hidePhone"
-    }
+      type: 'switch',
+      title: '隐藏电话号码',
+      name: 'hidePhone',
+    },
   ];
 
   private get privacySetting() {

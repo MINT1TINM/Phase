@@ -29,8 +29,7 @@ interface ProcessMember {
   userID: string;
 }
 
-class CProcess {
-  constructor(public config: Process) {}
-}
 
-export { Process, ProcessTask, ProcessMember, CProcess };
+export {
+  Process, ProcessTask, ProcessMember,
+};

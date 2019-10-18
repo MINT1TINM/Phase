@@ -71,49 +71,56 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
 
-import ProcessService from "@/service/processService";
-import { Process, ProcessMember } from "@/types/process";
-import { namespace } from "vuex-class";
-import { Authorization } from "@/types/user";
+import { namespace } from 'vuex-class';
+import ProcessService from '@/service/processService';
+import { Process, ProcessMember } from '@/types/process';
+import { Authorization } from '@/types/user';
 
-const projectModule = namespace("project");
-const userModule = namespace("user");
+const projectModule = namespace('project');
+const userModule = namespace('user');
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class Settings extends Vue {
-  @userModule.Getter("authorization") private authorization!: Authorization;
+  @userModule.Getter('authorization') private authorization!: Authorization;
 
-  @projectModule.Getter("currentProject") private currentProject: any;
-  @projectModule.Getter("currentProjectID") private currentProjectID: any;
-  @projectModule.Getter("projectPermission")
+  @projectModule.Getter('currentProject') private currentProject: any;
+
+  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+
+  @projectModule.Getter('projectPermission')
   private projectPermission: any;
 
   private settingsContent = [
     {
-      type: "text-field",
-      title: "名称",
-      name: "name"
+      type: 'text-field',
+      title: '名称',
+      name: 'name',
     },
     {
-      type: "text-area",
-      title: "备注",
-      name: "description"
-    }
+      type: 'text-area',
+      title: '备注',
+      name: 'description',
+    },
   ];
+
   private range: [number, number] = [0, 0];
+
   private processInfo: Process = {
-    id: "",
-    name: ""
+    id: '',
+    name: '',
   };
+
   private processMember: ProcessMember[] = [];
 
   private async getProcessInfo() {
     const rsp = await ProcessService.getProcessInfo(
-      this.$route.params.processID
+      this.$route.params.processID,
     );
     this.processInfo = rsp.process;
     this.processMember = this.processInfo.member!.data;
@@ -122,19 +129,19 @@ export default class Settings extends Vue {
   private async updateProcessInfo() {
     const rsp = await ProcessService.updateProcessInfo(
       this.$route.params.processID,
-      this.processInfo
+      this.processInfo,
     );
   }
 
   private async deleteProcess() {
-    const res = await this.$confirm("此操作无法恢复", {
-      title: "确认删除?",
-      buttonTrueColor: "primary",
-      dark: this.$vuetify.theme.dark
+    const res = await this.$confirm('此操作无法恢复', {
+      title: '确认删除?',
+      buttonTrueColor: 'primary',
+      dark: this.$vuetify.theme.dark,
     });
     if (res) {
       await ProcessService.deleteProcess(this.$route.params.processID);
-      this.$router.push({ path: "/project/process" });
+      this.$router.push({ path: '/project/process' });
     }
   }
 
@@ -145,13 +152,13 @@ export default class Settings extends Vue {
     return this.currentProject.member.data;
   }
 
-  @Watch("processMember")
+  @Watch('processMember')
   private async onProcessMemberChanged() {
     // watch change after initialized
     if (this.processMember !== this.processInfo.member!.data) {
       await ProcessService.updateProcessMember(
         this.$route.params.processID,
-        this.projectMember
+        this.projectMember,
       );
       ProcessService.getProcessList(this.currentProjectID);
     }

@@ -1,4 +1,4 @@
-import { Authorization, UserInfo, UserProject } from "@/types/user";
+import { Authorization, UserInfo, UserProject } from '@/types/user';
 
 interface State {
   authorization: Authorization;
@@ -7,33 +7,29 @@ interface State {
 
 const state: State = {
   authorization: {
-    access_token: "",
-    refresh_token: "",
-    token: "",
-    userID: ""
+    access_token: '',
+    refresh_token: '',
+    token: '',
+    userID: '',
   },
   userInfo: {
-    city: "",
-    country: "",
-    headImgURL: "",
-    nickName: "",
-    openid: "",
+    city: '',
+    country: '',
+    headImgURL: '',
+    nickName: '',
+    openid: '',
     privilege: [],
     project: { data: [] },
-    province: "",
-    sex: "",
-    unionid: "",
-    applicationList: []
-  }
+    province: '',
+    sex: '',
+    unionid: '',
+    applicationList: [],
+  },
 };
 
 const getters = {
-  userInfo: (s: State) => {
-    return s.userInfo;
-  },
-  authorization: (s: State) => {
-    return s.authorization;
-  },
+  userInfo: (s: State) => s.userInfo,
+  authorization: (s: State) => s.authorization,
   projectIDList: (s: State) => {
     const projectIDList = [];
 
@@ -45,12 +41,8 @@ const getters = {
 
     return projectIDList;
   },
-  privilege: (s: State) => {
-    return s.userInfo.privilege;
-  },
-  isGod: (s: State) => {
-    return s.userInfo.privilege.indexOf("god") !== -1;
-  }
+  privilege: (s: State) => s.userInfo.privilege,
+  isGod: (s: State) => s.userInfo.privilege.indexOf('god') !== -1,
 };
 
 const mutations = {
@@ -65,26 +57,26 @@ const mutations = {
   },
   clearUserInfo: (s: State) => {
     s.userInfo = {
-      city: "",
-      country: "",
-      headImgURL: "",
-      nickName: "",
-      openid: "",
+      city: '',
+      country: '',
+      headImgURL: '',
+      nickName: '',
+      openid: '',
       privilege: [],
       project: { data: [] },
-      province: "",
-      sex: "",
-      unionid: ""
+      province: '',
+      sex: '',
+      unionid: '',
     };
   },
   clearAuthorization: (s: State) => {
     s.authorization = {
-      access_token: "",
-      refresh_token: "",
-      token: "",
-      userID: ""
+      access_token: '',
+      refresh_token: '',
+      token: '',
+      userID: '',
     };
-  }
+  },
 };
 
 const actions = {};
@@ -94,5 +86,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

@@ -1,10 +1,10 @@
-import BasicService from "./basicService";
+import BasicService from './basicService';
 
 class ToolkitService {
   public static async exportListToXlsx(head: string[], data: any[]) {
-    const rsp = BasicService.postRequest("/toolkit/export/xlsx", {
+    const rsp = BasicService.postRequest('/toolkit/export/xlsx', {
       head,
-      data
+      data,
     });
     return rsp;
   }

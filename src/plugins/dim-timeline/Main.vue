@@ -70,36 +70,32 @@
 </template>
 
 <script>
-import "./style.css";
+import './style.css';
 
-import {
-  getDayCount,
-  getAllDaysBetween,
-  getTimeRange,
-  getBarLength,
-  parseTimeToDate
-} from "./timeline.js";
+import { getDayCount, getAllDaysBetween, getBarLength } from './timeline';
+
 export default {
   props: {
     columnWidth: Number,
-    taskList: Array
+    taskList: Array,
   },
   data() {
     return {
-      startDate: "",
-      endDate: "",
+      startDate: '',
+      endDate: '',
       dateRange: [],
-      highlightedTaskID: ""
+      highlightedTaskID: '',
     };
   },
   methods: {
     setBarLength() {
-      for (const e of this.taskList) {
+      for (let i = 0; i < this.taskList.length; i += 1) {
+        const e = this.taskList[i];
         const para = getBarLength(
           this.startDate,
           e.startDate.slice(0, 10),
           e.endDate.slice(0, 10),
-          this.columnWidth
+          this.columnWidth,
         );
         e.length = para.length;
         e.marginLeft = para.marginLeft;
@@ -109,7 +105,8 @@ export default {
     getTimeRange() {
       this.startDate = new Date();
       this.endDate = new Date();
-      for (const e of this.taskList) {
+      for (let i = 0; i < this.taskList.length; i += 1) {
+        const e = this.taskList[i];
         const taskStartDate = new Date(e.startDate);
         const taskEndDate = new Date(e.endDate);
 
@@ -126,7 +123,7 @@ export default {
     },
     toTaskDetail(item) {
       this.$router.push({ path: `task/${item.id}` });
-    }
+    },
   },
   watch: {
     taskList() {
@@ -134,13 +131,13 @@ export default {
       this.setBarLength();
 
       this.dateRange = getAllDaysBetween(this.startDate, this.endDate);
-    }
+    },
   },
   mounted() {
     this.getTimeRange();
     this.setBarLength();
     this.dateRange = getAllDaysBetween(this.startDate, this.endDate);
-  }
+  },
 };
 </script>
 

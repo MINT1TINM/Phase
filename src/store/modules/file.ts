@@ -6,29 +6,23 @@ interface State {
 
 const state: State = {
   fileList: {},
-  path: ["data"],
-  pathPrettier: ["根目录"]
+  path: ['data'],
+  pathPrettier: ['根目录'],
 };
 
 const getters = {
   fileList: (s: State) => {
     let keyArray = [...Object.keys(s.fileList)];
     const sortedFileList: any = {};
-    keyArray = keyArray.sort((a: any, b: any) => {
-      return b - a;
-    });
+    keyArray = keyArray.sort((a: any, b: any) => b - a);
     for (const key of keyArray) {
       sortedFileList[key] = (s.fileList as any)[key];
     }
 
     return s.fileList;
   },
-  path: (s: State) => {
-    return s.path;
-  },
-  pathPrettier: (s: State) => {
-    return s.pathPrettier;
-  }
+  path: (s: State) => s.path,
+  pathPrettier: (s: State) => s.pathPrettier,
 };
 
 const mutations = {
@@ -42,11 +36,11 @@ const mutations = {
     s.pathPrettier = path;
   },
   restorePath: (s: State) => {
-    s.path = ["data"];
+    s.path = ['data'];
   },
   restorePathPrettier: (s: State) => {
-    s.pathPrettier = ["根目录"];
-  }
+    s.pathPrettier = ['根目录'];
+  },
 };
 
 const actions = {};
@@ -56,5 +50,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

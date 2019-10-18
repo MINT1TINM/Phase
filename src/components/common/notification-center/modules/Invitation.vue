@@ -33,19 +33,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import ProjectService from "@/service/projectService";
-import { namespace } from "vuex-class";
-import UserService from "@/service/userService";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import ProjectService from '@/service/projectService';
+import UserService from '@/service/userService';
 
-const usermodule = namespace("user");
-const systemModule = namespace("system");
+const usermodule = namespace('user');
+const systemModule = namespace('system');
 
 @Component
 export default class Invitation extends Vue {
-  @usermodule.Getter("authorization") private authorization: any;
-  @systemModule.Getter("notificationCenter") private notificationCenter: any;
-  @systemModule.Getter("invitationList") private invitationList!: Invitation[];
+  @usermodule.Getter('authorization') private authorization: any;
+
+  @systemModule.Getter('notificationCenter') private notificationCenter: any;
+
+  @systemModule.Getter('invitationList') private invitationList!: Invitation[];
 
   private async updateInvitationStatus(status: number, invitationID: string) {
     await ProjectService.updateInvitationStatus(invitationID, status);
@@ -58,7 +62,7 @@ export default class Invitation extends Vue {
   }
 
   private async getInvitationList() {
-    await ProjectService.getInvitationList("", "", this.authorization.userID);
+    await ProjectService.getInvitationList('', '', this.authorization.userID);
     await UserService.getUserInfo(this.authorization.userID);
   }
 

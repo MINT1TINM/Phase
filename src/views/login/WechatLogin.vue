@@ -3,20 +3,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import AuthService from "@/service/authService";
-import UserService from "@/service/userService";
-import { namespace } from "vuex-class";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import AuthService from '@/service/authService';
+import UserService from '@/service/userService';
 
-const systemModule = namespace("system");
+const systemModule = namespace('system');
 
 @Component
 export default class WechatLogin extends Vue {
-  @systemModule.Mutation("toggleFullScreenLoading")
+  @systemModule.Mutation('toggleFullScreenLoading')
   private toggleFullScreenLoading: any;
 
   private async wechatLogin() {
-    const code = this.$route.query.code;
+    const { code } = this.$route.query;
     console.log(code);
     this.toggleFullScreenLoading(true);
     try {
@@ -24,10 +24,10 @@ export default class WechatLogin extends Vue {
       const rsp = await AuthService.wechatLogin(code);
       await UserService.getUserInfo(await rsp.authorization.userID);
       this.toggleFullScreenLoading(false);
-      this.$router.push({ path: "/home" });
+      this.$router.push({ path: '/home' });
     } catch (err) {
       this.toggleFullScreenLoading(false);
-      this.$router.push({ path: "/login" });
+      this.$router.push({ path: '/login' });
     }
   }
 

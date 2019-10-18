@@ -10,16 +10,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
 
-const fileModule = namespace("file");
+const fileModule = namespace('file');
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class CatalogInfo extends Vue {
-  @fileModule.Getter("fileList") private fileList: any;
+  @fileModule.Getter('fileList') private fileList: any;
 
   get childrenNum() {
     return Object.values(this.fileList).length;

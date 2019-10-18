@@ -5,9 +5,9 @@
     </v-layout>
     <v-btn
       class="mb-2"
-      v-if="!item.data && (item.type.indexOf(`png`)!==-1 
-      || item.type.indexOf(`jpg`)!==-1 
-      || item.type.indexOf(`jpeg`)!==-1 
+      v-if="!item.data && (item.type.indexOf(`png`)!==-1
+      || item.type.indexOf(`jpg`)!==-1
+      || item.type.indexOf(`jpeg`)!==-1
       || item.type.indexOf(`pdf`)!==-1)"
       block
       outlined
@@ -87,35 +87,44 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import FileService from "@/service/fileService";
-import { Authorization } from "@/types/user";
-import {} from "@/utils/FileType";
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import FileService from '@/service/fileService';
+import { Authorization } from '@/types/user';
+import {} from '@/utils/FileType';
 
-const projectModule = namespace("project");
-const fileModule = namespace("file");
-const userModule = namespace("user");
+const projectModule = namespace('project');
+const fileModule = namespace('file');
+const userModule = namespace('user');
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class DocumentInfo extends Vue {
-  @Prop({ default: "" }) public uuid!: string;
+  @Prop({ default: '' }) public uuid!: string;
+
   @Prop({ default: {} }) public item!: any;
 
-  @userModule.Getter("authorization") private authorization!: Authorization;
-  @projectModule.Getter("currentProjectID") private currentProjectID!: string;
-  @fileModule.Getter("path") private path!: string[];
-  @projectModule.Getter("projectMemberCache") private projectMemberCache: any;
-  @projectModule.Getter("projectPermission")
+  @userModule.Getter('authorization') private authorization!: Authorization;
+
+  @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+
+  @fileModule.Getter('path') private path!: string[];
+
+  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+
+  @projectModule.Getter('projectPermission')
   private projectPermission: any;
 
-  private currentName: string = "";
+  private currentName: string = '';
+
   private currentItem = {};
+
   private renameDialog: boolean = false;
 
-  @Watch("item")
+  @Watch('item')
   private onItemChanged() {
     this.currentItem = this.currentItem;
   }
@@ -125,9 +134,9 @@ export default class DocumentInfo extends Vue {
       const rsp = await FileService.renameCatalog(
         this.currentProjectID,
         [...this.path, this.uuid],
-        this.currentName
+        this.currentName,
       );
-      if (rsp.msg === "success") {
+      if (rsp.msg === 'success') {
         await FileService.getFile(this.currentProjectID, this.path);
         this.renameDialog = false;
       }
@@ -135,31 +144,30 @@ export default class DocumentInfo extends Vue {
   }
 
   private async deleteFile() {
-    const res = await this.$confirm("此操作无法恢复", {
-      title: "确认删除?",
-      buttonTrueColor: "primary",
-      dark: this.$vuetify.theme.dark
+    const res = await this.$confirm('此操作无法恢复', {
+      title: '确认删除?',
+      buttonTrueColor: 'primary',
+      dark: this.$vuetify.theme.dark,
     });
     if (res) {
       await FileService.deleteFile(
         [...this.path, this.uuid],
-        this.currentProjectID
+        this.currentProjectID,
       );
-      this.$emit("clearDocumentInfo");
+      this.$emit('clearDocumentInfo');
       await FileService.getFile(this.currentProjectID, this.path);
     }
   }
 
   private async downloadFile(item: any) {
-    window.open(`/api/file/download?sName=${item.sName}`, "_blank");
+    window.open(`/api/file/download?sName=${item.sName}`, '_blank');
     // await FileService.downloadFile(item.sName);
   }
 
   private async previewFile(item: any) {
-    window.open(`/api/file/preview?sName=${item.sName}`, "_blank");
+    window.open(`/api/file/preview?sName=${item.sName}`, '_blank');
   }
 
   private mounted() {}
 }
 </script>
-
