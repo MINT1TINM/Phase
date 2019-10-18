@@ -68,7 +68,7 @@ const state: State = {
     {
       name: '管理',
       nameEn: 'admin',
-      route: 'admin/home',
+      route: 'admin',
       icon: 'icon/icon_admin.svg',
       themeColor: '#333333',
       themeColorDark: '#d4d4d4',
