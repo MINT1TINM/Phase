@@ -1,44 +1,41 @@
 <template>
-  <v-app>
-    <app-bar></app-bar>
-    <v-content>
-      <v-app-bar dense app fixed dark color="primary darken-1" style="margin-top:48px">
-        <v-btn icon @click="$router.push({path:`/finance/project`})">
-          <v-icon size="20">mdi-arrow-left</v-icon>
-        </v-btn>
-        <v-toolbar-title class="subtitle-2">{{currentProject.code}} - {{currentProject.name}}</v-toolbar-title>
-        <v-divider class="mx-5" vertical inset></v-divider>
-        <v-toolbar-title class="subtitle-2">{{currentProject.chargeSno}}</v-toolbar-title>
-      </v-app-bar>
-      <transition appear appear-active-class="fade-left-enter">
-        <v-simple-table fixed-header class="transparent">
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">凭证账号</th>
-                <th class="text-left">摘要</th>
-                <th class="text-left">借方发生数</th>
-                <th class="text-left">贷方发生数</th>
-                <th class="text-left">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item,i) in certificateList" :key="`cert-${i}`">
-                <td>{{ item.uniNo }}</td>
-                <td>{{ item.sabstract }}</td>
-                <td>¥ {{ item.jAmount.toFixed(2) }}</td>
-                <td>¥ {{ item.dAmount.toFixed(2) }}</td>
-                <td>
-                  <v-btn icon @click="detailNav=true;currentCertificate=item">
-                    <v-icon>mdi-information-outline</v-icon>
-                  </v-btn>
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </transition>
-    </v-content>
+  <div>
+    <v-app-bar dense app fixed dark color="primary darken-1" style="margin-top:48px">
+      <v-btn icon @click="$router.push({path:`/finance/project`})">
+        <v-icon size="20">mdi-arrow-left</v-icon>
+      </v-btn>
+      <v-toolbar-title class="subtitle-2">{{currentProject.code}} - {{currentProject.name}}</v-toolbar-title>
+      <v-divider class="mx-5" vertical inset></v-divider>
+      <v-toolbar-title class="subtitle-2">{{currentProject.chargeSno}}</v-toolbar-title>
+    </v-app-bar>
+    <transition appear appear-active-class="fade-left-enter">
+      <v-simple-table fixed-header class="transparent">
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">凭证账号</th>
+              <th class="text-left">摘要</th>
+              <th class="text-left">借方发生数</th>
+              <th class="text-left">贷方发生数</th>
+              <th class="text-left">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item,i) in certificateList" :key="`cert-${i}`">
+              <td>{{ item.uniNo }}</td>
+              <td>{{ item.sabstract }}</td>
+              <td>¥ {{ item.jAmount.toFixed(2) }}</td>
+              <td>¥ {{ item.dAmount.toFixed(2) }}</td>
+              <td>
+                <v-btn icon @click="detailNav=true;currentCertificate=item">
+                  <v-icon>mdi-information-outline</v-icon>
+                </v-btn>
+              </td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </transition>
 
     <v-dialog scrollable transition="slide-x-reverse-transition" v-model="detailNav">
       <v-card height="500">
@@ -80,7 +77,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-  </v-app>
+  </div>
 </template>
 
 <script lang="ts">
@@ -100,14 +97,14 @@ export default class CertificateAccount extends Vue {
     {
       text: '日期',
       sortable: false,
-      value: 'name',
+      value: 'name'
     },
     { text: '凭证账号', value: 'uniNo', sortable: false },
     { text: '摘要', value: 'sabstract', sortable: false },
     { text: '借方发生数', value: 'jAmount', sortable: false },
     { text: '贷方发生数', value: 'dAmount', sortable: false },
     { text: '负责人', value: 'carsbs', sortable: false },
-    { text: '工号', value: 'carbs', sortable: false },
+    { text: '工号', value: 'carbs', sortable: false }
   ];
 
   private certificateList: Certificate[] = [];
@@ -119,7 +116,7 @@ export default class CertificateAccount extends Vue {
   private async getCertificateList() {
     const rsp = await FinanceService.searchCertificateGroup(
       this.$route.params.projectCode,
-      this.$route.params.staffNo,
+      this.$route.params.staffNo
     );
     this.certificateList = rsp.certificate;
   }

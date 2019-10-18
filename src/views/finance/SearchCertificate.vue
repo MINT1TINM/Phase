@@ -1,30 +1,29 @@
 <template>
-  <v-app>
-    <app-bar></app-bar>
+  <div>
+    <v-app-bar dense fixed dark color="primary darken-1" style="margin-top:48px">
+      <v-layout row wrap>
+        <v-flex xs6>
+          <v-layout>
+            <v-text-field
+              dense
+              solo-inverted
+              flat
+              single-line
+              label="凭证账号"
+              hide-details
+              v-model="certificateNo"
+              @keyup.enter="searchCertificate"
+              append-outer-icon="mdi-magnify"
+              @click:append-outer="searchCertificate"
+            ></v-text-field>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+      <v-btn outlined rounded small>
+        <v-icon size="15">mdi-export-variant</v-icon>&nbsp;导出结果
+      </v-btn>
+    </v-app-bar>
     <v-content>
-      <v-app-bar dense app fixed dark color="primary darken-1" style="margin-top:48px">
-        <v-layout row wrap>
-          <v-flex xs6>
-            <v-layout>
-              <v-text-field
-                dense
-                solo-inverted
-                flat
-                single-line
-                label="凭证账号"
-                hide-details
-                v-model="certificateNo"
-                @keyup.enter="searchCertificate"
-                append-outer-icon="mdi-magnify"
-                @click:append-outer="searchCertificate"
-              ></v-text-field>
-            </v-layout>
-          </v-flex>
-        </v-layout>
-        <v-btn outlined rounded small>
-          <v-icon size="15">mdi-export-variant</v-icon>&nbsp;导出结果
-        </v-btn>
-      </v-app-bar>
       <transition appear appear-active-class="fade-left-enter">
         <v-simple-table height="calc(100vh - 96px)" fixed-header class="transparent">
           <template v-slot:default>
@@ -50,7 +49,7 @@
         </v-simple-table>
       </transition>
     </v-content>
-  </v-app>
+  </div>
 </template>
 
 <script lang="ts">
@@ -73,7 +72,7 @@ export default class SearchCertificate extends Vue {
     '科目名称',
     '科目代码',
     '负责人姓名',
-    '负责人工号',
+    '负责人工号'
   ];
 
   private async searchCertificate() {

@@ -1,9 +1,10 @@
 <template>
   <v-app>
     <app-bar></app-bar>
-    <v-content>
+    <app-common></app-common>
+    <div>
       <router-view></router-view>
-    </v-content>
+    </div>
   </v-app>
 </template>
 
@@ -13,8 +14,10 @@ import {
 } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 
-@Component
-export default class Settings extends Vue {
+@Component({
+  components: {}
+})
+export default class Finance extends Vue {
   private get currentPath() {
     return this.$route.path;
   }
@@ -22,13 +25,13 @@ export default class Settings extends Vue {
   @Watch('currentPath')
   private onChanged() {
     if (this.currentPath === '/') {
-      this.$router.push({ path: '/profile' });
+      this.$router.push({ path: '/project' });
     }
   }
 
   private mounted() {
     if (this.currentPath === '/') {
-      this.$router.push({ path: '/profile' });
+      this.$router.push({ path: '/project' });
     }
   }
 }

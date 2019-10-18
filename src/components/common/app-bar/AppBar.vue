@@ -161,8 +161,9 @@ export default class AppBar extends Vue {
     switch (num) {
       case 0:
         // setting
-        this.updateLastPage(this.$route.fullPath);
-        this.$router.push({ path: '/settings/profile' });
+        // this.updateLastPage(this.$route.fullPath);
+        // this.$router.push({ path: '/settings/profile' });
+        window.location.href = '/settings';
         break;
       case 1:
         // exit
@@ -201,8 +202,10 @@ export default class AppBar extends Vue {
 
   get currentApp() {
     if (this.currentRoute !== 'home') {
-      return this.appList.find(
-        (e: any) => this.currentRoute === e.route.split('/')[0]
+      return (
+        this.appList.find(
+          (e: any) => this.currentRoute === e.route.split('/')[0]
+        ) || ''
       );
     }
     return '';

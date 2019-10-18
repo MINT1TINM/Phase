@@ -60,7 +60,7 @@ const state: State = {
     {
       name: '财务',
       nameEn: 'finance',
-      route: 'finance/project',
+      route: 'finance',
       icon: 'icon/icon_finance.svg',
       themeColor: '#2979FF',
       themeColorDark: '#6099fc',

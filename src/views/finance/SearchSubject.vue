@@ -1,5 +1,19 @@
 <template>
-  <v-app>
+  <div>
+    <v-app-bar color="primary darken-1" dense dark style="margin-top:48px;left:0">
+      <v-toolbar-title class="subtitle-2 font-weight-black">借方发生数 ¥ {{sumJAmount.toFixed(2)}}</v-toolbar-title>
+      <v-divider vertical inset class="mx-3"></v-divider>
+      <v-toolbar-title class="subtitle-2 font-weight-black">
+        贷方发生数
+        ¥ {{sumDAmount.toFixed(2)}}
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+
+      <v-btn outlined rounded small>
+        <v-icon size="15">mdi-export-variant</v-icon>&nbsp;导出结果
+      </v-btn>
+    </v-app-bar>
+
     <v-navigation-drawer
       height="calc(100vh - 48px)"
       style="overflow:auto"
@@ -63,20 +77,6 @@
       </v-container>
     </v-navigation-drawer>
 
-    <app-bar></app-bar>
-    <v-app-bar color="primary darken-1" dense app style="top:48px;left:0">
-      <v-toolbar-title class="subtitle-2 font-weight-black">借方发生数 ¥ {{sumJAmount.toFixed(2)}}</v-toolbar-title>
-      <v-divider vertical inset class="mx-3"></v-divider>
-      <v-toolbar-title class="subtitle-2 font-weight-black">
-        贷方发生数
-        ¥ {{sumDAmount.toFixed(2)}}
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-
-      <v-btn outlined rounded small>
-        <v-icon size="15">mdi-export-variant</v-icon>&nbsp;导出结果
-      </v-btn>
-    </v-app-bar>
     <v-content>
       <transition appear appear-active-class="fade-left-enter">
         <v-container fluid>
@@ -113,54 +113,54 @@
           </v-expansion-panels>
         </v-container>
       </transition>
-
-      <v-dialog scrollable transition="slide-x-reverse-transition" v-model="detailNav">
-        <v-card height="500">
-          <v-card-title class="pa-0">
-            <v-toolbar flat class="transparent">
-              <v-spacer></v-spacer>
-              <v-btn icon @click="detailNav=false">
-                <v-icon size="20">mdi-close</v-icon>
-              </v-btn>
-            </v-toolbar>
-          </v-card-title>
-          <v-card-text class="pa-0">
-            <v-simple-table fixed-header class="transparent">
-              <template v-slot:default>
-                <thead>
-                  <tr>
-                    <th class="text-left">凭证账号</th>
-                    <th class="text-left">日期</th>
-                    <th class="text-left">摘要</th>
-                    <th class="text-left">借方发生数</th>
-                    <th class="text-left">贷方发生数</th>
-                    <th class="text-left">科目名称</th>
-                    <th class="text-left">科目代码</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(item,i) in certificateList" :key="`cert-${i}`">
-                    <td class="caption">{{ item.uniNo }}.{{item.ord}}</td>
-                    <td class="caption">{{ item.date }}</td>
-                    <td class="caption">{{ item.sabstract }}</td>
-                    <td class="caption">¥ {{ item.jAmount.toFixed(2) }}</td>
-                    <td class="caption">¥ {{ item.dAmount.toFixed(2) }}</td>
-                    <td class="caption">{{ item.subjName }}</td>
-                    <td class="caption">{{ item.subj }}</td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-simple-table>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
     </v-content>
-  </v-app>
+
+    <v-dialog scrollable transition="slide-x-reverse-transition" v-model="detailNav">
+      <v-card height="500">
+        <v-card-title class="pa-0">
+          <v-toolbar flat class="transparent">
+            <v-spacer></v-spacer>
+            <v-btn icon @click="detailNav=false">
+              <v-icon size="20">mdi-close</v-icon>
+            </v-btn>
+          </v-toolbar>
+        </v-card-title>
+        <v-card-text class="pa-0">
+          <v-simple-table fixed-header class="transparent">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">凭证账号</th>
+                  <th class="text-left">日期</th>
+                  <th class="text-left">摘要</th>
+                  <th class="text-left">借方发生数</th>
+                  <th class="text-left">贷方发生数</th>
+                  <th class="text-left">科目名称</th>
+                  <th class="text-left">科目代码</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item,i) in certificateList" :key="`cert-${i}`">
+                  <td class="caption">{{ item.uniNo }}.{{item.ord}}</td>
+                  <td class="caption">{{ item.date }}</td>
+                  <td class="caption">{{ item.sabstract }}</td>
+                  <td class="caption">¥ {{ item.jAmount.toFixed(2) }}</td>
+                  <td class="caption">¥ {{ item.dAmount.toFixed(2) }}</td>
+                  <td class="caption">{{ item.subjName }}</td>
+                  <td class="caption">{{ item.subj }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script lang="ts">
 import {
-  Component, Prop, Vue, Watch,
+ Component, Prop, Vue, Watch 
 } from 'vue-property-decorator';
 import FinanceService from '@/service/financeService';
 import { Certificate } from '@/types/finance';
@@ -192,7 +192,7 @@ export default class SearchSubject extends Vue {
       const rsp = await FinanceService.searchSubject(
         this.projectCode,
         this.dateRange[0],
-        this.dateRange[1],
+        this.dateRange[1]
       );
       this.subjectGroupList = rsp.subject;
     }
@@ -216,7 +216,7 @@ export default class SearchSubject extends Vue {
   private get dateRangeNum() {
     return [
       new Date(this.dateRange[0]).getTime() / 1000,
-      new Date(this.dateRange[1]).getTime() / 1000,
+      new Date(this.dateRange[1]).getTime() / 1000
     ];
   }
 
