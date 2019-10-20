@@ -4,7 +4,6 @@ import '@/plugins/snackbar/index';
 import axios from 'axios';
 import Vue from 'vue';
 
-import vuetify from '@/plugins/vuetify';
 
 import App from '@/App.vue';
 import VuetifyConfirm from '@/plugins/confirm-dialog';
@@ -14,7 +13,6 @@ import Appbar from '@/components/common/app-bar/AppBar.vue';
 import UserChip from '@/plugins/user-chip/Main.vue';
 import DocIcon from '@/plugins/doc-icon/Main.vue';
 
-import router from '@/router/router';
 import store from '@/store/store';
 // format date
 import DateHelper from '@/utils/DateHelper';

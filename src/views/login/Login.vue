@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <app-common></app-common>
     <v-layout>
       <v-flex class="hidden-sm-and-down" md9 style="background-color:#000"></v-flex>
       <v-flex xs12 md3>

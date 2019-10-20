@@ -10,6 +10,8 @@ const happyThreadPool = HappyPack.ThreadPool({ size: OS.cpus().length });
 const page = function () {
   const entryHtml = glob.sync('src/views/*/*.html');
   const obj = {};
+
+  // apps
   entryHtml.forEach((filePath) => {
     const filename = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('.'));
     const entryname = filePath.substring(0, filePath.lastIndexOf('.'));
@@ -17,20 +19,21 @@ const page = function () {
       entry: `${entryname}.ts`,
       template: filePath,
       filename: `${filename}.html`,
-      chunks: ['chunk-vendors', 'chunk-common', filename],
+      chunks: ['chunk-vendors', 'chunk-common', filename]
     };
     if (process.env.NODE_ENV === 'production') {
       conf = merge(conf, {
         minify: {
           removeComments: true,
           collapseWhitespace: true,
-          removeAttributeQuotes: true,
+          removeAttributeQuotes: true
         },
-        chunksSortMode: 'dependency',
+        chunksSortMode: 'dependency'
       });
     }
     obj[filename] = conf;
   });
+
   return obj;
 };
 
@@ -50,7 +53,7 @@ module.exports = {
           algorithm: 'gzip',
           test: new RegExp(`\\.(${productionGzipExtensions.join('|')})$`),
           threshold: 10240,
-          minRatio: 0.8,
+          minRatio: 0.8
         }),
         new HappyPack({
           id: 'happybabel',
@@ -67,9 +70,9 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:9090',
-        ws: false,
-      },
-    },
+        ws: false
+      }
+    }
   },
 
   outputDir: 'dim-step',

@@ -85,13 +85,13 @@ export default class Landing extends Vue {
     const rsp = await UserService.getUserInfo(userID);
     setTimeout(() => {
       this.toggleFullScreenLoading(false);
-      this.$router.push({ path: '/home' });
+      window.location.href = '/home';
     }, 500);
 
     if (rsp.msg === 'error') {
       this.toggleFullScreenLoading(true);
       this.clearAuthorization();
-      this.$router.push({ path: '/login' });
+      window.location.href = '/login';
     }
   }
 

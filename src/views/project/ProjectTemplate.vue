@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <div>
     <v-navigation-drawer mini-variant-width="62" app clipped permanent fixed>
       <v-toolbar flat dense>
         <v-btn icon @click="$router.push({path:`/`})">
@@ -81,7 +81,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-app>
+  </div>
 </template>
 
 <script lang="ts">

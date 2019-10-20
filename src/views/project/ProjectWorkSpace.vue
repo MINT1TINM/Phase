@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <div>
     <v-navigation-drawer
       class="acrylic"
       expand-on-hover
@@ -22,7 +22,7 @@
     </v-navigation-drawer>
 
     <router-view></router-view>
-  </v-app>
+  </div>
 </template>
 
 <script lang="ts">

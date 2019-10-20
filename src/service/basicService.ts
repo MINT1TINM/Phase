@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import Vue from 'vue';
-import router from '@/router/router';
 import store from '@/store/store';
 
 const vue = new Vue() as any;
@@ -20,7 +19,7 @@ class BasicService {
 
         store.commit('user/clearAuthorization');
         store.commit('system/toggleFullScreenLoading', false);
-        router.push({ path: '/login' });
+        window.location.href = '/login';
       }
     }
     // err => no data

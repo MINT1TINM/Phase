@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <div>
     <v-container grid-list-md>
       <v-layout row wrap>
         <v-flex xs12>
@@ -188,7 +188,7 @@
         </v-card>
       </v-dialog>
     </v-container>
-  </v-app>
+  </div>
 </template>
 
 <script lang="ts">

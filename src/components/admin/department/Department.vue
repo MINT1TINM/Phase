@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Vue, Watch,
+ Component, Prop, Vue, Watch 
 } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { insertNodeToTree } from '@/utils/SearchNode';
@@ -84,7 +84,7 @@ export default class AdminDepartment extends Vue {
     const result = insertNodeToTree(this.active, this.active[0]!.id, {
       id: uuidv1(),
       name: this.departmentName,
-      children: [],
+      children: []
     });
     this.departmentName = '';
     this.createDepartmentDialog = false;
@@ -95,7 +95,7 @@ export default class AdminDepartment extends Vue {
   private onActiveChanged() {
     console.log(this.active);
     if (this.active[0] && this.active[0]!.id) {
-      this.$router.push({ path: `/admin/department/${this.active[0]!.id}` });
+      this.$router.push({ path: `/department/${this.active[0]!.id}` });
     }
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid grid-list-md fill-height style="padding:0">
+  <v-container fluid grid-list-md style="padding:0">
     <v-layout row wrap>
       <v-flex xs12 style="padding:0">
         <v-toolbar flat class="transparent">
@@ -67,7 +67,7 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Vue, Watch,
+ Component, Prop, Vue, Watch 
 } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import processColumn from '@/components/project/process/ProcessColumn.vue';
@@ -81,8 +81,8 @@ const userModule = namespace('user');
 
 @Component({
   components: {
-    'process-column': processColumn,
-  },
+    'process-column': processColumn
+  }
 })
 export default class ProcessList extends Vue {
   @userModule.Getter('authorization') private authorization!: Authorization;
