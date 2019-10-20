@@ -1,6 +1,5 @@
 import basicService from '@/service/basicService';
 import store from '@/store/store';
-import router from '@/router/router';
 
 class AuthService {
   public static getCoordinates() {
@@ -24,7 +23,7 @@ class AuthService {
     if ('geolocation' in navigator) {
       try {
         position = await this.getUserLocation();
-      } catch {}
+      } catch { }
     }
     const rsp = await basicService.postRequest('/wechat/login', {
       code,
@@ -39,7 +38,7 @@ class AuthService {
     if ('geolocation' in navigator) {
       try {
         position = await this.getUserLocation();
-      } catch {}
+      } catch { }
     }
     const rsp = await basicService.postRequest('/user/login', {
       username,
@@ -49,7 +48,7 @@ class AuthService {
     if (rsp.msg === 'success') {
       store.commit('user/updateUserAuth', rsp.authorization);
     } else {
-      router.push({ path: '/login' });
+      window.location.href = '/login';
     }
     return rsp;
   }

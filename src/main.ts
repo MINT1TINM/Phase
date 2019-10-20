@@ -4,6 +4,7 @@ import '@/plugins/snackbar/index';
 import axios from 'axios';
 import Vue from 'vue';
 
+import './register-service-worker';
 
 import App from '@/App.vue';
 import VuetifyConfirm from '@/plugins/confirm-dialog';
