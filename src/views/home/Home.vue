@@ -21,7 +21,7 @@
         <v-layout row wrap>
           <v-flex xs8 offset-2>
             <v-card-title class="subtitle-1 font-weight-black">
-              应用
+              办公应用
               <v-spacer></v-spacer>
             </v-card-title>
             <v-container>

@@ -7,6 +7,31 @@ import zhHans from 'vuetify/src/locale/zh-Hans';
 
 Vue.use(Vuetify);
 
+const path = window.location.pathname.split('/')[1];
+let themeColor = '';
+switch (path) {
+  case 'project':
+    themeColor = colors.lightBlue.base;
+    break;
+  case 'contact':
+    themeColor = colors.deepPurple.lighten2;
+    break;
+  case 'sheet':
+    themeColor = colors.teal.lighten2;
+    break;
+  case 'finance':
+    themeColor = colors.blue.darken1;
+    break;
+  case 'event':
+    break;
+  case 'admin':
+    themeColor = colors.grey.lighten1;
+    break;
+  default:
+    themeColor = colors.purple.lighten2;
+    break;
+}
+
 export default new Vuetify({
   theme: {
     options: {
@@ -14,7 +39,7 @@ export default new Vuetify({
     },
     themes: {
       dark: {
-        primary: '#a64ed1',
+        primary: themeColor,
         secondary: '#424242',
         accent: '#82B1FF',
         error: colors.red.darken1,
@@ -23,7 +48,7 @@ export default new Vuetify({
         warning: '#FFC107',
       },
       light: {
-        primary: '#a64ed1',
+        primary: themeColor,
         secondary: '#424242',
         accent: '#82B1FF',
         error: colors.red.darken1,
