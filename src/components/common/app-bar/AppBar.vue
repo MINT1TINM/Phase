@@ -44,6 +44,8 @@
 
     <project-bar v-if="currentApp.nameEn==='project'"></project-bar>
     <finance-bar v-if="currentApp.nameEn==='finance'"></finance-bar>
+    <audit-bar v-if="currentApp.nameEn==='audit'"></audit-bar>
+    <ticket-bar v-if="currentApp.nameEn==='ticket'"></ticket-bar>
 
     <v-spacer></v-spacer>
     <v-divider vertical inset></v-divider>
@@ -112,6 +114,8 @@ import Component from 'vue-class-component';
 import { namespace } from 'vuex-class';
 import projectBar from './modules/ProjectBar.vue';
 import financeBar from './modules/FinanceBar.vue';
+import auditBar from './modules/AuditBar.vue';
+import ticketBar from './modules/TicketBar.vue';
 import { Invitation } from '@/types/project';
 
 const userModule = namespace('user');
@@ -120,7 +124,9 @@ const systemModule = namespace('system');
 @Component({
   components: {
     'project-bar': projectBar,
-    'finance-bar': financeBar
+    'finance-bar': financeBar,
+    'audit-bar': auditBar,
+    'ticket-bar': ticketBar
   }
 })
 export default class AppBar extends Vue {
@@ -156,6 +162,8 @@ export default class AppBar extends Vue {
   @systemModule.Mutation('updateLastPage') private updateLastPage: any;
 
   @systemModule.Getter('appList') private appList: any;
+
+  @systemModule.Getter('estateAppList') private estateAppList: any;
 
   private async userMenuActions(num: number) {
     switch (num) {
@@ -205,7 +213,11 @@ export default class AppBar extends Vue {
       return (
         this.appList.find(
           (e: any) => this.currentRoute === e.route.split('/')[0]
-        ) || ''
+        )
+        || this.estateAppList.find(
+          (e: any) => this.currentRoute === e.route.split('/')[0]
+        )
+        || ''
       );
     }
     return '';
