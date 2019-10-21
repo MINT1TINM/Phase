@@ -83,7 +83,7 @@
                         src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
                       ></v-img>
                       <v-card-title class="body-2 font-weight-black">
-                        {{item.name}}
+                        {{item.name | cut}}
                         <span
                           class="grey--text ml-2 font-weight-regular"
                         >{{item.createdAt| format("yyyy-MM-dd")}}</span>

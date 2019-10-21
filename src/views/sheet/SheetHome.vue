@@ -79,7 +79,7 @@
                         small
                         class="mr-2"
                       >mdi-lock-outline</v-icon>
-                      {{item.name}}
+                      {{item.name | cut}}
                       <span
                         class="grey--text ml-2 font-weight-regular"
                       >{{item.createdAt| format("yyyy-MM-dd")}}</span>
