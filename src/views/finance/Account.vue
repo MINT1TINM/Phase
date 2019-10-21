@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar dense app fixed dark color="primary darken-1" style="margin-top:48px">
-      <v-btn icon @click="$router.push({path:`/finance/project`})">
+      <v-btn icon @click="$router.push({path:`/project`})">
         <v-icon size="20">mdi-arrow-left</v-icon>
       </v-btn>
       <v-toolbar-title class="subtitle-2">{{currentProject.code}} - {{currentProject.name}}</v-toolbar-title>

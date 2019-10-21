@@ -9,32 +9,13 @@
 </template>
 
 <script lang="ts">
-import {
- Component, Prop, Vue, Watch 
-} from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 
 @Component({
   components: {}
 })
-export default class Admin extends Vue {
-  private get currentPath() {
-    return this.$route.path;
-  }
-
-  @Watch('currentPath')
-  private onChanged() {
-    if (this.currentPath === '/') {
-      this.$router.push({ path: '/home' });
-    }
-  }
-
-  private mounted() {
-    if (this.currentPath === '/') {
-      this.$router.push({ path: '/home' });
-    }
-  }
-}
+export default class Admin extends Vue {}
 </script>
 
 <style scoped>

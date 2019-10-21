@@ -19,7 +19,7 @@
           </v-layout>
         </v-flex>
       </v-layout>
-      <v-btn outlined rounded small>
+      <v-btn outlined rounded small @click="exportResult">
         <v-icon size="15">mdi-export-variant</v-icon>&nbsp;导出结果
       </v-btn>
     </v-app-bar>
@@ -56,6 +56,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import FinanceService from '@/service/financeService';
 import { Certificate } from '@/types/finance';
+import ToolkitService from '@/service/toolkitService';
 
 @Component
 export default class SearchCertificate extends Vue {
@@ -78,6 +79,31 @@ export default class SearchCertificate extends Vue {
   private async searchCertificate() {
     const rsp = await FinanceService.searchCertificate(this.certificateNo);
     this.certificateList = rsp.certificate;
+  }
+
+  private async exportResult() {
+    // adjust head & data field
+    const head: string[] = [];
+    for (const field of this.headers) {
+      head.push(field);
+    }
+
+    const data: any[] = [];
+    for (const item of this.certificateList) {
+      data.push([
+        item.uniNo,
+        item.date,
+        item.sabstract,
+        item.jAmount,
+        item.dAmount,
+        item.subjName,
+        item.subj,
+        '',
+        item.chargeSno
+      ]);
+    }
+
+    const rsp = await ToolkitService.exportListToXlsx(head, data);
   }
 }
 </script>

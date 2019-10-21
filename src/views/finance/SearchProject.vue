@@ -141,15 +141,15 @@ export default class Certifcate extends Vue {
       head.push(field);
     }
 
-    const data: AuditProject[] = [];
+    const data: any[] = [];
     for (const item of this.searchProjectResult) {
-      data.push({
-        code: item.code,
-        name: item.name,
-        chargeName: item.chargeName,
-        chargeSno: item.chargeSno,
-        balance: item.balance
-      });
+      data.push([
+        item.code,
+        item.name,
+        item.chargeName,
+        item.chargeSno,
+        item.balance
+      ]);
     }
 
     const rsp = await ToolkitService.exportListToXlsx(head, data);
@@ -157,7 +157,7 @@ export default class Certifcate extends Vue {
 
   private showDetail(item: AuditProject) {
     this.$router.push({
-      path: `/finance/project/${item.code}/${item.chargeSno}`
+      path: `/project/${item.code}/${item.chargeSno}`
     });
     this.updateCurrentProject(item);
   }
