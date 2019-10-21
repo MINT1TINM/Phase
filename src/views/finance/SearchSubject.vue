@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar color="primary darken-1" dense dark style="margin-top:48px;left:0">
+    <v-app-bar fixed color="primary darken-1" dense dark style="margin-top:48px;left:0">
       <v-toolbar-title class="subtitle-2 font-weight-black">借方发生数 ¥ {{sumJAmount.toFixed(2)}}</v-toolbar-title>
       <v-divider vertical inset class="mx-3"></v-divider>
       <v-toolbar-title class="subtitle-2 font-weight-black">
@@ -9,7 +9,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-btn outlined rounded small>
+      <v-btn outlined rounded small @click="exportResult">
         <v-icon size="15">mdi-export-variant</v-icon>&nbsp;导出结果
       </v-btn>
     </v-app-bar>
@@ -70,7 +70,9 @@
             </v-flex>
 
             <v-flex xs12>
-              <v-btn block rounded depressed @click="searchSubject">搜索</v-btn>
+              <v-btn block rounded outlined @click="searchSubject">
+                <v-icon size="20">mdi-magnify</v-icon>&nbsp;搜索
+              </v-btn>
             </v-flex>
           </v-layout>
         </v-form>
@@ -79,7 +81,7 @@
 
     <v-content>
       <transition appear appear-active-class="fade-left-enter">
-        <v-container fluid>
+        <v-container fluid style="height:calc(100vh - 96px);overflow:auto">
           <v-expansion-panels multiple>
             <v-expansion-panel v-for="(item,i) in subjectGroupList" :key="`group-${i}`">
               <v-expansion-panel-header>{{i}}</v-expansion-panel-header>
@@ -88,10 +90,11 @@
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th class="text-left">科目名称</th>
-                        <th class="text-left">科目代码</th>
-                        <th class="text-left">借方发生数</th>
-                        <th class="text-left">贷方发生数</th>
+                        <th
+                          class="text-left"
+                          v-for="(item,i) in headers"
+                          :key="`head-${i}`"
+                        >{{item}}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -164,6 +167,7 @@ import {
 } from 'vue-property-decorator';
 import FinanceService from '@/service/financeService';
 import { Certificate } from '@/types/finance';
+import ToolkitService from '@/service/toolkitService';
 
 @Component
 export default class SearchSubject extends Vue {
@@ -187,10 +191,12 @@ export default class SearchSubject extends Vue {
 
   private sumJAmount: number = 0;
 
+  private headers = ['科目名称', '科目代码', '借方发生数', '贷方发生数'];
+
   private async searchSubject() {
     if (this.$refs.searchSubjectForm.validate()) {
       const rsp = await FinanceService.searchSubject(
-        this.projectCode,
+        Array.from(new Set(this.projectCode)), // remove duplicated object
         this.dateRange[0],
         this.dateRange[1]
       );
@@ -207,6 +213,34 @@ export default class SearchSubject extends Vue {
     if (this.$refs.searchSubjectForm.validate()) {
       this.projectCode.push('');
     }
+  }
+
+  private async exportResult() {
+    // adjust head & data field
+    const head: string[] = [];
+    for (const field of this.headers) {
+      head.push(field);
+    }
+
+    const data: any[] = [];
+    for (const subject in this.subjectGroupList) {
+      console.log(this.subjectGroupList[subject]);
+      data.push([subject]);
+      for (const item of this.subjectGroupList[subject]) {
+        data.push([
+          item.subjName,
+          item.subj,
+          `¥ ${item.jAmount.toFixed(2)}`,
+          `¥ ${item.dAmount.toFixed(2)}`
+        ]);
+      }
+    }
+
+    const rsp = await ToolkitService.exportListToXlsx(head, data);
+    window.open(
+      `/api/file/download?sName=${rsp.fileName}&type=export`,
+      '_blank'
+    );
   }
 
   private get dateRangeText() {

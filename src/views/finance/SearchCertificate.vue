@@ -94,8 +94,8 @@ export default class SearchCertificate extends Vue {
         item.uniNo,
         item.date,
         item.sabstract,
-        item.jAmount,
-        item.dAmount,
+        `¥ ${item.jAmount.toFixed(2)}`,
+        `¥ ${item.dAmount.toFixed(2)}`,
         item.subjName,
         item.subj,
         '',
@@ -104,6 +104,10 @@ export default class SearchCertificate extends Vue {
     }
 
     const rsp = await ToolkitService.exportListToXlsx(head, data);
+    window.open(
+      `/api/file/download?sName=${rsp.fileName}&type=export`,
+      '_blank'
+    );
   }
 }
 </script>

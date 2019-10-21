@@ -153,6 +153,10 @@ export default class Certifcate extends Vue {
     }
 
     const rsp = await ToolkitService.exportListToXlsx(head, data);
+    window.open(
+      `/api/file/download?sName=${rsp.fileName}&type=export`,
+      '_blank'
+    );
   }
 
   private showDetail(item: AuditProject) {

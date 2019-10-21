@@ -88,7 +88,7 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Vue, Watch,
+ Component, Prop, Vue, Watch 
 } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import FileService from '@/service/fileService';
@@ -100,7 +100,7 @@ const fileModule = namespace('file');
 const userModule = namespace('user');
 
 @Component({
-  components: {},
+  components: {}
 })
 export default class DocumentInfo extends Vue {
   @Prop({ default: '' }) public uuid!: string;
@@ -134,7 +134,7 @@ export default class DocumentInfo extends Vue {
       const rsp = await FileService.renameCatalog(
         this.currentProjectID,
         [...this.path, this.uuid],
-        this.currentName,
+        this.currentName
       );
       if (rsp.msg === 'success') {
         await FileService.getFile(this.currentProjectID, this.path);
@@ -147,12 +147,12 @@ export default class DocumentInfo extends Vue {
     const res = await this.$confirm('此操作无法恢复', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
-      dark: this.$vuetify.theme.dark,
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await FileService.deleteFile(
         [...this.path, this.uuid],
-        this.currentProjectID,
+        this.currentProjectID
       );
       this.$emit('clearDocumentInfo');
       await FileService.getFile(this.currentProjectID, this.path);
@@ -160,7 +160,7 @@ export default class DocumentInfo extends Vue {
   }
 
   private async downloadFile(item: any) {
-    window.open(`/api/file/download?sName=${item.sName}`, '_blank');
+    window.open(`/api/file/download?sName=${item.sName}&type=upload`, '_blank');
     // await FileService.downloadFile(item.sName);
   }
 
