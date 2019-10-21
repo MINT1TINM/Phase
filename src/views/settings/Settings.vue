@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <app-bar></app-bar>
+    <app-common></app-common>
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -14,24 +15,7 @@ import {
 import { namespace } from 'vuex-class';
 
 @Component
-export default class Settings extends Vue {
-  private get currentPath() {
-    return this.$route.path;
-  }
-
-  @Watch('currentPath')
-  private onChanged() {
-    if (this.currentPath === '/') {
-      this.$router.push({ path: '/profile' });
-    }
-  }
-
-  private mounted() {
-    if (this.currentPath === '/') {
-      this.$router.push({ path: '/profile' });
-    }
-  }
-}
+export default class Settings extends Vue {}
 </script>
 
 <style scoped>
