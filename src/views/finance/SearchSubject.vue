@@ -122,9 +122,10 @@
       <v-card height="500">
         <v-card-title class="pa-0">
           <v-toolbar flat class="transparent">
+            <v-toolbar-title class="subtitle-1 font-weight-black">凭证详情</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn icon @click="detailNav=false">
-              <v-icon size="20">mdi-close</v-icon>
+            <v-btn outlined rounded small @click="exportCertificateDetailList">
+              <v-icon size="15">mdi-export-variant</v-icon>&nbsp;导出结果
             </v-btn>
           </v-toolbar>
         </v-card-title>
@@ -133,13 +134,11 @@
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-left">凭证账号</th>
-                  <th class="text-left">日期</th>
-                  <th class="text-left">摘要</th>
-                  <th class="text-left">借方发生数</th>
-                  <th class="text-left">贷方发生数</th>
-                  <th class="text-left">科目名称</th>
-                  <th class="text-left">科目代码</th>
+                  <th
+                    class="text-left"
+                    v-for="(item,i) in certificateDetailHeaders"
+                    :key="`ch-${i}`"
+                  >{{item}}</th>
                 </tr>
               </thead>
               <tbody>
@@ -163,7 +162,7 @@
 
 <script lang="ts">
 import {
- Component, Prop, Vue, Watch 
+  Component, Prop, Vue, Watch
 } from 'vue-property-decorator';
 import FinanceService from '@/service/financeService';
 import { Certificate } from '@/types/finance';
@@ -192,6 +191,19 @@ export default class SearchSubject extends Vue {
   private sumJAmount: number = 0;
 
   private headers = ['科目名称', '科目代码', '借方发生数', '贷方发生数'];
+
+  private certificateDetailHeaders = [
+    '凭证账号',
+    '日期',
+    '摘要',
+    '借方发生数',
+    '贷方发生数',
+    '科目名称',
+    '科目代码',
+    '负责人姓名',
+    '负责人工号'
+  ];
+
 
   private async searchSubject() {
     if (this.$refs.searchSubjectForm.validate()) {
@@ -242,6 +254,36 @@ export default class SearchSubject extends Vue {
       '_blank'
     );
   }
+
+  private async exportCertificateDetailList() {
+    // adjust head & data field
+    const head: string[] = [];
+    for (const field of this.certificateDetailHeaders) {
+      head.push(field);
+    }
+
+    const data: any[] = [];
+    for (const item of this.certificateList || []) {
+      data.push([
+        item.uniNo,
+        item.date,
+        item.sabstract,
+        `¥ ${item.jAmount.toFixed(2)}`,
+        `¥ ${item.dAmount.toFixed(2)}`,
+        item.subjName,
+        item.subj,
+        '',
+        item.chargeSno
+      ]);
+    }
+
+    const rsp = await ToolkitService.exportListToXlsx(head, data);
+    window.open(
+      `/api/file/download?sName=${rsp.fileName}&type=export`,
+      '_blank'
+    );
+  }
+
 
   private get dateRangeText() {
     return this.dateRange.join(' ~ ');
