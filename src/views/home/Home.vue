@@ -74,7 +74,7 @@
         </v-layout>
       </v-container>
 
-      <v-container grid-list-md fluid>
+      <!-- <v-container grid-list-md fluid>
         <v-layout row wrap>
           <v-flex xs8 offset-2>
             <v-card-title class="subtitle-1 font-weight-black">
@@ -105,7 +105,7 @@
             </v-layout>
           </v-flex>
         </v-layout>
-      </v-container>
+      </v-container>-->
     </v-content>
   </v-app>
 </template>
