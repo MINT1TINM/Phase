@@ -1,12 +1,14 @@
 import Confirm from './Confirm.vue';
 
+/* eslint-disable */
+
 function Install(Vue, options) {
   const property = (options && options.property) || '$confirm';
-  function createDialogCmp(opt) {
+  function createDialogCmp(options) {
     return new Promise((resolve) => {
       const cmp = new Vue(
         Object.assign({}, Confirm, {
-          propsData: Object.assign({}, Vue.prototype.$confirm.options, opt),
+          propsData: Object.assign({}, Vue.prototype.$confirm.options, options),
           destroyed: (c) => {
             document.body
               .getElementsByClassName('v-application--wrap')[0]
@@ -21,8 +23,9 @@ function Install(Vue, options) {
     });
   }
 
-  function show(message, opt = {}) {
-    return createDialogCmp({ opt, message });
+  function show(message, options = {}) {
+    options.message = message;
+    return createDialogCmp(options);
   }
 
   Vue.prototype[property] = show;
