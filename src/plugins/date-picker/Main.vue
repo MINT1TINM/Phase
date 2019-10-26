@@ -13,6 +13,7 @@
         v-model="dateShow"
         outlined
         hide-details
+        class="body-2"
         :disabled="disabled"
         :single-line="dense?false:true"
         :label="label"

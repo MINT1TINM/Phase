@@ -28,12 +28,14 @@
               :type="content.password?`password`:``"
               :rules="content.rules"
               outlined
+              class="body-2"
               hide-details
             ></v-text-field>
             <!-- text-area -->
             <v-textarea
               v-else-if="content.type==='text-area'"
               dense
+              class="body-2"
               v-model="target[content.name]"
               :disabled="content.disabled || disabled"
               :label="dense?`${content.title}`:``"
@@ -51,6 +53,7 @@
               :chips="content.chips"
               :disabled="content.disabled || disabled"
               hide-details
+              class="body-2"
               style="line-height:14px"
               :item-text="content.text"
               :item-value="content.value"
@@ -81,6 +84,7 @@
               :chips="content.chips"
               multiple
               outlined
+              class="body-2"
               :disabled="content.disabled || disabled"
               hide-details
               style="line-height:14px"
@@ -123,7 +127,7 @@
             <!-- switch -->
             <v-switch
               v-else-if="content.type === `switch`"
-              class="mt-0"
+              class="mt-0 body-2"
               color="primary"
               hide-details
               v-model="target[content.name]"
@@ -143,6 +147,7 @@
             <v-combobox
               v-else-if="content.type==='tags'"
               dense
+              class="body-2"
               :label="dense?`${content.title}`:``"
               outlined
               :disabled="content.disabled || disabled"
@@ -158,6 +163,7 @@
               v-model="target.formContent[j][content.name]"
               color="deep-purple accent-4"
               counter
+              class="body-2"
               label="File input"
               multiple
               placeholder="Select your files"
@@ -185,7 +191,7 @@ import datePicker from '../date-picker/Main.vue';
 
 export default {
   components: {
-    'date-picker': datePicker,
+    'date-picker': datePicker
   },
   name: 'dim-form',
   props: {
@@ -193,12 +199,12 @@ export default {
     keyName: String,
     formContent: Array,
     target: Object,
-    disabled: Boolean,
+    disabled: Boolean
   },
   data() {
     return {};
   },
-  mounted() {},
+  mounted() {}
 };
 </script>
 

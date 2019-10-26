@@ -45,6 +45,40 @@
       </v-menu>
     </v-toolbar-items>
 
+    <v-toolbar-items v-if="$route.params.processID">
+      <v-icon small>mdi-chevron-right</v-icon>
+    </v-toolbar-items>
+
+    <!-- process switcher -->
+    <v-toolbar-items v-if="$route.params.processID">
+      <v-menu :close-on-content-click="false" v-model="processSwitcher" offset-y :nudge-width="200">
+        <template v-slot:activator="{on}">
+          <v-btn style="padding:0 15px" text v-on="on" class="text-none">
+            {{currentProcess($route.params.processID).name}}
+            <v-icon small>mdi-chevron-down</v-icon>
+          </v-btn>
+        </template>
+        <v-card tile>
+          <v-subheader class="font-weight-black">切换过程</v-subheader>
+          <v-list dense>
+            <v-list-item
+              v-for="item in currentProcessList"
+              :key="`project-${item.id}`"
+              @click="alterProcess(item.id)"
+            >
+              <v-list-item-avatar>
+                <v-avatar color="primary" size="32">
+                  <img v-if="item.headImgURL" :src="item.headImgURL | httpsfy" />
+                  <span v-else class="white--text">{{item.name | avatar}}</span>
+                </v-avatar>
+              </v-list-item-avatar>
+              <v-list-item-title>{{ item.name }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-menu>
+    </v-toolbar-items>
+
     <v-divider v-if="currentProjectID" vertical inset></v-divider>
 
     <!-- exporter -->
@@ -99,8 +133,11 @@ import { namespace } from 'vuex-class';
 import { Prop } from 'vue-property-decorator';
 import ProjectService from '@/service/projectService';
 import commonSearch from '@/components/common/search/Search.vue';
+import { Task } from '@/types/task';
+import { Process } from '../../../../types/process';
 
 const projectModule = namespace('project');
+const processModule = namespace('process');
 const systemModule = namespace('system');
 
 @Component({
@@ -115,6 +152,8 @@ export default class ProjectBar extends Vue {
 
   private projectSwitcher: boolean = false;
 
+  private processSwitcher: boolean = false;
+
   private saveToTemplateDialog: boolean = false;
 
   private commonSearchDialog: boolean = false;
@@ -126,6 +165,10 @@ export default class ProjectBar extends Vue {
   @projectModule.Getter('currentProject') private currentProject: any;
 
   @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+
+  @processModule.Getter('currentProcess') private currentProcess!: (v: string) => (Process);
+
+  @processModule.Getter('currentProcessList') private currentProcessList!: Process[];
 
   @projectModule.Mutation('updateCurrentProjectID')
   private updateCurrentProjectID: any;
@@ -143,8 +186,19 @@ export default class ProjectBar extends Vue {
 
     // some loading content
     this.updateCurrentProjectID(projectID);
-    this.$router.push({ path: '/project/process' });
+    this.$router.push({ path: '/process' });
     setTimeout(() => {
+      this.toggleFullScreenLoading(false);
+    }, 500);
+  }
+
+  private alterProcess(processID: number) {
+    this.toggleFullScreenLoading(true);
+    this.processSwitcher = false;
+
+    setTimeout(() => {
+      // some loading content
+      this.$router.push({ path: `/process/${processID}/task` });
       this.toggleFullScreenLoading(false);
     }, 500);
   }
@@ -160,7 +214,6 @@ export default class ProjectBar extends Vue {
 
   private mounted() {
     this.projectListShow = this.projectList;
-    console.log(this.currentProject);
   }
 }
 </script>
