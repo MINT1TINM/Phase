@@ -32,7 +32,7 @@
               <v-slide-item
                 draggable="true"
                 v-for="(item,i) in processListShow"
-                :key="`process-${i}`"
+                :key="`process-${item.id}`"
               >
                 <div :class="i==0?'ml-5 my-2 mr-2':`mx-2 my-2`" style="width:300px">
                   <process-column :processID="item.id" :processName="item.name"></process-column>
@@ -67,7 +67,7 @@
 
 <script lang="ts">
 import {
- Component, Prop, Vue, Watch 
+  Component, Prop, Vue, Watch
 } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import processColumn from '@/components/project/process/ProcessColumn.vue';

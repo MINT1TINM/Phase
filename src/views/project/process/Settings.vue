@@ -141,7 +141,7 @@ export default class Settings extends Vue {
     });
     if (res) {
       await ProcessService.deleteProcess(this.$route.params.processID);
-      this.$router.push({ path: '/project/process' });
+      this.$router.push({ path: '/process' });
     }
   }
 
