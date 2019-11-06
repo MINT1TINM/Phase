@@ -12,7 +12,7 @@
               <v-form ref="loginForm">
                 <v-text-field
                   dense
-                  class="mb-3"
+                  class="mb-3 body-2"
                   hide-details
                   outlined
                   single-line
@@ -22,6 +22,7 @@
                 ></v-text-field>
                 <v-text-field
                   dense
+                  class="body-2"
                   type="password"
                   outlined
                   single-line

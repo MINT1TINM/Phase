@@ -21,7 +21,7 @@
         <v-layout row wrap>
           <v-flex xs8 offset-2>
             <v-card-title class="subtitle-1 font-weight-black">
-              办公应用
+              应用
               <v-spacer></v-spacer>
             </v-card-title>
             <v-container>
@@ -73,39 +73,6 @@
           </v-flex>
         </v-layout>
       </v-container>
-
-      <!-- <v-container grid-list-md fluid>
-        <v-layout row wrap>
-          <v-flex xs8 offset-2>
-            <v-card-title class="subtitle-1 font-weight-black">
-              物管应用
-              <v-spacer></v-spacer>
-            </v-card-title>
-
-            <v-layout row wrap>
-              <v-flex xs15 v-for="(item,i) in estateAppList" :key="`e-app-${i}`">
-                <v-hover v-slot:default="{ hover }">
-                  <v-card
-                    color="transparent"
-                    :elevation="hover ? 8 : 0"
-                    @click="goToApp(item.route)"
-                  >
-                    <v-layout align-center justify-center style="padding:10%">
-                      <v-img
-                        aspect-ratio="1"
-                        class="ma-2"
-                        style="display:block;margin:auto"
-                        :src="item.icon"
-                      ></v-img>
-                    </v-layout>
-                    <div class="body-2 pb-5 pt-0 font-weight-black text-center">{{item.name}}</div>
-                  </v-card>
-                </v-hover>
-              </v-flex>
-            </v-layout>
-          </v-flex>
-        </v-layout>
-      </v-container>-->
     </v-content>
   </v-app>
 </template>
