@@ -67,6 +67,14 @@ const state: State = {
       themeColorDark: '#6099fc',
     },
     {
+      name: '政策',
+      nameEn: 'policy',
+      route: 'policy',
+      icon: 'icon/icon_finance.svg',
+      themeColor: '#A1887F',
+      themeColorDark: '#D7CCC8',
+    },
+    {
       name: '管理',
       nameEn: 'admin',
       route: 'admin',

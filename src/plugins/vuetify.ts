@@ -4,32 +4,20 @@ import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
 import colors from 'vuetify/lib/util/colors';
 import zhHans from 'vuetify/src/locale/zh-Hans';
+import store from '@/store/store';
+import { App } from '@/types/system';
 
 Vue.use(Vuetify);
 
 const path = window.location.pathname.split('/')[1];
-let themeColor = '';
-switch (path) {
-  case 'project':
-    themeColor = colors.lightBlue.base;
-    break;
-  case 'contact':
-    themeColor = colors.deepPurple.lighten2;
-    break;
-  case 'sheet':
-    themeColor = colors.teal.lighten2;
-    break;
-  case 'finance':
-    themeColor = colors.blue.darken1;
-    break;
-  case 'event':
-    break;
-  case 'admin':
-    themeColor = colors.grey.lighten1;
-    break;
-  default:
-    themeColor = colors.purple.lighten2;
-    break;
+
+let themeColor = colors.purple.lighten2;
+let themeColorDark = colors.purple.lighten2;
+
+const currentApp = store.getters['system/currentApp'](path) as App;
+if (currentApp) {
+  themeColor = currentApp.themeColor;
+  themeColorDark = currentApp.themeColorDark;
 }
 
 export default new Vuetify({
@@ -48,7 +36,7 @@ export default new Vuetify({
         warning: '#FFC107',
       },
       light: {
-        primary: themeColor,
+        primary: themeColorDark,
         secondary: '#424242',
         accent: '#82B1FF',
         error: colors.red.darken1,
