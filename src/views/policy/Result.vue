@@ -68,8 +68,8 @@ export default class PolicyExploreResult extends Vue {
 
   private async searchPolicy() {
     const rsp = await PolicyService.searchPolicy(this.search, Number(this.$route.query.page), 50);
-    this.policyList = rsp.policyList;
-    this.count = rsp.count;
+    this.policyList = rsp.policyList || [];
+    this.count = rsp.count || 0;
   }
 
   private get search() {

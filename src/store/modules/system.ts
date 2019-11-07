@@ -70,7 +70,7 @@ const state: State = {
       name: '政策',
       nameEn: 'policy',
       route: 'policy',
-      icon: 'icon/icon_finance.svg',
+      icon: 'icon/icon_policy.svg',
       themeColor: '#A1887F',
       themeColorDark: '#D7CCC8',
     },

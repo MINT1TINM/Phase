@@ -7,24 +7,26 @@
         {{policyInfo.title}}
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <v-btn icon @click="$router.go(-1)">
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-app-bar>
     <v-content>
-      <v-container>
-        <v-layout class="mt-2" justify-start>
-          <strong>简介</strong>
-          <p class="ml-2">{{policyInfo.describe}}</p>
-        </v-layout>
-        <v-layout class="mb-2" justify-start>
-          <strong>类型</strong>
-          <p class="ml-2">{{policyInfo.regulations_category}}</p>
-        </v-layout>
-        <v-layout justify-center>
-          <p class="body-2" v-html="policyInfo.text"></p>
-        </v-layout>
-      </v-container>
+      <transition appear appear-active-class="fade-up-enter">
+        <v-container>
+          <v-layout class="mt-2" justify-start>
+            <strong>简介</strong>
+            <p class="ml-2">{{policyInfo.describe}}</p>
+          </v-layout>
+          <v-layout class="mb-2" justify-start>
+            <strong>类型</strong>
+            <p class="ml-2">{{policyInfo.regulations_category}}</p>
+          </v-layout>
+          <v-layout justify-center>
+            <p class="body-2" v-html="policyInfo.text"></p>
+          </v-layout>
+        </v-container>
+      </transition>
     </v-content>
   </div>
 </template>
