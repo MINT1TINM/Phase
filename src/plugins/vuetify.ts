@@ -15,10 +15,12 @@ let themeColor = colors.purple.lighten2;
 let themeColorDark = colors.purple.lighten2;
 
 const currentApp = store.getters['system/currentApp'](path) as App;
-if (currentApp) {
+console.log(currentApp);
+if (currentApp.themeColor) {
   themeColor = currentApp.themeColor;
   themeColorDark = currentApp.themeColorDark;
 }
+
 
 export default new Vuetify({
   theme: {

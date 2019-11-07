@@ -15,8 +15,8 @@
     </v-app-bar>
 
     <v-navigation-drawer
-      height="calc(100vh - 48px)"
-      style="overflow:auto"
+      height="calc(100vh - 96px)"
+      style="overflow:auto;margin-top:48px"
       width="300"
       class="acrylic"
       permanent

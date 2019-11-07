@@ -75,15 +75,20 @@
               </v-card-text>
             </v-card>
           </v-flex>
-          <v-subheader class="subtitle-2 pl-0">可使用的应用</v-subheader>
-          <v-subheader class="caption pl-0">*对管理员用户无效</v-subheader>
+          <div class="subtitle-2 pl-0 mt-6 mb-1">应用程序</div>
+          <div class="caption pl-0 mb-2">*对管理员用户无效</div>
           <v-card outlined flat>
             <v-list nav dense>
               <v-list-item-group multiple v-model="userInfo.applicationList">
                 <template v-for="(item, i) in selectableAppList">
                   <v-divider v-if="!item" :key="`divider-${i}`"></v-divider>
 
-                  <v-list-item v-else :key="`item-${i}`" :value="item.nameEn">
+                  <v-list-item
+                    style="pointer-events:none"
+                    v-else
+                    :key="`item-${i}`"
+                    :value="item.nameEn"
+                  >
                     <template v-slot:default="{ active, toggle }">
                       <v-list-item-avatar>
                         <v-img :src="item.icon"></v-img>
@@ -92,8 +97,19 @@
                         <v-list-item-title v-text="item.name"></v-list-item-title>
                       </v-list-item-content>
 
-                      <v-list-item-action>
-                        <v-checkbox :input-value="active" :true-value="item.nameEn" @click="toggle"></v-checkbox>
+                      <!-- app access -->
+                      <v-list-item-action style="pointer-events:auto">
+                        <v-tooltip bottom>
+                          <template v-slot:activator="{ on }">
+                            <v-checkbox
+                              v-on="on"
+                              :input-value="active"
+                              :true-value="item.nameEn"
+                              @click="toggle"
+                            ></v-checkbox>
+                          </template>
+                          <span class="caption">使用权</span>
+                        </v-tooltip>
                       </v-list-item-action>
                     </template>
                   </v-list-item>
@@ -108,6 +124,8 @@
               </v-flex>
             </v-layout>
           </v-card>
+
+          <AppAccess :permission="userInfo.permission"></AppAccess>
         </v-container>
         <v-container v-else-if="tab===`security`" fluid grid-list-md>
           <v-layout row wrap>
@@ -162,11 +180,16 @@ import { namespace } from 'vuex-class';
 import UserService from '@/service/userService';
 import { UserInfo, Login } from '@/types/user';
 import { App } from '@/types/system';
+import AppAccess from './AppAccess.vue';
 
 const userModule = namespace('user');
 const systemModule = namespace('system');
 
-@Component
+@Component({
+  components: {
+    AppAccess
+  }
+})
 export default class AdminUserInfoNav extends Vue {
   @Prop(String) public userID!: string;
 
@@ -191,6 +214,8 @@ export default class AdminUserInfoNav extends Vue {
     sex: '',
     unionid: '',
   };
+
+  private appAccessNav: boolean = false
 
   private tab = null;
 

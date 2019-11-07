@@ -2,9 +2,9 @@
   <v-app>
     <app-bar></app-bar>
     <app-common></app-common>
-    <div>
+    <v-content>
       <router-view></router-view>
-    </div>
+    </v-content>
   </v-app>
 </template>
 
@@ -15,7 +15,7 @@ import { namespace } from 'vuex-class';
 @Component({
   components: {}
 })
-export default class Finance extends Vue {}
+export default class Finance extends Vue { }
 </script>
 
 <style scoped>

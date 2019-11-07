@@ -25,6 +25,7 @@ interface UserInfo {
   privateInfo?: PrivateInfo;
   privacySetting?: PrivacySetting;
   applicationList?: string[];
+  permission?: UserPermission
 }
 
 interface UserProject {
@@ -52,6 +53,62 @@ interface PrivacySetting {
   hidePhone: boolean;
 }
 
+class UserPermission {
+  project!: {
+    createProject: boolean
+    deleteProject: boolean
+  }
+
+  contact!: {}
+
+  sheet!: {
+    createTemplate: boolean
+    editTemplate: boolean
+    deleteTemplate: boolean
+  }
+
+  event!: {}
+
+  finance!: {}
+
+  policy!: {
+    createPolicy: boolean
+    editPolicy: boolean
+    deletePolicy: boolean
+  }
+
+  constructor(v: boolean) {
+    this.project = {
+      createProject: v,
+      deleteProject: v
+    };
+
+    this.sheet = {
+      createTemplate: v,
+      deleteTemplate: v,
+      editTemplate: v,
+    };
+
+    this.policy = {
+      createPolicy: v,
+      editPolicy: v,
+      deletePolicy: v
+    };
+  }
+}
+
+// translation
+const UserPermissionCN = {
+  createProject: '创建项目',
+  deleteProject: '删除项目',
+  createTemplate: '创建模版',
+  deleteTemplate: '删除模版',
+  editTemplate: '编辑模版',
+  createPolicy: '创建政策',
+  editPolicy: '编辑政策',
+  deletePolicy: '删除政策'
+};
+
 export {
   Authorization,
   UserInfo,
@@ -59,4 +116,6 @@ export {
   Login,
   PrivateInfo,
   PrivacySetting,
+  UserPermission,
+  UserPermissionCN
 };

@@ -50,14 +50,14 @@ const state: State = {
       themeColor: '#26A69A',
       themeColorDark: '#26A69A',
     },
-    // {
-    //   name: "活动",
-    //   nameEn: "event",
-    //   route: "event",
-    //   icon: "icon/icon_event.svg",
-    //   themeColor: "#c7521c",
-    //   themeColorDark: "#c7521c"
-    // },
+    {
+      name: '活动',
+      nameEn: 'event',
+      route: 'event',
+      icon: 'icon/icon_event.svg',
+      themeColor: '#c7521c',
+      themeColorDark: '#c7521c'
+    },
     {
       name: '财务',
       nameEn: 'finance',
@@ -71,8 +71,8 @@ const state: State = {
       nameEn: 'policy',
       route: 'policy',
       icon: 'icon/icon_policy.svg',
-      themeColor: '#A1887F',
-      themeColorDark: '#D7CCC8',
+      themeColor: '#D7CCC8',
+      themeColorDark: '#A1887F',
     },
     {
       name: '管理',
@@ -137,10 +137,7 @@ const getters = {
   fullScreenLoading: (s: State) => s.fullScreenLoading,
   appList: (s: State) => s.appList,
   estateAppList: (s: State) => s.estateAppList,
-  currentApp: (s: State) => (name: string) => {
-    console.log(name);
-    return s.appList.find((e: App) => e.nameEn === name);
-  },
+  currentApp: (s: State) => (name: string) => s.appList.find((e: App) => e.nameEn === name) || new App(),
   uploadPercent: (s: State) => s.uploadPercent,
   invitationList: (s: State) => s.invitationList,
   permissionList: (s: State) => s.permissionList,

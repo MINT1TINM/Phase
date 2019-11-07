@@ -37,6 +37,7 @@
       </v-simple-table>
     </v-flex>
 
+    <!-- userinfo nav -->
     <v-navigation-drawer width="800" right temporary fixed v-model="infoNav">
       <info-nav :userID="currentContactID" @closeNav="infoNav=false"></info-nav>
     </v-navigation-drawer>
