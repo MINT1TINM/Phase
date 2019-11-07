@@ -7,7 +7,6 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            component: () => import('@/views/finance/Finance.vue'),
             children: [
                 {
                     path: '/project',

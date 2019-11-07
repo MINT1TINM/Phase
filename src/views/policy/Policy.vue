@@ -2,9 +2,9 @@
   <v-app>
     <app-bar></app-bar>
     <app-common></app-common>
-    <div>
+    <v-content>
       <router-view></router-view>
-    </div>
+    </v-content>
   </v-app>
 </template>
 
@@ -12,7 +12,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class Policy extends Vue {
+export default class PolicyIndex extends Vue {
 
 }
 </script>
