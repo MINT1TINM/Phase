@@ -8,7 +8,7 @@
       </v-tabs>
       <v-container fluid>
         <div v-for="(item,i) in permissionList" :key="`p-${i}`">
-          <v-switch v-model="permissionList[i]" :label="getCN(i)"></v-switch>
+          <v-switch dense hide-details v-model="permissionList[i]" :label="getCN(i)"></v-switch>
         </div>
       </v-container>
       <v-layout row wrap justify-center class="my-3">
@@ -29,12 +29,15 @@ import {
 import { namespace } from 'vuex-class';
 import { App } from '@/types/system';
 import { UserPermission, UserPermissionCN } from '@/types/user';
+import UserService from '@/service/userService';
 
 const systemModule = namespace('system');
 
 @Component
 export default class AppAccess extends Vue {
-  @Prop() private permission: any
+  @Prop() private permission!: UserPermission
+
+  @Prop() private userID!: string
 
   @systemModule.Getter('appList') private appList!: App[]
 
@@ -50,6 +53,8 @@ export default class AppAccess extends Vue {
 
   private async updatePermission() {
     console.log(this.permissionShow);
+    await UserService.updateUserPermission(this.userID, this.permissionShow);
+    this.$emit('getUserInfo');
   }
 
   private get permissionList() {
@@ -59,6 +64,11 @@ export default class AppAccess extends Vue {
   @Watch('tab')
   private onTabChanged(v: number) {
     this.currentApp = this.appList[v];
+  }
+
+  @Watch('permission')
+  private onPermissionChanged() {
+    this.permissionShow = this.permission;
   }
 
   private mounted() {

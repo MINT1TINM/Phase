@@ -2,7 +2,9 @@ import Vue from 'vue';
 
 import basicService from '@/service/basicService';
 import store from '@/store/store';
-import { UserInfo, PrivateInfo, PrivacySetting } from '@/types/user';
+import {
+  UserInfo, PrivateInfo, PrivacySetting, UserPermission
+} from '@/types/user';
 
 const vue = new Vue() as any;
 
@@ -90,6 +92,17 @@ class UserService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
+      vue.$snackbar.show('修改成功');
+    }
+    return rsp;
+  }
+
+  public static async updateUserPermission(id: string, permission: UserPermission) {
+    const rsp = await basicService.putRequest('/user/permission', {
+      id,
+      permission
+    });
+    if (rsp.msg === 'success') {
       vue.$snackbar.show('修改成功');
     }
     return rsp;
