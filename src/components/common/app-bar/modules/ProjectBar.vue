@@ -34,7 +34,7 @@
             >
               <v-list-item-avatar>
                 <v-avatar color="primary" size="32">
-                  <img v-if="item.headImgURL" :src="item.headImgURL | httpsfy" />
+                  <img v-if="item.folderURL" :src="item.folderURL | httpsfy" />
                   <span v-else class="white--text">{{item.name | avatar}}</span>
                 </v-avatar>
               </v-list-item-avatar>
@@ -148,8 +148,6 @@ const systemModule = namespace('system');
 export default class ProjectBar extends Vue {
   private searchProjectContent: string = '';
 
-  private projectListShow = [];
-
   private projectSwitcher: boolean = false;
 
   private processSwitcher: boolean = false;
@@ -212,8 +210,11 @@ export default class ProjectBar extends Vue {
     this.saveToTemplateDialog = false;
   }
 
+  private get projectListShow() {
+    return this.projectList;
+  }
+
   private mounted() {
-    this.projectListShow = this.projectList;
   }
 }
 </script>

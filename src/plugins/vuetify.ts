@@ -27,7 +27,7 @@ export default new Vuetify({
     },
     themes: {
       dark: {
-        primary: themeColor,
+        primary: themeColorDark,
         secondary: '#424242',
         accent: '#82B1FF',
         error: colors.red.darken1,
@@ -36,7 +36,7 @@ export default new Vuetify({
         warning: '#FFC107',
       },
       light: {
-        primary: themeColorDark,
+        primary: themeColor,
         secondary: '#424242',
         accent: '#82B1FF',
         error: colors.red.darken1,

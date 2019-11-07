@@ -80,7 +80,7 @@ const state: State = {
       route: 'admin',
       icon: 'icon/icon_admin.svg',
       themeColor: '#333333',
-      themeColorDark: '#d4d4d4',
+      themeColorDark: '#c9c9c9',
       privilege: ['god'],
     },
   ],
