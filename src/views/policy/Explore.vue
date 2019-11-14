@@ -4,9 +4,15 @@
       <v-flex xs10 md6>
         <v-layout class="mb-10">
           <!-- edit -->
-          <v-btn icon x-large class="mr-4" @click="createPolicy">
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon x-large class="mr-4" @click="createPolicy">
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </template>
+            <span>创建政策</span>
+          </v-tooltip>
+
           <h1 class="display-2 font-weight-black">搜索政策</h1>
         </v-layout>
         <v-text-field
