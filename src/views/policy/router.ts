@@ -16,6 +16,10 @@ const router = new Router({
     {
       path: '/info/:id',
       component: () => import('@/views/policy/Info.vue')
+    },
+    {
+      path: '/edit/:id',
+      component: () => import('@/views/policy/Edit.vue')
     }
   ]
 });

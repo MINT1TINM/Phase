@@ -61,10 +61,14 @@ Vue.filter('avatar', (v: string) => {
 });
 
 // cut long string
-Vue.filter('cut', (v: string) => {
-  if (v.length && v.length > 8) {
+Vue.filter('cut', (v: string, len?: number) => {
+  if (len && v.length && v.length > len) {
+    return `${v.slice(0, len - 1)} ...`;
+  }
+  if (!len && v.length && v.length > 8) {
     return `${v.slice(0, 7)} ...`;
   }
+
   return v;
 });
 

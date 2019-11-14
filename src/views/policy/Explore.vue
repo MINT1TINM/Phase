@@ -3,6 +3,10 @@
     <v-layout justify-center align-center style="height:70%">
       <v-flex xs10 md6>
         <v-layout class="mb-10">
+          <!-- edit -->
+          <v-btn icon x-large class="mr-4" @click="createPolicy">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
           <h1 class="display-2 font-weight-black">搜索政策</h1>
         </v-layout>
         <v-text-field
@@ -23,11 +27,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
 import PolicyService from '@/service/policyService';
 import { Policy } from '@/types/policy';
 
+const userModule = namespace('user');
+
 @Component
-export default class PolicyExplore extends Vue {
+export default class ExplorePolicy extends Vue {
+  @userModule.Getter('isGod') private isGod!: boolean
+
   private searchContent: string = ''
 
   private policyList: Policy[] = []
@@ -41,6 +50,13 @@ export default class PolicyExplore extends Vue {
         page: '1'
       }
     });
+  }
+
+  private async createPolicy() {
+    const rsp = await PolicyService.createPolicy('未命名政策');
+    if (rsp.id) {
+      this.$router.push({ path: `/edit/${rsp.id}` });
+    }
   }
 }
 </script>

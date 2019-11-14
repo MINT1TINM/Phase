@@ -28,13 +28,13 @@
             <v-layout justify-start>
               <v-list two-line color="transparent">
                 <div v-for="(item,i) in policyList" :key="`p-${i}`">
-                  <v-list-item :to="`/info/${item.id}`">
+                  <v-list-item :to="isGod?`/edit/${item.id}`:`/info/${item.id}`">
                     <v-list-item-content>
                       <v-list-item-title class="body-2 font-weight-bold">
                         <v-chip small>{{item.effective_level}}</v-chip>
-                        {{item.title}}
+                        {{item.title | cut(60)}}
                       </v-list-item-title>
-                      <v-list-item-subtitle class="mt-2">{{item.describe}}</v-list-item-subtitle>
+                      <v-list-item-subtitle class="mt-2">{{item.describe | cut(60)}}</v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                   <v-divider class="my-3"></v-divider>
@@ -55,11 +55,16 @@
 import {
   Component, Prop, Vue, Watch
 } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
 import PolicyService from '@/service/policyService';
 import { Policy } from '@/types/policy';
 
+const userModule = namespace('user');
+
 @Component
 export default class PolicyExploreResult extends Vue {
+  @userModule.Getter('isGod') private isGod!: boolean
+
   private policyList: Policy[] = []
 
   private count: number = 0

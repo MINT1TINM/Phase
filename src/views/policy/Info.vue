@@ -42,6 +42,9 @@ export default class PolicyInfo extends Vue {
 
   private async getInfo() {
     const rsp = await PolicyService.getPolicyInfo(Number(this.$route.params.id));
+    if (rsp.msg === 'notfound') {
+      this.$router.push({ path: '/' });
+    }
     this.policyInfo = rsp.policyInfo;
   }
 
