@@ -19,7 +19,7 @@ class PolicyService {
     const rsp = await basicService.postRequest('/policy', { title });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('创成功');
+      vue.$snackbar.show('创建成功');
     }
     return rsp;
   }
