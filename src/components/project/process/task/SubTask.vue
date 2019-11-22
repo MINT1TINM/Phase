@@ -71,6 +71,7 @@
                             <th class="text-center">判断标准</th>
                             <th class="text-center">实际情况</th>
                             <th class="text-center">是否合规</th>
+                            <th class="text-center">复核意见</th>
                             <th class="text-center">操作</th>
                           </tr>
                         </thead>
@@ -136,6 +137,18 @@
                                 v-model="item.status"
                                 :label="item.status ? `合规` : `不合规`"
                               ></v-switch>
+                            </td>
+                            <td class="px-1">
+                              <v-textarea
+                                single-line
+                                dense
+                                hide-details
+                                auto-grow
+                                rows="1"
+                                outlined
+                                v-model="item.review"
+                                >{{ item.review }}</v-textarea
+                              >
                             </td>
                             <td>
                               <v-btn icon @click="removeContent(i)">
@@ -417,7 +430,8 @@ export default class SubTaskList extends Vue {
       description: '',
       expect: '',
       reality: '',
-      status: false
+      status: false,
+      review: ''
     });
   }
 

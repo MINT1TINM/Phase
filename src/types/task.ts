@@ -52,6 +52,7 @@ interface SubTaskContent {
   expect: string;
   reality: string;
   status: boolean;
+  review: string;
 }
 
 interface SubTaskCertificate {
