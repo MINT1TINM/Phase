@@ -2,12 +2,21 @@
   <v-app>
     <app-common></app-common>
     <v-layout>
-      <v-flex class="hidden-sm-and-down" md9 style="background-color:#000"></v-flex>
+      <v-flex
+        class="hidden-sm-and-down"
+        md9
+        style="background-color:#000"
+      ></v-flex>
       <v-flex xs12 md3>
         <v-container fill-height style="padding:20px">
           <v-layout wrap align-center justify-start>
             <v-flex xs12>
-              <div class="display-1 font-weight-black mt-2 mb-4" style="color:#A64ED1">登录</div>
+              <div
+                class="display-1 font-weight-black mt-2 mb-4"
+                style="color:#A64ED1"
+              >
+                登录
+              </div>
 
               <v-form ref="loginForm">
                 <v-text-field
@@ -32,7 +41,14 @@
                   @keyup.enter="standardLogin()"
                 ></v-text-field>
               </v-form>
-              <v-btn outlined block color="primary" dark @click="standardLogin()">登录</v-btn>
+              <v-btn
+                outlined
+                block
+                color="primary"
+                dark
+                @click="standardLogin()"
+                >登录</v-btn
+              >
               <!-- <v-btn outlined class="mt-3" block color="green" dark @click="wechatLogin()">微信登录</v-btn> -->
               <v-btn class="mt-3" text color="primary">忘记密码?</v-btn>
               <!-- <v-divider class="my-3"></v-divider>
@@ -118,5 +134,4 @@ export default class Login extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

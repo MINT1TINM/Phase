@@ -59,6 +59,4 @@ interface SubTaskCertificate {
   ord: string;
 }
 
-export {
-  Task, Tags, TaskMember, SubTask, SubTaskContent, SubTaskCertificate,
-};
+export { Task, Tags, TaskMember, SubTask, SubTaskContent, SubTaskCertificate };

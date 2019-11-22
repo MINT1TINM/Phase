@@ -10,12 +10,19 @@
       fixed
     >
       <v-list nav dense color="transparent">
-        <v-list-item link v-for="(item,i) in appList" :key="i" :to="item.route">
+        <v-list-item
+          link
+          v-for="(item, i) in appList"
+          :key="i"
+          :to="item.route"
+        >
           <template>
             <v-list-item-icon style="margin-right:0">
-              <v-icon>{{item.icon}}</v-icon>
+              <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
-            <v-list-item-title style="margin-left:20px">{{item.name}}</v-list-item-title>
+            <v-list-item-title style="margin-left:20px">{{
+              item.name
+            }}</v-list-item-title>
           </template>
         </v-list-item>
       </v-list>

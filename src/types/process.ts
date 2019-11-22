@@ -29,7 +29,4 @@ interface ProcessMember {
   userID: string;
 }
 
-
-export {
-  Process, ProcessTask, ProcessMember,
-};
+export { Process, ProcessTask, ProcessMember };

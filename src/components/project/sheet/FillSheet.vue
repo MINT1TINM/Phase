@@ -18,12 +18,19 @@
     <v-container fluid class="py-0">
       <v-layout>
         <v-flex xs3>
-          <v-subheader class="body-2 px-1" style="height:36px">类型</v-subheader>
+          <v-subheader class="body-2 px-1" style="height:36px"
+            >类型</v-subheader
+          >
         </v-flex>
         <v-flex xs9>
           <v-text-field
             dense
-            :disabled="sheetInfoShow.target === `取证单`|| sheetInfoShow.target ===  `审计底稿`?true:false "
+            :disabled="
+              sheetInfoShow.target === `取证单` ||
+              sheetInfoShow.target === `审计底稿`
+                ? true
+                : false
+            "
             single-line
             hide-details
             outlined
@@ -34,27 +41,50 @@
     </v-container>
     <v-divider class="mt-4"></v-divider>
     <v-container class="pt-0" fluid v-if="templateInfo.type === `key`">
-      <dim-form :formContent="templateInfo.field.data" :target="sheetInfoShow.content"></dim-form>
+      <dim-form
+        :formContent="templateInfo.field.data"
+        :target="sheetInfoShow.content"
+      ></dim-form>
     </v-container>
     <!-- list -->
     <v-container fluid v-else-if="templateInfo.type === `list`">
       <v-simple-table>
         <thead>
           <tr>
-            <th v-for="(item,i) in templateInfo.field.data" :key="`field-title-${i}`">{{item.title}}</th>
+            <th
+              v-for="(item, i) in templateInfo.field.data"
+              :key="`field-title-${i}`"
+            >
+              {{ item.title }}
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item,i) in sheetInfoShow.content" :key="`c-${i}`">
-            <td v-for="(field,i) in templateInfo.field.data" :key="`field-${i}`">
-              <v-text-field outlined single-line hide-details v-model="item[field.name]" dense></v-text-field>
+          <tr v-for="(item, i) in sheetInfoShow.content" :key="`c-${i}`">
+            <td
+              v-for="(field, i) in templateInfo.field.data"
+              :key="`field-${i}`"
+            >
+              <v-text-field
+                outlined
+                single-line
+                hide-details
+                v-model="item[field.name]"
+                dense
+              ></v-text-field>
             </td>
           </tr>
         </tbody>
       </v-simple-table>
       <v-layout justify-center class="mt-3">
         <v-flex xs6>
-          <v-btn block @click="insertListElement" depressed rounded color="primary">
+          <v-btn
+            block
+            @click="insertListElement"
+            depressed
+            rounded
+            color="primary"
+          >
             <v-icon size="20">mdi-plus</v-icon>
           </v-btn>
         </v-flex>
@@ -73,7 +103,7 @@ import { Sheet, Field, Template } from '@/types/sheet';
 const projectModule = namespace('project');
 
 @Component({
-  components: {},
+  components: {}
 })
 export default class FillSheet extends Vue {
   @projectModule.Getter('currentProjectID') private currentProjectID: any;
@@ -89,7 +119,7 @@ export default class FillSheet extends Vue {
       this.sheetInfoShow.id,
       this.sheetInfoShow.name,
       this.sheetInfoShow.target,
-      this.sheetInfoShow.content,
+      this.sheetInfoShow.content
     );
     await SheetService.getSheetList(this.currentProjectID);
     this.closeDialog();
@@ -111,7 +141,7 @@ export default class FillSheet extends Vue {
         if (this.sheetInfo.content[e.name] === undefined) {
           console.log('new');
           this.sheetInfo.content[e.name] = {
-            data: [],
+            data: []
           };
         }
         console.log(this.sheetInfo.content);
@@ -124,5 +154,4 @@ export default class FillSheet extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

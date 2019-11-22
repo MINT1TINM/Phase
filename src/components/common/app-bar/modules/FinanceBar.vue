@@ -17,5 +17,4 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class FinanceBar extends Vue {}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

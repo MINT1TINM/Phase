@@ -9,14 +9,11 @@
 </template>
 
 <script lang="ts">
-import {
- Component, Prop, Vue, Watch 
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 
 @Component
 export default class Settings extends Vue {}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

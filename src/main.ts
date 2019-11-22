@@ -47,7 +47,9 @@ Vue.filter('httpsfy', (url: string) => {
 });
 
 // format date
-Vue.filter('format', (date: string, fmt: string) => DateHelper.format(date, fmt));
+Vue.filter('format', (date: string, fmt: string) =>
+  DateHelper.format(date, fmt)
+);
 
 // get weekday
 Vue.filter('weekday', (date: string) => DateHelper.getWeekDay(date));
@@ -72,7 +74,4 @@ Vue.filter('cut', (v: string, len?: number) => {
   return v;
 });
 
-export {
-  Vue,
-  store
-};
+export { Vue, store };

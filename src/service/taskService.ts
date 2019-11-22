@@ -6,7 +6,7 @@ import {
   SubTaskContent,
   Task,
   TaskMember,
-  SubTaskCertificate,
+  SubTaskCertificate
 } from '@/types/task';
 
 const vue = new Vue();
@@ -14,18 +14,18 @@ const vue = new Vue();
 class TaskService {
   public static async getTaskList(processID: string) {
     const rsp = await basicService.getRequest('/task/list', {
-      processID,
+      processID
     });
     store.commit('process/updateCurrentProcessTask', {
       processID,
-      taskList: await rsp.taskList,
+      taskList: await rsp.taskList
     });
     return rsp;
   }
 
   public static async getMultiProcessTaskList(processIDList: string[]) {
     const rsp = await basicService.getRequest('/task/list/full', {
-      id: processIDList,
+      id: processIDList
     });
     store.commit('process/updateFullTaskList', rsp.taskList);
     return rsp;
@@ -34,7 +34,7 @@ class TaskService {
   public static async createTask(processID: string, name: string) {
     const rsp = await basicService.postRequest('/task', {
       processID,
-      name,
+      name
     });
 
     return rsp;
@@ -42,7 +42,7 @@ class TaskService {
 
   public static async getTaskInfo(taskID: string) {
     const rsp = await basicService.getRequest('/task/info', {
-      taskID,
+      taskID
     });
     store.commit('task/updateCurrentTask', rsp.task);
     return rsp;
@@ -59,7 +59,7 @@ class TaskService {
       actionStartDate: taskInfo.actionStartDate,
       actionEndDate: taskInfo.actionEndDate,
       executorID: taskInfo.executorID,
-      color: taskInfo.color,
+      color: taskInfo.color
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
@@ -70,7 +70,7 @@ class TaskService {
 
   public static async deleteTask(taskID: string) {
     const rsp = await basicService.deleteRequest('/task', {
-      taskID,
+      taskID
     });
     return rsp;
   }
@@ -78,12 +78,12 @@ class TaskService {
   public static async toggleTaskStatus(
     ProcessID: string,
     taskID: string,
-    status: boolean,
+    status: boolean
   ) {
     const rsp = await basicService.putRequest('/task/status', {
       ProcessID,
       taskID,
-      status,
+      status
     });
     return rsp;
   }
@@ -91,14 +91,14 @@ class TaskService {
   public static async updateTaskMember(taskID: string, member: TaskMember[]) {
     const rsp = await basicService.putRequest('/task/member', {
       taskID,
-      member,
+      member
     });
     return rsp;
   }
 
   public static async createSubTask(taskID: string) {
     const rsp = await basicService.postRequest('/task/subtask', {
-      taskID,
+      taskID
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
@@ -113,7 +113,7 @@ class TaskService {
     name: string,
     content: SubTaskContent[],
     file: any[],
-    certificate: SubTaskCertificate[],
+    certificate: SubTaskCertificate[]
   ) {
     const rsp = await basicService.putRequest('/task/subtask', {
       taskID,
@@ -121,7 +121,7 @@ class TaskService {
       name,
       content,
       file,
-      certificate,
+      certificate
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
@@ -133,7 +133,7 @@ class TaskService {
   public static async deleteSubTask(taskID: string, subTaskID: string) {
     const rsp = await basicService.deleteRequest('/task/subtask', {
       taskID,
-      subTaskID,
+      subTaskID
     });
     if (rsp.msg === 'success') {
       // @ts-ignore

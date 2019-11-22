@@ -26,7 +26,7 @@ const getBarLength = (timelineStartDate, startDate, endDate, columnWidth) => {
 
   return {
     marginLeft,
-    length,
+    length
   };
 };
 

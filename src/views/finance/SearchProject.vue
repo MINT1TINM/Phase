@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-app-bar dense fixed dark color="primary darken-1" style="margin-top:48px">
+    <v-app-bar
+      dense
+      fixed
+      dark
+      color="primary darken-1"
+      style="margin-top:48px"
+    >
       <v-layout>
         <v-flex xs6>
           <v-layout>
@@ -46,16 +52,26 @@
     </v-app-bar>
     <v-content>
       <transition appear appear-active-class="fade-left-enter">
-        <v-simple-table height="calc(100vh - 96px)" fixed-header class="transparent">
+        <v-simple-table
+          height="calc(100vh - 96px)"
+          fixed-header
+          class="transparent"
+        >
           <template v-slot:default>
             <thead>
               <tr>
-                <th v-for="(item,i) in headers" :key="`head-${i}`" class="text-left">{{item}}</th>
+                <th
+                  v-for="(item, i) in headers"
+                  :key="`head-${i}`"
+                  class="text-left"
+                >
+                  {{ item }}
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr
-                v-for="(item,i) in searchProjectResult"
+                v-for="(item, i) in searchProjectResult"
                 :key="`project-${i}`"
                 @click="showDetail(item)"
               >
@@ -74,9 +90,7 @@
 </template>
 
 <script lang="ts">
-import {
- Component, Prop, Vue, Watch 
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import FinanceService from '@/service/financeService';
 import { AuditProject } from '@/types/finance';
@@ -173,5 +187,4 @@ export default class Certifcate extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

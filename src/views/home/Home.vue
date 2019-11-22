@@ -9,8 +9,10 @@
             <v-card flat color="transparent" height="250">
               <v-layout fill-height align-center>
                 <div class="display-2 font-weight-black px-4">
-                  <p class="subtitle-2">{{new Date() | format("yyyy-MM-dd")}}</p>
-                  <h3>{{time}} {{userInfo.nickName}}</h3>
+                  <p class="subtitle-2">
+                    {{ new Date() | format('yyyy-MM-dd') }}
+                  </p>
+                  <h3>{{ time }} {{ userInfo.nickName }}</h3>
                 </div>
               </v-layout>
             </v-card>
@@ -27,14 +29,18 @@
             <v-container>
               <transition appear appear-active-class="fade-up-enter">
                 <v-layout row wrap v-if="isGod">
-                  <v-flex xs15 v-for="(item,i) in appList" :key="`app-${i}`">
+                  <v-flex xs15 v-for="(item, i) in appList" :key="`app-${i}`">
                     <v-hover v-slot:default="{ hover }">
                       <v-card
                         color="transparent"
                         :elevation="hover ? 8 : 0"
                         @click="goToApp(item.route)"
                       >
-                        <v-layout align-center justify-center style="padding:10%">
+                        <v-layout
+                          align-center
+                          justify-center
+                          style="padding:10%"
+                        >
                           <v-img
                             aspect-ratio="1"
                             class="ma-2"
@@ -42,20 +48,32 @@
                             :src="item.icon"
                           ></v-img>
                         </v-layout>
-                        <div class="body-2 pb-5 pt-0 font-weight-black text-center">{{item.name}}</div>
+                        <div
+                          class="body-2 pb-5 pt-0 font-weight-black text-center"
+                        >
+                          {{ item.name }}
+                        </div>
                       </v-card>
                     </v-hover>
                   </v-flex>
                 </v-layout>
                 <v-layout row wrap v-else>
-                  <v-flex xs15 v-for="(item,i) in availableAppList" :key="`app-${i}`">
+                  <v-flex
+                    xs15
+                    v-for="(item, i) in availableAppList"
+                    :key="`app-${i}`"
+                  >
                     <v-hover v-slot:default="{ hover }">
                       <v-card
                         color="transparent"
                         :elevation="hover ? 8 : 0"
                         @click="goToApp(item.route)"
                       >
-                        <v-layout align-center justify-center style="padding:10%">
+                        <v-layout
+                          align-center
+                          justify-center
+                          style="padding:10%"
+                        >
                           <v-img
                             aspect-ratio="1"
                             class="ma-2"
@@ -63,7 +81,11 @@
                             :src="item.icon"
                           ></v-img>
                         </v-layout>
-                        <div class="body-2 pb-5 pt-0 font-weight-black text-center">{{item.name}}</div>
+                        <div
+                          class="body-2 pb-5 pt-0 font-weight-black text-center"
+                        >
+                          {{ item.name }}
+                        </div>
                       </v-card>
                     </v-hover>
                   </v-flex>
@@ -145,5 +167,4 @@ export default class ComponentName extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

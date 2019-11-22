@@ -25,7 +25,7 @@ interface UserInfo {
   privateInfo?: PrivateInfo;
   privacySetting?: PrivacySetting;
   applicationList?: string[];
-  permission?: UserPermission
+  permission?: UserPermission;
 }
 
 interface UserProject {
@@ -55,27 +55,27 @@ interface PrivacySetting {
 
 class UserPermission {
   project!: {
-    createProject: boolean
-    deleteProject: boolean
-  }
+    createProject: boolean;
+    deleteProject: boolean;
+  };
 
-  contact!: {}
+  contact!: {};
 
   sheet!: {
-    createTemplate: boolean
-    editTemplate: boolean
-    deleteTemplate: boolean
-  }
+    createTemplate: boolean;
+    editTemplate: boolean;
+    deleteTemplate: boolean;
+  };
 
-  event!: {}
+  event!: {};
 
-  finance!: {}
+  finance!: {};
 
   policy!: {
-    createPolicy: boolean
-    editPolicy: boolean
-    deletePolicy: boolean
-  }
+    createPolicy: boolean;
+    editPolicy: boolean;
+    deletePolicy: boolean;
+  };
 
   constructor(v: boolean) {
     this.project = {
@@ -86,7 +86,7 @@ class UserPermission {
     this.sheet = {
       createTemplate: v,
       deleteTemplate: v,
-      editTemplate: v,
+      editTemplate: v
     };
 
     this.policy = {

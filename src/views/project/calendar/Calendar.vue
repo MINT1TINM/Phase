@@ -43,20 +43,30 @@
         >
           <v-card elevation="10" min-width="350px">
             <v-toolbar dense flat color="transparent">
-              <v-toolbar-title class="font-weight-black subtitle-1">速览 {{selectedEvent.name}}</v-toolbar-title>
+              <v-toolbar-title class="font-weight-black subtitle-1"
+                >速览 {{ selectedEvent.name }}</v-toolbar-title
+              >
               <v-spacer></v-spacer>
               <v-btn icon color="secondary" @click="selectedOpen = false">
                 <v-icon size="20">mdi-close</v-icon>
               </v-btn>
             </v-toolbar>
-            <v-card-text>{{selectedEvent.startDate}} 至 {{selectedEvent.endDate}}</v-card-text>
+            <v-card-text
+              >{{ selectedEvent.startDate }} 至
+              {{ selectedEvent.endDate }}</v-card-text
+            >
             <v-card-actions>
-              <user-chip class="my-2" :userID="selectedEvent.userID"></user-chip>
+              <user-chip
+                class="my-2"
+                :userID="selectedEvent.userID"
+              ></user-chip>
               <v-spacer></v-spacer>
               <v-btn
                 rounded
                 text
-                :to="`/process/${selectedEvent.processID}/task/${selectedEvent.id}`"
+                :to="
+                  `/process/${selectedEvent.processID}/task/${selectedEvent.id}`
+                "
               >
                 查看任务
                 <v-icon size="20">mdi-arrow-right</v-icon>

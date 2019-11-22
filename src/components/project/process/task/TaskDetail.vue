@@ -1,7 +1,11 @@
 <template>
   <v-layout fill-height>
     <transition appear>
-      <v-flex xs5 class="inner-sidebar-withoutpadding px-3" style="overflow-y:auto">
+      <v-flex
+        xs5
+        class="inner-sidebar-withoutpadding px-3"
+        style="overflow-y:auto"
+      >
         <v-toolbar flat color="transparent" class="font-weight-black">
           任务信息
           <v-spacer></v-spacer>
@@ -9,7 +13,7 @@
             rounded
             text
             @click="updateTaskInfo"
-            v-if="projectPermission(authorization.userID).indexOf(`u`)!=-1"
+            v-if="projectPermission(authorization.userID).indexOf(`u`) != -1"
           >
             <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
           </v-btn>
@@ -17,7 +21,9 @@
         <v-container fluid>
           <v-form ref="taskInfoForm">
             <dim-form
-              :disabled="projectPermission(authorization.userID).indexOf(`u`)==-1"
+              :disabled="
+                projectPermission(authorization.userID).indexOf(`u`) == -1
+              "
               :formContent="taskInfoContent"
               :target="currentTask"
             ></dim-form>
@@ -33,9 +39,15 @@
     >
       <transition appear appear-active-class="fade-up-enter">
         <v-container fluid>
-          <sub-task :subTask="currentTask.subTask || {data:[]}"></sub-task>
-          <related-sheet :sheetIDList="currentTask.sheet.data" class="mt-3"></related-sheet>
-          <related-draft :sheetIDList="currentTask.draft.data" class="mt-3"></related-draft>
+          <sub-task :subTask="currentTask.subTask || { data: [] }"></sub-task>
+          <related-sheet
+            :sheetIDList="currentTask.sheet.data"
+            class="mt-3"
+          ></related-sheet>
+          <related-draft
+            :sheetIDList="currentTask.draft.data"
+            class="mt-3"
+          ></related-draft>
           <operations class="mt-3"></operations>
         </v-container>
       </transition>

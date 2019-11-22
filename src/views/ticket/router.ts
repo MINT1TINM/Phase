@@ -7,7 +7,7 @@ const router = new Router({
   routes: [
     {
       path: '/query',
-      component: () => import('@/views/ticket/Query.vue'),
+      component: () => import('@/views/ticket/Query.vue')
     }
   ]
 });

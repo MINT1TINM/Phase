@@ -41,13 +41,13 @@ const userModule = namespace('user');
 
 @Component
 export default class ExplorePolicy extends Vue {
-  @userModule.Getter('isGod') private isGod!: boolean
+  @userModule.Getter('isGod') private isGod!: boolean;
 
-  private searchContent: string = ''
+  private searchContent: string = '';
 
-  private policyList: Policy[] = []
+  private policyList: Policy[] = [];
 
-  private count: number = 0
+  private count: number = 0;
 
   private async search() {
     this.$router.push({
@@ -67,5 +67,4 @@ export default class ExplorePolicy extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

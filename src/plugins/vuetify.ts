@@ -21,11 +21,10 @@ if (currentApp.themeColor) {
   themeColorDark = currentApp.themeColorDark;
 }
 
-
 export default new Vuetify({
   theme: {
     options: {
-      customProperties: true,
+      customProperties: true
     },
     themes: {
       dark: {
@@ -35,7 +34,7 @@ export default new Vuetify({
         error: colors.red.darken1,
         info: '#2196F3',
         success: '#4CAF50',
-        warning: '#FFC107',
+        warning: '#FFC107'
       },
       light: {
         primary: themeColor,
@@ -44,15 +43,15 @@ export default new Vuetify({
         error: colors.red.darken1,
         info: '#2196F3',
         success: '#4CAF50',
-        warning: '#FFC107',
-      },
-    },
+        warning: '#FFC107'
+      }
+    }
   },
   lang: {
     locales: { zhHans },
-    current: 'zhHans',
+    current: 'zhHans'
   },
   icons: {
-    iconfont: 'mdi',
-  },
+    iconfont: 'mdi'
+  }
 });

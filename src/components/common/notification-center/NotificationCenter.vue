@@ -13,7 +13,6 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
@@ -26,8 +25,8 @@ const systemModule = namespace('system');
 
 @Component({
   components: {
-    invitation,
-  },
+    invitation
+  }
 })
 export default class NotificationCenter extends Vue {
   public $refs!: {
@@ -38,5 +37,4 @@ export default class NotificationCenter extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

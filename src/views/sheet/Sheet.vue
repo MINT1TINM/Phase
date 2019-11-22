@@ -18,5 +18,4 @@ import { namespace } from 'vuex-class';
 export default class Sheet extends Vue {}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

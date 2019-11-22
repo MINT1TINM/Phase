@@ -2,11 +2,45 @@
   <v-layout fill-height>
     <v-navigation-drawer permanent>
       <v-container fluid>
-        <v-text-field outlined single-line hide-details dense label="状态"></v-text-field>
-        <v-text-field class="mt-3 body-2" outlined single-line hide-details dense label="来源"></v-text-field>
-        <v-text-field class="mt-3 body-2" outlined single-line hide-details dense label="类型"></v-text-field>
-        <v-text-field class="mt-3 body-2" outlined single-line hide-details dense label="区域"></v-text-field>
-        <v-text-field class="mt-3 body-2" outlined single-line hide-details dense label="时间范围"></v-text-field>
+        <v-text-field
+          outlined
+          single-line
+          hide-details
+          dense
+          label="状态"
+        ></v-text-field>
+        <v-text-field
+          class="mt-3 body-2"
+          outlined
+          single-line
+          hide-details
+          dense
+          label="来源"
+        ></v-text-field>
+        <v-text-field
+          class="mt-3 body-2"
+          outlined
+          single-line
+          hide-details
+          dense
+          label="类型"
+        ></v-text-field>
+        <v-text-field
+          class="mt-3 body-2"
+          outlined
+          single-line
+          hide-details
+          dense
+          label="区域"
+        ></v-text-field>
+        <v-text-field
+          class="mt-3 body-2"
+          outlined
+          single-line
+          hide-details
+          dense
+          label="时间范围"
+        ></v-text-field>
         <v-btn block outlined class="mt-3">
           <v-icon size="20">mdi-magnify</v-icon>&nbsp;查询
         </v-btn>
@@ -25,14 +59,20 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item,i) in billList" :key="`user-${i}`">
+            <tr v-for="(item, i) in billList" :key="`user-${i}`">
               <td class="caption text-left">{{ item.time }}</td>
               <td class="caption text-left">{{ item.name }}</td>
 
               <td class="caption text-left">{{ item.estate }}</td>
               <td class="caption text-left">{{ item.type }}</td>
               <td>
-                <v-btn outlined small rounded color="primary" @click="replyDialog=true">
+                <v-btn
+                  outlined
+                  small
+                  rounded
+                  color="primary"
+                  @click="replyDialog = true"
+                >
                   <v-icon size="15">mdi-reply-outline</v-icon>&nbsp;答复
                 </v-btn>
                 <v-btn class="ml-2" outlined small rounded>
@@ -48,14 +88,22 @@
     <v-dialog persistent v-model="replyDialog" width="600">
       <v-card>
         <v-toolbar dense flat color="transparent">
-          <v-toolbar-title class="subtitle-1 font-weight-black">答复工单</v-toolbar-title>
+          <v-toolbar-title class="subtitle-1 font-weight-black"
+            >答复工单</v-toolbar-title
+          >
           <v-spacer></v-spacer>
-          <v-btn icon @click="replyDialog=false">
+          <v-btn icon @click="replyDialog = false">
             <v-icon size="20">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
         <v-container fluid>
-          <v-text-field single-line hide-details label="标题" dense outlined></v-text-field>
+          <v-text-field
+            single-line
+            hide-details
+            label="标题"
+            dense
+            outlined
+          ></v-text-field>
           <v-textarea class="mt-3" outlined label="答复内容"></v-textarea>
         </v-container>
         <v-container fluid>
@@ -99,9 +147,8 @@ export default class QueryTicket extends Vue {
     }
   ];
 
-  private replyDialog: boolean = false
+  private replyDialog: boolean = false;
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

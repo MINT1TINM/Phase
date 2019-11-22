@@ -6,7 +6,9 @@
           <v-list-item-group color="primary">
             <transition-group appear appear-active-class="fade-up-enter">
               <div v-for="(item, i) in settingsItems" :key="`setting-${i}`">
-                <v-subheader class="mt-3" v-if="item.title">{{item.title}}</v-subheader>
+                <v-subheader class="mt-3" v-if="item.title">{{
+                  item.title
+                }}</v-subheader>
                 <v-list-item v-else :to="item.route">
                   <v-list-item-icon>
                     <v-icon v-text="item.icon"></v-icon>
@@ -25,9 +27,16 @@
           <v-flex xs8 offset-2>
             <v-card>
               <v-toolbar fixed flat class="transparent">
-                <v-toolbar-title class="subtitle-1 font-weight-black ml-2">{{$route.meta}}</v-toolbar-title>
+                <v-toolbar-title class="subtitle-1 font-weight-black ml-2">{{
+                  $route.meta
+                }}</v-toolbar-title>
               </v-toolbar>
-              <v-container fill-height fluid grid-list-lg class="px-4 pb-4 pt-0">
+              <v-container
+                fill-height
+                fluid
+                grid-list-lg
+                class="px-4 pb-4 pt-0"
+              >
                 <div style="width:100%">
                   <router-view></router-view>
                 </div>
@@ -77,5 +86,4 @@ export default class Settings extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

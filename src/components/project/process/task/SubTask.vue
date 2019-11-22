@@ -11,16 +11,25 @@
 
       <v-data-table class="mt-4" :headers="headers" :items="subTaskShow.data">
         <template v-slot:item.status="props">
-          <v-icon v-if="props.item.status===1" color="green">mdi-check-circle-outline</v-icon>
-          <v-icon
-            v-else-if="props.item.status===2"
-            color="warning darken-1"
-          >mdi-alert-circle-outline</v-icon>
+          <v-icon v-if="props.item.status === 1" color="green"
+            >mdi-check-circle-outline</v-icon
+          >
+          <v-icon v-else-if="props.item.status === 2" color="warning darken-1"
+            >mdi-alert-circle-outline</v-icon
+          >
           <v-icon v-else color="grey">mdi-help-circle-outline</v-icon>
         </template>
 
-        <template v-slot:item.actions="{item}">
-          <v-btn icon small color="primary" @click="editSubTaskDialog=true;currentSubTask = item">
+        <template v-slot:item.actions="{ item }">
+          <v-btn
+            icon
+            small
+            color="primary"
+            @click="
+              editSubTaskDialog = true;
+              currentSubTask = item;
+            "
+          >
             <v-icon>mdi-pencil-outline</v-icon>
           </v-btn>
           <v-btn icon small color="error" @click="deleteSubTask(item.id)">
@@ -40,7 +49,7 @@
             v-model="currentSubTask.name"
           ></v-text-field>
           <v-spacer></v-spacer>
-          <v-btn rounded text @click="editSubTaskDialog=false">
+          <v-btn rounded text @click="editSubTaskDialog = false">
             <v-icon size="20">mdi-close</v-icon>&nbsp;取消
           </v-btn>
           <v-btn rounded text @click="updateSubTask">
@@ -68,14 +77,14 @@
                         <tbody>
                           <tr
                             class="my-2"
-                            v-for="(item,i) in currentSubTask.content"
+                            v-for="(item, i) in currentSubTask.content"
                             :key="`c-${i}`"
                           >
                             <td width="130px" class="pl-3 pr-2">
                               <v-select
                                 dense
                                 style="height:100%;align-items:center"
-                                :items="[`量化`,`非量化`]"
+                                :items="[`量化`, `非量化`]"
                                 single-line
                                 hide-details
                                 outlined
@@ -91,7 +100,8 @@
                                 rows="1"
                                 outlined
                                 v-model="item.description"
-                              >{{ item.description }}</v-textarea>
+                                >{{ item.description }}</v-textarea
+                              >
                             </td>
                             <td class="px-1">
                               <v-textarea
@@ -102,7 +112,8 @@
                                 auto-grow
                                 rows="1"
                                 v-model="item.expect"
-                              >{{ item.expect }}</v-textarea>
+                                >{{ item.expect }}</v-textarea
+                              >
                             </td>
                             <td class="px-1">
                               <v-textarea
@@ -113,7 +124,8 @@
                                 rows="1"
                                 outlined
                                 v-model="item.reality"
-                              >{{ item.reality }}</v-textarea>
+                                >{{ item.reality }}</v-textarea
+                              >
                             </td>
                             <td width="120">
                               <v-switch
@@ -122,7 +134,7 @@
                                 color="primary"
                                 hide-details
                                 v-model="item.status"
-                                :label="item.status?`合规`:`不合规`"
+                                :label="item.status ? `合规` : `不合规`"
                               ></v-switch>
                             </td>
                             <td>
@@ -138,10 +150,12 @@
                           <!-- complete the last one, then add another one -->
                           <v-btn
                             v-if="
-                          currentSubTask.content.length===0 ||
-                          currentSubTask.content.length>0&&
-                          currentSubTask.content[currentSubTask.content.length-1].property
-                          "
+                              currentSubTask.content.length === 0 ||
+                                (currentSubTask.content.length > 0 &&
+                                  currentSubTask.content[
+                                    currentSubTask.content.length - 1
+                                  ].property)
+                            "
                             rounded
                             color="primary"
                             outlined
@@ -161,7 +175,9 @@
                     <v-container fluid>
                       <v-layout>
                         <v-flex xs6>
-                          <v-card-title class="subtitle-1 font-weight-black">相关凭证</v-card-title>
+                          <v-card-title class="subtitle-1 font-weight-black"
+                            >相关凭证</v-card-title
+                          >
                           <v-simple-table>
                             <thead>
                               <tr>
@@ -173,15 +189,23 @@
                             <tbody>
                               <tr
                                 class="my-2"
-                                v-for="(item,i) in currentSubTask.certificate"
+                                v-for="(item, i) in currentSubTask.certificate"
                                 :key="`f-${i}`"
-                                @click="currentCertificate=item"
-                                :style="currentCertificate.uniNo === item.uniNo?`background-color:#efefef36`:``"
+                                @click="currentCertificate = item"
+                                :style="
+                                  currentCertificate.uniNo === item.uniNo
+                                    ? `background-color:#efefef36`
+                                    : ``
+                                "
                               >
-                                <td>{{item.uniNo}}</td>
-                                <td>{{item.ord}}</td>
+                                <td>{{ item.uniNo }}</td>
+                                <td>{{ item.ord }}</td>
                                 <td>
-                                  <v-btn color="error" icon @click="removeCertificate(i)">
+                                  <v-btn
+                                    color="error"
+                                    icon
+                                    @click="removeCertificate(i)"
+                                  >
                                     <v-icon>mdi-close</v-icon>
                                   </v-btn>
                                 </td>
@@ -193,7 +217,7 @@
                             rounded
                             color="primary"
                             outlined
-                            @click="searchCertificateDialog=true"
+                            @click="searchCertificateDialog = true"
                           >
                             <v-icon size="20">mdi-plus</v-icon>&nbsp;新增凭证
                           </v-btn>
@@ -214,7 +238,9 @@
             </v-flex>
             <v-flex xs4 class="pl-2">
               <v-card outlined width="100%">
-                <v-card-title class="subtitle-1 font-weight-black">相关文件</v-card-title>
+                <v-card-title class="subtitle-1 font-weight-black"
+                  >相关文件</v-card-title
+                >
                 <v-container fluid>
                   <v-simple-table>
                     <thead>
@@ -225,9 +251,15 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="my-2" v-for="(item,i) in currentSubTask.file" :key="`f-${i}`">
-                        <td class="pl-3 pr-2">{{item.name}}</td>
-                        <td class="pl-3 pr-2">{{item.createdAt | format("yyyy-MM-dd hh:mm")}}</td>
+                      <tr
+                        class="my-2"
+                        v-for="(item, i) in currentSubTask.file"
+                        :key="`f-${i}`"
+                      >
+                        <td class="pl-3 pr-2">{{ item.name }}</td>
+                        <td class="pl-3 pr-2">
+                          {{ item.createdAt | format('yyyy-MM-dd hh:mm') }}
+                        </td>
                         <td class="pl-3 pr-2">
                           <v-btn icon @click="downloadFile(item)">
                             <v-icon size="20">mdi-download-outline</v-icon>
@@ -239,7 +271,13 @@
                       </tr>
                     </tbody>
                   </v-simple-table>
-                  <v-btn class="mt-3" rounded color="primary" outlined @click="fileDialog=true">
+                  <v-btn
+                    class="mt-3"
+                    rounded
+                    color="primary"
+                    outlined
+                    @click="fileDialog = true"
+                  >
                     <v-icon size="20">mdi-plus</v-icon>&nbsp;链接文件
                   </v-btn>
                 </v-container>
@@ -253,22 +291,28 @@
     <v-bottom-sheet v-model="searchCertificateDialog" persistent>
       <v-sheet class="text-center" height="750" style="overflow:auto">
         <v-toolbar flat>
-          <v-toolbar-title class="subtitle-1 font-weight-black">搜索凭证</v-toolbar-title>
+          <v-toolbar-title class="subtitle-1 font-weight-black"
+            >搜索凭证</v-toolbar-title
+          >
           <v-spacer></v-spacer>
-          <v-btn icon @click="searchCertificateDialog=false">
+          <v-btn icon @click="searchCertificateDialog = false">
             <v-icon size="20">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
-        <search-certificate @insertCertificate="insertCertificate"></search-certificate>
+        <search-certificate
+          @insertCertificate="insertCertificate"
+        ></search-certificate>
       </v-sheet>
     </v-bottom-sheet>
 
     <v-bottom-sheet v-model="fileDialog" persistent>
       <v-sheet class="text-center" height="750" style="overflow:auto">
         <v-toolbar flat>
-          <v-toolbar-title class="subtitle-1 font-weight-black">项目文件</v-toolbar-title>
+          <v-toolbar-title class="subtitle-1 font-weight-black"
+            >项目文件</v-toolbar-title
+          >
           <v-spacer></v-spacer>
-          <v-btn icon @click="fileDialog=false">
+          <v-btn icon @click="fileDialog = false">
             <v-icon size="20">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
@@ -279,9 +323,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch 
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import TaskService from '@/service/taskService';
 import { SubTask, SubTaskCertificate } from '@/types/task';
 import document from '@/views/project/document/Document.vue';
@@ -385,8 +427,8 @@ export default class SubTaskList extends Vue {
 
   private insertCertificate(certificate: SubTaskCertificate) {
     if (
-      this.currentSubTask.certificate === undefined
-      || this.currentSubTask.certificate === null
+      this.currentSubTask.certificate === undefined ||
+      this.currentSubTask.certificate === null
     ) {
       this.currentSubTask.certificate = [];
     }

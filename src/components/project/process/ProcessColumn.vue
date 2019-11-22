@@ -1,7 +1,9 @@
 <template>
   <v-card flat class="mb-2">
     <v-toolbar dense flat color="transparent">
-      <v-toolbar-title class="subtitle-1 font-weight-black">{{processName}}</v-toolbar-title>
+      <v-toolbar-title class="subtitle-1 font-weight-black">{{
+        processName
+      }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn class="mr-0" small icon :to="`/process/${processID}/timeline`">
         <v-icon size="20">mdi-arrow-right</v-icon>

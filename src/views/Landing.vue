@@ -1,15 +1,18 @@
 <template>
   <v-app>
     <v-app-bar flat color="transparent">
-      <v-toolbar-title class="font-weight-black" style="color:#A64ED1">{{systemName}}</v-toolbar-title>
+      <v-toolbar-title class="font-weight-black" style="color:#A64ED1">{{
+        systemName
+      }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
         rounded
         outlined
         color="primary"
-        v-if="authorization.token.length>=1"
+        v-if="authorization.token.length >= 1"
         @click="autoLogin()"
-      >我的主页</v-btn>
+        >我的主页</v-btn
+      >
       <div v-else>
         <v-btn rounded text class="mr-2" :to="'/login'">登录</v-btn>
         <v-btn rounded outlined color="primary">开始</v-btn>
@@ -19,10 +22,13 @@
     <v-container style="height:100%">
       <v-layout fill-height align-center justify-center row wrap>
         <v-card flat color="transparent">
-          <div class="text-left display-3 font-weight-black mt-2" style="color:#A64ED1">
-            <h3>{{systemName}}</h3>
+          <div
+            class="text-left display-3 font-weight-black mt-2"
+            style="color:#A64ED1"
+          >
+            <h3>{{ systemName }}</h3>
             <p class="pt-3">for</p>
-            <h3>{{companyName}}</h3>
+            <h3>{{ companyName }}</h3>
           </div>
         </v-card>
       </v-layout>
@@ -99,5 +105,4 @@ export default class Landing extends Vue {
 }
 </script>
 
-<style>
-</style>
+<style></style>

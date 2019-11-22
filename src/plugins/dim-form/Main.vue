@@ -1,10 +1,16 @@
 <template>
   <div>
     <v-container fluid>
-      <v-layout row v-for="(content,i) in formContent" :key="`${keyName}-${i}`">
+      <v-layout
+        row
+        v-for="(content, i) in formContent"
+        :key="`${keyName}-${i}`"
+      >
         <v-layout wrap v-if="content.subheader" class="mt-2">
           <v-flex xs12>
-            <v-subheader class="pl-1 body-2 font-weight-black">{{content.subheader}}</v-subheader>
+            <v-subheader class="pl-1 body-2 font-weight-black">{{
+              content.subheader
+            }}</v-subheader>
           </v-flex>
         </v-layout>
         <v-layout wrap v-if="content.divider">
@@ -14,18 +20,20 @@
         </v-layout>
         <v-layout class="my-2" v-else>
           <v-flex xs3 v-if="!dense">
-            <v-subheader class="body-2 px-1" style="height:36px">{{content.title}}</v-subheader>
+            <v-subheader class="body-2 px-1" style="height:36px">{{
+              content.title
+            }}</v-subheader>
           </v-flex>
-          <v-flex :class="dense?`xs12`:`xs9`">
+          <v-flex :class="dense ? `xs12` : `xs9`">
             <!-- text-field -->
             <v-text-field
-              v-if="content.type==='text-field'"
+              v-if="content.type === 'text-field'"
               dense
               v-model="target[content.name]"
               :disabled="content.disabled || disabled"
-              :label="dense?`${content.title}`:``"
-              :single-line="dense?false:true"
-              :type="content.password?`password`:``"
+              :label="dense ? `${content.title}` : ``"
+              :single-line="dense ? false : true"
+              :type="content.password ? `password` : ``"
               :rules="content.rules"
               outlined
               class="body-2"
@@ -33,22 +41,22 @@
             ></v-text-field>
             <!-- text-area -->
             <v-textarea
-              v-else-if="content.type==='text-area'"
+              v-else-if="content.type === 'text-area'"
               dense
               class="body-2"
               v-model="target[content.name]"
               :disabled="content.disabled || disabled"
-              :label="dense?`${content.title}`:``"
+              :label="dense ? `${content.title}` : ``"
               outlined
               hide-details
             ></v-textarea>
             <!-- select -->
             <v-select
-              v-else-if="content.type==='select'"
+              v-else-if="content.type === 'select'"
               dense
               :items="content.list"
               v-model="target[content.name]"
-              :label="dense?`${content.title}`:``"
+              :label="dense ? `${content.title}` : ``"
               outlined
               :chips="content.chips"
               :disabled="content.disabled || disabled"
@@ -67,20 +75,24 @@
                 </v-chip>
                 <v-chip v-else-if="item.color" pill small>
                   <v-avatar left :color="item.color"></v-avatar>
-                  <span class="font-weight-black">{{ item[content.text]?item[content.text]:item }}</span>
+                  <span class="font-weight-black">{{
+                    item[content.text] ? item[content.text] : item
+                  }}</span>
                 </v-chip>
                 <v-chip v-else>
-                  <span class="font-weight-black">{{ item[content.text]?item[content.text]:item }}</span>
+                  <span class="font-weight-black">{{
+                    item[content.text] ? item[content.text] : item
+                  }}</span>
                 </v-chip>
               </template>
             </v-select>
             <!-- multi-select -->
             <v-select
-              v-else-if="content.type==='multi-select'"
+              v-else-if="content.type === 'multi-select'"
               dense
               :items="content.list"
               v-model="target[content.name].data"
-              :label="dense?`${content.title}`:``"
+              :label="dense ? `${content.title}` : ``"
               :chips="content.chips"
               multiple
               outlined
@@ -99,12 +111,14 @@
                   <span class="font-weight-black">{{ item.nickName }}</span>
                 </v-chip>
                 <v-chip v-else>
-                  <span class="font-weight-black">{{ item[content.text]?item[content.text]:item }}</span>
+                  <span class="font-weight-black">{{
+                    item[content.text] ? item[content.text] : item
+                  }}</span>
                 </v-chip>
               </template>
             </v-select>
             <!-- date-range -->
-            <v-layout justify-center v-else-if="content.type==='date-range'">
+            <v-layout justify-center v-else-if="content.type === 'date-range'">
               <v-flex xs6>
                 <date-picker
                   :disabled="content.disabled || disabled"
@@ -135,20 +149,20 @@
             ></v-switch>
             <!-- date-select -->
             <date-picker
-              :label="dense?`${content.title}`:``"
+              :label="dense ? `${content.title}` : ``"
               :dense="dense"
               :max="content.max"
               :min="content.min"
               :disabled="content.disabled || disabled"
-              v-else-if="content.type==='date-picker'"
+              v-else-if="content.type === 'date-picker'"
               :date.sync="target[content.name]"
             ></date-picker>
             <!-- tags -->
             <v-combobox
-              v-else-if="content.type==='tags'"
+              v-else-if="content.type === 'tags'"
               dense
               class="body-2"
-              :label="dense?`${content.title}`:``"
+              :label="dense ? `${content.title}` : ``"
               outlined
               :disabled="content.disabled || disabled"
               v-model="target[content.name].data"
@@ -158,7 +172,7 @@
             ></v-combobox>
             <!-- file-input-->
             <v-file-input
-              v-else-if="content.type==='file-input'"
+              v-else-if="content.type === 'file-input'"
               :disabled="content.disabled || disabled"
               v-model="target.formContent[j][content.name]"
               color="deep-purple accent-4"
@@ -172,11 +186,19 @@
               :display-size="1000"
             >
               <template v-slot:selection="{ index, text }">
-                <v-chip v-if="index < 2" color="deep-purple accent-4" dark label small>{{ text }}</v-chip>
+                <v-chip
+                  v-if="index < 2"
+                  color="deep-purple accent-4"
+                  dark
+                  label
+                  small
+                  >{{ text }}</v-chip
+                >
                 <span
                   v-else-if="index === 2"
                   class="overline grey--text text--darken-3 mx-2"
-                >+{{ target[item.name].length - 2 }} File(s)</span>
+                  >+{{ target[item.name].length - 2 }} File(s)</span
+                >
               </template>
             </v-file-input>
           </v-flex>
@@ -208,5 +230,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

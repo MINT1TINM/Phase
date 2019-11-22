@@ -3,7 +3,10 @@ import Vue from 'vue';
 import basicService from '@/service/basicService';
 import store from '@/store/store';
 import {
-  UserInfo, PrivateInfo, PrivacySetting, UserPermission
+  UserInfo,
+  PrivateInfo,
+  PrivacySetting,
+  UserPermission
 } from '@/types/user';
 
 const vue = new Vue() as any;
@@ -40,7 +43,7 @@ class UserService {
       nickName: userInfo.nickName,
       sex: userInfo.sex,
       phone: userInfo.phone,
-      email: userInfo.email,
+      email: userInfo.email
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
@@ -51,7 +54,7 @@ class UserService {
   public static async updatePrivateInfo(privateInfo: PrivateInfo) {
     const rsp = await basicService.putRequest('/user/privateinfo', {
       license: privateInfo.license,
-      workNum: privateInfo.workNum,
+      workNum: privateInfo.workNum
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
@@ -64,7 +67,7 @@ class UserService {
     const rsp = await basicService.putRequest('/user/privacysetting', {
       hideEmail: privacySetting.hideEmail,
       hideName: privacySetting.hideName,
-      hidePhone: privacySetting.hidePhone,
+      hidePhone: privacySetting.hidePhone
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
@@ -76,7 +79,7 @@ class UserService {
   public static async updatePrivilege(id: string, privilege: string[]) {
     const rsp = await basicService.putRequest('/user/privilege', {
       id,
-      privilege,
+      privilege
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
@@ -88,7 +91,7 @@ class UserService {
   public static async updateUserAppList(id: string, appList: string[]) {
     const rsp = await basicService.putRequest('/user/applist', {
       id,
-      appList,
+      appList
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
@@ -97,7 +100,10 @@ class UserService {
     return rsp;
   }
 
-  public static async updateUserPermission(id: string, permission: UserPermission) {
+  public static async updateUserPermission(
+    id: string,
+    permission: UserPermission
+  ) {
     const rsp = await basicService.putRequest('/user/permission', {
       id,
       permission
@@ -111,12 +117,12 @@ class UserService {
   public static async createUser(
     username: string,
     nickName: string,
-    password: string,
+    password: string
   ) {
     const rsp = await basicService.postRequest('/user', {
       username,
       nickName,
-      password,
+      password
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
@@ -127,21 +133,21 @@ class UserService {
 
   public static async searchUser(content: string) {
     const rsp = await basicService.getRequest('/user/search', {
-      content,
+      content
     });
     return rsp;
   }
 
   public static async getUserLoginHistory(id: string) {
     const rsp = await basicService.getRequest('/user/login/history', {
-      id,
+      id
     });
     return rsp;
   }
 
   public static async deleteUser(userID: string) {
     const rsp = await basicService.deleteRequest('/user', {
-      userID,
+      userID
     });
     return rsp;
   }

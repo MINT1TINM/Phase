@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-app-bar dense fixed dark color="primary darken-1" style="margin-top:48px">
+    <v-app-bar
+      dense
+      fixed
+      dark
+      color="primary darken-1"
+      style="margin-top:48px"
+    >
       <v-layout row wrap>
         <v-flex xs6>
           <v-layout>
@@ -25,17 +31,27 @@
     </v-app-bar>
     <v-content>
       <transition appear appear-active-class="fade-left-enter">
-        <v-simple-table height="calc(100vh - 96px)" fixed-header class="transparent">
+        <v-simple-table
+          height="calc(100vh - 96px)"
+          fixed-header
+          class="transparent"
+        >
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-left" v-for="(item,i) in headers" :key="`head-${i}`">{{item}}</th>
+                <th
+                  class="text-left"
+                  v-for="(item, i) in headers"
+                  :key="`head-${i}`"
+                >
+                  {{ item }}
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item,i) in certificateList" :key="`cert-${i}`">
-                <td class="caption">{{ item.uniNo }}.{{item.ord}}</td>
-                <td class="caption">{{ item.date}}</td>
+              <tr v-for="(item, i) in certificateList" :key="`cert-${i}`">
+                <td class="caption">{{ item.uniNo }}.{{ item.ord }}</td>
+                <td class="caption">{{ item.date }}</td>
                 <td class="caption">{{ item.sabstract }}</td>
                 <td class="caption">¥ {{ item.jAmount.toFixed(2) }}</td>
                 <td class="caption">¥ {{ item.dAmount.toFixed(2) }}</td>
@@ -112,5 +128,4 @@ export default class SearchCertificate extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

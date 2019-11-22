@@ -32,21 +32,27 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item,i) in certificateList" :key="`cert-${i}`">
-                  <td class="caption text-left">{{ item.uniNo }}.{{item.ord}}</td>
-                  <td class="caption text-left">{{ item.date}}</td>
+                <tr v-for="(item, i) in certificateList" :key="`cert-${i}`">
+                  <td class="caption text-left">
+                    {{ item.uniNo }}.{{ item.ord }}
+                  </td>
+                  <td class="caption text-left">{{ item.date }}</td>
                   <td class="caption text-left">{{ item.sabstract }}</td>
-                  <td class="caption text-left">¥ {{ item.jAmount.toFixed(2) }}</td>
-                  <td class="caption text-left">¥ {{ item.dAmount.toFixed(2) }}</td>
+                  <td class="caption text-left">
+                    ¥ {{ item.jAmount.toFixed(2) }}
+                  </td>
+                  <td class="caption text-left">
+                    ¥ {{ item.dAmount.toFixed(2) }}
+                  </td>
                   <td class="caption text-left">{{ item.subjName }}</td>
                   <td class="caption text-left">{{ item.subj }}</td>
                   <td class="caption text-left">{{ item.chargeName }}</td>
                   <td class="caption text-left">{{ item.chargeSno }}</td>
                   <td class="text-left">
                     <v-btn
-                      :disabled="item.addable===false"
+                      :disabled="item.addable === false"
                       icon
-                      @click="insertCertificate(item.uniNo,item.ord,i)"
+                      @click="insertCertificate(item.uniNo, item.ord, i)"
                     >
                       <v-icon size="20">mdi-plus</v-icon>
                     </v-btn>
@@ -83,5 +89,4 @@ export default class CertificateSearch extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -2,15 +2,24 @@
   <div>
     <v-navigation-drawer mini-variant-width="62" app clipped permanent fixed>
       <v-toolbar flat dense>
-        <v-btn icon @click="$router.push({path:`/`})">
+        <v-btn icon @click="$router.push({ path: `/` })">
           <v-icon size="20">mdi-arrow-left</v-icon>
         </v-btn>
-        <v-toolbar-title class="pl-0 subtitle-1 font-weight-black">项目模版</v-toolbar-title>
+        <v-toolbar-title class="pl-0 subtitle-1 font-weight-black"
+          >项目模版</v-toolbar-title
+        >
       </v-toolbar>
       <v-list nav dense color="transparent">
-        <v-list-item link v-for="(item,i) in typeList" :key="i" :to="item.route">
+        <v-list-item
+          link
+          v-for="(item, i) in typeList"
+          :key="i"
+          :to="item.route"
+        >
           <template>
-            <v-list-item-title style="margin-left:20px">{{item.name}}</v-list-item-title>
+            <v-list-item-title style="margin-left:20px">{{
+              item.name
+            }}</v-list-item-title>
           </template>
         </v-list-item>
       </v-list>
@@ -19,14 +28,16 @@
     <v-container grid-list-lg class="pa-6">
       <transition appear appear-active-class="fade-up-enter">
         <v-layout row wrap>
-          <v-flex xs3 v-for="(item,i) in templateList" :key="`template-${i}`">
+          <v-flex xs3 v-for="(item, i) in templateList" :key="`template-${i}`">
             <v-hover v-slot:default="{ hover }">
               <v-card
                 :elevation="hover ? 8 : 0"
                 outlined
-                @click="generateProjectDialog=true;
-                        getTemplateInfo(item.id);
-                        currentTemplateID=item.id"
+                @click="
+                  generateProjectDialog = true;
+                  getTemplateInfo(item.id);
+                  currentTemplateID = item.id;
+                "
               >
                 <v-img
                   class="white--text"
@@ -36,7 +47,7 @@
               </v-card>
             </v-hover>
             <v-card-title class="body-2 font-weight-black">
-              <v-layout justify-center>{{item.name}}</v-layout>
+              <v-layout justify-center>{{ item.name }}</v-layout>
             </v-card-title>
           </v-flex>
         </v-layout>
@@ -46,7 +57,9 @@
     <v-dialog v-model="generateProjectDialog" width="500" persistent>
       <v-card>
         <v-toolbar flat color="transparent">
-          <v-toolbar-title class="subtitle-1 font-weight-black">生成项目</v-toolbar-title>
+          <v-toolbar-title class="subtitle-1 font-weight-black"
+            >生成项目</v-toolbar-title
+          >
         </v-toolbar>
         <v-container fluid>
           <v-form ref="createProjectForm">
@@ -76,8 +89,16 @@
           </v-card>
         </v-container>
         <v-card-actions class="justify-center">
-          <v-btn rounded color="primary darken-1" depressed @click="generateProject()">确认</v-btn>
-          <v-btn rounded text @click="generateProjectDialog=false">取消</v-btn>
+          <v-btn
+            rounded
+            color="primary darken-1"
+            depressed
+            @click="generateProject()"
+            >确认</v-btn
+          >
+          <v-btn rounded text @click="generateProjectDialog = false"
+            >取消</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -152,5 +173,4 @@ export default class ProjectTemplateList extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

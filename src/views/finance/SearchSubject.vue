@@ -1,11 +1,18 @@
 <template>
   <div>
-    <v-app-bar fixed color="primary darken-1" dense dark style="margin-top:48px;left:0">
-      <v-toolbar-title class="subtitle-2 font-weight-black">借方发生数 ¥ {{sumJAmount.toFixed(2)}}</v-toolbar-title>
+    <v-app-bar
+      fixed
+      color="primary darken-1"
+      dense
+      dark
+      style="margin-top:48px;left:0"
+    >
+      <v-toolbar-title class="subtitle-2 font-weight-black"
+        >借方发生数 ¥ {{ sumJAmount.toFixed(2) }}</v-toolbar-title
+      >
       <v-divider vertical inset class="mx-3"></v-divider>
       <v-toolbar-title class="subtitle-2 font-weight-black">
-        贷方发生数
-        ¥ {{sumDAmount.toFixed(2)}}
+        贷方发生数 ¥ {{ sumDAmount.toFixed(2) }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
@@ -54,7 +61,7 @@
               </v-menu>
             </v-flex>
 
-            <v-flex xs12 v-for="(item,i) in projectCode" :key="`code-${i}`">
+            <v-flex xs12 v-for="(item, i) in projectCode" :key="`code-${i}`">
               <v-text-field
                 dense
                 solo-inverted
@@ -83,8 +90,11 @@
       <transition appear appear-active-class="fade-left-enter">
         <v-container fluid style="height:calc(100vh - 96px);overflow:auto">
           <v-expansion-panels multiple>
-            <v-expansion-panel v-for="(item,i) in subjectGroupList" :key="`group-${i}`">
-              <v-expansion-panel-header>{{i}}</v-expansion-panel-header>
+            <v-expansion-panel
+              v-for="(item, i) in subjectGroupList"
+              :key="`group-${i}`"
+            >
+              <v-expansion-panel-header>{{ i }}</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-simple-table class="transparent">
                   <template v-slot:default>
@@ -92,21 +102,27 @@
                       <tr>
                         <th
                           class="text-left"
-                          v-for="(item,i) in headers"
+                          v-for="(item, i) in headers"
                           :key="`head-${i}`"
-                        >{{item}}</th>
+                        >
+                          {{ item }}
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr
-                        v-for="(subject,j) in item"
+                        v-for="(subject, j) in item"
                         :key="`cert-${j}`"
                         @click="showDetail(subject)"
                       >
                         <td class="caption">{{ subject.subjName }}</td>
                         <td class="caption">{{ subject.subj }}</td>
-                        <td class="caption">¥ {{ subject.jAmount.toFixed(2) }}</td>
-                        <td class="caption">¥ {{ subject.dAmount.toFixed(2) }}</td>
+                        <td class="caption">
+                          ¥ {{ subject.jAmount.toFixed(2) }}
+                        </td>
+                        <td class="caption">
+                          ¥ {{ subject.dAmount.toFixed(2) }}
+                        </td>
                       </tr>
                     </tbody>
                   </template>
@@ -118,11 +134,17 @@
       </transition>
     </v-content>
 
-    <v-dialog scrollable transition="slide-x-reverse-transition" v-model="detailNav">
+    <v-dialog
+      scrollable
+      transition="slide-x-reverse-transition"
+      v-model="detailNav"
+    >
       <v-card height="500">
         <v-card-title class="pa-0">
           <v-toolbar flat class="transparent">
-            <v-toolbar-title class="subtitle-1 font-weight-black">凭证详情</v-toolbar-title>
+            <v-toolbar-title class="subtitle-1 font-weight-black"
+              >凭证详情</v-toolbar-title
+            >
             <v-spacer></v-spacer>
             <v-btn outlined rounded small @click="exportCertificateDetailList">
               <v-icon size="15">mdi-export-variant</v-icon>&nbsp;导出结果
@@ -136,14 +158,16 @@
                 <tr>
                   <th
                     class="text-left"
-                    v-for="(item,i) in certificateDetailHeaders"
+                    v-for="(item, i) in certificateDetailHeaders"
                     :key="`ch-${i}`"
-                  >{{item}}</th>
+                  >
+                    {{ item }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item,i) in certificateList" :key="`cert-${i}`">
-                  <td class="caption">{{ item.uniNo }}.{{item.ord}}</td>
+                <tr v-for="(item, i) in certificateList" :key="`cert-${i}`">
+                  <td class="caption">{{ item.uniNo }}.{{ item.ord }}</td>
                   <td class="caption">{{ item.date }}</td>
                   <td class="caption">{{ item.sabstract }}</td>
                   <td class="caption">¥ {{ item.jAmount.toFixed(2) }}</td>
@@ -161,9 +185,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import FinanceService from '@/service/financeService';
 import { Certificate } from '@/types/finance';
 import ToolkitService from '@/service/toolkitService';
@@ -203,7 +225,6 @@ export default class SearchSubject extends Vue {
     '负责人姓名',
     '负责人工号'
   ];
-
 
   private async searchSubject() {
     if (this.$refs.searchSubjectForm.validate()) {
@@ -284,7 +305,6 @@ export default class SearchSubject extends Vue {
     );
   }
 
-
   private get dateRangeText() {
     return this.dateRange.join(' ~ ');
   }
@@ -311,5 +331,4 @@ export default class SearchSubject extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

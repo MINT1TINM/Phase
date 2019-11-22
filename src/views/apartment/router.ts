@@ -15,7 +15,7 @@ const router = new Router({
           children: [
             {
               path: '/:estateID/:unitID',
-              component: () => import('@/views/apartment/Config.vue'),
+              component: () => import('@/views/apartment/Config.vue')
             }
           ]
         }

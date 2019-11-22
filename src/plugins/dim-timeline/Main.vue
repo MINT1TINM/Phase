@@ -3,13 +3,13 @@
     <v-flex xs2 class="inner-sidebar-withoutpadding">
       <v-card height="75" class="transparent" flat></v-card>
       <v-list dense style="padding:0" class="transparent">
-        <div v-for="(item,i) in taskList" :key="`tasklinelabel-${i}`">
+        <div v-for="(item, i) in taskList" :key="`tasklinelabel-${i}`">
           <v-list-item
             style="height:38px"
             @click="highlight(item)"
-            :class="highlightedTaskID===item.id?`card-active-filled`:``"
+            :class="highlightedTaskID === item.id ? `card-active-filled` : ``"
           >
-            <v-list-item-title>{{item.name}}</v-list-item-title>
+            <v-list-item-title>{{ item.name }}</v-list-item-title>
           </v-list-item>
           <v-divider></v-divider>
         </div>
@@ -20,18 +20,19 @@
         <div style="display:flex">
           <div
             class="date-column"
-            v-for="(item,i) in dateRange"
+            v-for="(item, i) in dateRange"
             :key="i"
             style="display:inline-block;vertical-align: top;"
           >
             <v-card outlined :width="columnWidth" style="height:60px">
               <v-container fluid style="padding:5px">
                 <v-layout wrap align-center>
-                  <v-flex
-                    xs12
-                    class="text-center subtitle-1 font-weight-black"
-                  >{{item | format("MM")}}/{{item | format("dd")}}</v-flex>
-                  <v-flex xs12 class="text-center caption font-weight-black">{{item | weekday()}}</v-flex>
+                  <v-flex xs12 class="text-center subtitle-1 font-weight-black"
+                    >{{ item | format('MM') }}/{{ item | format('dd') }}</v-flex
+                  >
+                  <v-flex xs12 class="text-center caption font-weight-black">{{
+                    item | weekday()
+                  }}</v-flex>
                 </v-layout>
               </v-container>
             </v-card>
@@ -39,7 +40,7 @@
         </div>
         <div class="line-area">
           <v-layout wrap style="display:inline-block">
-            <div v-for="(item,i) in taskList" :key="`taskline-${i}`">
+            <div v-for="(item, i) in taskList" :key="`taskline-${i}`">
               <v-flex style="height:40px" align-center xs12 wrap>
                 <v-card
                   class="my-1"
@@ -48,17 +49,24 @@
                   flat
                   height="33"
                   :width="item.length"
-                  :elevation="highlightedTaskID===item.id?8:0"
-                  :style="`margin-left:${item.marginLeft}px;display:inline-block`"
+                  :elevation="highlightedTaskID === item.id ? 8 : 0"
+                  :style="
+                    `margin-left:${item.marginLeft}px;display:inline-block`
+                  "
                   @click="highlight(item)"
                   @dblclick="toTaskDetail(item)"
                   ripple
                 >
-                  <v-progress-linear absolute :value="item.percentage" color="white"></v-progress-linear>
+                  <v-progress-linear
+                    absolute
+                    :value="item.percentage"
+                    color="white"
+                  ></v-progress-linear>
                   <v-card-text
                     class="text-left caption font-weight-black align-center"
                     style="padding:5px; margin-top:2px"
-                  >{{item.name}}</v-card-text>
+                    >{{ item.name }}</v-card-text
+                  >
                 </v-card>
               </v-flex>
             </div>
@@ -141,5 +149,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

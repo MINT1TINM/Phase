@@ -3,7 +3,6 @@ import Admin from './Admin.vue';
 import { Vue, store } from '@/main';
 import router from './router';
 
-
 new Vue({
   router,
   store,

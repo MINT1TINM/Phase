@@ -7,13 +7,16 @@ const HappyPack = require('happypack');
 const happyThreadPool = HappyPack.ThreadPool({ size: OS.cpus().length });
 
 // eslint-disable-next-line func-names
-const page = function () {
+const page = function() {
   const entryHtml = glob.sync('src/views/*/*.html');
   const obj = {};
 
   // apps
-  entryHtml.forEach((filePath) => {
-    const filename = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('.'));
+  entryHtml.forEach(filePath => {
+    const filename = filePath.substring(
+      filePath.lastIndexOf('/') + 1,
+      filePath.lastIndexOf('.')
+    );
     const entryname = filePath.substring(0, filePath.lastIndexOf('.'));
     let conf = {
       entry: `${entryname}.ts`,
@@ -39,7 +42,7 @@ const page = function () {
 
 const productionGzipExtensions = ['js', 'css'];
 module.exports = {
-  configureWebpack: (config) => {
+  configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
       // terser
       const terserWebpackPlugin = config.optimization.minimizer[0];

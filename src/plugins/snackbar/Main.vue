@@ -1,6 +1,6 @@
 <template>
   <v-snackbar :timeout="2000" top v-model="snackbar">
-    {{message}}
+    {{ message }}
     <v-btn text :color="color" @click="snackbar = false">关闭</v-btn>
   </v-snackbar>
 </template>
@@ -11,17 +11,16 @@ export default {
   data: () => ({
     snackbar: false,
     message: '',
-    color: '',
+    color: ''
   }),
   methods: {
     show(message, color) {
       this.message = message;
       this.color = color;
       this.snackbar = true;
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

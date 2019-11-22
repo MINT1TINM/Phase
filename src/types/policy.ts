@@ -1,17 +1,17 @@
 class Policy {
-  id!: number
+  id!: number;
 
-  title!: string
+  title!: string;
 
-  link!: string
+  link!: string;
 
-  describe!: string
+  describe!: string;
 
-  regulationsCategory!: string
+  regulationsCategory!: string;
 
-  effectiveLevel!: string
+  effectiveLevel!: string;
 
-  text!: string
+  text!: string;
 }
 
 export { Policy };

@@ -7,7 +7,7 @@ interface State {
 const state: State = {
   fileList: {},
   path: ['data'],
-  pathPrettier: ['根目录'],
+  pathPrettier: ['根目录']
 };
 
 const getters = {
@@ -22,7 +22,7 @@ const getters = {
     return s.fileList;
   },
   path: (s: State) => s.path,
-  pathPrettier: (s: State) => s.pathPrettier,
+  pathPrettier: (s: State) => s.pathPrettier
 };
 
 const mutations = {
@@ -40,7 +40,7 @@ const mutations = {
   },
   restorePathPrettier: (s: State) => {
     s.pathPrettier = ['根目录'];
-  },
+  }
 };
 
 const actions = {};
@@ -50,5 +50,5 @@ export default {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };

@@ -9,7 +9,10 @@
   >
     <v-card tile flat>
       <v-toolbar v-if="Boolean(title)" dense flat>
-        <v-toolbar-title class="font-weight-black subtitle-1 pl-0" v-text="title" />
+        <v-toolbar-title
+          class="font-weight-black subtitle-1 pl-0"
+          v-text="title"
+        />
       </v-toolbar>
 
       <v-container fluid>
@@ -21,16 +24,18 @@
           v-if="Boolean(buttonTrueText)"
           depressed
           rounded
-          :color="buttonTrueColor+` darken-1`"
+          :color="buttonTrueColor + ` darken-1`"
           @click="choose(true)"
-        >{{ buttonTrueText }}</v-btn>
+          >{{ buttonTrueText }}</v-btn
+        >
         <v-btn
           v-if="Boolean(buttonFalseText)"
           :color="buttonFalseColor"
           rounded
           text
           @click="choose(false)"
-        >{{ buttonFalseText }}</v-btn>
+          >{{ buttonFalseText }}</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -41,39 +46,39 @@ export default {
   props: {
     buttonTrueText: {
       type: String,
-      default: '确认',
+      default: '确认'
     },
     buttonFalseText: {
       type: String,
-      default: '取消',
+      default: '取消'
     },
     buttonTrueColor: {
       type: String,
-      default: 'red',
+      default: 'red'
     },
     buttonFalseColor: {
       type: String,
-      default: 'grey',
+      default: 'grey'
     },
     message: {
       type: String,
-      required: true,
+      required: true
     },
     persistent: Boolean,
     title: {
-      type: String,
+      type: String
     },
     width: {
       type: Number,
-      default: 350,
+      default: 350
     },
     dark: {
-      type: Boolean,
-    },
+      type: Boolean
+    }
   },
   data() {
     return {
-      value: false,
+      value: false
     };
   },
   methods: {
@@ -84,12 +89,12 @@ export default {
     },
     change(res) {
       this.$destroy();
-    },
+    }
   },
   mounted() {
     // wtf???
     this.$vuetify.breakpoint = {};
-  },
+  }
 };
 </script>
 

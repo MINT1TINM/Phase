@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12 style="display:flex">
         <v-text-field
-          v-if="projectPermission(authorization.userID).indexOf(`c`)!=-1"
+          v-if="projectPermission(authorization.userID).indexOf(`c`) != -1"
           hide-details
           dense
           outlined
@@ -23,9 +23,13 @@
         </v-btn>
       </v-flex>
       <v-flex xs12 v-for="(item, i) in taskListShow" :key="`task-${i}`">
-        <v-hover v-slot:default="{hover}">
+        <v-hover v-slot:default="{ hover }">
           <v-card v-if="item.status" @click="toTaskDetail(item)">
-            <v-progress-linear absolute value="100" :color="item.color"></v-progress-linear>
+            <v-progress-linear
+              absolute
+              value="100"
+              :color="item.color"
+            ></v-progress-linear>
             <v-list-item style="min-height:35px">
               <v-list-item-action
                 style="user-select:none"
@@ -34,30 +38,49 @@
               >
                 <v-checkbox color="grey" v-model="item.status"></v-checkbox>
               </v-list-item-action>
-              <v-list-item-title class="body-2 grey--text font-weight-black">{{item.name}}</v-list-item-title>
+              <v-list-item-title class="body-2 grey--text font-weight-black">{{
+                item.name
+              }}</v-list-item-title>
               <v-list-item-avatar size="25">
-                <v-avatar size="25" color="primary" v-if="projectMemberCache(item.userID)">
+                <v-avatar
+                  size="25"
+                  color="primary"
+                  v-if="projectMemberCache(item.userID)"
+                >
                   <img
-                    v-if="projectMemberCache(item.userID).headImgURL!==``"
+                    v-if="projectMemberCache(item.userID).headImgURL !== ``"
                     :src="projectMemberCache(item.userID).headImgURL"
                   />
-                  <span
-                    v-else
-                    class="caption font-weight-black"
-                  >{{projectMemberCache(item.userID).nickName | avatar}}</span>
+                  <span v-else class="caption font-weight-black">{{
+                    projectMemberCache(item.userID).nickName | avatar
+                  }}</span>
                 </v-avatar>
               </v-list-item-avatar>
             </v-list-item>
           </v-card>
           <v-card
             v-else
-            :elevation="(currentTask===item.taskID || currentTask===item.id)&&(currentTask) ? 6 : 0"
-            :style="(currentTask===item.taskID || currentTask===item.id)&&(currentTask) ?'border:2px solid #42A5F5':''"
+            :elevation="
+              (currentTask === item.taskID || currentTask === item.id) &&
+              currentTask
+                ? 6
+                : 0
+            "
+            :style="
+              (currentTask === item.taskID || currentTask === item.id) &&
+              currentTask
+                ? 'border:2px solid #42A5F5'
+                : ''
+            "
             outlined
             flat
             @click="toTaskDetail(item)"
           >
-            <v-progress-linear absolute value="100" :color="item.color"></v-progress-linear>
+            <v-progress-linear
+              absolute
+              value="100"
+              :color="item.color"
+            ></v-progress-linear>
             <v-list-item style="min-height:35px">
               <v-list-item-action
                 style="user-select:none"
@@ -66,17 +89,18 @@
               >
                 <v-checkbox color="primary" v-model="item.status"></v-checkbox>
               </v-list-item-action>
-              <v-list-item-title class="body-2 font-weight-black">{{item.name}}</v-list-item-title>
+              <v-list-item-title class="body-2 font-weight-black">{{
+                item.name
+              }}</v-list-item-title>
               <v-list-item-avatar size="25">
                 <v-avatar size="25" color="primary">
                   <img
-                    v-if="projectMemberCache(item.userID).headImgURL!==``"
+                    v-if="projectMemberCache(item.userID).headImgURL !== ``"
                     :src="projectMemberCache(item.userID).headImgURL"
                   />
-                  <span
-                    v-else
-                    class="caption font-weight-black"
-                  >{{projectMemberCache(item.userID).nickName | avatar}}</span>
+                  <span v-else class="caption font-weight-black">{{
+                    projectMemberCache(item.userID).nickName | avatar
+                  }}</span>
                 </v-avatar>
               </v-list-item-avatar>
             </v-list-item>
@@ -85,15 +109,21 @@
                 color="error"
                 class="font-weight-black"
                 small
-                v-if="getDays(item.endDate)<0"
-              >已过期</v-chip>
+                v-if="getDays(item.endDate) < 0"
+                >已过期</v-chip
+              >
               <v-chip
                 v-else
                 dark
                 class="font-weight-black"
                 small
-                :color="getDays(item.endDate)<=2&&getDays(item.endDate)>0?`orange`:`grey`"
-              >{{item.endDate.slice(0,10)}}&nbsp;截止</v-chip>
+                :color="
+                  getDays(item.endDate) <= 2 && getDays(item.endDate) > 0
+                    ? `orange`
+                    : `grey`
+                "
+                >{{ item.endDate.slice(0, 10) }}&nbsp;截止</v-chip
+              >
             </v-list-item>
           </v-card>
         </v-hover>
@@ -103,9 +133,7 @@
 </template>
 
 <script lang="ts">
-import {
- Component, Prop, Vue, Watch 
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import TaskService from '@/service/taskService';
 import { Process, ProcessTask } from '@/types/process';

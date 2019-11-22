@@ -6,7 +6,7 @@ class AuthService {
     const options = {
       enableHighAccuracy: true,
       maximumAge: 30000,
-      timeout: 27000,
+      timeout: 27000
     };
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject, options);
@@ -23,11 +23,11 @@ class AuthService {
     if ('geolocation' in navigator) {
       try {
         position = await this.getUserLocation();
-      } catch { }
+      } catch {}
     }
     const rsp = await basicService.postRequest('/wechat/login', {
       code,
-      position,
+      position
     });
     store.commit('user/updateUserAuth', rsp.authorization);
     return rsp;
@@ -38,12 +38,12 @@ class AuthService {
     if ('geolocation' in navigator) {
       try {
         position = await this.getUserLocation();
-      } catch { }
+      } catch {}
     }
     const rsp = await basicService.postRequest('/user/login', {
       username,
       password,
-      position,
+      position
     });
     if (rsp.msg === 'success') {
       store.commit('user/updateUserAuth', rsp.authorization);

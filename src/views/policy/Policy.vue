@@ -12,10 +12,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class PolicyIndex extends Vue {
-
-}
+export default class PolicyIndex extends Vue {}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

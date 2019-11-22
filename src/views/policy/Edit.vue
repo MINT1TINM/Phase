@@ -1,12 +1,20 @@
 <template>
   <v-container>
     <v-toolbar class="nav" flat color="transparent" dense>
-      <v-btn icon @click="$router.push({path:`/`})">
+      <v-btn icon @click="$router.push({ path: `/` })">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
-      <v-toolbar-title class="subtitle-1 font-weight-black">政策内容</v-toolbar-title>
+      <v-toolbar-title class="subtitle-1 font-weight-black"
+        >政策内容</v-toolbar-title
+      >
       <v-spacer></v-spacer>
-      <v-btn class="mr-2" color="error lighten-1" outlined rounded @click="deletePolicy">
+      <v-btn
+        class="mr-2"
+        color="error lighten-1"
+        outlined
+        rounded
+        @click="deletePolicy"
+      >
         <v-icon size="20" class="mr-1">mdi-close</v-icon>删除
       </v-btn>
       <v-btn outlined rounded @click="updatePolicy">
@@ -30,35 +38,35 @@ import PolicyService from '@/service/policyService';
   }
 })
 export default class EditPolicy extends Vue {
-  private policyInfo = new Policy()
+  private policyInfo = new Policy();
 
   private policyInfoContent = [
     {
       type: 'text-field',
       title: '标题',
-      name: 'title',
+      name: 'title'
     },
     {
       type: 'text-field',
       title: '链接',
-      name: 'link',
+      name: 'link'
     },
     {
       type: 'text-area',
       title: '描述',
-      name: 'describe',
+      name: 'describe'
     },
     {
       type: 'text-field',
       title: '类别',
-      name: 'regulationsCategory',
+      name: 'regulationsCategory'
     },
     {
       type: 'text-field',
       title: '级别',
-      name: 'effectiveLevel',
-    },
-  ]
+      name: 'effectiveLevel'
+    }
+  ];
 
   private async getInfo() {
     const rsp = await PolicyService.getPolicyInfo(Number(this.policyID));
@@ -76,7 +84,7 @@ export default class EditPolicy extends Vue {
     const res = await this.$confirm('此操作无法还原', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
-      dark: this.$vuetify.theme.dark,
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await PolicyService.deletePolicy(Number(this.policyID));

@@ -15,31 +15,32 @@ const state: State = {
   sheetTemplate: {
     name: '未命名模版',
     field: {
-      data: [],
-    },
+      data: []
+    }
   },
   currentTemplateID: '',
   typeList: [
     {
       name: '键值型',
-      type: 'key',
+      type: 'key'
     },
     {
       name: '列表型',
-      type: 'list',
-    },
+      type: 'list'
+    }
   ],
   sheetList: [],
-  viewMode: 'grid',
+  viewMode: 'grid'
 };
 
 const getters = {
   sheetTemplate: (s: State) => s.sheetTemplate,
   currentTemplateID: (s: State) => s.currentTemplateID,
   typeList: (s: State) => s.typeList,
-  type: (s: State) => (type: string) => s.typeList.find((e: any) => e.type === type),
+  type: (s: State) => (type: string) =>
+    s.typeList.find((e: any) => e.type === type),
   sheetList: (s: State) => s.sheetList,
-  viewMode: (s: State) => s.viewMode,
+  viewMode: (s: State) => s.viewMode
 };
 
 const mutations = {
@@ -48,7 +49,7 @@ const mutations = {
       title: '',
       type: '',
       name: '',
-      list: [],
+      list: []
     });
   },
   updateSheetTemplate: (s: State, template: Template) => {
@@ -61,8 +62,8 @@ const mutations = {
     s.sheetTemplate = {
       name: '未命名模版',
       field: {
-        data: [],
-      },
+        data: []
+      }
     };
   },
   updateSheetList: (s: State, sheetList: Sheet[]) => {
@@ -70,7 +71,7 @@ const mutations = {
   },
   updateViewMode: (s: State, viewMode: string) => {
     s.viewMode = viewMode;
-  },
+  }
 };
 
 const actions = {};
@@ -80,5 +81,5 @@ export default {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };

@@ -32,7 +32,7 @@ const state: State = {
       route: 'project',
       icon: 'icon/icon_project.svg',
       themeColor: '#42A5F5',
-      themeColorDark: '#6bb5f2',
+      themeColorDark: '#6bb5f2'
     },
     {
       name: '人脉',
@@ -40,7 +40,7 @@ const state: State = {
       route: 'contact',
       icon: 'icon/icon_contact.svg',
       themeColor: '#7E57C2',
-      themeColorDark: '#9b7ecc',
+      themeColorDark: '#9b7ecc'
     },
     {
       name: '表单',
@@ -48,7 +48,7 @@ const state: State = {
       route: 'sheet',
       icon: 'icon/icon_sheet.svg',
       themeColor: '#26A69A',
-      themeColorDark: '#26A69A',
+      themeColorDark: '#26A69A'
     },
     {
       name: '活动',
@@ -64,7 +64,7 @@ const state: State = {
       route: 'finance',
       icon: 'icon/icon_finance.svg',
       themeColor: '#2979FF',
-      themeColorDark: '#6099fc',
+      themeColorDark: '#6099fc'
     },
     {
       name: '政策',
@@ -72,7 +72,7 @@ const state: State = {
       route: 'policy',
       icon: 'icon/icon_policy.svg',
       themeColor: '#D7CCC8',
-      themeColorDark: '#A1887F',
+      themeColorDark: '#A1887F'
     },
     {
       name: '管理',
@@ -81,8 +81,8 @@ const state: State = {
       icon: 'icon/icon_admin.svg',
       themeColor: '#333333',
       themeColorDark: '#c9c9c9',
-      privilege: ['god'],
-    },
+      privilege: ['god']
+    }
   ],
   estateAppList: [
     {
@@ -91,7 +91,7 @@ const state: State = {
       route: 'apartment',
       icon: 'icon/icon_finance.svg',
       themeColor: '#2979FF',
-      themeColorDark: '#6099fc',
+      themeColorDark: '#6099fc'
     },
     {
       name: '账单',
@@ -99,7 +99,7 @@ const state: State = {
       route: 'bill',
       icon: 'icon/icon_finance.svg',
       themeColor: '#2979FF',
-      themeColorDark: '#6099fc',
+      themeColorDark: '#6099fc'
     },
     {
       name: '审计',
@@ -107,7 +107,7 @@ const state: State = {
       route: 'audit',
       icon: 'icon/icon_finance.svg',
       themeColor: '#2979FF',
-      themeColorDark: '#6099fc',
+      themeColorDark: '#6099fc'
     },
     {
       name: '工单',
@@ -115,16 +115,16 @@ const state: State = {
       route: 'ticket',
       icon: 'icon/icon_finance.svg',
       themeColor: '#2979FF',
-      themeColorDark: '#6099fc',
-    },
+      themeColorDark: '#6099fc'
+    }
   ],
   invitationList: [],
   permissionList: [
     {
       text: '管理',
-      value: 'god',
-    },
-  ],
+      value: 'god'
+    }
+  ]
 };
 
 const getters = {
@@ -137,10 +137,11 @@ const getters = {
   fullScreenLoading: (s: State) => s.fullScreenLoading,
   appList: (s: State) => s.appList,
   estateAppList: (s: State) => s.estateAppList,
-  currentApp: (s: State) => (name: string) => s.appList.find((e: App) => e.nameEn === name) || new App(),
+  currentApp: (s: State) => (name: string) =>
+    s.appList.find((e: App) => e.nameEn === name) || new App(),
   uploadPercent: (s: State) => s.uploadPercent,
   invitationList: (s: State) => s.invitationList,
-  permissionList: (s: State) => s.permissionList,
+  permissionList: (s: State) => s.permissionList
 };
 
 const mutations = {
@@ -164,7 +165,7 @@ const mutations = {
   },
   updateInvitationList: (s: State, invitationList: Invitation[]) => {
     s.invitationList = invitationList;
-  },
+  }
 };
 
 const actions = {};
@@ -174,5 +175,5 @@ export default {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };

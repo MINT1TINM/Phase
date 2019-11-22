@@ -5,10 +5,13 @@
     </v-layout>
     <v-btn
       class="mb-2"
-      v-if="!item.data && (item.type.indexOf(`png`)!==-1
-      || item.type.indexOf(`jpg`)!==-1
-      || item.type.indexOf(`jpeg`)!==-1
-      || item.type.indexOf(`pdf`)!==-1)"
+      v-if="
+        !item.data &&
+          (item.type.indexOf(`png`) !== -1 ||
+            item.type.indexOf(`jpg`) !== -1 ||
+            item.type.indexOf(`jpeg`) !== -1 ||
+            item.type.indexOf(`pdf`) !== -1)
+      "
       block
       outlined
       color="green darken-1"
@@ -16,21 +19,30 @@
     >
       <v-icon size="20">mdi-magnify</v-icon>&nbsp;预览
     </v-btn>
-    <v-btn v-if="!item.data" block outlined color="green darken-1" @click="downloadFile(item)">
+    <v-btn
+      v-if="!item.data"
+      block
+      outlined
+      color="green darken-1"
+      @click="downloadFile(item)"
+    >
       <v-icon size="20">mdi-download-outline</v-icon>&nbsp;下载
     </v-btn>
     <v-btn
-      v-if="projectPermission(authorization.userID).indexOf(`u`)!==-1"
+      v-if="projectPermission(authorization.userID).indexOf(`u`) !== -1"
       class="mt-2"
       block
       outlined
       color="primary"
-      @click="renameDialog=true;currentName=item.name"
+      @click="
+        renameDialog = true;
+        currentName = item.name;
+      "
     >
       <v-icon size="20">mdi-pencil-outline</v-icon>&nbsp;重命名
     </v-btn>
     <v-btn
-      v-if="projectPermission(authorization.userID).indexOf(`d`)!==-1"
+      v-if="projectPermission(authorization.userID).indexOf(`d`) !== -1"
       class="mt-2"
       block
       outlined
@@ -43,13 +55,15 @@
     <v-list-item class="px-0">
       <v-list-item-content>
         <v-list-item-subtitle class="caption">名称</v-list-item-subtitle>
-        <v-list-item-title class="body-2">{{item.name}}</v-list-item-title>
+        <v-list-item-title class="body-2">{{ item.name }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="px-0">
       <v-list-item-content>
         <v-list-item-subtitle class="caption">创建时间</v-list-item-subtitle>
-        <v-list-item-title class="body-2">{{item.createdAt | format("yyyy-MM-dd hh:mm:ss")}}</v-list-item-title>
+        <v-list-item-title class="body-2">{{
+          item.createdAt | format('yyyy-MM-dd hh:mm:ss')
+        }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="px-0">
@@ -69,16 +83,27 @@
     <v-dialog persistent v-model="renameDialog" width="300">
       <v-card>
         <v-toolbar flat class="transparent">
-          <v-toolbar-title class="font-weight-black subtitle-1">重命名</v-toolbar-title>
+          <v-toolbar-title class="font-weight-black subtitle-1"
+            >重命名</v-toolbar-title
+          >
           <v-spacer></v-spacer>
-          <v-btn icon @click="renameDialog=false">
+          <v-btn icon @click="renameDialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
         <v-container fluid>
-          <v-text-field hide-details single-line outlined dense label="输入新名称" v-model="currentName"></v-text-field>
+          <v-text-field
+            hide-details
+            single-line
+            outlined
+            dense
+            label="输入新名称"
+            v-model="currentName"
+          ></v-text-field>
           <v-layout class="pt-5" justify-center>
-            <v-btn rounded color="primary" depressed @click="renameFile">保存</v-btn>
+            <v-btn rounded color="primary" depressed @click="renameFile"
+              >保存</v-btn
+            >
           </v-layout>
         </v-container>
       </v-card>
@@ -87,9 +112,7 @@
 </template>
 
 <script lang="ts">
-import {
- Component, Prop, Vue, Watch 
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import FileService from '@/service/fileService';
 import { Authorization } from '@/types/user';

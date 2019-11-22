@@ -3,12 +3,12 @@
     <v-flex xs4 class="inner-sidebar-withoutpadding">
       <v-container fluid grid-list-md>
         <v-layout row wrap>
-          <v-flex xs6 v-for="(item,i) in unitList" :key="`unit-${i}`">
+          <v-flex xs6 v-for="(item, i) in unitList" :key="`unit-${i}`">
             <v-card outlined :to="`/${$route.params.estateID}/${item.id}`">
-              <v-card-title class="subtitle-2">{{item.type}}</v-card-title>
+              <v-card-title class="subtitle-2">{{ item.type }}</v-card-title>
               <v-card-text class="caption">
-                <p>层高 {{item.height}}</p>
-                <p>{{item.price}}</p>
+                <p>层高 {{ item.height }}</p>
+                <p>{{ item.price }}</p>
               </v-card-text>
             </v-card>
           </v-flex>
@@ -52,5 +52,4 @@ export default class ApartmentUnit extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

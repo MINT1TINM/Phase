@@ -15,7 +15,7 @@
         hide-details
         class="body-2"
         :disabled="disabled"
-        :single-line="dense?false:true"
+        :single-line="dense ? false : true"
         :label="label"
         dense
         readonly
@@ -33,9 +33,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component
 export default class DatePicker extends Vue {
@@ -71,5 +69,4 @@ export default class DatePicker extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

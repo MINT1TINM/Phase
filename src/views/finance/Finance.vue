@@ -15,8 +15,7 @@ import { namespace } from 'vuex-class';
 @Component({
   components: {}
 })
-export default class Finance extends Vue { }
+export default class Finance extends Vue {}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

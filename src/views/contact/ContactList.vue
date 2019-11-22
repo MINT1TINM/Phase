@@ -8,27 +8,31 @@
       <v-toolbar flat class="transparent" dense>
         <v-spacer></v-spacer>
 
-        <v-btn rounded @click="createUserDialog=true" text v-if="isGod">
+        <v-btn rounded @click="createUserDialog = true" text v-if="isGod">
           <v-icon size="20">mdi-plus</v-icon>&nbsp;新建用户
         </v-btn>
       </v-toolbar>
       <transition appear appear-active-class="fade-up-enter">
         <v-list nav dense color="transparent">
-          <template v-for="(item,i) in userList">
+          <template v-for="(item, i) in userList">
             <div :key="`user-${i}`">
               <v-list-item :to="`/${$route.params.group}/${item.id}`">
                 <v-list-item-avatar>
                   <v-avatar color="primary" size="32">
-                    <img v-if="item.headImgURL" :src="item.headImgURL | httpsfy" />
-                    <span
-                      v-else
-                      class="body-2 font-weight-black white--text"
-                    >{{item.nickName | avatar}}</span>
+                    <img
+                      v-if="item.headImgURL"
+                      :src="item.headImgURL | httpsfy"
+                    />
+                    <span v-else class="body-2 font-weight-black white--text">{{
+                      item.nickName | avatar
+                    }}</span>
                   </v-avatar>
                 </v-list-item-avatar>
                 <v-list-item-content>
-                  <v-list-item-title>{{item.nickName}}</v-list-item-title>
-                  <v-list-item-subtitle class="caption grey--text">{{item.phone}}</v-list-item-subtitle>
+                  <v-list-item-title>{{ item.nickName }}</v-list-item-title>
+                  <v-list-item-subtitle class="caption grey--text">{{
+                    item.phone
+                  }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
               <v-divider class="my-1"></v-divider>
@@ -44,7 +48,9 @@
     <v-dialog persistent v-model="createUserDialog" width="300">
       <v-card>
         <v-toolbar flat>
-          <v-toolbar-title class="font-weight-black subtitle-1">新建用户</v-toolbar-title>
+          <v-toolbar-title class="font-weight-black subtitle-1"
+            >新建用户</v-toolbar-title
+          >
         </v-toolbar>
         <v-container fluid>
           <v-form ref="createUserForm">
@@ -79,8 +85,10 @@
           </v-form>
         </v-container>
         <v-card-actions class="justify-center">
-          <v-btn rounded color="primary" depressed @click="createUser">确认</v-btn>
-          <v-btn rounded text @click="createUserDialog=false">取消</v-btn>
+          <v-btn rounded color="primary" depressed @click="createUser"
+            >确认</v-btn
+          >
+          <v-btn rounded text @click="createUserDialog = false">取消</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -152,5 +160,4 @@ export default class ContactList extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

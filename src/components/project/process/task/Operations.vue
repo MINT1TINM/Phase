@@ -4,7 +4,9 @@
 
     <v-layout justify-center class="py-3">
       <v-flex xs6>
-        <v-btn block rounded depressed color="error" @click="deleteTask">删除任务</v-btn>
+        <v-btn block rounded depressed color="error" @click="deleteTask"
+          >删除任务</v-btn
+        >
       </v-flex>
     </v-layout>
   </v-card>

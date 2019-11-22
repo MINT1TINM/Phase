@@ -10,7 +10,7 @@ const state: State = {
     access_token: '',
     refresh_token: '',
     token: '',
-    userID: '',
+    userID: ''
   },
   userInfo: {
     city: '',
@@ -23,8 +23,8 @@ const state: State = {
     province: '',
     sex: '',
     unionid: '',
-    applicationList: [],
-  },
+    applicationList: []
+  }
 };
 
 const getters = {
@@ -42,7 +42,7 @@ const getters = {
     return projectIDList;
   },
   privilege: (s: State) => s.userInfo.privilege,
-  isGod: (s: State) => s.userInfo.privilege.indexOf('god') !== -1,
+  isGod: (s: State) => s.userInfo.privilege.indexOf('god') !== -1
 };
 
 const mutations = {
@@ -66,7 +66,7 @@ const mutations = {
       project: { data: [] },
       province: '',
       sex: '',
-      unionid: '',
+      unionid: ''
     };
   },
   clearAuthorization: (s: State) => {
@@ -74,9 +74,9 @@ const mutations = {
       access_token: '',
       refresh_token: '',
       token: '',
-      userID: '',
+      userID: ''
     };
-  },
+  }
 };
 
 const actions = {};
@@ -86,5 +86,5 @@ export default {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };

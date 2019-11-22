@@ -3,11 +3,16 @@
     <v-subheader class="subtitle-2 pl-0 mb-0">修改密码</v-subheader>
     <v-divider class="mb-4"></v-divider>
     <v-form ref="updatePasswordForm">
-      <dim-form :target="updatePasswordTarget" :formContent="updatePasswordFormList"></dim-form>
+      <dim-form
+        :target="updatePasswordTarget"
+        :formContent="updatePasswordFormList"
+      ></dim-form>
     </v-form>
     <v-layout justify-center class="pt-3 pb-5">
       <v-flex xs6>
-        <v-btn block rounded depressed color="primary" @click="updatePassword()">保存</v-btn>
+        <v-btn block rounded depressed color="primary" @click="updatePassword()"
+          >保存</v-btn
+        >
       </v-flex>
     </v-layout>
     <v-subheader class="subtitle-2 pl-0 mb-0">近期登录历史</v-subheader>
@@ -25,8 +30,10 @@
           </thead>
           <tbody>
             <tr v-for="item in loginHistory" :key="item.name">
-              <td class="caption text-center">{{ item.time | format("yyyy-MM-dd hh:mm:ss") }}</td>
-              <td class="caption text-center">{{ item.ip.split(":")[0] }}</td>
+              <td class="caption text-center">
+                {{ item.time | format('yyyy-MM-dd hh:mm:ss') }}
+              </td>
+              <td class="caption text-center">{{ item.ip.split(':')[0] }}</td>
               <td class="caption text-center">{{ item.os }}</td>
               <td class="caption text-center">{{ item.browser }}</td>
             </tr>
@@ -56,27 +63,27 @@ export default class SecuritySetting extends Vue {
       type: 'text-field',
       title: '当前密码',
       name: 'currentPassword',
-      password: true,
+      password: true
     },
     {
       type: 'text-field',
       title: '新密码',
       name: 'newPassword',
-      password: true,
+      password: true
     },
     {
       type: 'text-field',
       title: '确认密码',
       name: 'confirmPassword',
-      password: true,
-    },
+      password: true
+    }
   ];
 
   private updatePasswordTarget = {};
 
   private async getUserLoginHistory() {
     const rsp = await UserService.getUserLoginHistory(
-      this.authorization.userID,
+      this.authorization.userID
     );
     this.loginHistory = rsp.loginHistory;
   }
@@ -89,5 +96,4 @@ export default class SecuritySetting extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

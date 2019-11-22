@@ -1,13 +1,9 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
+    node: true
   },
-  extends: [
-    'plugin:vue/essential',
-    '@vue/airbnb',
-    '@vue/typescript',
-  ],
+  extends: ['plugin:vue/essential', '@vue/prettier', '@vue/typescript'],
   rules: {
     'no-console': 0,
     'no-debugger': 0,
@@ -31,6 +27,6 @@ module.exports = {
     indent: 0
   },
   parserOptions: {
-    parser: '@typescript-eslint/parser',
-  },
+    parser: '@typescript-eslint/parser'
+  }
 };

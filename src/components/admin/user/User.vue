@@ -9,7 +9,11 @@
         <v-spacer></v-spacer>
 
         <v-toolbar-items>
-          <v-btn @click="createUserDialog=true" text v-if="privilege.indexOf(`god`)!=-1">
+          <v-btn
+            @click="createUserDialog = true"
+            text
+            v-if="privilege.indexOf(`god`) != -1"
+          >
             <v-icon size="20">mdi-plus</v-icon>&nbsp;新建用户
           </v-btn>
         </v-toolbar-items>
@@ -26,7 +30,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item,i) in userList" :key="`user-${i}`" @click="showInfo(item)">
+            <tr
+              v-for="(item, i) in userList"
+              :key="`user-${i}`"
+              @click="showInfo(item)"
+            >
               <td class="caption">{{ item.nickName }}</td>
               <td class="caption">{{ item.name }}</td>
               <td class="caption">{{ item.phone }}</td>
@@ -39,13 +47,18 @@
 
     <!-- userinfo nav -->
     <v-navigation-drawer width="800" right temporary fixed v-model="infoNav">
-      <info-nav :userID="currentContactID" @closeNav="infoNav=false"></info-nav>
+      <info-nav
+        :userID="currentContactID"
+        @closeNav="infoNav = false"
+      ></info-nav>
     </v-navigation-drawer>
 
     <v-dialog persistent v-model="createUserDialog" width="300">
       <v-card>
         <v-toolbar flat>
-          <v-toolbar-title class="font-weight-black subtitle-1">新建用户</v-toolbar-title>
+          <v-toolbar-title class="font-weight-black subtitle-1"
+            >新建用户</v-toolbar-title
+          >
         </v-toolbar>
         <v-container fluid>
           <v-form ref="createUserForm">
@@ -80,8 +93,10 @@
           </v-form>
         </v-container>
         <v-card-actions class="justify-center">
-          <v-btn rounded color="primary" depressed @click="createUser">确认</v-btn>
-          <v-btn rounded text @click="createUserDialog=false">取消</v-btn>
+          <v-btn rounded color="primary" depressed @click="createUser"
+            >确认</v-btn
+          >
+          <v-btn rounded text @click="createUserDialog = false">取消</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -100,8 +115,8 @@ const contactModule = namespace('contact');
 
 @Component({
   components: {
-    'info-nav': infoNav,
-  },
+    'info-nav': infoNav
+  }
 })
 export default class AdminUser extends Vue {
   @userModule.Getter('privilege') private privilege!: string[];
@@ -134,7 +149,7 @@ export default class AdminUser extends Vue {
     await UserService.createUser(
       this.newUserName,
       this.newNickName,
-      this.newPassword,
+      this.newPassword
     );
     this.createUserDialog = false;
     this.newUserName = '';
@@ -155,5 +170,4 @@ export default class AdminUser extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

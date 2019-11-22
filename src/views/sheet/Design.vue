@@ -1,14 +1,19 @@
 <template>
   <div style="height:calc(100vh - 48px);overflow-y:auto">
     <v-toolbar dense flat class="navbar" style="z-index:2">
-      <v-toolbar-title class="subtitle-1 font-weight-black">表单设计器</v-toolbar-title>
+      <v-toolbar-title class="subtitle-1 font-weight-black"
+        >表单设计器</v-toolbar-title
+      >
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn
           text
           @click="saveTemplate"
           :disabled="sheetTemplate.locked"
-          v-if="sheetTemplate.userID === authorization.userID || sheetTemplate.locked==undefined"
+          v-if="
+            sheetTemplate.userID === authorization.userID ||
+              sheetTemplate.locked == undefined
+          "
         >
           <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
         </v-btn>
@@ -49,14 +54,16 @@
                   ></v-text-field>
                 </v-toolbar>
                 <v-divider></v-divider>
-                <v-card-title class="subtitle-1 font-weight-black">表单内容</v-card-title>
+                <v-card-title class="subtitle-1 font-weight-black"
+                  >表单内容</v-card-title
+                >
                 <v-container fluid>
                   <v-layout>
                     <v-flex xs12>
                       <v-card
                         outlined
                         class="mb-3"
-                        v-for="(item,i) in sheetTemplate.field.data"
+                        v-for="(item, i) in sheetTemplate.field.data"
                         :key="`field-${i}`"
                       >
                         <v-container>
@@ -93,14 +100,20 @@
 
                             <v-menu bottom left>
                               <template v-slot:activator="{ on }">
-                                <v-btn :disabled="sheetTemplate.locked" icon v-on="on">
+                                <v-btn
+                                  :disabled="sheetTemplate.locked"
+                                  icon
+                                  v-on="on"
+                                >
                                   <v-icon>mdi-dots-vertical</v-icon>
                                 </v-btn>
                               </template>
 
                               <v-list dense>
                                 <v-list-item
-                                  v-if="i!==sheetTemplate.field.data.length-1"
+                                  v-if="
+                                    i !== sheetTemplate.field.data.length - 1
+                                  "
                                   @click="moveDown(i)"
                                 >
                                   <v-list-item-icon>
@@ -108,7 +121,7 @@
                                   </v-list-item-icon>
                                   <v-list-item-title>下移</v-list-item-title>
                                 </v-list-item>
-                                <v-list-item v-if="i!==0" @click="moveUp(i)">
+                                <v-list-item v-if="i !== 0" @click="moveUp(i)">
                                   <v-list-item-icon>
                                     <v-icon>mdi-arrow-up</v-icon>
                                   </v-list-item-icon>
@@ -124,7 +137,10 @@
                             </v-menu>
                             <v-flex
                               xs12
-                              v-if="item.type==='select' || item.type === `multi-select`"
+                              v-if="
+                                item.type === 'select' ||
+                                  item.type === `multi-select`
+                              "
                             >
                               <v-combobox
                                 outlined
@@ -168,9 +184,7 @@
 </template>
 
 <script lang="ts">
-import {
- Component, Prop, Vue, Watch 
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { Field } from '@/types/sheet';
 import SheetService from '@/service/sheetService';
@@ -297,5 +311,4 @@ export default class SheetDesign extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -5,9 +5,17 @@
         <transition appear appear-active-class="fade-up-enter">
           <div>
             <v-card class="mt-3">
-              <v-container fill-height fluid grid-list-lg style="padding-top:0px">
+              <v-container
+                fill-height
+                fluid
+                grid-list-lg
+                style="padding-top:0px"
+              >
                 <div style="width:100%">
-                  <dim-form :formContent="projectInfoList" :target="currentProject"></dim-form>
+                  <dim-form
+                    :formContent="projectInfoList"
+                    :target="currentProject"
+                  ></dim-form>
 
                   <v-layout row justify-center class="pt-5">
                     <v-flex xs6>
@@ -17,19 +25,24 @@
                         depressed
                         color="primary darken-1"
                         @click="updateProjectInfo()"
-                      >保存</v-btn>
+                        >保存</v-btn
+                      >
                     </v-flex>
                   </v-layout>
                   <v-divider class="my-3"></v-divider>
                   <v-layout>
                     <v-flex xs3>
-                      <v-subheader class="body-2 px-1" style="height:36px">封面</v-subheader>
+                      <v-subheader class="body-2 px-1" style="height:36px"
+                        >封面</v-subheader
+                      >
                     </v-flex>
                     <v-flex xs9>
                       <v-img
                         max-width="200"
                         v-if="currentProject.folderURL"
-                        :src="`/api/file/download?sName=${currentProject.folderURL}`"
+                        :src="
+                          `/api/file/download?sName=${currentProject.folderURL}`
+                        "
                       ></v-img>
                       <v-file-input
                         dense
@@ -47,8 +60,15 @@
                   <v-divider class="my-3"></v-divider>
                   <v-layout justify-center>
                     <v-flex xs6>
-                      <v-btn @click="deleteProject" color="error" block rounded depressed>
-                        <v-icon size="20">mdi-delete-outline</v-icon>&nbsp;删除项目
+                      <v-btn
+                        @click="deleteProject"
+                        color="error"
+                        block
+                        rounded
+                        depressed
+                      >
+                        <v-icon size="20">mdi-delete-outline</v-icon
+                        >&nbsp;删除项目
                       </v-btn>
                     </v-flex>
                   </v-layout>
@@ -71,7 +91,7 @@ const systemModule = namespace('system');
 const projectModule = namespace('project');
 
 @Component({
-  components: {},
+  components: {}
 })
 export default class Settings extends Vue {
   @systemModule.Getter('lastPage') private lastPage: any;
@@ -82,38 +102,38 @@ export default class Settings extends Vue {
 
   private projectInfoList = [
     {
-      subheader: '信息',
+      subheader: '信息'
     },
     {
-      divider: true,
+      divider: true
     },
     {
       type: 'text-field',
       title: '名称',
-      name: 'name',
+      name: 'name'
     },
     {
       type: 'text-area',
       title: '简介',
-      name: 'description',
+      name: 'description'
     },
     {
       type: 'date-range',
       title: '审计期间',
       nameStart: 'startDate',
-      nameEnd: 'endDate',
+      nameEnd: 'endDate'
     },
     {
       type: 'date-picker',
       disabled: true,
       title: '创建时间',
-      name: 'createdAt',
+      name: 'createdAt'
     },
     {
       type: 'date-picker',
       title: '实施时间',
-      name: 'actionDate',
-    },
+      name: 'actionDate'
+    }
   ];
 
   private async updateProjectInfo() {
@@ -124,7 +144,7 @@ export default class Settings extends Vue {
     const res = await this.$confirm('此操作无法还原', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
-      dark: this.$vuetify.theme.dark,
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await ProjectService.deleteProject(this.currentProjectID);
@@ -140,5 +160,4 @@ export default class Settings extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

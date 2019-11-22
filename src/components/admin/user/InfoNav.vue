@@ -5,16 +5,18 @@
         <v-layout>
           <div class="pa-2">
             <v-avatar color="primary darken-2" size="100">
-              <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
-              <span
-                v-else
-                class="headline font-weight-black white--text"
-              >{{userInfo.nickName | avatar}}</span>
+              <img
+                v-if="userInfo.headImgURL"
+                :src="userInfo.headImgURL | httpsfy"
+              />
+              <span v-else class="headline font-weight-black white--text">{{
+                userInfo.nickName | avatar
+              }}</span>
             </v-avatar>
           </div>
           <v-flex class="pl-3">
             <v-layout align-center fill-height>
-              <h2>{{userInfo.nickName}}</h2>
+              <h2>{{ userInfo.nickName }}</h2>
             </v-layout>
           </v-flex>
         </v-layout>
@@ -26,38 +28,46 @@
         </v-tabs>
         <v-divider></v-divider>
         <div style="height:calc(100vh - 185px);overflow-y:auto">
-          <v-container v-if="tab===`info`" fluid grid-list-md>
+          <v-container v-if="tab === `info`" fluid grid-list-md>
             <v-layout row wrap>
               <v-flex class="d-flex align-stretch" xs4 v-if="userInfo.phone">
                 <v-card width="100%" outlined>
-                  <v-card-title class="caption grey--text font-weight-black">移动电话</v-card-title>
+                  <v-card-title class="caption grey--text font-weight-black"
+                    >移动电话</v-card-title
+                  >
                   <v-card-text>
-                    <h4>{{userInfo.phone}}</h4>
+                    <h4>{{ userInfo.phone }}</h4>
                   </v-card-text>
                 </v-card>
               </v-flex>
               <v-flex class="d-flex align-stretch" xs4 v-if="userInfo.email">
                 <v-card width="100%" outlined>
-                  <v-card-title class="caption grey--text font-weight-black">电子邮件</v-card-title>
+                  <v-card-title class="caption grey--text font-weight-black"
+                    >电子邮件</v-card-title
+                  >
                   <v-card-text>
-                    <h4>{{userInfo.email}}</h4>
+                    <h4>{{ userInfo.email }}</h4>
                   </v-card-text>
                 </v-card>
               </v-flex>
               <v-flex class="d-flex align-stretch" xs4>
                 <v-card width="100%" outlined>
-                  <v-card-title class="caption grey--text font-weight-black">加入时间</v-card-title>
+                  <v-card-title class="caption grey--text font-weight-black"
+                    >加入时间</v-card-title
+                  >
                   <v-card-text>
-                    <h4>{{userInfo.createdAt | format("yyyy-MM-dd")}}</h4>
+                    <h4>{{ userInfo.createdAt | format('yyyy-MM-dd') }}</h4>
                   </v-card-text>
                 </v-card>
               </v-flex>
             </v-layout>
           </v-container>
-          <v-container v-else-if="tab===`activity`" fluid grid-list-md>
-            <v-flex xs4 v-if="privilege.indexOf(`god`)!==-1">
+          <v-container v-else-if="tab === `activity`" fluid grid-list-md>
+            <v-flex xs4 v-if="privilege.indexOf(`god`) !== -1">
               <v-card outlined>
-                <v-card-title class="caption grey--text font-weight-black">系统权限</v-card-title>
+                <v-card-title class="caption grey--text font-weight-black"
+                  >系统权限</v-card-title
+                >
                 <v-card-text>
                   <v-select
                     dense
@@ -95,7 +105,9 @@
                           <v-img :src="item.icon"></v-img>
                         </v-list-item-avatar>
                         <v-list-item-content>
-                          <v-list-item-title v-text="item.name"></v-list-item-title>
+                          <v-list-item-title
+                            v-text="item.name"
+                          ></v-list-item-title>
                         </v-list-item-content>
 
                         <!-- app access -->
@@ -120,7 +132,8 @@
               <v-layout row wrap justify-center class="my-3">
                 <v-flex xs8>
                   <v-btn @click="updateUserAppList" block rounded depressed>
-                    <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
+                    <v-icon size="20">mdi-content-save-outline</v-icon
+                    >&nbsp;保存
                   </v-btn>
                 </v-flex>
               </v-layout>
@@ -132,10 +145,12 @@
               @getUserInfo="getUserInfo"
             ></AppAccess>
           </v-container>
-          <v-container v-else-if="tab===`security`" fluid grid-list-md>
+          <v-container v-else-if="tab === `security`" fluid grid-list-md>
             <v-layout row wrap>
               <v-flex xs12>
-                <v-subheader class="subtitle-2 pl-0 mb-0">近期登录历史</v-subheader>
+                <v-subheader class="subtitle-2 pl-0 mb-0"
+                  >近期登录历史</v-subheader
+                >
                 <v-card outlined flat>
                   <v-simple-table>
                     <template v-slot:default>
@@ -148,13 +163,20 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(item,i) in loginHistory" :key="`login-${i}`">
-                          <td
-                            class="caption text-center"
-                          >{{ item.time | format("yyyy-MM-dd hh:mm:ss") }}</td>
-                          <td class="caption text-center">{{ item.ip.split(":")[0] }}</td>
+                        <tr
+                          v-for="(item, i) in loginHistory"
+                          :key="`login-${i}`"
+                        >
+                          <td class="caption text-center">
+                            {{ item.time | format('yyyy-MM-dd hh:mm:ss') }}
+                          </td>
+                          <td class="caption text-center">
+                            {{ item.ip.split(':')[0] }}
+                          </td>
                           <td class="caption text-center">{{ item.os }}</td>
-                          <td class="caption text-center">{{ item.browser }}</td>
+                          <td class="caption text-center">
+                            {{ item.browser }}
+                          </td>
                         </tr>
                       </tbody>
                     </template>
@@ -163,10 +185,16 @@
               </v-flex>
             </v-layout>
           </v-container>
-          <v-container v-else-if="tab===`operations`" fluid grid-list-md>
+          <v-container v-else-if="tab === `operations`" fluid grid-list-md>
             <v-layout row wrap justify-center>
               <v-flex xs8>
-                <v-btn @click="deleteUser" block rounded depressed color="error">
+                <v-btn
+                  @click="deleteUser"
+                  block
+                  rounded
+                  depressed
+                  color="error"
+                >
                   <v-icon size="20">mdi-delete-outline</v-icon>&nbsp;释放账户
                 </v-btn>
               </v-flex>
@@ -179,9 +207,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import UserService from '@/service/userService';
 import { UserInfo, Login } from '@/types/user';
@@ -214,14 +240,14 @@ export default class AdminUserInfoNav extends Vue {
     privilege: [],
     applicationList: [],
     project: {
-      data: [],
+      data: []
     },
     province: '',
     sex: '',
-    unionid: '',
+    unionid: ''
   };
 
-  private appAccessNav: boolean = false
+  private appAccessNav: boolean = false;
 
   private tab = null;
 
@@ -236,7 +262,7 @@ export default class AdminUserInfoNav extends Vue {
     console.log(this.userInfo.applicationList);
     await UserService.updateUserAppList(
       this.userID,
-      this.userInfo.applicationList || [],
+      this.userInfo.applicationList || []
     );
   }
 
@@ -254,7 +280,7 @@ export default class AdminUserInfoNav extends Vue {
     const res = await this.$confirm('此操作无法还原', {
       title: '确认释放?',
       buttonTrueColor: 'primary',
-      dark: this.$vuetify.theme.dark,
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await UserService.deleteUser(this.userInfo.id || '');
@@ -276,12 +302,12 @@ export default class AdminUserInfoNav extends Vue {
       openid: '',
       privilege: [],
       project: {
-        data: [],
+        data: []
       },
       applicationList: [],
       province: '',
       sex: '',
-      unionid: '',
+      unionid: ''
     };
     if (this.userID) {
       this.getUserInfo();
@@ -298,12 +324,12 @@ export default class AdminUserInfoNav extends Vue {
       openid: '',
       privilege: [],
       project: {
-        data: [],
+        data: []
       },
       applicationList: [],
       province: '',
       sex: '',
-      unionid: '',
+      unionid: ''
     };
     if (this.userID) {
       this.getUserInfo();
@@ -313,5 +339,4 @@ export default class AdminUserInfoNav extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

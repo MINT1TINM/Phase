@@ -5,8 +5,16 @@ import { Policy } from '@/types/policy';
 const vue = new Vue();
 
 class PolicyService {
-  public static async searchPolicy(content: string, page: number, size: number) {
-    const rsp = await basicService.getRequest('/policy', { content, page, size });
+  public static async searchPolicy(
+    content: string,
+    page: number,
+    size: number
+  ) {
+    const rsp = await basicService.getRequest('/policy', {
+      content,
+      page,
+      size
+    });
     return rsp;
   }
 

@@ -9,7 +9,7 @@
     <v-container class="px-5" fluid grid-list-md>
       <h3 class="mt-5">应用</h3>
       <v-layout row wrap class="mt-3">
-        <v-flex xs6 v-for="(item,i) in appList" :key="`app-${i}`">
+        <v-flex xs6 v-for="(item, i) in appList" :key="`app-${i}`">
           <v-hover v-slot:default="{ hover }">
             <v-card
               class="transparent"
@@ -18,7 +18,9 @@
               @click="toApp(item.route)"
             >
               <v-img class="ma-4" :src="item.icon"></v-img>
-              <div class="body-2 pb-2 pt-0 text-center font-weight-black">{{item.name}}</div>
+              <div class="body-2 pb-2 pt-0 text-center font-weight-black">
+                {{ item.name }}
+              </div>
             </v-card>
           </v-hover>
         </v-flex>
@@ -26,7 +28,6 @@
     </v-container>
   </div>
 </template>
-
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
@@ -46,5 +47,4 @@ export default class AppSwitcher extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

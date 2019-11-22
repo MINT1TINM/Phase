@@ -10,7 +10,7 @@
         v-model="searchUserContent"
         @keyup.enter="searchUser"
       ></v-text-field>
-      <v-simple-table v-if="userList.length>=1">
+      <v-simple-table v-if="userList.length >= 1">
         <thead>
           <tr>
             <th class="text-center">昵称</th>
@@ -21,9 +21,9 @@
         </thead>
         <tbody>
           <tr
-            v-for="(item,i) in userList"
+            v-for="(item, i) in userList"
             :key="`user-${i}`"
-            :style="item.alreadyMember?`color:grey`:''"
+            :style="item.alreadyMember ? `color:grey` : ''"
           >
             <td class="text-center">{{ item.nickName }}</td>
             <td class="text-center">{{ item.email }}</td>
@@ -35,7 +35,8 @@
                 rounded
                 color="primary"
                 :disabled="item.alreadyMember"
-              >邀请</v-btn>
+                >邀请</v-btn
+              >
             </td>
           </tr>
         </tbody>
@@ -50,9 +51,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import UserService from '@/service/userService';
 import { ProjectMemberComplete, Invitation } from '@/types/project';
@@ -95,7 +94,7 @@ export default class ComponentName extends Vue {
     const rsp = await ProjectService.submitInvitation(
       this.currentProjectID,
       this.authorization.userID,
-      toUserID,
+      toUserID
     );
   }
 
@@ -116,5 +115,4 @@ export default class ComponentName extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

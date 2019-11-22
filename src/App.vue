@@ -11,7 +11,12 @@
     ></v-progress-linear>
 
     <!-- fullscreen loading -->
-    <v-overlay :value="fullScreenLoading" opacity="1" color="primary" style="z-index:9;height:100%">
+    <v-overlay
+      :value="fullScreenLoading"
+      opacity="1"
+      color="primary"
+      style="z-index:9;height:100%"
+    >
       <v-card flat color="transparent">
         <v-container>
           <v-layout justify-center>
@@ -19,14 +24,17 @@
           </v-layout>
         </v-container>
         <v-card-text class="text-xs-center font-weight-black">
-          <strong>{{systemName}}</strong> 正在加载数据
+          <strong>{{ systemName }}</strong> 正在加载数据
         </v-card-text>
       </v-card>
     </v-overlay>
 
     <!-- app switcher -->
     <v-navigation-drawer v-model="appSwitcherShow" fixed temporary>
-      <app-switcher v-if="appSwitcherShow" style="height:calc(100vh - 48px);"></app-switcher>
+      <app-switcher
+        v-if="appSwitcherShow"
+        style="height:calc(100vh - 48px);"
+      ></app-switcher>
     </v-navigation-drawer>
 
     <!-- notification center -->
@@ -38,7 +46,10 @@
       temporary
       class="acrylic"
     >
-      <notification-center v-if="notificationCenterShow" style="height:calc(100vh - 48px);"></notification-center>
+      <notification-center
+        v-if="notificationCenterShow"
+        style="height:calc(100vh - 48px);"
+      ></notification-center>
     </v-navigation-drawer>
   </div>
 </template>

@@ -11,10 +11,38 @@
           label="状态"
           v-model="status"
         ></v-text-field>
-        <v-text-field class="mt-3 body-2" outlined single-line hide-details dense label="来源"></v-text-field>
-        <v-text-field class="mt-3 body-2" outlined single-line hide-details dense label="类型"></v-text-field>
-        <v-text-field class="mt-3 body-2" outlined single-line hide-details dense label="区域"></v-text-field>
-        <v-text-field class="mt-3 body-2" outlined single-line hide-details dense label="时间范围"></v-text-field>
+        <v-text-field
+          class="mt-3 body-2"
+          outlined
+          single-line
+          hide-details
+          dense
+          label="来源"
+        ></v-text-field>
+        <v-text-field
+          class="mt-3 body-2"
+          outlined
+          single-line
+          hide-details
+          dense
+          label="类型"
+        ></v-text-field>
+        <v-text-field
+          class="mt-3 body-2"
+          outlined
+          single-line
+          hide-details
+          dense
+          label="区域"
+        ></v-text-field>
+        <v-text-field
+          class="mt-3 body-2"
+          outlined
+          single-line
+          hide-details
+          dense
+          label="时间范围"
+        ></v-text-field>
         <v-btn block outlined class="mt-3">
           <v-icon size="20">mdi-magnify</v-icon>&nbsp;查询
         </v-btn>
@@ -34,7 +62,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item,i) in billList" :key="`user-${i}`">
+            <tr v-for="(item, i) in billList" :key="`user-${i}`">
               <td class="caption text-left">{{ item.time }}</td>
               <td class="caption text-left">{{ item.name }}</td>
               <td class="caption text-left">{{ item.timeRange }}</td>
@@ -89,5 +117,4 @@ export default class AuditQuery extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

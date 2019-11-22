@@ -1,7 +1,7 @@
 <template>
   <div>
     <dim-timeline
-      v-if="taskList.length>=1"
+      v-if="taskList.length >= 1"
       :columnWidth="100"
       :taskList="taskList"
       style="height:calc(100vh - 100px)"
@@ -15,9 +15,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import dimTimeline from '@/plugins/dim-timeline/Main.vue';
 import { Process, ProcessTask } from '@/types/process';
@@ -27,8 +25,8 @@ const processModule = namespace('process');
 
 @Component({
   components: {
-    'dim-timeline': dimTimeline,
-  },
+    'dim-timeline': dimTimeline
+  }
 })
 export default class Timeline extends Vue {
   @processModule.Mutation('updateCurrentProcessTask')
@@ -44,7 +42,7 @@ export default class Timeline extends Vue {
 
     this.updateCurrentProcessTask({
       processID: this.$route.params.processID,
-      taskList: rsp.taskList,
+      taskList: rsp.taskList
     });
   }
 
