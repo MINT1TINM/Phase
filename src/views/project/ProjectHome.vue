@@ -11,8 +11,8 @@
               rounded
               @click="$router.push({ path: `/template#foryou` })"
             >
-              更多模版 &nbsp;
-              <v-icon size="20">mdi-arrow-right</v-icon>
+              更多模版
+              <v-icon size="20" class="ml-1">mdi-arrow-right</v-icon>
             </v-btn>
           </v-card-title>
           <v-container>
@@ -111,11 +111,8 @@
                         height="150"
                         src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
                       ></v-img>
-                      <v-card-title class="body-2 font-weight-black">
+                      <v-card-title class="body-2 font-weight-black pb-0">
                         {{ item.name | cut }}
-                        <span class="grey--text ml-2 font-weight-regular">{{
-                          item.createdAt | format('yyyy-MM-dd')
-                        }}</span>
                         <v-spacer></v-spacer>
                         <v-avatar size="26">
                           <v-img :src="item.headImgURL"></v-img>
@@ -125,7 +122,11 @@
                         }}</span>
                       </v-card-title>
 
-                      <v-card-text class="caption"></v-card-text>
+                      <v-card-text class="caption">
+                        <span class="grey--text font-weight-regular">{{
+                          item.createdAt | format('yyyy-MM-dd')
+                        }}</span></v-card-text
+                      >
                     </v-card>
                   </v-hover>
                 </v-flex>

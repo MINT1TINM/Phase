@@ -1,13 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer
-      class="acrylic"
-      mini-variant-width="62"
-      app
-      clipped
-      permanent
-      fixed
-    >
+    <v-navigation-drawer mini-variant-width="62" app clipped permanent fixed>
       <v-list nav dense class="transparent">
         <v-list-item
           link

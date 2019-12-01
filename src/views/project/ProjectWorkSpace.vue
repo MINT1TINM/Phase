@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-navigation-drawer
-      class="acrylic"
       expand-on-hover
       mini-variant-width="62"
       app

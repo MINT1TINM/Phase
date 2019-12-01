@@ -100,17 +100,6 @@ $body-font-family: sans-serif !default;
   max-width: 14.285714285714%;
 }
 
-// acrylic
-.acrylic {
-  backdrop-filter: saturate(180%) blur(20px);
-  opacity: 0.85;
-}
-
-.green-acrylic {
-  backdrop-filter: saturate(180%) blur(20px);
-  background-color: #3e9153c0 !important;
-}
-
 @media (prefers-color-scheme: dark) {
   .app-icon {
     fill: white !important;

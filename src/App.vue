@@ -44,7 +44,6 @@
       fixed
       right
       temporary
-      class="acrylic"
     >
       <notification-center
         v-if="notificationCenterShow"

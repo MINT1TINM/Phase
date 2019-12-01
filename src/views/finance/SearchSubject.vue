@@ -25,7 +25,6 @@
       height="calc(100vh - 96px)"
       style="overflow:auto;margin-top:48px"
       width="300"
-      class="acrylic"
       permanent
       fixed
       app

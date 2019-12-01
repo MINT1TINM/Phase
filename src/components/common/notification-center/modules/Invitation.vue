@@ -2,7 +2,7 @@
   <div>
     <v-card
       outlined
-      class="acrylic pa-3 mt-2"
+      class="pa-3 mt-2"
       v-for="(item, i) in invitationList"
       :key="`invitation-${i}`"
     >
