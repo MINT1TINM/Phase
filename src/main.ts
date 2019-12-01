@@ -1,5 +1,4 @@
 import '@/styles/animation.css';
-import '@/plugins/snackbar/index';
 
 import axios from 'axios';
 import Vue from 'vue';
@@ -7,24 +6,26 @@ import Vue from 'vue';
 import './register-service-worker';
 
 import App from '@/App.vue';
-import VuetifyConfirm from '@/plugins/confirm-dialog';
-import DimForm from '@/plugins/dim-form/Main.vue';
-import Appbar from '@/components/common/app-bar/AppBar.vue';
-// user-chip components
-import UserChip from '@/plugins/user-chip/Main.vue';
-import DocIcon from '@/plugins/doc-icon/Main.vue';
 
-import store from '@/store/store';
-// format date
-import DateHelper from '@/utils/DateHelper';
+import Appbar from '@/components/common/app-bar/AppBar.vue';
+
+import confirmDialog from '@/plugins/vuetify-plugins/confirm-dialog';
+import DimForm from '@/plugins/vuetify-plugins/dim-form/Main.vue';
+import snackBar from '@/plugins/vuetify-plugins/snackbar';
+import UserChip from '@/plugins/vuetify-plugins/user-chip/Main.vue';
+import DocIcon from '@/plugins/vuetify-plugins/doc-icon/Main.vue';
 
 Vue.component('user-chip', UserChip);
 Vue.component('dim-form', DimForm);
 Vue.component('app-bar', Appbar);
 Vue.component('doc-icon', DocIcon);
 Vue.component('app-common', App);
+Vue.use(confirmDialog);
+Vue.use(snackBar);
 
-Vue.use(VuetifyConfirm);
+import store from '@/store/store';
+// format date
+import DateHelper from '@/utils/DateHelper';
 
 Vue.config.productionTip = false;
 
