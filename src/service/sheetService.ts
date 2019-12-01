@@ -39,7 +39,7 @@ class SheetService {
     });
 
     if (rsp.msg === 'success') {
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
 
     return rsp;
@@ -96,7 +96,7 @@ class SheetService {
       target
     });
     if (rsp.msg === 'success') {
-      vue.$snackbar.show('创建成功');
+      vue.$snack('创建成功');
     }
 
     return rsp;
@@ -138,7 +138,7 @@ class SheetService {
       content
     });
     if (rsp.msg === 'success') {
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }

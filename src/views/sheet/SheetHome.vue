@@ -100,7 +100,7 @@
                         </div>
                       </v-expand-transition>
                     </v-img>
-                    <v-card-title class="body-2 font-weight-black">
+                    <v-card-title class="body-2 font-weight-black pb-0">
                       <v-icon
                         color="warning darken-1"
                         v-if="item.locked"
@@ -108,13 +108,17 @@
                         class="mr-2"
                         >mdi-lock-outline</v-icon
                       >
-                      {{ item.name | cut }}
-                      <span class="grey--text ml-2 font-weight-regular">{{
+                      {{ item.name | cut(15) }}
+
+                      <v-spacer></v-spacer>
+                    </v-card-title>
+                    <v-card-text>
+                      <span class="grey--text font-weight-regular caption">{{
                         item.createdAt | format('yyyy-MM-dd')
                       }}</span>
                       <v-spacer></v-spacer>
-                    </v-card-title>
-                    <v-card-text>{{ type(item.type).name }}</v-card-text>
+                      {{ type(item.type).name }}</v-card-text
+                    >
                   </v-card>
                 </v-hover>
               </v-flex>

@@ -63,7 +63,7 @@ class TaskService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }
@@ -102,7 +102,7 @@ class TaskService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('创建成功');
+      vue.$snack('创建成功');
     }
     return rsp;
   }
@@ -125,7 +125,7 @@ class TaskService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('修改成功');
+      vue.$snack('修改成功');
     }
     return rsp;
   }
@@ -137,7 +137,7 @@ class TaskService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('删除成功');
+      vue.$snack('删除成功');
     }
     return rsp;
   }

@@ -27,7 +27,7 @@ class PolicyService {
     const rsp = await basicService.postRequest('/policy', { title });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('创建成功');
+      vue.$snack('创建成功');
     }
     return rsp;
   }
@@ -36,7 +36,7 @@ class PolicyService {
     const rsp = await basicService.putRequest('/policy', policy);
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }
@@ -45,7 +45,7 @@ class PolicyService {
     const rsp = await basicService.deleteRequest('/policy', { id });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('删除成功');
+      vue.$snack('删除成功');
     }
     return rsp;
   }

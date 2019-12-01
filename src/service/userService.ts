@@ -47,7 +47,7 @@ class UserService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
   }
 
@@ -58,7 +58,7 @@ class UserService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('修改成功');
+      vue.$snack('修改成功');
     }
     return rsp;
   }
@@ -71,7 +71,7 @@ class UserService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('修改成功');
+      vue.$snack('修改成功');
     }
     return rsp;
   }
@@ -83,7 +83,7 @@ class UserService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('修改成功');
+      vue.$snack('修改成功');
     }
     return rsp;
   }
@@ -95,7 +95,7 @@ class UserService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('修改成功');
+      vue.$snack('修改成功');
     }
     return rsp;
   }
@@ -109,7 +109,7 @@ class UserService {
       permission
     });
     if (rsp.msg === 'success') {
-      vue.$snackbar.show('修改成功');
+      vue.$snack('修改成功');
     }
     return rsp;
   }
@@ -126,7 +126,7 @@ class UserService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('创建成功');
+      vue.$snack('创建成功');
     }
     return rsp;
   }

@@ -15,18 +15,10 @@
               sheetTemplate.locked == undefined
           "
         >
-          <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
+          <v-icon class="mr-1" size="20">mdi-content-save-outline</v-icon>保存
         </v-btn>
-        <!-- <v-btn
-          text
-          @click="deleteTemplate(currentTemplateID)"
-          :disabled="sheetTemplate.locked"
-          v-if="sheetTemplate.userID === authorization.userID || sheetTemplate.locked==undefined"
-        >
-          <v-icon size="20">mdi-delete-outline</v-icon>&nbsp;删除
-        </v-btn>-->
         <v-btn text @click="exportTemplate">
-          <v-icon size="20">mdi-export</v-icon>&nbsp;导出
+          <v-icon class="mr-1" size="20">mdi-export</v-icon>导出
         </v-btn>
       </v-toolbar-items>
 
@@ -50,6 +42,7 @@
                     required
                     :rules="[v => !!v || 'Item is required']"
                     single-line
+                    class="body-2"
                     label="模版名称"
                   ></v-text-field>
                 </v-toolbar>
@@ -74,6 +67,7 @@
                                 v-model="item.title"
                                 outlined
                                 dense
+                                class="body-2"
                                 :disabled="sheetTemplate.locked"
                                 required
                                 :rules="[v => !!v || 'Item is required']"
@@ -86,6 +80,7 @@
                                 :items="typeList"
                                 required
                                 dense
+                                class="body-2"
                                 v-model="item.type"
                                 :disabled="sheetTemplate.locked"
                                 :rules="[v => !!v || 'Item is required']"
@@ -149,6 +144,7 @@
                                 :disabled="sheetTemplate.locked"
                                 label="可用的选项 (回车键分隔)"
                                 v-model="item.list"
+                                class="body-2"
                                 multiple
                                 chips
                                 hide-details

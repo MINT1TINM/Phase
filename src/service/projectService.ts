@@ -58,7 +58,7 @@ class ProjectService {
     store.commit('project/updateCurrentProject', rsp.project);
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }
@@ -70,7 +70,7 @@ class ProjectService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('已移除成员');
+      vue.$snack('已移除成员');
     }
     return rsp;
   }
@@ -90,7 +90,7 @@ class ProjectService {
 
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }
@@ -117,7 +117,7 @@ class ProjectService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('已发送邀请');
+      vue.$snack('已发送邀请');
     }
     return rsp;
   }
@@ -154,7 +154,7 @@ class ProjectService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('保存成功');
+      vue.$snack('保存成功');
     }
     return rsp;
   }

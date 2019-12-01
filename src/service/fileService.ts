@@ -18,7 +18,7 @@ class FileService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('创建成功');
+      vue.$snack('创建成功');
     }
     return rsp;
   }
@@ -35,7 +35,7 @@ class FileService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('重命名成功');
+      vue.$snack('重命名成功');
     }
     return rsp;
   }
@@ -68,7 +68,7 @@ class FileService {
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('删除成功');
+      vue.$snack('删除成功');
     }
     return rsp;
   }
