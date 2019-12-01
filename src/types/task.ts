@@ -36,14 +36,14 @@ interface TaskMember {
   userID: string;
 }
 
-interface SubTask {
-  id: string;
-  name: string;
-  createdAt: string;
+class SubTask {
+  id?: string;
+  name?: string;
+  createdAt?: string;
   status?: number;
-  file: [];
-  content: SubTaskContent[];
-  certificate: SubTaskCertificate[];
+  file?: [];
+  content?: SubTaskContent[];
+  certificate?: SubTaskCertificate[];
 }
 
 interface SubTaskContent {

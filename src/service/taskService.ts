@@ -6,7 +6,8 @@ import {
   SubTaskContent,
   Task,
   TaskMember,
-  SubTaskCertificate
+  SubTaskCertificate,
+  SubTask
 } from '@/types/task';
 
 const vue = new Vue();
@@ -96,9 +97,10 @@ class TaskService {
     return rsp;
   }
 
-  public static async createSubTask(taskID: string) {
+  public static async createSubTask(taskID: string, subTask: SubTask) {
     const rsp = await basicService.postRequest('/task/subtask', {
-      taskID
+      taskID,
+      subTask
     });
     if (rsp.msg === 'success') {
       // @ts-ignore

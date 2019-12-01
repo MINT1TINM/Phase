@@ -32,7 +32,16 @@
           >
             <v-icon>mdi-pencil-outline</v-icon>
           </v-btn>
-          <v-btn icon small color="error" @click="deleteSubTask(item.id)">
+          <v-btn class="ml-1" icon small @click="copySubTask(item)">
+            <v-icon size="18">mdi-content-copy</v-icon>
+          </v-btn>
+          <v-btn
+            class="ml-1"
+            icon
+            small
+            color="error"
+            @click="deleteSubTask(item.id)"
+          >
             <v-icon>mdi-delete-outline</v-icon>
           </v-btn>
         </template>
@@ -395,18 +404,31 @@ export default class SubTaskList extends Vue {
   ];
 
   private async createSubTask() {
-    await TaskService.createSubTask(this.$route.params.taskID);
+    const newSubTask = new SubTask();
+    newSubTask.name = '未命名子任务';
+    newSubTask.content = [];
+
+    await TaskService.createSubTask(this.$route.params.taskID, newSubTask);
+    await TaskService.getTaskInfo(this.$route.params.taskID);
+  }
+
+  private async copySubTask(originalSubTask: SubTask) {
+    const newSubTask = new SubTask();
+    newSubTask.name = originalSubTask.name;
+    newSubTask.content = originalSubTask.content;
+
+    await TaskService.createSubTask(this.$route.params.taskID, newSubTask);
     await TaskService.getTaskInfo(this.$route.params.taskID);
   }
 
   private async updateSubTask() {
     await TaskService.updateSubTask(
       this.$route.params.taskID,
-      this.currentSubTask.id,
-      this.currentSubTask.name,
-      this.currentSubTask.content,
-      this.currentSubTask.file,
-      this.currentSubTask.certificate
+      this.currentSubTask.id!,
+      this.currentSubTask.name!,
+      this.currentSubTask.content!,
+      this.currentSubTask.file!,
+      this.currentSubTask.certificate!
     );
     await TaskService.getTaskInfo(this.$route.params.taskID);
     this.editSubTaskDialog = false;
@@ -425,7 +447,7 @@ export default class SubTaskList extends Vue {
   }
 
   private insertContent() {
-    this.currentSubTask.content.push({
+    this.currentSubTask.content!.push({
       property: '',
       description: '',
       expect: '',
@@ -436,7 +458,7 @@ export default class SubTaskList extends Vue {
   }
 
   private removeContent(i: number) {
-    this.currentSubTask.content.splice(i, 1);
+    this.currentSubTask.content!.splice(i, 1);
   }
 
   private insertCertificate(certificate: SubTaskCertificate) {
@@ -453,7 +475,7 @@ export default class SubTaskList extends Vue {
   }
 
   private removeCertificate(i: number) {
-    this.currentSubTask.certificate.splice(i, 1);
+    this.currentSubTask.certificate!.splice(i, 1);
   }
 
   private linkFile(v: any) {
