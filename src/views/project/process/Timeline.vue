@@ -17,16 +17,13 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
-import dimTimeline from '@/plugins/dim-timeline/Main.vue';
 import { Process, ProcessTask } from '@/types/process';
 import TaskService from '@/service/taskService';
 
 const processModule = namespace('process');
 
 @Component({
-  components: {
-    'dim-timeline': dimTimeline
-  }
+  components: {}
 })
 export default class Timeline extends Vue {
   @processModule.Mutation('updateCurrentProcessTask')

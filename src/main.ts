@@ -9,19 +9,21 @@ import App from '@/App.vue';
 
 import Appbar from '@/components/common/app-bar/AppBar.vue';
 
-import confirmDialog from '@/plugins/vuetify-plugins/confirm-dialog';
+import ConfirmDialog from '@/plugins/vuetify-plugins/confirm-dialog';
 import DimForm from '@/plugins/vuetify-plugins/dim-form/Main.vue';
-import snackBar from '@/plugins/vuetify-plugins/snackbar';
+import SnackBar from '@/plugins/vuetify-plugins/snackbar';
 import UserChip from '@/plugins/vuetify-plugins/user-chip/Main.vue';
 import DocIcon from '@/plugins/vuetify-plugins/doc-icon/Main.vue';
+import TimeLine from '@/plugins/vuetify-plugins/dim-timeline/Main.vue';
 
 Vue.component('user-chip', UserChip);
 Vue.component('dim-form', DimForm);
 Vue.component('app-bar', Appbar);
 Vue.component('doc-icon', DocIcon);
 Vue.component('app-common', App);
-Vue.use(confirmDialog);
-Vue.use(snackBar);
+Vue.component('time-line', TimeLine);
+Vue.use(ConfirmDialog);
+Vue.use(SnackBar);
 
 import store from '@/store/store';
 // format date
