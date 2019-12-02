@@ -1,0 +1,3 @@
+[submodule "src/plugins/vuetify-plugins"]
+	path = src/plugins/vuetify-plugins
+	url = https://github.com/mintxtinm/vuetify-plugins.git
