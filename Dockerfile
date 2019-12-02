@@ -6,6 +6,8 @@ COPY package*.json ./
 RUN npm install --silent
 RUN npm install @vue/cli -g
 COPY . .
+RUN mkdir /src 
+COPY ./src/plugins ./src/plugins
 RUN npm run build
 
 # production environment
