@@ -23,13 +23,15 @@ const vuexLocal: any = new VuexPersistence<any>({
     mutation.type === 'user/updateUserInfo' ||
     mutation.type === 'user/updateUserToken' ||
     mutation.type === 'user/clearUserInfo' ||
-    mutation.type === 'user/clearAuthorization'
+    mutation.type === 'user/clearAuthorization' ||
+    mutation.type === 'user/updateUserAuth' ||
+    mutation.type === 'user/insertProject' ||
+    mutation.type === 'user/initUserProject'
 });
 
 const vuexSession: any = new VuexPersistence<any>({
   storage: window.sessionStorage,
   reducer: (state: any) => ({
-    user: state.user,
     system: state.system,
     project: state.project,
     process: state.process,
@@ -42,14 +44,6 @@ const vuexSession: any = new VuexPersistence<any>({
   filter: (mutation: any) =>
     mutation.type === 'system/updateLastPage' ||
     mutation.type === 'system/updateInvitationList' ||
-    mutation.type === 'user/updateUserInfo' ||
-    mutation.type === 'user/updateUserAuth' ||
-    mutation.type === 'user/insertProject' ||
-    mutation.type === 'user/initUserProject' ||
-    mutation.type === 'user/updateUserInfo' ||
-    mutation.type === 'user/updateUserToken' ||
-    mutation.type === 'user/clearUserInfo' ||
-    mutation.type === 'user/clearAuthorization' ||
     mutation.type === 'project/updateCurrentProjectID' ||
     mutation.type === 'project/clearCurrentProjectID' ||
     mutation.type === 'project/updateProjectList' ||
