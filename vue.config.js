@@ -3,6 +3,7 @@ const glob = require('glob');
 const merge = require('webpack-merge');
 const OS = require('os');
 const HappyPack = require('happypack');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 const happyThreadPool = HappyPack.ThreadPool({ size: OS.cpus().length });
 
@@ -63,7 +64,8 @@ module.exports = {
           loaders: ['babel-loader', 'sass-loader'],
           threadPool: happyThreadPool,
           verbose: true
-        })
+        }),
+        new HardSourceWebpackPlugin()
       );
       config.devtool = 'source-map';
     }
