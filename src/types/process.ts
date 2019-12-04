@@ -1,8 +1,8 @@
-interface Process {
-  id: string;
+class Process {
+  id?: string;
   createAt?: number;
   updatedAt?: number;
-  name: string;
+  name?: string;
   description?: string;
   userID?: number;
   member?: {
@@ -13,20 +13,20 @@ interface Process {
   };
 }
 
-interface ProcessTask {
+class ProcessTask {
   taskID?: string;
   id?: string;
-  name: string;
+  name?: string;
   startDate?: string;
   endDate?: string;
-  userID: string;
+  userID?: string;
   status?: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
-interface ProcessMember {
-  userID: string;
+class ProcessMember {
+  userID?: string;
 }
 
 export { Process, ProcessTask, ProcessMember };

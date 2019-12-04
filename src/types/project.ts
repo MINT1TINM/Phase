@@ -1,8 +1,8 @@
-interface Project {
-  id: string;
+class Project {
+  id?: string;
   createAt?: number;
   updatedAt?: number;
-  name: string;
+  name?: string;
   description?: string;
   userID?: number;
   member?: MemberList;
@@ -12,11 +12,11 @@ interface Project {
   folderURL?: string;
 }
 
-interface MemberList {
-  data: ProjectMember[];
+class MemberList {
+  data?: ProjectMember[];
 }
 
-interface ProjectMember {
+class ProjectMember {
   id?: string;
   userID?: string;
   userUUID?: string;
@@ -26,41 +26,41 @@ interface ProjectMember {
   tag?: string[];
 }
 
-interface ProjectMemberComplete extends ProjectMember {
+class ProjectMemberComplete extends ProjectMember {
   // backend id
-  id: string;
-  nickName: string;
-  email: string;
-  phone: string;
+  id?: string;
+  nickName?: string;
+  email?: string;
+  phone?: string;
   alreadyMember?: boolean;
 }
 
-interface Invitation {
-  id: string;
+class Invitation {
+  id?: string;
   createAt?: number;
   updatedAt?: number;
-  fromUserID: string;
-  toUserID: string;
-  projectID: string;
+  fromUserID?: string;
+  toUserID?: string;
+  projectID?: string;
 }
 
-interface ProjectTemplate {
-  id: string;
+class ProjectTemplate {
+  id?: string;
   createAt?: number;
   updatedAt?: number;
-  userID: string;
-  name: string;
-  process: ProcessTemplate[];
+  userID?: string;
+  name?: string;
+  process?: ProcessTemplate[];
 }
 
-interface ProcessTemplate {
-  name: string;
+class ProcessTemplate {
+  name?: string;
   description?: string;
-  task: TaskTemplate[];
+  task?: TaskTemplate[];
 }
 
-interface TaskTemplate {
-  name: string;
+class TaskTemplate {
+  name?: string;
   description?: string;
 }
 

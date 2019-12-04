@@ -1,24 +1,24 @@
-interface Authorization {
-  access_token: string;
-  refresh_token: string;
-  token: string;
-  userID: string;
+class Authorization {
+  access_token?: string;
+  refresh_token?: string;
+  token?: string;
+  userID?: string;
 }
 
-interface UserInfo {
+class UserInfo {
   id?: string;
-  city: string;
-  country: string;
-  headImgURL: string;
-  nickName: string;
-  openid: string;
-  privilege: string[];
-  project: {
+  city?: string;
+  country?: string;
+  headImgURL?: string;
+  nickName?: string;
+  openid?: string;
+  privilege?: string[];
+  project?: {
     data: UserProject[];
   };
-  province: string;
-  sex: string;
-  unionid: string;
+  province?: string;
+  sex?: string;
+  unionid?: string;
   name?: string;
   phone?: string;
   email?: string;
@@ -28,50 +28,50 @@ interface UserInfo {
   permission?: UserPermission;
 }
 
-interface UserProject {
-  projectID: string;
+class UserProject {
+  projectID?: string;
   projectUUID?: string;
-  role: [];
+  role?: [];
 }
 
-interface Login {
-  time: string;
-  ip: string;
-  os: string;
-  browser: string;
+class Login {
+  time?: string;
+  ip?: string;
+  os?: string;
+  browser?: string;
   location?: string;
 }
 
-interface PrivateInfo {
+class PrivateInfo {
   license?: string;
   workNum?: string;
 }
 
-interface PrivacySetting {
-  hideName: boolean;
-  hideEmail: boolean;
-  hidePhone: boolean;
+class PrivacySetting {
+  hideName?: boolean;
+  hideEmail?: boolean;
+  hidePhone?: boolean;
 }
 
 class UserPermission {
-  project!: {
+  project?: {
     createProject: boolean;
     deleteProject: boolean;
   };
 
-  contact!: {};
+  contact?: {};
 
-  sheet!: {
+  sheet?: {
     createTemplate: boolean;
     editTemplate: boolean;
     deleteTemplate: boolean;
   };
 
-  event!: {};
+  event?: {};
 
-  finance!: {};
+  finance?: {};
 
-  policy!: {
+  policy?: {
     createPolicy: boolean;
     editPolicy: boolean;
     deletePolicy: boolean;
