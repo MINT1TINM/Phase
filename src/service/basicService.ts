@@ -14,7 +14,6 @@ class BasicService {
     if (rsp.response) {
       console.log(rsp.response.status);
       if (rsp.response.status === 402) {
-        // @ts-ignore
         vue.$snack('令牌过期，请重新登录');
 
         store.commit('user/clearAuthorization');

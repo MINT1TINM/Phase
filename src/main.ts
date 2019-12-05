@@ -21,7 +21,7 @@ Vue.component('dim-form', DimForm);
 Vue.component('app-bar', Appbar);
 Vue.component('doc-icon', DocIcon);
 Vue.component('app-common', App);
-Vue.component('time-line', TimeLine);
+Vue.component('dim-timeline', TimeLine);
 Vue.use(ConfirmDialog);
 Vue.use(SnackBar);
 

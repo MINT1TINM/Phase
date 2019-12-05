@@ -16,7 +16,7 @@ const currentApp = store.getters['system/currentApp'](path) as App;
 console.log(currentApp);
 if (currentApp.themeColor) {
   themeColor = currentApp.themeColor;
-  themeColorDark = currentApp.themeColorDark;
+  themeColorDark = currentApp.themeColorDark!;
 }
 
 export default new Vuetify({

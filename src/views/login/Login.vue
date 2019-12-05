@@ -93,29 +93,18 @@ export default class Login extends Vue {
     ) {
       this.toggleFullScreenLoading(true);
 
-      const rsp = await AuthService.standardLogin(
-        this.loginForm.username,
-        this.loginForm.password
-      );
+      try {
+        const authorization = await AuthService.standardLogin(
+          this.loginForm.username,
+          this.loginForm.password
+        );
+        await UserService.getUserInfo(await authorization.userID!);
+        await ProjectService.getInvitationList('', '', authorization.userID!);
 
-      switch (rsp.msg) {
-        case 'success':
-          await UserService.getUserInfo(await rsp.authorization.userID);
-          await ProjectService.getInvitationList(
-            '',
-            '',
-            this.authorization.userID
-          );
-
-          this.toggleFullScreenLoading(false);
-          window.location.href = '/home';
-          break;
-        case 'wrongpasswd':
-          this.toggleFullScreenLoading(false);
-          break;
-        default:
-          this.toggleFullScreenLoading(false);
-          break;
+        this.toggleFullScreenLoading(false);
+        window.location.href = '/home';
+      } catch (err) {
+        this.toggleFullScreenLoading(false);
       }
     }
   }

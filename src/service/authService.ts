@@ -1,5 +1,6 @@
 import basicService from '@/service/basicService';
 import store from '@/store/store';
+import { Authorization } from '@/types/user';
 
 class AuthService {
   public static getCoordinates() {
@@ -29,8 +30,13 @@ class AuthService {
       code,
       position
     });
-    store.commit('user/updateUserAuth', rsp.authorization);
-    return rsp;
+    if (rsp.msg === 'success') {
+      store.commit('user/updateUserAuth', rsp.authorization);
+      return Promise.resolve(rsp.authorization as Authorization);
+    } else {
+      window.location.href = '/login';
+      return Promise.reject('error');
+    }
   }
 
   public static async standardLogin(username: string, password: string) {
@@ -47,10 +53,11 @@ class AuthService {
     });
     if (rsp.msg === 'success') {
       store.commit('user/updateUserAuth', rsp.authorization);
+      return Promise.resolve(rsp.authorization as Authorization);
     } else {
       window.location.href = '/login';
+      return Promise.reject('error');
     }
-    return rsp;
   }
 }
 
