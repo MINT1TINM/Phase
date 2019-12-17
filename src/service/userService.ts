@@ -46,9 +46,10 @@ class UserService {
       email: userInfo.email
     });
     if (rsp.msg === 'success') {
-      // @ts-ignore
-      vue.$snack('更新成功');
+      vue.$snack('修改成功');
+      return Promise.resolve();
     }
+    return Promise.reject();
   }
 
   public static async updatePrivateInfo(privateInfo: PrivateInfo) {
@@ -57,10 +58,10 @@ class UserService {
       workNum: privateInfo.workNum
     });
     if (rsp.msg === 'success') {
-      // @ts-ignore
       vue.$snack('修改成功');
+      return Promise.resolve();
     }
-    return rsp;
+    return Promise.reject();
   }
 
   public static async updatePrivacySetting(privacySetting: PrivacySetting) {
@@ -70,7 +71,6 @@ class UserService {
       hidePhone: privacySetting.hidePhone
     });
     if (rsp.msg === 'success') {
-      // @ts-ignore
       vue.$snack('修改成功');
     }
     return rsp;
@@ -82,10 +82,10 @@ class UserService {
       privilege
     });
     if (rsp.msg === 'success') {
-      // @ts-ignore
       vue.$snack('修改成功');
+      return Promise.resolve();
     }
-    return rsp;
+    return Promise.reject();
   }
 
   public static async updateUserAppList(id: string, appList: string[]) {
@@ -94,10 +94,10 @@ class UserService {
       appList
     });
     if (rsp.msg === 'success') {
-      // @ts-ignore
       vue.$snack('修改成功');
+      return Promise.resolve();
     }
-    return rsp;
+    return Promise.reject();
   }
 
   public static async updateUserPermission(
@@ -110,8 +110,9 @@ class UserService {
     });
     if (rsp.msg === 'success') {
       vue.$snack('修改成功');
+      return Promise.resolve();
     }
-    return rsp;
+    return Promise.reject();
   }
 
   public static async createUser(
@@ -125,10 +126,10 @@ class UserService {
       password
     });
     if (rsp.msg === 'success') {
-      // @ts-ignore
       vue.$snack('创建成功');
+      return Promise.resolve();
     }
-    return rsp;
+    return Promise.reject();
   }
 
   public static async searchUser(content: string) {

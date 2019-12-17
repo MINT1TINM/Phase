@@ -1,6 +1,9 @@
 import basicService from '@/service/basicService';
 import store from '@/store/store';
 import { Authorization } from '@/types/user';
+import Vue from 'vue';
+
+const vue = new Vue();
 
 class AuthService {
   public static getCoordinates() {
@@ -24,7 +27,9 @@ class AuthService {
     if ('geolocation' in navigator) {
       try {
         position = await this.getUserLocation();
-      } catch {}
+      } catch {
+        vue.$snack('无法获取地理位置信息🤔');
+      }
     }
     const rsp = await basicService.postRequest('/wechat/login', {
       code,
@@ -44,7 +49,9 @@ class AuthService {
     if ('geolocation' in navigator) {
       try {
         position = await this.getUserLocation();
-      } catch {}
+      } catch {
+        vue.$snack('无法获取地理位置信息🤔');
+      }
     }
     const rsp = await basicService.postRequest('/user/login', {
       username,
@@ -55,6 +62,7 @@ class AuthService {
       store.commit('user/updateUserAuth', rsp.authorization);
       return Promise.resolve(rsp.authorization as Authorization);
     } else {
+      vue.$snack('登录失败');
       window.location.href = '/login';
       return Promise.reject('error');
     }

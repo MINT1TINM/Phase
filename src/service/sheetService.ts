@@ -9,9 +9,9 @@ const vue = new Vue() as any;
 class SheetService {
   public static async createSheetTemplate(template: Template) {
     // encode field name
-    for (let i = 0; i < template.field.data.length; i += 1) {
-      const field = template.field.data[i];
-      field.name = encodeUnicode(field.title);
+    for (let i = 0; i < template!.field!.data.length; i += 1) {
+      const field = template!.field!.data[i];
+      field.name = encodeUnicode(field.title!);
     }
 
     const rsp = await basicService.postRequest('/sheet/template', {
@@ -28,8 +28,8 @@ class SheetService {
     templateID: string
   ) {
     // encode field name
-    for (const field of template.field.data) {
-      field.name = encodeUnicode(field.title);
+    for (const field of template!.field!.data) {
+      if (field) field.name = encodeUnicode(field.title!);
     }
 
     const rsp = await basicService.putRequest('/sheet/template', {
