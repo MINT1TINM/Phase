@@ -1,4 +1,5 @@
 import '@/styles/animation.css';
+import '@/styles/style.css';
 
 import axios from 'axios';
 import Vue from 'vue';
