@@ -74,6 +74,10 @@ const userModule = namespace('user');
 
 @Component
 export default class Login extends Vue {
+  public $refs!: {
+    loginForm: HTMLFormElement;
+  };
+
   private loginForm = {
     username: '',
     password: ''
@@ -88,9 +92,7 @@ export default class Login extends Vue {
 
   // login through username & password
   private async standardLogin() {
-    if (
-      (this.$refs.loginForm as Vue & { validate: () => boolean }).validate()
-    ) {
+    if (this.$refs.loginForm.validate()) {
       this.toggleFullScreenLoading(true);
 
       try {
