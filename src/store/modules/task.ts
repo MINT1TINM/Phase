@@ -5,34 +5,7 @@ interface State {
 }
 
 const state: State = {
-  currentTask: {
-    id: '',
-    name: '',
-    description: '',
-    startDate: '',
-    endDate: '',
-    actionStartDate: '',
-    actionEndDate: '',
-    status: false,
-    tags: {
-      data: []
-    },
-    member: {
-      data: []
-    },
-    subTask: {
-      data: []
-    },
-    sheet: {
-      data: []
-    },
-    draft: {
-      data: []
-    },
-    userID: '',
-    processID: '',
-    executorID: ''
-  }
+  currentTask: new Task()
 };
 
 const getters = {

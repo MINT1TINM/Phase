@@ -79,27 +79,10 @@ export default class RelatedDocument extends Vue {
   @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
 
   private createSheetDialog: boolean = false;
-
   private editSheetDialog: boolean = false;
-
   private sheetList: Sheet[] = [];
-
-  private currentSheet: Sheet = {
-    id: '',
-    name: '',
-    content: {},
-    target: ''
-  };
-
-  private templateInfo: Template = {
-    name: '',
-    field: {
-      data: []
-    },
-    type: '',
-    locked: false
-  };
-
+  private currentSheet: Sheet = new Sheet();
+  private templateInfo: Template = new Template();
   private headers = [
     {
       text: '名称',

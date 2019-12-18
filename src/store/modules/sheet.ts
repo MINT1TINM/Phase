@@ -1,23 +1,15 @@
 import { Field, Sheet, Template } from '@/types/sheet';
 
-interface State {
-  sheetTemplate: {
-    name: string;
-    field: { data: Field[] };
-  };
-  currentTemplateID: string;
-  typeList: any[];
-  sheetList: Sheet[];
-  viewMode: string;
+class State {
+  sheetTemplate?: Template;
+  currentTemplateID?: string;
+  typeList?: any[];
+  sheetList?: Sheet[];
+  viewMode?: string;
 }
 
 const state: State = {
-  sheetTemplate: {
-    name: '未命名模版',
-    field: {
-      data: []
-    }
-  },
+  sheetTemplate: new Template(),
   currentTemplateID: '',
   typeList: [
     {
@@ -38,33 +30,23 @@ const getters = {
   currentTemplateID: (s: State) => s.currentTemplateID,
   typeList: (s: State) => s.typeList,
   type: (s: State) => (type: string) =>
-    s.typeList.find((e: any) => e.type === type),
+    s.typeList!.find((e: any) => e.type === type),
   sheetList: (s: State) => s.sheetList,
   viewMode: (s: State) => s.viewMode
 };
 
 const mutations = {
   insertNewEmptyField: (s: State) => {
-    s.sheetTemplate.field.data.push({
-      title: '',
-      type: '',
-      name: '',
-      list: []
-    });
+    s.sheetTemplate!.field!.data.push(new Field());
   },
   updateSheetTemplate: (s: State, template: Template) => {
-    s.sheetTemplate = template;
+    s.sheetTemplate = template!;
   },
   updateCurrentTemplateID: (s: State, id: string) => {
     s.currentTemplateID = id;
   },
   restoreSheetTemplate: (s: State) => {
-    s.sheetTemplate = {
-      name: '未命名模版',
-      field: {
-        data: []
-      }
-    };
+    s.sheetTemplate = new Template();
   },
   updateSheetList: (s: State, sheetList: Sheet[]) => {
     s.sheetList = sheetList;

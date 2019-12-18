@@ -231,21 +231,7 @@ export default class AdminUserInfoNav extends Vue {
 
   @systemModule.Getter('appList') private applicationList!: App[];
 
-  private userInfo: UserInfo = {
-    city: '',
-    country: '',
-    headImgURL: '',
-    nickName: '',
-    openid: '',
-    privilege: [],
-    applicationList: [],
-    project: {
-      data: []
-    },
-    province: '',
-    sex: '',
-    unionid: ''
-  };
+  private userInfo: UserInfo = new UserInfo();
 
   private appAccessNav: boolean = false;
 
@@ -294,43 +280,11 @@ export default class AdminUserInfoNav extends Vue {
 
   @Watch('userID')
   private async onUserIDChanged() {
-    this.userInfo = {
-      city: '',
-      country: '',
-      headImgURL: '',
-      nickName: '',
-      openid: '',
-      privilege: [],
-      project: {
-        data: []
-      },
-      applicationList: [],
-      province: '',
-      sex: '',
-      unionid: ''
-    };
-    if (this.userID) {
-      this.getUserInfo();
-      this.getUserLoginHistory();
-    }
+    this.userInfo = new UserInfo();
   }
 
   private async mounted() {
-    this.userInfo = {
-      city: '',
-      country: '',
-      headImgURL: '',
-      nickName: '',
-      openid: '',
-      privilege: [],
-      project: {
-        data: []
-      },
-      applicationList: [],
-      province: '',
-      sex: '',
-      unionid: ''
-    };
+    this.userInfo = new UserInfo();
     if (this.userID) {
       this.getUserInfo();
       this.getUserLoginHistory();

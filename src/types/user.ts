@@ -1,77 +1,77 @@
 class Authorization {
-  access_token?: string;
-  refresh_token?: string;
-  token?: string;
-  userID?: string;
+  access_token!: string;
+  refresh_token!: string;
+  token!: string;
+  userID!: string;
 }
 
 class UserInfo {
-  id?: string;
-  city?: string;
-  country?: string;
-  headImgURL?: string;
-  nickName?: string;
-  openid?: string;
-  privilege?: string[];
-  project?: {
+  id!: string;
+  city!: string;
+  country!: string;
+  headImgURL!: string;
+  nickName!: string;
+  openid!: string;
+  privilege!: string[];
+  project!: {
     data: UserProject[];
   };
-  province?: string;
-  sex?: string;
-  unionid?: string;
-  name?: string;
-  phone?: string;
-  email?: string;
-  privateInfo?: PrivateInfo;
-  privacySetting?: PrivacySetting;
-  applicationList?: string[];
-  permission?: UserPermission;
+  province!: string;
+  sex!: string;
+  unionid!: string;
+  name!: string;
+  phone!: string;
+  email!: string;
+  privateInfo!: PrivateInfo;
+  privacySetting!: PrivacySetting;
+  applicationList!: string[];
+  permission!: UserPermission;
 }
 
 class UserProject {
-  projectID?: string;
-  projectUUID?: string;
-  role?: [];
+  projectID!: string;
+  projectUUID!: string;
+  role!: [];
 }
 
 class Login {
-  time?: string;
-  ip?: string;
-  os?: string;
-  browser?: string;
-  location?: string;
+  time!: string;
+  ip!: string;
+  os!: string;
+  browser!: string;
+  location!: string;
 }
 
 class PrivateInfo {
-  license?: string;
-  workNum?: string;
+  license!: string;
+  workNum!: string;
 }
 
 class PrivacySetting {
-  hideName?: boolean;
-  hideEmail?: boolean;
-  hidePhone?: boolean;
+  hideName!: boolean;
+  hideEmail!: boolean;
+  hidePhone!: boolean;
 }
 
 class UserPermission {
-  project?: {
+  project!: {
     createProject: boolean;
     deleteProject: boolean;
   };
 
-  contact?: {};
+  contact!: {};
 
-  sheet?: {
+  sheet!: {
     createTemplate: boolean;
     editTemplate: boolean;
     deleteTemplate: boolean;
   };
 
-  event?: {};
+  event!: {};
 
-  finance?: {};
+  finance!: {};
 
-  policy?: {
+  policy!: {
     createPolicy: boolean;
     editPolicy: boolean;
     deletePolicy: boolean;

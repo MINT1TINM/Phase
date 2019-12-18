@@ -25,7 +25,7 @@ const getters = {
     const memberList = s.projectList.find(
       (e: Project) => e.id === s.currentProjectID
     )!.member;
-    for (const item of memberList!.data || { data: [] }) {
+    for (const item of memberList!.data!) {
       memberIDList.push(item.userID);
     }
     return memberIDList;
@@ -36,7 +36,7 @@ const getters = {
       (e: Project) => e.id === s.currentProjectID
     )!.member!.data;
 
-    const member = memberList.find(
+    const member = memberList!.find(
       (e: ProjectMember) => e.userID === userID || e.id === userID
     );
 
@@ -46,7 +46,7 @@ const getters = {
     const currentProject = s.projectList.find(
       (e: Project) => e.id === s.currentProjectID
     );
-    return currentProject!.member!.data.find(
+    return currentProject!.member!.data!.find(
       (e: ProjectMember) => e.userID === userID
     )!.role;
   },

@@ -1,63 +1,63 @@
 class Task {
-  id?: string;
-  name?: string;
-  createAt?: number;
-  updatedAt?: number;
-  description?: string;
-  startDate?: string;
-  endDate?: string;
-  actionStartDate?: string;
-  actionEndDate?: string;
-  color?: string;
-  status?: boolean;
-  tags?: Tags;
-  member?: {
+  id!: string;
+  name!: string;
+  createAt!: number;
+  updatedAt!: number;
+  description!: string;
+  startDate!: string;
+  endDate!: string;
+  actionStartDate!: string;
+  actionEndDate!: string;
+  color!: string;
+  status!: boolean;
+  tags!: Tags;
+  member!: {
     data: [];
   };
-  sheet?: {
+  sheet!: {
     data: [];
   };
-  draft?: {
+  draft!: {
     data: [];
   };
-  subTask?: {
+  subTask!: {
     data: SubTask[];
   };
-  userID?: string;
-  executorID?: string;
-  processID?: string;
+  userID!: string;
+  executorID!: string;
+  processID!: string;
 }
 
 class Tags {
-  data?: string[];
+  data!: string[];
 }
 
 class TaskMember {
-  userID?: string;
+  userID!: string;
 }
 
 class SubTask {
-  id?: string;
-  name?: string;
-  createdAt?: string;
-  status?: number;
-  file?: [];
-  content?: SubTaskContent[];
-  certificate?: SubTaskCertificate[];
+  id!: string;
+  name!: string;
+  createdAt!: string;
+  status!: number;
+  file!: [];
+  content!: SubTaskContent[];
+  certificate!: SubTaskCertificate[];
 }
 
 class SubTaskContent {
-  property?: string;
-  description?: string;
-  expect?: string;
-  reality?: string;
-  status?: boolean;
-  review?: string;
+  property!: string;
+  description!: string;
+  expect!: string;
+  reality!: string;
+  status!: boolean;
+  review!: string;
 }
 
 class SubTaskCertificate {
-  uniNo?: string;
-  ord?: string;
+  uniNo!: string;
+  ord!: string;
 }
 
 export { Task, Tags, TaskMember, SubTask, SubTaskContent, SubTaskCertificate };

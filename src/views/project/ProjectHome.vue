@@ -269,9 +269,7 @@ const systemModule = namespace('system');
 })
 export default class ProjectHome extends Vue {
   private createProjectDialog: boolean = false;
-
   private generateProjectDialog: boolean = false;
-
   private createProjectContent = [
     {
       title: '名称',
@@ -279,24 +277,13 @@ export default class ProjectHome extends Vue {
       name: 'name'
     }
   ];
-
   private createProjectInfo = {
     name: ''
   };
-
   private projectListShow = [];
-
   private templateList: ProjectTemplate[] = [];
-
-  private templateInfo: ProjectTemplate = {
-    id: '',
-    userID: '',
-    name: '',
-    process: []
-  };
-
+  private templateInfo: ProjectTemplate = new ProjectTemplate();
   private currentTemplateID: string = '';
-
   private newProjectName: string = '';
 
   @projectModule.Getter('projectList') private projectList: any;

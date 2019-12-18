@@ -82,21 +82,7 @@ export default class ContactInfo extends Vue {
 
   @systemModule.Getter('permissionList') private permissionList: any;
 
-  private userInfo: UserInfo = {
-    city: '',
-    country: '',
-    headImgURL: '',
-    nickName: '',
-    openid: '',
-    privilege: [],
-    project: {
-      data: []
-    },
-    province: '',
-    sex: '',
-    unionid: ''
-  };
-
+  private userInfo: UserInfo = new UserInfo();
   private tab = null;
 
   private get userID() {
@@ -105,20 +91,7 @@ export default class ContactInfo extends Vue {
 
   @Watch('userID')
   private async onUserIDChanged() {
-    this.userInfo = {
-      city: '',
-      country: '',
-      headImgURL: '',
-      nickName: '',
-      openid: '',
-      privilege: [],
-      project: {
-        data: []
-      },
-      province: '',
-      sex: '',
-      unionid: ''
-    };
+    this.userInfo = new UserInfo();
     if (this.userID) {
       const rsp = await UserService.getOtherUserInfo(this.userID);
       this.userInfo = rsp.userInfo;
@@ -126,20 +99,7 @@ export default class ContactInfo extends Vue {
   }
 
   private async mounted() {
-    this.userInfo = {
-      city: '',
-      country: '',
-      headImgURL: '',
-      nickName: '',
-      openid: '',
-      privilege: [],
-      project: {
-        data: []
-      },
-      province: '',
-      sex: '',
-      unionid: ''
-    };
+    this.userInfo = new UserInfo();
     if (this.userID) {
       const rsp = await UserService.getOtherUserInfo(this.userID);
       this.userInfo = rsp.userInfo;

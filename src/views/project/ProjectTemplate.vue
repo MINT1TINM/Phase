@@ -126,20 +126,10 @@ export default class ProjectTemplateList extends Vue {
       route: '#foryou'
     }
   ];
-
   private templateList: ProjectTemplate[] = [];
-
   private generateProjectDialog: boolean = false;
-
-  private templateInfo: ProjectTemplate = {
-    id: '',
-    userID: '',
-    name: '',
-    process: []
-  };
-
+  private templateInfo: ProjectTemplate = new ProjectTemplate();
   private currentTemplateID: string = '';
-
   private newProjectName: string = '';
 
   private async getTemplateList() {

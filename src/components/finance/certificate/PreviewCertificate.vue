@@ -71,22 +71,7 @@ export default class CertificatePreview extends Vue {
 
   @Prop(String) public ord!: string;
 
-  private certificate: Certificate = {
-    uniPrjName: '',
-    uniPrjOrder: '',
-    uniNo: '',
-    ord: '',
-    dAmount: 0,
-    jAmount: 0,
-    chargeSno: '',
-    sDay: '',
-    sMonth: '',
-    sYear: '',
-    date: '',
-    sabstract: '',
-    subj: '',
-    subjName: ''
-  };
+  private certificate: Certificate = new Certificate();
 
   @Watch('uniNo')
   private async onUniNoChanged() {

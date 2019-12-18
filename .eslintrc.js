@@ -24,7 +24,8 @@ module.exports = {
     'guard-for-in': 0,
     'import/prefer-default-export': 0,
     'linebreak-style': 0,
-    indent: 0
+    indent: 0,
+    'vue/no-unused-vars': 'off'
   },
   parserOptions: {
     parser: '@typescript-eslint/parser'

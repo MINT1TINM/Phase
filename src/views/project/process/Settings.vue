@@ -120,10 +120,7 @@ export default class Settings extends Vue {
 
   private range: [number, number] = [0, 0];
 
-  private processInfo: Process = {
-    id: '',
-    name: ''
-  };
+  private processInfo: Process = new Process();
 
   private processMember: ProcessMember[] = [];
 

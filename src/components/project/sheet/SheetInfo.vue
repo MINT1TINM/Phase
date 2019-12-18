@@ -99,12 +99,7 @@ export default class SheetInfo extends Vue {
 
   @Prop({ default: '' }) private sheetID!: string;
 
-  private sheetInfo: Sheet = {
-    id: '',
-    name: '',
-    content: null,
-    target: ''
-  };
+  private sheetInfo: Sheet = new Sheet();
 
   private templateInfo: Template = {
     name: '',
@@ -118,12 +113,7 @@ export default class SheetInfo extends Vue {
   private fillSheetDialog: boolean = false;
 
   private async getSheetInfo(sheetID: string) {
-    this.sheetInfo = {
-      id: '',
-      name: '',
-      content: {},
-      target: ''
-    };
+    this.sheetInfo = new Sheet();
     const rsp = await SheetService.getSheetInfo(sheetID);
     this.sheetInfo = rsp.sheet;
   }

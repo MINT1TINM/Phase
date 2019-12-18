@@ -153,7 +153,7 @@ export default class Profile extends Vue {
     }
   ];
 
-  private privateInfo: PrivateInfo = {};
+  private privateInfo: PrivateInfo = new PrivateInfo();
 
   private privateInfoShow: boolean = false;
 

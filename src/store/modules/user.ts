@@ -6,25 +6,8 @@ interface State {
 }
 
 const state: State = {
-  authorization: {
-    access_token: '',
-    refresh_token: '',
-    token: '',
-    userID: ''
-  },
-  userInfo: {
-    city: '',
-    country: '',
-    headImgURL: '',
-    nickName: '',
-    openid: '',
-    privilege: [],
-    project: { data: [] },
-    province: '',
-    sex: '',
-    unionid: '',
-    applicationList: []
-  }
+  authorization: new Authorization(),
+  userInfo: new UserInfo()
 };
 
 const getters = {
@@ -56,18 +39,7 @@ const mutations = {
     s.userInfo.project.data = [];
   },
   clearUserInfo: (s: State) => {
-    s.userInfo = {
-      city: '',
-      country: '',
-      headImgURL: '',
-      nickName: '',
-      openid: '',
-      privilege: [],
-      project: { data: [] },
-      province: '',
-      sex: '',
-      unionid: ''
-    };
+    s.userInfo = new UserInfo();
   },
   clearAuthorization: (s: State) => {
     s.authorization = {

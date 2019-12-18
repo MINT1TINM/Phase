@@ -267,19 +267,10 @@ export default class ProjectMemberManagement extends Vue {
   @userModule.Getter('authorization') private authorization: any;
 
   private memberList: ProjectMemberComplete[] = [];
-
   private memberListShow: ProjectMemberComplete[] = [];
-
   private searchMemberContent: string = '';
-
-  private targetMember: ProjectMember = {
-    userID: '',
-    role: [],
-    tag: []
-  };
-
+  private targetMember: ProjectMember = new ProjectMember();
   private addMemberDialog: boolean = false;
-
   private editMemberRoleDialog: boolean = false;
 
   private async getProjectMember() {
