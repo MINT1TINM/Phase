@@ -107,25 +107,17 @@ export default class Calendar extends Vue {
   @systemModule.Getter('appList') private appList!: App[];
 
   private today: string = new Date().toISOString().slice(0, 10);
-
   private focus: string = new Date().toISOString().slice(0, 10);
-
   private type: string = 'month';
-
   private typeToLabel = {
     month: '月视图',
     week: '周视图',
     day: '日视图'
   };
-
   private start = null;
-
   private end = null;
-
   private selectedEvent = {};
-
   private selectedElement = null;
-
   private selectedOpen: boolean = false;
 
   private viewDay({ date }: any) {

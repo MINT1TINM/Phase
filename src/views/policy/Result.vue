@@ -83,9 +83,7 @@ export default class PolicyExploreResult extends Vue {
   @userModule.Getter('isGod') private isGod!: boolean;
 
   private policyList: Policy[] = [];
-
   private count: number = 0;
-
   private searchContent: string = '';
 
   private async searchPolicy() {

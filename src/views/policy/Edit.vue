@@ -39,7 +39,6 @@ import PolicyService from '@/service/policyService';
 })
 export default class EditPolicy extends Vue {
   private policyInfo = new Policy();
-
   private policyInfoContent = [
     {
       type: 'text-field',

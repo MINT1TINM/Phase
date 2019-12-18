@@ -123,13 +123,9 @@ export default class ContactList extends Vue {
   private updateCurrentContactID!: (v: string) => void;
 
   private userList: UserInfo[] = [];
-
   private createUserDialog: boolean = false;
-
   private newUserName = '';
-
   private newNickName = '';
-
   private newPassword = '';
 
   private async getUserList() {

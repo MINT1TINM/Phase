@@ -30,7 +30,6 @@ export default class Timeline extends Vue {
   private updateCurrentProcessTask: any;
 
   private taskList = [];
-
   private taskListShow = [];
 
   private async getTaskListManually() {

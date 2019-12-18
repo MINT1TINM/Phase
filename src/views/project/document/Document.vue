@@ -220,17 +220,11 @@ export default class Document extends Vue {
   private updateUploadPercent: any;
 
   private currentObject = {};
-
   private currentName: string = '';
-
   private currentUUID: string = '';
-
   private fileListShow = {};
-
   private createCatalogDialog: boolean = false;
-
   private uploadDialog: boolean = false;
-
   private file: any = null;
 
   private async getFileList() {

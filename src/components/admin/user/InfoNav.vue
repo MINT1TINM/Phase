@@ -280,7 +280,7 @@ export default class AdminUserInfoNav extends Vue {
 
   @Watch('userID')
   private async onUserIDChanged() {
-    this.userInfo = new UserInfo();
+    this.getUserInfo();
   }
 
   private async mounted() {

@@ -111,13 +111,9 @@ export default class ProcessList extends Vue {
   private projectPermission: any;
 
   private processList: Process[] = [];
-
   private processListShow: Process[] = [];
-
   private createProcessDialog: boolean = false;
-
   private processName: string = '';
-
   private searchProcessContent: string = '';
 
   private async createProcess() {

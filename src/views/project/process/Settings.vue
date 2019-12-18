@@ -117,11 +117,8 @@ export default class Settings extends Vue {
       name: 'description'
     }
   ];
-
   private range: [number, number] = [0, 0];
-
   private processInfo: Process = new Process();
-
   private processMember: ProcessMember[] = [];
 
   private async getProcessInfo() {
