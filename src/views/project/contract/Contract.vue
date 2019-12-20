@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar dense flat>
+    <v-toolbar dense flat class="navbar">
       <v-toolbar-title class="caption mr-3">合同编号</v-toolbar-title>
 
       <v-text-field
@@ -53,15 +53,39 @@
       </v-menu>
 
       <v-spacer></v-spacer>
-      <v-btn outlined color="primary"
-        ><v-icon size="20" class="mr-1">mdi-magnify</v-icon>搜索</v-btn
+
+      <v-btn outlined @click="searchContract"
+        ><v-icon size="20" class="mr-1">mdi-check</v-icon>确认筛选</v-btn
+      >
+
+      <v-divider vertical class="mx-2"></v-divider>
+
+      <v-btn outlined color="primary" @click="createContract"
+        ><v-icon size="20" class="mr-1">mdi-plus</v-icon>创建</v-btn
       >
     </v-toolbar>
+
+    <v-data-table
+      height="calc(100vh - 156px)"
+      style="overflow:auto"
+      fixed-header
+      disable-sort
+      disable-filtering
+      :headers="headers"
+      :items="contractList"
+      :items-per-page="20"
+      class="elevation-1"
+      :footer-props="{
+        itemsPerPageOptions: [20, 50],
+        showCurrentPage: true
+      }"
+    ></v-data-table>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Contract } from '@/types/project';
 
 class SearchContract {
   constructor(timeRange: string[]) {
@@ -85,8 +109,32 @@ export default class ProjectContract extends Vue {
   ]);
   private datePickerMenu = false;
 
+  private headers = [
+    {
+      text: '编号',
+      align: 'left',
+      value: 'id'
+    },
+    { text: '名称', value: 'name' },
+    { text: '创建时间', value: 'createdAt' },
+    { text: '签约时间', value: 'signedAt' },
+    { text: '乙方', value: 'contractorName' },
+    { text: '金额', value: 'amount' }
+  ];
+  private contractList: Contract[] = [];
+
+  private async searchContract() {}
+
+  private async createContract() {}
+
+  private async getContractList() {}
+
   private get dateRangeText() {
     return this.search.timeRange.join(' ~ ');
+  }
+
+  private mounted() {
+    this.getContractList();
   }
 }
 </script>

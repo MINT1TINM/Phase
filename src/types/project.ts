@@ -66,6 +66,18 @@ class TaskTemplate {
 
 class Contract {
   id!: string;
+  createdAt!: string;
+  signedAt!: string;
+  name!: string;
+  code!: string;
+  projectUUID!: string;
+  contractorName!: string;
+  contractorTage!: string[];
+  amount!: number;
+  paidAmount!: number;
+  paidPercentage!: number;
+  promise!: string;
+  file!: string[];
 }
 
 export {
