@@ -148,7 +148,7 @@ export default class Settings extends Vue {
     });
     if (res) {
       await ProjectService.deleteProject(this.currentProjectID);
-      this.$router.push({ path: '/project' });
+      window.location.href = '/project';
     }
   }
 

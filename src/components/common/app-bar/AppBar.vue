@@ -37,7 +37,11 @@
     <v-divider vertical inset></v-divider>
 
     <!-- current app  -->
-    <v-toolbar-items text class="ml-2" v-if="currentRoute !== `home`">
+    <v-toolbar-items
+      text
+      class="ml-2"
+      v-if="currentRoute !== `home` && currentApp"
+    >
       <template>
         <v-btn style="padding:0 5px" text @click="toCurrentAppHome">{{
           currentApp.name
@@ -45,10 +49,16 @@
       </template>
     </v-toolbar-items>
 
-    <project-bar v-if="currentApp.nameEn === 'project'"></project-bar>
-    <finance-bar v-if="currentApp.nameEn === 'finance'"></finance-bar>
-    <audit-bar v-if="currentApp.nameEn === 'audit'"></audit-bar>
-    <ticket-bar v-if="currentApp.nameEn === 'ticket'"></ticket-bar>
+    <project-bar
+      v-if="currentApp && currentApp.nameEn === 'project'"
+    ></project-bar>
+    <finance-bar
+      v-if="currentApp && currentApp.nameEn === 'finance'"
+    ></finance-bar>
+    <audit-bar v-if="currentApp && currentApp.nameEn === 'audit'"></audit-bar>
+    <ticket-bar
+      v-if="currentApp && currentApp.nameEn === 'ticket'"
+    ></ticket-bar>
 
     <v-spacer></v-spacer>
     <v-divider vertical inset></v-divider>
@@ -135,6 +145,7 @@ import financeBar from './modules/FinanceBar.vue';
 import auditBar from './modules/AuditBar.vue';
 import ticketBar from './modules/TicketBar.vue';
 import { Invitation } from '@/types/project';
+import { App } from '@/types/system';
 
 const userModule = namespace('user');
 const systemModule = namespace('system');
@@ -179,9 +190,7 @@ export default class AppBar extends Vue {
 
   @systemModule.Mutation('updateLastPage') private updateLastPage: any;
 
-  @systemModule.Getter('appList') private appList: any;
-
-  @systemModule.Getter('estateAppList') private estateAppList: any;
+  @systemModule.Getter('appList') private appList!: App[];
 
   private async userMenuActions(num: number) {
     switch (num) {
@@ -228,17 +237,11 @@ export default class AppBar extends Vue {
 
   get currentApp() {
     if (this.currentRoute !== 'home') {
-      return (
-        this.appList.find(
-          (e: any) => this.currentRoute === e.route.split('/')[0]
-        ) ||
-        this.estateAppList.find(
-          (e: any) => this.currentRoute === e.route.split('/')[0]
-        ) ||
-        ''
+      return this.appList.find(
+        (e: any) => this.currentRoute === e.route.split('/')[0]
       );
     }
-    return '';
+    return undefined;
   }
 }
 </script>
