@@ -34,28 +34,6 @@
       </v-layout>
     </v-container>
 
-    <!-- <v-container style="height:600px">
-      <v-layout>
-        <v-card elevation="12" color="primary" width="100%" height="600">
-          <v-container fluid>
-            <v-toolbar flat color="transparent" class="mt-3">
-              <v-toolbar-title class="font-weight-black display-2 white--text">团队 & 协作</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-btn icon x-large>
-                <v-icon color="white">mdi-chevron-left</v-icon>
-              </v-btn>
-              <v-btn icon x-large>
-                <v-icon color="white">mdi-chevron-right</v-icon>
-              </v-btn>
-            </v-toolbar>
-            <v-card-text class="white--text subtitle-1">过程、任务、自动化</v-card-text>
-          </v-container>
-        </v-card>
-      </v-layout>
-    </v-container>-->
-
-    <div id="out"></div>
-
     <v-layout class="pb-5 pt-10" justify-center>
       <h5 class="text-center mt-2" style="color:#A64ED1">INSDIM&reg; 出品</h5>
     </v-layout>

@@ -60,6 +60,21 @@ const router = new Router({
           ]
         },
         {
+          path: '/contract',
+          meta: '合同',
+          component: () => import('@/views/project/contract/Contract.vue')
+        },
+        {
+          path: '/ticket',
+          meta: '工单',
+          component: () => import('@/views/project/ticket/Ticket.vue')
+        },
+        {
+          path: '/payment',
+          meta: '支付',
+          component: () => import('@/views/project/payment/Payment.vue')
+        },
+        {
           path: '/document',
           meta: '项目文件',
           component: () => import('@/views/project/document/Document.vue')

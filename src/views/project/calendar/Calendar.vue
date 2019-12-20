@@ -9,7 +9,7 @@
         <v-btn fab text small @click="next">
           <v-icon small>mdi-arrow-right</v-icon>
         </v-btn>
-        <v-toolbar-title>{{ title }}</v-toolbar-title>
+        <v-toolbar-title class="mx-2">{{ title }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn-toggle dense v-model="type">
           <v-btn text @click="type = 'day'" value="day">日</v-btn>

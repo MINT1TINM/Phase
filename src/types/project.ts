@@ -64,6 +64,10 @@ class TaskTemplate {
   description!: string;
 }
 
+class Contract {
+  id!: string;
+}
+
 export {
   Project,
   ProjectMember,
@@ -71,5 +75,6 @@ export {
   Invitation,
   ProjectTemplate,
   ProcessTemplate,
-  TaskTemplate
+  TaskTemplate,
+  Contract
 };

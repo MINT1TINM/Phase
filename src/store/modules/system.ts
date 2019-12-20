@@ -10,7 +10,6 @@ interface State {
   notificationCenter: boolean;
   fullScreenLoading: boolean;
   appList: App[];
-  estateAppList: App[];
   uploadPercent: number;
   invitationList: Invitation[];
   permissionList: object[];
@@ -84,40 +83,6 @@ const state: State = {
       privilege: ['god']
     }
   ],
-  estateAppList: [
-    {
-      name: '房源',
-      nameEn: 'apartment',
-      route: 'apartment',
-      icon: 'icon/icon_finance.svg',
-      themeColor: '#2979FF',
-      themeColorDark: '#6099fc'
-    },
-    {
-      name: '账单',
-      nameEn: 'bill',
-      route: 'bill',
-      icon: 'icon/icon_finance.svg',
-      themeColor: '#2979FF',
-      themeColorDark: '#6099fc'
-    },
-    {
-      name: '审计',
-      nameEn: 'audit',
-      route: 'audit',
-      icon: 'icon/icon_finance.svg',
-      themeColor: '#2979FF',
-      themeColorDark: '#6099fc'
-    },
-    {
-      name: '工单',
-      nameEn: 'ticket',
-      route: 'ticket',
-      icon: 'icon/icon_finance.svg',
-      themeColor: '#2979FF',
-      themeColorDark: '#6099fc'
-    }
-  ],
   invitationList: [],
   permissionList: [
     {
@@ -136,7 +101,6 @@ const getters = {
   notificationCenter: (s: State) => s.notificationCenter,
   fullScreenLoading: (s: State) => s.fullScreenLoading,
   appList: (s: State) => s.appList,
-  estateAppList: (s: State) => s.estateAppList,
   currentApp: (s: State) => (name: string) =>
     s.appList.find((e: App) => e.nameEn === name) || new App(),
   uploadPercent: (s: State) => s.uploadPercent,

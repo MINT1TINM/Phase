@@ -69,7 +69,25 @@ export default class ProjectIndex extends Vue {
       role: ['r']
     },
     {
-      icon: 'mdi-file-outline',
+      icon: 'mdi-file-document-edit-outline',
+      name: '合同',
+      route: '/contract',
+      role: ['r']
+    },
+    {
+      icon: 'mdi-currency-usd',
+      name: '支付',
+      route: '/payment',
+      role: ['r']
+    },
+    {
+      icon: 'mdi-checkbox-marked-circle-outline',
+      name: '工单',
+      route: '/ticket',
+      role: ['r']
+    },
+    {
+      icon: 'mdi-folder-outline',
       name: '文件',
       route: '/document',
       role: ['r']
@@ -78,7 +96,7 @@ export default class ProjectIndex extends Vue {
       icon: 'mdi-file-table-outline',
       name: '表单',
       route: '/sheet',
-      role: []
+      role: ['r']
     },
     {
       icon: 'mdi-tune',
