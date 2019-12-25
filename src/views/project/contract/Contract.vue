@@ -1,9 +1,13 @@
 <template>
   <div>
-    <v-toolbar dense flat class="navbar">
+    <v-toolbar dense class="navbar">
+      <!-- TODO: filter -->
+
+      <!--
+        
       <v-toolbar-title class="caption mr-3">合同编号</v-toolbar-title>
 
-      <v-text-field
+     <v-text-field
         style="max-width:250px"
         single-line
         class="body-2"
@@ -52,11 +56,15 @@
         </v-date-picker>
       </v-menu>
 
-      <v-spacer></v-spacer>
+
+  
 
       <v-btn outlined @click="searchContract"
         ><v-icon size="20" class="mr-1">mdi-check</v-icon>确认筛选</v-btn
       >
+      -->
+
+      <v-spacer></v-spacer>
 
       <v-divider vertical class="mx-2"></v-divider>
 
@@ -74,18 +82,26 @@
       :headers="headers"
       :items="contractList"
       :items-per-page="20"
-      class="elevation-1"
+      class="transparent"
       :footer-props="{
         itemsPerPageOptions: [20, 50],
         showCurrentPage: true
       }"
-    ></v-data-table>
+    >
+      <template v-slot:item.createdAt="{ item }">
+        {{ item.createdAt | format('yyyy-MM-dd hh:mm:ss') }}
+      </template>
+      <template v-slot:item.signedAt="{ item }">
+        {{ item.signedAt | format('yyyy-MM-dd hh:mm:ss') }}
+      </template>
+    </v-data-table>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Contract } from '@/types/project';
+import ContractService from '@/service/contractService';
 
 class SearchContract {
   constructor(timeRange: string[]) {
@@ -113,7 +129,7 @@ export default class ProjectContract extends Vue {
     {
       text: '编号',
       align: 'left',
-      value: 'id'
+      value: 'code'
     },
     { text: '名称', value: 'name' },
     { text: '创建时间', value: 'createdAt' },
@@ -127,7 +143,9 @@ export default class ProjectContract extends Vue {
 
   private async createContract() {}
 
-  private async getContractList() {}
+  private async getContractList() {
+    this.contractList = await ContractService.getContractList();
+  }
 
   private get dateRangeText() {
     return this.search.timeRange.join(' ~ ');
