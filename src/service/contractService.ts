@@ -10,8 +10,10 @@ class ContractService {
     return Promise.reject(rsp.msg);
   }
 
-  static async getContractList(c?: Contract) {
+  static async getContractList(page: number, size: number, c?: Contract) {
     const rsp = await BasicService.getRequest('/contract', {
+      page,
+      size,
       projectUUID: c?.projectUUID,
       name: c?.name,
       contractorName: c?.contractorName
@@ -23,7 +25,7 @@ class ContractService {
   }
 
   static async getOneContract(id: string) {
-    const rsp = await BasicService.getRequest('/contract', {
+    const rsp = await BasicService.getRequest('/contract/info', {
       id
     });
     if (rsp.msg === 'success') {

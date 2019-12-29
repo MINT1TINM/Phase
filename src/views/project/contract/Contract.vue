@@ -87,6 +87,7 @@
         itemsPerPageOptions: [20, 50],
         showCurrentPage: true
       }"
+      @click:row="showInfo"
     >
       <template v-slot:item.createdAt="{ item }">
         {{ item.createdAt | format('yyyy-MM-dd hh:mm:ss') }}
@@ -144,7 +145,11 @@ export default class ProjectContract extends Vue {
   private async createContract() {}
 
   private async getContractList() {
-    this.contractList = await ContractService.getContractList();
+    this.contractList = await ContractService.getContractList(1, 10);
+  }
+
+  private showInfo(v: Contract) {
+    this.$router.push({ path: `/contract/${v.id}` });
   }
 
   private get dateRangeText() {
