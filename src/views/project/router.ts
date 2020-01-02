@@ -66,18 +66,28 @@ const router = new Router({
         },
         {
           path: '/contract/:contractID',
-          component: () =>
-            import('@/components/project/contract/ContractInfo.vue')
+          component: () => import('@/views/project/contract/ContractInfo.vue'),
+          children: [
+            {
+              path: '/contract/:contractID/info',
+              component: () => import('@/components/project/contract/Info.vue')
+            },
+            {
+              path: '/contract/:contractID/payment',
+              component: () =>
+                import('@/components/project/contract/Payment.vue')
+            },
+            {
+              path: '/contract/:contractID/operation',
+              component: () =>
+                import('@/components/project/contract/Operation.vue')
+            }
+          ]
         },
         {
           path: '/ticket',
           meta: '工单',
           component: () => import('@/views/project/ticket/Ticket.vue')
-        },
-        {
-          path: '/payment',
-          meta: '支付',
-          component: () => import('@/views/project/payment/Payment.vue')
         },
         {
           path: '/document',

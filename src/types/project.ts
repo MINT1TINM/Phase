@@ -72,11 +72,24 @@ class Contract {
   code!: string;
   projectUUID!: string;
   contractorName!: string;
-  contractorTage!: string[];
+  contractorTag!: string[];
   amount!: number;
   paidAmount!: number;
   paidPercentage!: number;
   promise!: string;
+  file!: string[];
+}
+
+class Payment {
+  id!: string;
+  createdAt!: string;
+  name!: string;
+  projectUUID!: string;
+  contractUUID!: string;
+  applyAmount!: number;
+  appliedAt!: string;
+  payAmount!: number;
+  paidAt!: string;
   file!: string[];
 }
 
@@ -88,5 +101,6 @@ export {
   ProjectTemplate,
   ProcessTemplate,
   TaskTemplate,
-  Contract
+  Contract,
+  Payment
 };

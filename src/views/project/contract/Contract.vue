@@ -68,7 +68,7 @@
 
       <v-divider vertical class="mx-2"></v-divider>
 
-      <v-btn outlined color="primary" @click="createContract"
+      <v-btn outlined color="primary" @click="createContractDialog = true"
         ><v-icon size="20" class="mr-1">mdi-plus</v-icon>创建</v-btn
       >
     </v-toolbar>
@@ -96,6 +96,39 @@
         {{ item.signedAt | format('yyyy-MM-dd hh:mm:ss') }}
       </template>
     </v-data-table>
+
+    <v-dialog v-model="createContractDialog" width="400" persistent>
+      <v-card>
+        <v-toolbar dense flat class="transparent">
+          <v-toolbar-title class="subtitle-1 font-weight-black">
+            创建合同
+          </v-toolbar-title>
+        </v-toolbar>
+        <v-container fluid>
+          <dim-form
+            dense
+            :target="newContract"
+            :formContent="contractFormContent"
+          ></dim-form>
+          <v-layout justify-center>
+            <v-btn
+              depressed
+              rounded
+              color="primary darken-1"
+              @click="createContract"
+              >创建</v-btn
+            >
+            <v-btn
+              @click="createContractDialog = false"
+              rounded
+              text
+              class="ml-2"
+              >取消</v-btn
+            >
+          </v-layout>
+        </v-container>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -125,6 +158,8 @@ export default class ProjectContract extends Vue {
     new Date().toISOString().slice(0, 10)
   ]);
   private datePickerMenu = false;
+  private createContractDialog = false;
+  private newContract: Contract = new Contract();
 
   private headers = [
     {
@@ -133,23 +168,43 @@ export default class ProjectContract extends Vue {
       value: 'code'
     },
     { text: '名称', value: 'name' },
+    { text: '创建人', value: 'userUUID' },
     { text: '创建时间', value: 'createdAt' },
     { text: '签约时间', value: 'signedAt' },
     { text: '乙方', value: 'contractorName' },
     { text: '金额', value: 'amount' }
   ];
   private contractList: Contract[] = [];
+  private contractFormContent = [
+    {
+      type: 'text-field',
+      name: 'name',
+      title: '名称'
+    }
+  ];
 
   private async searchContract() {}
 
-  private async createContract() {}
+  private async createContract() {
+    if (this.newContract.name) {
+      try {
+        await ContractService.createContract(this.newContract);
+        this.$snack('创建成功');
+      } catch (_) {
+        this.$snack('创建失败');
+      }
+      this.createContractDialog = false;
+      this.newContract = new Contract();
+      this.getContractList();
+    }
+  }
 
   private async getContractList() {
     this.contractList = await ContractService.getContractList(1, 10);
   }
 
   private showInfo(v: Contract) {
-    this.$router.push({ path: `/contract/${v.id}` });
+    this.$router.push({ path: `/contract/${v.id}/info` });
   }
 
   private get dateRangeText() {

@@ -36,7 +36,15 @@ class ContractService {
 
   static async updateContract() {}
 
-  static async deleteContract() {}
+  static async deleteContract(id: string) {
+    const rsp = await BasicService.deleteRequest('/contract', {
+      id
+    });
+    if (rsp.msg === 'success') {
+      return Promise.resolve(rsp.msg);
+    }
+    return Promise.reject(rsp.msg);
+  }
 }
 
 export default ContractService;

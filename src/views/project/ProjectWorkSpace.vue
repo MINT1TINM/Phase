@@ -75,12 +75,6 @@ export default class ProjectIndex extends Vue {
       role: ['r']
     },
     {
-      icon: 'mdi-currency-usd',
-      name: '支付',
-      route: '/payment',
-      role: ['r']
-    },
-    {
       icon: 'mdi-checkbox-marked-circle-outline',
       name: '工单',
       route: '/ticket',

@@ -2,14 +2,20 @@
   <div>
     <v-toolbar dense>
       <v-tabs style="flex:auto">
-        <v-tab>信息</v-tab>
-        <v-tab>支付</v-tab>
+        <v-tab :to="`/contract/${$route.params.contractID}/info`">信息</v-tab>
+        <v-tab :to="`/contract/${$route.params.contractID}/payment`"
+          >支付</v-tab
+        >
+        <v-tab :to="`/contract/${$route.params.contractID}/operation`"
+          >操作</v-tab
+        >
       </v-tabs>
       <v-spacer></v-spacer>
       <v-btn icon @click="$router.push({ path: `/contract` })"
         ><v-icon size="20">mdi-close</v-icon></v-btn
       >
     </v-toolbar>
+    <router-view :contract="contract"></router-view>
   </div>
 </template>
 
