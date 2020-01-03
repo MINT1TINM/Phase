@@ -13,6 +13,14 @@
         ></dim-form>
       </v-container>
     </v-card>
+    <v-toolbar class="mt-2" dense flat color="transparent">
+      <v-toolbar-title class="subtitle-1 font-weight-black"
+        >附件</v-toolbar-title
+      >
+    </v-toolbar>
+    <v-card>
+      <v-container fluid> </v-container>
+    </v-card>
   </v-container>
 </template>
 

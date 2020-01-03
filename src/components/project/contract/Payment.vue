@@ -39,6 +39,14 @@
       >
     </v-toolbar>
     <v-card>
+      <v-toolbar dense flat color="transparent">
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <v-btn text>
+            <v-icon size="20" class="mr-1">mdi-plus</v-icon>新建
+          </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
       <v-data-table></v-data-table>
     </v-card>
   </v-container>

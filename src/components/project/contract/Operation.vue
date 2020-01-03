@@ -18,7 +18,7 @@
         </v-layout>
       </v-container>
     </v-card>
-    <v-toolbar dense flat color="transparent">
+    <v-toolbar class="mt-2" dense flat color="transparent">
       <v-toolbar-title class="subtitle-1 font-weight-black"
         >危险</v-toolbar-title
       >
@@ -33,7 +33,7 @@
               color="error darken-1"
               block
               depressed
-              >删除</v-btn
+              >删除合同</v-btn
             >
           </v-flex>
         </v-layout></v-container
