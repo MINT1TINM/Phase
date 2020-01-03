@@ -64,10 +64,13 @@
     <v-divider vertical inset></v-divider>
     <!-- notification center -->
 
-    <v-badge overlap style="height:100%">
-      <template v-if="invitationList.length >= 1" v-slot:badge class="caption">
-        <small>{{ invitationList.length }}</small>
-      </template>
+    <v-badge
+      overlap
+      color="primary darken-1"
+      style="height:100%"
+      :content="invitationList.length"
+      :value="invitationList.length"
+    >
       <v-toolbar-items>
         <v-btn text class="app-bar-btn" @click="toggleNotificationCenter(true)">
           <v-icon size="20">mdi-bell-outline</v-icon>
