@@ -76,8 +76,8 @@ export default class ProjectIndex extends Vue {
     },
     {
       icon: 'mdi-checkbox-marked-circle-outline',
-      name: '工单',
-      route: '/ticket',
+      name: '跟踪',
+      route: '/track',
       role: ['r']
     },
     {

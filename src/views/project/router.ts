@@ -85,9 +85,28 @@ const router = new Router({
           ]
         },
         {
-          path: '/ticket',
-          meta: '工单',
-          component: () => import('@/views/project/ticket/Ticket.vue')
+          path: '/track',
+          meta: '跟踪',
+          component: () => import('@/views/project/track/Track.vue')
+        },
+        {
+          path: '/track/:trackID',
+          component: () => import('@/views/project/track/TrackInfo.vue'),
+          children: [
+            {
+              path: '/track/:trackID/info',
+              component: () => import('@/components/project/track/Info.vue')
+            },
+            {
+              path: '/track/:trackID/timeline',
+              component: () => import('@/components/project/track/Timeline.vue')
+            },
+            {
+              path: '/track/:trackID/operation',
+              component: () =>
+                import('@/components/project/track/Operation.vue')
+            }
+          ]
         },
         {
           path: '/document',

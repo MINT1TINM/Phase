@@ -53,6 +53,12 @@ class PrivacySetting {
   hidePhone!: boolean;
 }
 
+class UserCache {
+  id!: string;
+  nickName!: string;
+  headImgURL!: string;
+}
+
 class UserPermission {
   project!: {
     createProject: boolean;
@@ -117,5 +123,6 @@ export {
   PrivateInfo,
   PrivacySetting,
   UserPermission,
-  UserPermissionCN
+  UserPermissionCN,
+  UserCache
 };

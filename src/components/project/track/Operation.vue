@@ -7,14 +7,11 @@
     </v-toolbar>
     <v-card>
       <v-container>
-        <dim-form
-          :target="contractShow"
-          :formContent="contractContent"
-        ></dim-form>
+        <dim-form :target="trackShow" :formContent="trackContent"></dim-form>
         <v-layout justify-center>
           <v-flex xs6>
             <v-btn
-              @click="updateContract"
+              @click="updateTrack"
               rounded
               color="primary darken-1"
               block
@@ -35,7 +32,7 @@
         <v-layout justify-center>
           <v-flex xs6>
             <v-btn
-              @click="deleteContract"
+              @click="deleteTrack"
               rounded
               color="error darken-1"
               block
@@ -51,56 +48,36 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Contract } from '@/types/project';
-import ContractService from '@/service/contractService';
+import { Track } from '@/types/project';
+import TrackService from '@/service/trackService';
 
 @Component
-export default class ProjectContractOperation extends Vue {
-  @Prop() private contract!: Contract;
+export default class ProjectTrackOperation extends Vue {
+  @Prop() private track!: Track;
 
-  private contractContent = [
+  private trackContent = [
     {
       type: 'text-field',
-      title: '编号',
-      name: 'code'
-    },
-    {
-      type: 'text-field',
-      title: '名称',
+      title: '跟踪对象',
       name: 'name'
     },
     {
-      type: 'text-field',
-      title: '乙方',
-      name: 'contractorName'
-    },
-    {
-      type: 'tags',
-      title: '乙方标签',
-      name: 'contractorTags'
-    },
-    {
-      type: 'text-field',
-      title: '总金额',
-      name: 'amount'
-    },
-    {
       type: 'text-area',
-      title: '约定',
-      name: 'promise'
+      title: '描述',
+      name: 'description'
     }
   ];
 
-  private async updateContract() {
+  private async updateTrack() {
     try {
-      await ContractService.updateContract(this.contractShow);
+      await TrackService.updateTrack(this.trackShow);
       this.$snack('更新成功');
     } catch (_) {
       this.$snack('更新失败');
     }
   }
 
-  private async deleteContract() {
+  private async deleteTrack() {
     const rsp = await this.$confirm('此操作无法恢复', {
       title: '确认删除?',
       buttonTrueColor: 'red darken-1',
@@ -108,22 +85,22 @@ export default class ProjectContractOperation extends Vue {
     });
     if (rsp) {
       try {
-        await ContractService.deleteContract(this.$route.params.contractID);
+        await TrackService.deleteTrack(this.$route.params.trackID);
         this.$snack('删除成功');
-        this.$router.push({ path: `/contract` });
+        this.$router.push({ path: `/track` });
       } catch (_) {
         this.$snack('删除失败');
-        this.$router.push({ path: `/contract` });
+        this.$router.push({ path: `/track` });
       }
     }
   }
 
-  private get contractShow() {
-    return this.contract;
+  private get trackShow() {
+    return this.track;
   }
 
-  private set contractShow(v: Contract) {
-    this.contractShow = v;
+  private set trackShow(v: Track) {
+    this.trackShow = v;
   }
 
   private mounted() {}

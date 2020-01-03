@@ -1,3 +1,5 @@
+import { UserCache } from './user';
+
 class Project {
   id!: string;
   createAt!: number;
@@ -70,9 +72,11 @@ class Contract {
   signedAt!: string;
   name!: string;
   code!: string;
+  userUUID!: string;
+  userCache!: UserCache;
   projectUUID!: string;
   contractorName!: string;
-  contractorTag!: string[];
+  contractorTags!: { data: string[] };
   amount!: number;
   paidAmount!: number;
   paidPercentage!: number;
@@ -93,6 +97,23 @@ class Payment {
   file!: string[];
 }
 
+class Track {
+  id!: string;
+  createdAt!: string;
+  name!: string;
+  projectUUID!: string;
+  userUUID!: string;
+  userCache!: UserCache;
+  trackDate!: string;
+  tracker!: string;
+  description!: string;
+  file!: any;
+  liveDescription!: string;
+  liveFile!: any;
+  liveComment!: string;
+  status!: boolean;
+}
+
 export {
   Project,
   ProjectMember,
@@ -102,5 +123,6 @@ export {
   ProcessTemplate,
   TaskTemplate,
   Contract,
-  Payment
+  Payment,
+  Track
 };

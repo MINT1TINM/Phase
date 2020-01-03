@@ -1,6 +1,9 @@
 <template>
   <div>
     <v-toolbar dense class="navbar">
+      <v-toolbar-title class="subtitle-1 font-weight-black"
+        >项目合同</v-toolbar-title
+      >
       <!-- TODO: filter -->
 
       <!--
@@ -79,9 +82,10 @@
       fixed-header
       disable-sort
       disable-filtering
+      :options.sync="options"
       :headers="headers"
       :items="contractList"
-      :items-per-page="20"
+      :items-per-page="1"
       class="transparent"
       :footer-props="{
         itemsPerPageOptions: [20, 50],
@@ -89,11 +93,19 @@
       }"
       @click:row="showInfo"
     >
+      <template v-slot:item.userUUID="{ item }">
+        <v-chip small class="caption font-weight-black">{{
+          item.userCache.nickName
+        }}</v-chip>
+      </template>
       <template v-slot:item.createdAt="{ item }">
         {{ item.createdAt | format('yyyy-MM-dd hh:mm:ss') }}
       </template>
       <template v-slot:item.signedAt="{ item }">
         {{ item.signedAt | format('yyyy-MM-dd hh:mm:ss') }}
+      </template>
+      <template v-slot:item.amount="{ item }">
+        ¥ {{ item.amount.toFixed(2) }}
       </template>
     </v-data-table>
 
@@ -133,7 +145,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Contract } from '@/types/project';
 import ContractService from '@/service/contractService';
 
@@ -160,6 +172,11 @@ export default class ProjectContract extends Vue {
   private datePickerMenu = false;
   private createContractDialog = false;
   private newContract: Contract = new Contract();
+  private options: { page: number; itemsPerPage: number } = {
+    page: 1,
+    itemsPerPage: 20
+  };
+  private loading = false;
 
   private headers = [
     {
@@ -200,7 +217,12 @@ export default class ProjectContract extends Vue {
   }
 
   private async getContractList() {
-    this.contractList = await ContractService.getContractList(1, 10);
+    this.loading = true;
+    this.contractList = await ContractService.getContractList(
+      this.options.page,
+      this.options.itemsPerPage
+    );
+    this.loading = false;
   }
 
   private showInfo(v: Contract) {
@@ -209,6 +231,11 @@ export default class ProjectContract extends Vue {
 
   private get dateRangeText() {
     return this.search.timeRange.join(' ~ ');
+  }
+
+  @Watch('options')
+  private onOptionsChanged() {
+    this.getContractList();
   }
 
   private mounted() {

@@ -34,7 +34,13 @@ class ContractService {
     return Promise.reject(new Contract());
   }
 
-  static async updateContract() {}
+  static async updateContract(c: Contract) {
+    const rsp = await BasicService.putRequest('/contract', c);
+    if (rsp.msg === 'success') {
+      return Promise.resolve(rsp.msg);
+    }
+    return Promise.reject(rsp.msg);
+  }
 
   static async deleteContract(id: string) {
     const rsp = await BasicService.deleteRequest('/contract', {

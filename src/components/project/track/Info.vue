@@ -11,14 +11,14 @@
           <v-container fluid>
             <dim-form
               disabled
-              :target="contractShow"
-              :formContent="contractContent"
+              :target="track"
+              :formContent="trackContent"
             ></dim-form>
           </v-container>
         </v-card>
       </v-col>
       <v-col cols="6" class="pt-0">
-        <v-toolbar dense flat color="transparent">
+        <v-toolbar class="mt-2" dense flat color="transparent">
           <v-toolbar-title class="subtitle-1 font-weight-black"
             >附件</v-toolbar-title
           >
@@ -33,55 +33,27 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Contract } from '@/types/project';
+import { Track } from '@/types/project';
 
 @Component
-export default class ProjectContractInfo extends Vue {
-  @Prop() private contract!: Contract;
+export default class ProjectTrackInfo extends Vue {
+  @Prop() private track!: Track;
 
-  private contractContent = [
+  private trackContent = [
     {
       type: 'text-field',
-      title: '编号',
-      name: 'code'
-    },
-    {
-      type: 'text-field',
-      title: '名称',
+      title: '跟踪对象',
       name: 'name'
     },
     {
-      type: 'text-field',
-      title: '乙方',
-      name: 'contractorName'
-    },
-    {
-      type: 'tags',
-      title: '乙方标签',
-      name: 'contractorTags'
-    },
-    {
-      type: 'text-field',
-      title: '总金额',
-      name: 'amount'
-    },
-    {
       type: 'text-area',
-      title: '约定',
-      name: 'promise'
+      title: '描述',
+      name: 'description'
     }
   ];
 
-  private get contractShow() {
-    return this.contract;
-  }
-
-  private set contractShow(v: Contract) {
-    this.contractShow = v;
-  }
-
   private mounted() {
-    console.log(this.contract);
+    console.log(this.track);
   }
 }
 </script>
