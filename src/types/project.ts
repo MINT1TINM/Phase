@@ -12,6 +12,7 @@ class Project {
   endDate!: string;
   actionDate!: string;
   folderURL!: string;
+  extraInfo!: ProjectExtraInfo;
 }
 
 class MemberList {
@@ -26,6 +27,15 @@ class ProjectMember {
   projectRole!: [];
   headImgURL!: string;
   tag!: string[];
+}
+
+class ProjectExtraInfo {
+  address!: string;
+  location!: string[];
+  consultTimeRange!: string[];
+  tags: { data: string[] } = { data: [] };
+  industry!: string;
+  investment!: number;
 }
 
 class ProjectMemberComplete extends ProjectMember {
@@ -118,6 +128,7 @@ export {
   Project,
   ProjectMember,
   ProjectMemberComplete,
+  ProjectExtraInfo,
   Invitation,
   ProjectTemplate,
   ProcessTemplate,

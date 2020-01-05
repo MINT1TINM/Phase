@@ -2,7 +2,6 @@
   <div>
     <v-toolbar dense>
       <v-tabs style="flex:auto">
-        <v-tab :to="`/track/${$route.params.trackID}/info`">信息</v-tab>
         <v-tab :to="`/track/${$route.params.trackID}/timeline`">时间轴</v-tab>
         <v-tab :to="`/track/${$route.params.trackID}/operation`">操作</v-tab>
       </v-tabs>

@@ -1,4 +1,4 @@
-import { Project, ProjectMember } from '@/types/project';
+import { Project, ProjectMember, ProjectExtraInfo } from '@/types/project';
 import { Task } from '@/types/task';
 
 interface State {
@@ -15,8 +15,15 @@ const state: State = {
 
 const getters = {
   currentProjectID: (s: State) => s.currentProjectID,
-  currentProject: (s: State) =>
-    s.projectList.find((e: Project) => e.id === s.currentProjectID),
+  currentProject: (s: State) => {
+    let c = s.projectList.find((e: Project) => e.id === s.currentProjectID);
+    if (c?.extraInfo.tags) {
+      c!.extraInfo = new ProjectExtraInfo();
+    }
+    console.log(c?.extraInfo);
+    return c;
+  },
+
   currentProjectMemberIDList: (s: State) => {
     if (s.currentProjectID === '') {
       return [];

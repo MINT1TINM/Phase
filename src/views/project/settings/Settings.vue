@@ -17,6 +17,11 @@
                     :target="currentProject"
                   ></dim-form>
 
+                  <dim-form
+                    :formContent="projectExtraInfo"
+                    :target="currentProject.extraInfo"
+                  ></dim-form>
+
                   <v-layout row justify-center class="pt-5">
                     <v-flex xs6>
                       <v-btn
@@ -102,7 +107,7 @@ export default class Settings extends Vue {
 
   private projectInfoList = [
     {
-      subheader: '信息'
+      subheader: '基本信息'
     },
     {
       divider: true
@@ -136,6 +141,40 @@ export default class Settings extends Vue {
     }
   ];
 
+  private projectExtraInfo = [
+    {
+      subheader: '附加信息'
+    },
+    {
+      divider: true
+    },
+    {
+      type: 'tags',
+      title: '标签',
+      name: 'tags'
+    },
+    {
+      type: 'text-field',
+      title: '工程地点',
+      name: 'address'
+    },
+    {
+      type: 'text-field',
+      title: '投资估算',
+      name: 'investment'
+    },
+    // {
+    //   type: 'time-range',
+    //   title: '咨询起止时间',
+    //   name: 'consultTimeRange'
+    // },
+    {
+      type: 'text-field',
+      title: '所属行业',
+      name: 'industry'
+    }
+  ];
+
   private async updateProjectInfo() {
     await ProjectService.updateProjectInfo(this.currentProject);
   }
@@ -156,6 +195,11 @@ export default class Settings extends Vue {
     console.log(v);
     await ProjectService.updateProjectFolder(v, this.currentProjectID);
     await ProjectService.getProjectList();
+  }
+
+  private get project() {
+    console.log(this.currentProject);
+    return this.currentProject;
   }
 }
 </script>

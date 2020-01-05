@@ -185,10 +185,10 @@ export default class ProjectContract extends Vue {
       value: 'code'
     },
     { text: '名称', value: 'name' },
+    { text: '乙方', value: 'contractorName' },
     { text: '创建人', value: 'userUUID' },
     { text: '创建时间', value: 'createdAt' },
     { text: '签约时间', value: 'signedAt' },
-    { text: '乙方', value: 'contractorName' },
     { text: '金额', value: 'amount' }
   ];
   private contractList: Contract[] = [];

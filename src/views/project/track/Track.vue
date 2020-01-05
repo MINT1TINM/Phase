@@ -123,7 +123,7 @@ export default class ProjectTrack extends Vue {
   }
 
   private showInfo(v: Track) {
-    this.$router.push({ path: `/track/${v.id}/info` });
+    this.$router.push({ path: `/track/${v.id}/timeline` });
   }
 
   private mounted() {

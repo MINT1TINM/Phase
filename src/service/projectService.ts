@@ -53,7 +53,8 @@ class ProjectService {
       description: projectInfo.description,
       startDate: projectInfo.startDate,
       endDate: projectInfo.endDate,
-      actionDate: projectInfo.actionDate
+      actionDate: projectInfo.actionDate,
+      extraInfo: projectInfo.extraInfo
     });
     store.commit('project/updateCurrentProject', rsp.project);
     if (rsp.msg === 'success') {

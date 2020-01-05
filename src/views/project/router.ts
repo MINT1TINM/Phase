@@ -94,10 +94,6 @@ const router = new Router({
           component: () => import('@/views/project/track/TrackInfo.vue'),
           children: [
             {
-              path: '/track/:trackID/info',
-              component: () => import('@/components/project/track/Info.vue')
-            },
-            {
               path: '/track/:trackID/timeline',
               component: () => import('@/components/project/track/Timeline.vue')
             },
