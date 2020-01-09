@@ -5,7 +5,7 @@
         相关文件
         <v-spacer></v-spacer>
         <v-btn rounded text @click="fileDialog = true">
-          <v-icon size="20">mdi-plus</v-icon>&nbsp;链接文件
+          <v-icon size="20">mdi-plus</v-icon>文件
         </v-btn>
       </v-card-title>
 

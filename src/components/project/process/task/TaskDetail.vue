@@ -44,10 +44,10 @@
             :sheetIDList="currentTask.sheet.data"
             class="mt-3"
           ></related-sheet>
-          <related-draft
-            :sheetIDList="currentTask.draft.data"
+          <related-file
+            :sheetIDList="currentTask.file.data"
             class="mt-3"
-          ></related-draft>
+          ></related-file>
           <operations class="mt-3"></operations>
         </v-container>
       </transition>
