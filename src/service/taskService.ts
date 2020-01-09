@@ -63,8 +63,29 @@ class TaskService {
       color: taskInfo.color
     });
     if (rsp.msg === 'success') {
-      // @ts-ignore
       vue.$snack('更新成功');
+    }
+    return rsp;
+  }
+
+  public static async insertTaskFile(taskID: string, file: any) {
+    const rsp = await basicService.postRequest('/task/file', {
+      taskID,
+      file
+    });
+    if (rsp.msg === 'success') {
+      vue.$snack('链接成功');
+    }
+    return rsp;
+  }
+
+  public static async deleteTaskFile(taskID: string, fileID: string) {
+    const rsp = await basicService.deleteRequest('/task/file', {
+      taskID,
+      fileID
+    });
+    if (rsp.msg === 'success') {
+      vue.$snack('删除成功');
     }
     return rsp;
   }
@@ -103,7 +124,6 @@ class TaskService {
       subTask
     });
     if (rsp.msg === 'success') {
-      // @ts-ignore
       vue.$snack('创建成功');
     }
     return rsp;
@@ -126,7 +146,6 @@ class TaskService {
       certificate
     });
     if (rsp.msg === 'success') {
-      // @ts-ignore
       vue.$snack('修改成功');
     }
     return rsp;
@@ -138,7 +157,6 @@ class TaskService {
       subTaskID
     });
     if (rsp.msg === 'success') {
-      // @ts-ignore
       vue.$snack('删除成功');
     }
     return rsp;
