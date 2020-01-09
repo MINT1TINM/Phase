@@ -69,7 +69,6 @@ const vuexSession: any = new VuexPersistence<any>({
 });
 
 export default new Vuex.Store({
-  // @ts-ignore
   modules: {
     user,
     system,

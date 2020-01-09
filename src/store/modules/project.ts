@@ -17,10 +17,9 @@ const getters = {
   currentProjectID: (s: State) => s.currentProjectID,
   currentProject: (s: State) => {
     let c = s.projectList.find((e: Project) => e.id === s.currentProjectID);
-    if (c?.extraInfo.tags) {
-      c!.extraInfo = new ProjectExtraInfo();
+    if (c && c?.extraInfo.tags) {
+      c.extraInfo = new ProjectExtraInfo();
     }
-    console.log(c?.extraInfo);
     return c;
   },
 
@@ -53,9 +52,11 @@ const getters = {
     const currentProject = s.projectList.find(
       (e: Project) => e.id === s.currentProjectID
     );
-    return currentProject!.member!.data!.find(
-      (e: ProjectMember) => e.userID === userID
-    )!.role;
+    return (
+      currentProject?.member?.data?.find(
+        (e: ProjectMember) => e.userID === userID
+      )?.role || []
+    );
   },
   viewMode: (s: State) => s.viewMode
 };
