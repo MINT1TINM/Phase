@@ -9,16 +9,16 @@ class FileService {
   public static async createCatalog(
     projectID: string,
     path: string[],
-    name: string,
+    name: string
   ) {
     const rsp = await basicService.postRequest('/file/catalog', {
       projectID,
       path,
-      name,
+      name
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('创建成功');
+      vue.$snack('创建成功');
     }
     return rsp;
   }
@@ -26,16 +26,16 @@ class FileService {
   public static async renameCatalog(
     projectID: string,
     path: string[],
-    name: string,
+    name: string
   ) {
     const rsp = await basicService.putRequest('/file/catalog', {
       projectID,
       path,
-      name,
+      name
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('重命名成功');
+      vue.$snack('重命名成功');
     }
     return rsp;
   }
@@ -43,7 +43,7 @@ class FileService {
   public static async getFile(projectID: string, path: string[]) {
     const rsp = await basicService.getRequest('/file/catalog', {
       projectID,
-      path,
+      path
     });
     store.commit('file/updateFileList', rsp.fileList);
     return rsp;
@@ -64,11 +64,11 @@ class FileService {
   public static async deleteFile(path: string[], projectID: string) {
     const rsp = await basicService.deleteRequest('/file', {
       path,
-      projectID,
+      projectID
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('删除成功');
+      vue.$snack('删除成功');
     }
     return rsp;
   }

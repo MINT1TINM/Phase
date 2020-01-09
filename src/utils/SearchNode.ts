@@ -21,8 +21,8 @@ const searchNode = (node: any, value: string) => {
     while (hasChildren(subNode)) {
       for (const subKey in subNode.data) {
         if (
-          subNode.data[subKey].name
-          && subNode.data[subKey].name.indexOf(value) !== -1
+          subNode.data[subKey].name &&
+          subNode.data[subKey].name.indexOf(value) !== -1
         ) {
           path.push(subNode.name);
           result.push({ file: subNode.data[subKey], path });

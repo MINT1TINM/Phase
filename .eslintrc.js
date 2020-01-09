@@ -1,16 +1,12 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
+    node: true
   },
-  extends: [
-    'plugin:vue/essential',
-    '@vue/airbnb',
-    '@vue/typescript',
-  ],
+  extends: ['plugin:vue/essential', '@vue/prettier', '@vue/typescript'],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': 0,
+    'no-debugger': 0,
     'max-len': 0,
     'no-trailing-spaces': 0,
     'comma-dangle': 0,
@@ -26,9 +22,12 @@ module.exports = {
     'no-return-assign': 0,
     camelcase: 0,
     'guard-for-in': 0,
-    'import/prefer-default-export': 0
+    'import/prefer-default-export': 0,
+    'linebreak-style': 0,
+    indent: 0,
+    'vue/no-unused-vars': 'off'
   },
   parserOptions: {
-    parser: '@typescript-eslint/parser',
-  },
+    parser: '@typescript-eslint/parser'
+  }
 };

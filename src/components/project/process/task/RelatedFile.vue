@@ -4,7 +4,7 @@
       <v-card-title class="font-weight-black subtitle-1">
         相关文件
         <v-spacer></v-spacer>
-        <v-btn rounded text @click="fileDialog=true">
+        <v-btn rounded text @click="fileDialog = true">
           <v-icon size="20">mdi-plus</v-icon>&nbsp;链接文件
         </v-btn>
       </v-card-title>
@@ -18,9 +18,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="my-2" v-for="(item,i) in fileList" :key="`f-${i}`">
-            <td class="pl-3 pr-2 text-center">{{item.name}}</td>
-            <td class="pl-3 pr-2 text-center">{{item.createdAt | format("yyyy-MM-dd hh:mm")}}</td>
+          <tr class="my-2" v-for="(item, i) in fileList" :key="`f-${i}`">
+            <td class="pl-3 pr-2 text-center">{{ item.name }}</td>
+            <td class="pl-3 pr-2 text-center">
+              {{ item.createdAt | format('yyyy-MM-dd hh:mm') }}
+            </td>
             <td class="pl-3 pr-2 text-center">
               <v-btn icon @click="downloadFile(item)">
                 <v-icon size="20">mdi-download-outline</v-icon>
@@ -37,9 +39,11 @@
     <v-bottom-sheet v-model="fileDialog" persistent>
       <v-sheet class="text-center" height="750" style="overflow:auto">
         <v-toolbar flat>
-          <v-toolbar-title class="subtitle-1 font-weight-black">项目文件</v-toolbar-title>
+          <v-toolbar-title class="subtitle-1 font-weight-black"
+            >项目文件</v-toolbar-title
+          >
           <v-spacer></v-spacer>
-          <v-btn icon @click="fileDialog=false">
+          <v-btn icon @click="fileDialog = false">
             <v-icon size="20">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
@@ -50,9 +54,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import document from "@/views/project/document/Document.vue";
-import TaskService from "@/service/taskService";
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import document from '@/views/project/document/Document.vue';
+import TaskService from '@/service/taskService';
 
 @Component({
   components: {
@@ -79,7 +83,7 @@ export default class RelatedFile extends Vue {
   }
 
   private async downloadFile(item: any) {
-    window.open("/api/file/download?sName=" + item.sName, "_blank");
+    window.open('/api/file/download?sName=' + item.sName, '_blank');
     // await FileService.downloadFile(item.sName);
   }
 
@@ -92,12 +96,11 @@ export default class RelatedFile extends Vue {
     await TaskService.getTaskInfo(this.$route.params.taskID);
   }
 
-  @Watch("fileList")
+  @Watch('fileList')
   private onFileChanged() {
     this.fileListShow = this.fileList;
   }
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

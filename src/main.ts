@@ -1,30 +1,34 @@
 import '@/styles/animation.css';
-import '@/plugins/snackbar/index';
+import '@/styles/style.css';
 
 import axios from 'axios';
 import Vue from 'vue';
 
-import vuetify from '@/plugins/vuetify';
+import './register-service-worker';
 
 import App from '@/App.vue';
-import VuetifyConfirm from '@/plugins/confirm-dialog';
-import DimForm from '@/plugins/dim-form/Main.vue';
-import Appbar from '@/components/common/app-bar/AppBar.vue';
-// user-chip components
-import UserChip from '@/plugins/user-chip/Main.vue';
-import DocIcon from '@/plugins/doc-icon/Main.vue';
 
-import router from '@/router/router';
-import store from '@/store/store';
-// format date
-import DateHelper from '@/utils/DateHelper';
+import Appbar from '@/components/common/app-bar/AppBar.vue';
+
+import ConfirmDialog from '@/plugins/vuetify-plugins/confirm-dialog';
+import DimForm from '@/plugins/vuetify-plugins/dim-form/Main.vue';
+import SnackBar from '@/plugins/vuetify-plugins/snackbar';
+import UserChip from '@/plugins/vuetify-plugins/user-chip/Main.vue';
+import DocIcon from '@/plugins/vuetify-plugins/doc-icon/Main.vue';
+import TimeLine from '@/plugins/vuetify-plugins/dim-timeline/Main.vue';
 
 Vue.component('user-chip', UserChip);
 Vue.component('dim-form', DimForm);
 Vue.component('app-bar', Appbar);
 Vue.component('doc-icon', DocIcon);
+Vue.component('app-common', App);
+Vue.component('dim-timeline', TimeLine);
+Vue.use(ConfirmDialog);
+Vue.use(SnackBar);
 
-Vue.use(VuetifyConfirm);
+import store from '@/store/store';
+// format date
+import DateHelper from '@/utils/DateHelper';
 
 Vue.config.productionTip = false;
 
@@ -47,7 +51,9 @@ Vue.filter('httpsfy', (url: string) => {
 });
 
 // format date
-Vue.filter('format', (date: string, fmt: string) => DateHelper.format(date, fmt));
+Vue.filter('format', (date: string, fmt: string) =>
+  DateHelper.format(date, fmt)
+);
 
 // get weekday
 Vue.filter('weekday', (date: string) => DateHelper.getWeekDay(date));
@@ -61,16 +67,15 @@ Vue.filter('avatar', (v: string) => {
 });
 
 // cut long string
-Vue.filter('cut', (v: string) => {
-  if (v.length && v.length > 8) {
+Vue.filter('cut', (v: string, len?: number) => {
+  if (len && v.length && v.length > len) {
+    return `${v.slice(0, len - 1)} ...`;
+  }
+  if (!len && v.length && v.length > 8) {
     return `${v.slice(0, 7)} ...`;
   }
+
   return v;
 });
 
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: (h: any) => h(App),
-}).$mount('#app');
+export { Vue, store };

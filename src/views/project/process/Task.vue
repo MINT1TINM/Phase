@@ -6,7 +6,13 @@
     <v-flex xs9>
       <router-view v-if="$route.params.taskID" :key="activeTask"></router-view>
 
-      <v-layout fill-height class="inner-sidebar-withoutpadding" v-else align-center justify-center>
+      <v-layout
+        fill-height
+        class="inner-sidebar-withoutpadding"
+        v-else
+        align-center
+        justify-center
+      >
         <h3>请选择或新建任务</h3>
       </v-layout>
     </v-flex>
@@ -19,8 +25,8 @@ import taskList from '@/components/project/process/task/TaskList.vue';
 
 @Component({
   components: {
-    'task-list': taskList,
-  },
+    'task-list': taskList
+  }
 })
 export default class Task extends Vue {
   public activeTask: string = '';

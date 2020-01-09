@@ -20,9 +20,8 @@ export default class WechatLogin extends Vue {
     console.log(code);
     this.toggleFullScreenLoading(true);
     try {
-      // @ts-ignore
-      const rsp = await AuthService.wechatLogin(code);
-      await UserService.getUserInfo(await rsp.authorization.userID);
+      const authorization = await AuthService.wechatLogin(code as string);
+      await UserService.getUserInfo(await authorization.userID!);
       this.toggleFullScreenLoading(false);
       this.$router.push({ path: '/home' });
     } catch (err) {
@@ -37,5 +36,4 @@ export default class WechatLogin extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

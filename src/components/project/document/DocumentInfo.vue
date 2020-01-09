@@ -5,10 +5,13 @@
     </v-layout>
     <v-btn
       class="mb-2"
-      v-if="!item.data && (item.type.indexOf(`png`)!==-1
-      || item.type.indexOf(`jpg`)!==-1
-      || item.type.indexOf(`jpeg`)!==-1
-      || item.type.indexOf(`pdf`)!==-1)"
+      v-if="
+        !item.data &&
+          (item.type.indexOf(`png`) !== -1 ||
+            item.type.indexOf(`jpg`) !== -1 ||
+            item.type.indexOf(`jpeg`) !== -1 ||
+            item.type.indexOf(`pdf`) !== -1)
+      "
       block
       outlined
       color="green darken-1"
@@ -16,32 +19,51 @@
     >
       <v-icon size="20">mdi-magnify</v-icon>&nbsp;预览
     </v-btn>
-    <v-btn v-if="!item.data" block outlined color="green darken-1" @click="downloadFile(item)">
+    <v-btn
+      v-if="!item.data"
+      block
+      outlined
+      color="green darken-1"
+      @click="downloadFile(item)"
+    >
       <v-icon size="20">mdi-download-outline</v-icon>&nbsp;下载
     </v-btn>
     <v-btn
+      v-if="projectPermission(authorization.userID).indexOf(`u`) !== -1"
       class="mt-2"
       block
       outlined
       color="primary"
-      @click="renameDialog=true;currentName=item.name"
+      @click="
+        renameDialog = true;
+        currentName = item.name;
+      "
     >
       <v-icon size="20">mdi-pencil-outline</v-icon>&nbsp;重命名
     </v-btn>
-    <v-btn class="mt-2" block outlined color="error" @click="deleteFile()">
+    <v-btn
+      v-if="projectPermission(authorization.userID).indexOf(`d`) !== -1"
+      class="mt-2"
+      block
+      outlined
+      color="error"
+      @click="deleteFile()"
+    >
       <v-icon size="20">mdi-delete-outline</v-icon>&nbsp;删除
     </v-btn>
     <h4 class="pt-5">文件信息</h4>
     <v-list-item class="px-0">
       <v-list-item-content>
         <v-list-item-subtitle class="caption">名称</v-list-item-subtitle>
-        <v-list-item-title class="body-2">{{item.name}}</v-list-item-title>
+        <v-list-item-title class="body-2">{{ item.name }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="px-0">
       <v-list-item-content>
         <v-list-item-subtitle class="caption">创建时间</v-list-item-subtitle>
-        <v-list-item-title class="body-2">{{item.createdAt | format("yyyy-MM-dd hh:mm:ss")}}</v-list-item-title>
+        <v-list-item-title class="body-2">{{
+          item.createdAt | format('yyyy-MM-dd hh:mm:ss')
+        }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="px-0">
@@ -61,16 +83,27 @@
     <v-dialog persistent v-model="renameDialog" width="300">
       <v-card>
         <v-toolbar flat class="transparent">
-          <v-toolbar-title class="font-weight-black subtitle-1">重命名</v-toolbar-title>
+          <v-toolbar-title class="font-weight-black subtitle-1"
+            >重命名</v-toolbar-title
+          >
           <v-spacer></v-spacer>
-          <v-btn icon @click="renameDialog=false">
+          <v-btn icon @click="renameDialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
         <v-container fluid>
-          <v-text-field hide-details single-line outlined dense label="输入新名称" v-model="currentName"></v-text-field>
+          <v-text-field
+            hide-details
+            single-line
+            outlined
+            dense
+            label="输入新名称"
+            v-model="currentName"
+          ></v-text-field>
           <v-layout class="pt-5" justify-center>
-            <v-btn rounded color="primary" depressed @click="renameFile">保存</v-btn>
+            <v-btn rounded color="primary" depressed @click="renameFile"
+              >保存</v-btn
+            >
           </v-layout>
         </v-container>
       </v-card>
@@ -79,9 +112,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import FileService from '@/service/fileService';
 import { Authorization } from '@/types/user';
@@ -92,7 +123,7 @@ const fileModule = namespace('file');
 const userModule = namespace('user');
 
 @Component({
-  components: {},
+  components: {}
 })
 export default class DocumentInfo extends Vue {
   @Prop({ default: '' }) public uuid!: string;
@@ -126,7 +157,7 @@ export default class DocumentInfo extends Vue {
       const rsp = await FileService.renameCatalog(
         this.currentProjectID,
         [...this.path, this.uuid],
-        this.currentName,
+        this.currentName
       );
       if (rsp.msg === 'success') {
         await FileService.getFile(this.currentProjectID, this.path);
@@ -139,12 +170,12 @@ export default class DocumentInfo extends Vue {
     const res = await this.$confirm('此操作无法恢复', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
-      dark: this.$vuetify.theme.dark,
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await FileService.deleteFile(
         [...this.path, this.uuid],
-        this.currentProjectID,
+        this.currentProjectID
       );
       this.$emit('clearDocumentInfo');
       await FileService.getFile(this.currentProjectID, this.path);
@@ -152,7 +183,7 @@ export default class DocumentInfo extends Vue {
   }
 
   private async downloadFile(item: any) {
-    window.open(`/api/file/download?sName=${item.sName}`, '_blank');
+    window.open(`/api/file/download?sName=${item.sName}&type=upload`, '_blank');
     // await FileService.downloadFile(item.sName);
   }
 

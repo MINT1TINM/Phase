@@ -8,7 +8,14 @@
     ></dim-form>
     <v-layout justify-center class="pt-5">
       <v-flex xs6>
-        <v-btn block rounded depressed color="primary" @click="updatePrivacySetting()">保存</v-btn>
+        <v-btn
+          block
+          rounded
+          depressed
+          color="primary"
+          @click="updatePrivacySetting()"
+          >保存</v-btn
+        >
       </v-flex>
     </v-layout>
   </div>
@@ -32,18 +39,18 @@ export default class Privacy extends Vue {
     {
       type: 'switch',
       title: '隐藏真实姓名',
-      name: 'hideName',
+      name: 'hideName'
     },
     {
       type: 'switch',
       title: '隐藏邮箱',
-      name: 'hideEmail',
+      name: 'hideEmail'
     },
     {
       type: 'switch',
       title: '隐藏电话号码',
-      name: 'hidePhone',
-    },
+      name: 'hidePhone'
+    }
   ];
 
   private get privacySetting() {
@@ -61,5 +68,4 @@ export default class Privacy extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

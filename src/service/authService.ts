@@ -1,13 +1,16 @@
 import basicService from '@/service/basicService';
 import store from '@/store/store';
-import router from '@/router/router';
+import { Authorization } from '@/types/user';
+import Vue from 'vue';
+
+const vue = new Vue();
 
 class AuthService {
   public static getCoordinates() {
     const options = {
       enableHighAccuracy: true,
       maximumAge: 30000,
-      timeout: 27000,
+      timeout: 27000
     };
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject, options);
@@ -24,14 +27,21 @@ class AuthService {
     if ('geolocation' in navigator) {
       try {
         position = await this.getUserLocation();
-      } catch {}
+      } catch {
+        vue.$snack('无法获取地理位置信息🤔');
+      }
     }
     const rsp = await basicService.postRequest('/wechat/login', {
       code,
-      position,
+      position
     });
-    store.commit('user/updateUserAuth', rsp.authorization);
-    return rsp;
+    if (rsp.msg === 'success') {
+      store.commit('user/updateUserAuth', rsp.authorization);
+      return Promise.resolve(rsp.authorization as Authorization);
+    } else {
+      window.location.href = '/login';
+      return Promise.reject('error');
+    }
   }
 
   public static async standardLogin(username: string, password: string) {
@@ -39,19 +49,23 @@ class AuthService {
     if ('geolocation' in navigator) {
       try {
         position = await this.getUserLocation();
-      } catch {}
+      } catch {
+        vue.$snack('无法获取地理位置信息🤔');
+      }
     }
     const rsp = await basicService.postRequest('/user/login', {
       username,
       password,
-      position,
+      position
     });
     if (rsp.msg === 'success') {
       store.commit('user/updateUserAuth', rsp.authorization);
+      return Promise.resolve(rsp.authorization as Authorization);
     } else {
-      router.push({ path: '/login' });
+      vue.$snack('登录失败');
+      window.location.href = '/login';
+      return Promise.reject('error');
     }
-    return rsp;
   }
 }
 

@@ -1,10 +1,10 @@
 <template>
   <v-container fluid>
-    <v-list dense v-if="uniNo!==``">
+    <v-list dense v-if="uniNo !== ``">
       <v-list-item class="text-left">
         <v-list-item-content>
           <v-list-item-title class="caption">凭证账号</v-list-item-title>
-          {{ certificate.uniNo }}.{{certificate.ord}}
+          {{ certificate.uniNo }}.{{ certificate.ord }}
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="text-left">
@@ -61,9 +61,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, PropSync, Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
 import FinanceService from '@/service/financeService';
 import { Certificate } from '@/types/finance';
 
@@ -73,30 +71,16 @@ export default class CertificatePreview extends Vue {
 
   @Prop(String) public ord!: string;
 
-  private certificate: Certificate = {
-    uniPrjName: '',
-    uniPrjOrder: '',
-    uniNo: '',
-    ord: '',
-    dAmount: 0,
-    jAmount: 0,
-    chargeSno: '',
-    sDay: '',
-    sMonth: '',
-    sYear: '',
-    date: '',
-    sabstract: '',
-    subj: '',
-    subjName: '',
-  };
+  private certificate: Certificate = new Certificate();
 
   @Watch('uniNo')
   private async onUniNoChanged() {
     const rsp = await FinanceService.searchCertificate(this.uniNo);
-    this.certificate = rsp.certificate.find((e: Certificate) => e.ord === this.ord);
+    this.certificate = rsp.certificate.find(
+      (e: Certificate) => e.ord === this.ord
+    );
   }
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

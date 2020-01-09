@@ -15,20 +15,30 @@
             <span
               v-else-if="userInfo.nickname"
               class="white--text text-uppercase"
-            >{{nickName | avatar}}</span>
-            <span v-else class="white--text text-uppercase">{{userInfo.username | avatar}}</span>
+              >{{ nickName | avatar }}</span
+            >
+            <span v-else class="white--text text-uppercase">{{
+              userInfo.username | avatar
+            }}</span>
           </v-avatar>
           <!-- <v-btn class="ml-5" outlined color="primary">修改</v-btn> -->
         </v-list-item>
       </v-list>
       <v-divider class="my-3 mx-2"></v-divider>
 
-      <dim-form class="mt-4" keyName="profile" :formContent="profileList" :target="userInfo"></dim-form>
+      <dim-form
+        class="mt-4"
+        keyName="profile"
+        :formContent="profileList"
+        :target="userInfo"
+      ></dim-form>
     </v-form>
 
     <v-layout justify-center class="pt-5">
       <v-flex xs6>
-        <v-btn block rounded depressed color="primary" @click="updateUserInfo()">保存</v-btn>
+        <v-btn block rounded depressed color="primary" @click="updateUserInfo()"
+          >保存</v-btn
+        >
       </v-flex>
     </v-layout>
 
@@ -38,21 +48,29 @@
         隐私
         <v-spacer></v-spacer>
         <v-btn text rounded @click="togglePrivateInfo()">
-          <div v-if="privateInfoShow">
-            <v-icon>mdi-chevron-up</v-icon>隐藏
-          </div>
-          <div v-else>
-            <v-icon>mdi-chevron-down</v-icon>显示
-          </div>
+          <div v-if="privateInfoShow"><v-icon>mdi-chevron-up</v-icon>隐藏</div>
+          <div v-else><v-icon>mdi-chevron-down</v-icon>显示</div>
         </v-btn>
       </v-subheader>
       <v-divider class="mb-2"></v-divider>
     </div>
     <div v-if="privateInfoShow">
-      <dim-form class="mt-4" keyName="profile" :formContent="privateInfoList" :target="privateInfo"></dim-form>
+      <dim-form
+        class="mt-4"
+        keyName="profile"
+        :formContent="privateInfoList"
+        :target="privateInfo"
+      ></dim-form>
       <v-layout justify-center class="pt-5">
         <v-flex xs6>
-          <v-btn block rounded depressed color="primary" @click="updatePrivateInfo()">保存</v-btn>
+          <v-btn
+            block
+            rounded
+            depressed
+            color="primary"
+            @click="updatePrivateInfo()"
+            >保存</v-btn
+          >
         </v-flex>
       </v-layout>
     </div>
@@ -68,7 +86,7 @@ import { Authorization, UserInfo, PrivateInfo } from '@/types/user';
 const userModule = namespace('user');
 
 @Component({
-  components: {},
+  components: {}
 })
 export default class Profile extends Vue {
   @userModule.Getter('userInfo') private userInfo!: any;
@@ -80,17 +98,17 @@ export default class Profile extends Vue {
       type: 'text-field',
       title: '用户名',
       name: 'username',
-      disabled: true,
+      disabled: true
     },
     {
       type: 'text-field',
       title: '昵称',
-      name: 'nickName',
+      name: 'nickName'
     },
     {
       type: 'text-field',
       title: '真实姓名',
-      name: 'name',
+      name: 'name'
     },
     {
       type: 'select',
@@ -102,40 +120,40 @@ export default class Profile extends Vue {
       list: [
         {
           value: 0,
-          title: '男',
+          title: '男'
         },
         {
           value: 1,
-          title: '女',
-        },
-      ],
+          title: '女'
+        }
+      ]
     },
     {
       type: 'text-field',
       title: '移动电话',
-      name: 'phone',
+      name: 'phone'
     },
     {
       type: 'text-field',
       title: '电子邮箱',
-      name: 'email',
-    },
+      name: 'email'
+    }
   ];
 
   private privateInfoList = [
     {
       type: 'text-field',
       title: '身份证',
-      name: 'license',
+      name: 'license'
     },
     {
       type: 'text-field',
       title: '工号',
-      name: 'workNum',
-    },
+      name: 'workNum'
+    }
   ];
 
-  private privateInfo: PrivateInfo = {};
+  private privateInfo: PrivateInfo = new PrivateInfo();
 
   private privateInfoShow: boolean = false;
 
@@ -162,5 +180,4 @@ export default class Profile extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

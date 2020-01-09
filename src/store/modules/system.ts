@@ -16,8 +16,8 @@ interface State {
 }
 
 const state: State = {
-  companyName: "DEMO",
-  systemName: "DIMStep",
+  companyName: 'DEMO',
+  systemName: 'DIMStep',
   uploadPercent: 0,
   lastPage: '',
   loading: false,
@@ -31,7 +31,7 @@ const state: State = {
       route: 'project',
       icon: 'icon/icon_project.svg',
       themeColor: '#42A5F5',
-      themeColorDark: '#6bb5f2',
+      themeColorDark: '#6bb5f2'
     },
     {
       name: '人脉',
@@ -39,7 +39,7 @@ const state: State = {
       route: 'contact',
       icon: 'icon/icon_contact.svg',
       themeColor: '#7E57C2',
-      themeColorDark: '#9b7ecc',
+      themeColorDark: '#9b7ecc'
     },
     {
       name: '表单',
@@ -47,7 +47,15 @@ const state: State = {
       route: 'sheet',
       icon: 'icon/icon_sheet.svg',
       themeColor: '#26A69A',
-      themeColorDark: '#26A69A',
+      themeColorDark: '#26A69A'
+    },
+    {
+      name: '活动',
+      nameEn: 'event',
+      route: 'event',
+      icon: 'icon/icon_event.svg',
+      themeColor: '#c7521c',
+      themeColorDark: '#c7521c'
     },
     // {
     //   name: "活动",
@@ -68,20 +76,20 @@ const state: State = {
     {
       name: '管理',
       nameEn: 'admin',
-      route: 'admin/home',
+      route: 'admin',
       icon: 'icon/icon_admin.svg',
       themeColor: '#333333',
-      themeColorDark: '#d4d4d4',
-      privilege: ['god'],
-    },
+      themeColorDark: '#c9c9c9',
+      privilege: ['god']
+    }
   ],
   invitationList: [],
   permissionList: [
     {
       text: '管理',
-      value: 'god',
-    },
-  ],
+      value: 'god'
+    }
+  ]
 };
 
 const getters = {
@@ -93,13 +101,11 @@ const getters = {
   notificationCenter: (s: State) => s.notificationCenter,
   fullScreenLoading: (s: State) => s.fullScreenLoading,
   appList: (s: State) => s.appList,
-  currentApp: (s: State) => (name: string) => {
-    console.log(name);
-    return s.appList.find((e: App) => e.nameEn === name);
-  },
+  currentApp: (s: State) => (name: string) =>
+    s.appList.find((e: App) => e.nameEn === name) || new App(),
   uploadPercent: (s: State) => s.uploadPercent,
   invitationList: (s: State) => s.invitationList,
-  permissionList: (s: State) => s.permissionList,
+  permissionList: (s: State) => s.permissionList
 };
 
 const mutations = {
@@ -123,7 +129,7 @@ const mutations = {
   },
   updateInvitationList: (s: State, invitationList: Invitation[]) => {
     s.invitationList = invitationList;
-  },
+  }
 };
 
 const actions = {};
@@ -133,5 +139,5 @@ export default {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };

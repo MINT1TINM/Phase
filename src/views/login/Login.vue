@@ -1,17 +1,27 @@
 <template>
   <v-app>
+    <app-common></app-common>
     <v-layout>
-      <v-flex class="hidden-sm-and-down" md9 style="background-color:#000"></v-flex>
+      <v-flex
+        class="hidden-sm-and-down"
+        md9
+        style="background-color:#000"
+      ></v-flex>
       <v-flex xs12 md3>
         <v-container fill-height style="padding:20px">
           <v-layout wrap align-center justify-start>
             <v-flex xs12>
-              <div class="display-1 font-weight-black mt-2 mb-4" style="color:#A64ED1">登录</div>
+              <div
+                class="display-1 font-weight-black mt-2 mb-4"
+                style="color:#A64ED1"
+              >
+                登录
+              </div>
 
               <v-form ref="loginForm">
                 <v-text-field
                   dense
-                  class="mb-3"
+                  class="mb-3 body-2"
                   hide-details
                   outlined
                   single-line
@@ -21,6 +31,7 @@
                 ></v-text-field>
                 <v-text-field
                   dense
+                  class="body-2"
                   type="password"
                   outlined
                   single-line
@@ -30,7 +41,14 @@
                   @keyup.enter="standardLogin()"
                 ></v-text-field>
               </v-form>
-              <v-btn outlined block color="primary" dark @click="standardLogin()">登录</v-btn>
+              <v-btn
+                outlined
+                block
+                color="primary"
+                dark
+                @click="standardLogin()"
+                >登录</v-btn
+              >
               <!-- <v-btn outlined class="mt-3" block color="green" dark @click="wechatLogin()">微信登录</v-btn> -->
               <v-btn class="mt-3" text color="primary">忘记密码?</v-btn>
               <!-- <v-divider class="my-3"></v-divider>
@@ -56,6 +74,10 @@ const userModule = namespace('user');
 
 @Component
 export default class Login extends Vue {
+  public $refs!: {
+    loginForm: HTMLFormElement;
+  };
+
   private loginForm = {
     username: '',
     password: ''
@@ -70,34 +92,21 @@ export default class Login extends Vue {
 
   // login through username & password
   private async standardLogin() {
-    if (
-      (this.$refs.loginForm as Vue & { validate: () => boolean }).validate()
-    ) {
+    if (this.$refs.loginForm.validate()) {
       this.toggleFullScreenLoading(true);
 
-      const rsp = await AuthService.standardLogin(
-        this.loginForm.username,
-        this.loginForm.password
-      );
+      try {
+        const authorization = await AuthService.standardLogin(
+          this.loginForm.username,
+          this.loginForm.password
+        );
+        await UserService.getUserInfo(await authorization.userID!);
+        await ProjectService.getInvitationList('', '', authorization.userID!);
 
-      switch (rsp.msg) {
-        case 'success':
-          await UserService.getUserInfo(await rsp.authorization.userID);
-          await ProjectService.getInvitationList(
-            '',
-            '',
-            this.authorization.userID
-          );
-
-          this.toggleFullScreenLoading(false);
-          this.$router.push({ path: '/home' });
-          break;
-        case 'wrongpasswd':
-          this.toggleFullScreenLoading(false);
-          break;
-        default:
-          this.toggleFullScreenLoading(false);
-          break;
+        this.toggleFullScreenLoading(false);
+        window.location.href = '/home';
+      } catch (err) {
+        this.toggleFullScreenLoading(false);
       }
     }
   }
@@ -116,5 +125,4 @@ export default class Login extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

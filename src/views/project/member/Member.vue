@@ -27,36 +27,62 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(item,i) in memberListShow" :key="`member-${i}`">
+                    <tr
+                      v-for="(item, i) in memberListShow"
+                      :key="`member-${i}`"
+                    >
                       <td class="text-center">
-                        <v-avatar color="primary" size="32" class="white--text font-weight-black">
-                          <img v-if="item.headImgURL!==``" :src="item.headImgURL | httpsfy" />
-                          <span v-else class="caption font-weight-black">{{item.nickName | avatar}}</span>
+                        <v-avatar
+                          color="primary"
+                          size="32"
+                          class="white--text font-weight-black"
+                        >
+                          <img
+                            v-if="item.headImgURL !== ``"
+                            :src="item.headImgURL | httpsfy"
+                          />
+                          <span v-else class="caption font-weight-black">{{
+                            item.nickName | avatar
+                          }}</span>
                         </v-avatar>
                       </td>
-                      <td class="font-weight-black text-center">{{ item.nickName }}</td>
-                      <td class="font-weight-black text-center">{{ item.email }}</td>
-                      <td class="font-weight-black text-center">{{ item.phone }}</td>
                       <td class="font-weight-black text-center">
-                        <v-chip
-                          class="mx-1 text-uppercase"
-                          v-if="item.projectRole.indexOf('c')!=-1"
-                        >C</v-chip>
-                        <v-chip
-                          class="mx-1 text-uppercase"
-                          v-if="item.projectRole.indexOf('r')!=-1"
-                        >R</v-chip>
-                        <v-chip
-                          class="mx-1 text-uppercase"
-                          v-if="item.projectRole.indexOf('u')!=-1"
-                        >U</v-chip>
-                        <v-chip
-                          class="mx-1 text-uppercase"
-                          v-if="item.projectRole.indexOf('d')!=-1"
-                        >D</v-chip>
+                        {{ item.nickName }}
                       </td>
                       <td class="font-weight-black text-center">
-                        <v-chip v-for="(item,i) in item.tag" :key="`tag-${i}`">{{item}}</v-chip>
+                        {{ item.email }}
+                      </td>
+                      <td class="font-weight-black text-center">
+                        {{ item.phone }}
+                      </td>
+                      <td class="font-weight-black text-center">
+                        <v-chip
+                          class="mx-1 text-uppercase"
+                          v-if="item.projectRole.indexOf('c') != -1"
+                          >C</v-chip
+                        >
+                        <v-chip
+                          class="mx-1 text-uppercase"
+                          v-if="item.projectRole.indexOf('r') != -1"
+                          >R</v-chip
+                        >
+                        <v-chip
+                          class="mx-1 text-uppercase"
+                          v-if="item.projectRole.indexOf('u') != -1"
+                          >U</v-chip
+                        >
+                        <v-chip
+                          class="mx-1 text-uppercase"
+                          v-if="item.projectRole.indexOf('d') != -1"
+                          >D</v-chip
+                        >
+                      </td>
+                      <td class="font-weight-black text-center">
+                        <v-chip
+                          v-for="(item, i) in item.tag"
+                          :key="`tag-${i}`"
+                          >{{ item }}</v-chip
+                        >
                       </td>
                       <td class="font-weight-black text-center">
                         <!-- project creator/loginuser cannot edit himself -->
@@ -65,10 +91,17 @@
                           <template v-slot:activator="{ on }">
                             <v-btn
                               small
-                              v-if="item.id!==currentProject.userID&&authorization.userID === currentProject.userID"
+                              v-if="
+                                item.id !== currentProject.userID &&
+                                  authorization.userID === currentProject.userID
+                              "
                               icon
                               v-on="on"
-                              @click="editMemberRoleDialog=true;targetMember = item;targetMember.role = item.projectRole"
+                              @click="
+                                editMemberRoleDialog = true;
+                                targetMember = item;
+                                targetMember.role = item.projectRole;
+                              "
                             >
                               <v-icon>mdi-pencil-outline</v-icon>
                             </v-btn>
@@ -78,10 +111,18 @@
 
                         <v-tooltip
                           bottom
-                          v-if="item.id!==currentProject.userID&&authorization.userID === currentProject.userID"
+                          v-if="
+                            item.id !== currentProject.userID &&
+                              authorization.userID === currentProject.userID
+                          "
                         >
                           <template v-slot:activator="{ on }">
-                            <v-btn small icon v-on="on" @click="removeMember(item.id)">
+                            <v-btn
+                              small
+                              icon
+                              v-on="on"
+                              @click="removeMember(item.id)"
+                            >
                               <v-icon>mdi-close</v-icon>
                             </v-btn>
                           </template>
@@ -95,11 +136,21 @@
                   <v-flex xs6>
                     <v-bottom-sheet v-model="addMemberDialog" inset>
                       <template v-slot:activator="{ on }">
-                        <v-btn block rounded depressed color="primary darken-1" v-on="on">
+                        <v-btn
+                          block
+                          rounded
+                          depressed
+                          color="primary darken-1"
+                          v-on="on"
+                        >
                           <v-icon size="20">mdi-plus</v-icon>&nbsp;新增成员
                         </v-btn>
                       </template>
-                      <v-sheet class="text-center" height="800px" style="overflow:auto">
+                      <v-sheet
+                        class="text-center"
+                        height="800px"
+                        style="overflow:auto"
+                      >
                         <v-container fluid style="height:100%">
                           <search-user></search-user>
                         </v-container>
@@ -110,11 +161,16 @@
                 <v-dialog v-model="editMemberRoleDialog" width="500">
                   <v-card>
                     <v-toolbar flat>
-                      <v-toolbar-title class="subtitle-1 font-weight-black">编辑权限 & 角色</v-toolbar-title>
+                      <v-toolbar-title class="subtitle-1 font-weight-black"
+                        >编辑权限 & 角色</v-toolbar-title
+                      >
                     </v-toolbar>
                     <v-container
                       fluid
-                      v-if="targetMember.id!==currentProject.userID&&authorization.userID === currentProject.userID"
+                      v-if="
+                        targetMember.id !== currentProject.userID &&
+                          authorization.userID === currentProject.userID
+                      "
                     >
                       <v-checkbox
                         v-model="targetMember.projectRole"
@@ -164,8 +220,16 @@
                           text
                           rounded
                           color="primary"
-                          @click="updateMemberRole(targetMember.id,targetMember.projectRole,targetMember.tag);editMemberRoleDialog=false"
-                        >确认</v-btn>
+                          @click="
+                            updateMemberRole(
+                              targetMember.id,
+                              targetMember.projectRole,
+                              targetMember.tag
+                            );
+                            editMemberRoleDialog = false;
+                          "
+                          >确认</v-btn
+                        >
                       </v-layout>
                     </v-card-actions>
                   </v-card>
@@ -180,9 +244,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import searchUser from '@/components/project/member/SearchUser.vue';
 import ProjectService from '@/service/projectService';
@@ -194,8 +256,8 @@ const userModule = namespace('user');
 
 @Component({
   components: {
-    'search-user': searchUser,
-  },
+    'search-user': searchUser
+  }
 })
 export default class ProjectMemberManagement extends Vue {
   @projectModule.Getter('currentProject') private currentProject: any;
@@ -205,30 +267,25 @@ export default class ProjectMemberManagement extends Vue {
   @userModule.Getter('authorization') private authorization: any;
 
   private memberList: ProjectMemberComplete[] = [];
-
   private memberListShow: ProjectMemberComplete[] = [];
-
   private searchMemberContent: string = '';
-
-  private targetMember: ProjectMember = {
-    userID: '',
-    role: [],
-    tag: [],
-  };
-
+  private targetMember: ProjectMember = new ProjectMember();
   private addMemberDialog: boolean = false;
-
   private editMemberRoleDialog: boolean = false;
 
   private async getProjectMember() {
     const rsp = await ProjectService.getProjectMember(
-      this.currentProject.member.data,
+      this.currentProject.member.data
     );
     for (const e of rsp.memberList) {
       // find user role in this particular project
-      e.projectRole = e.project.data.find((u: UserProject) => u.projectID === this.currentProject.id).role;
+      e.projectRole = e.project.data.find(
+        (u: UserProject) => u.projectID === this.currentProject.id
+      ).role;
 
-      e.tag = e.project.data.find((u: UserProject) => u.projectID === this.currentProject.id).tag;
+      e.tag = e.project.data.find(
+        (u: UserProject) => u.projectID === this.currentProject.id
+      ).tag;
     }
     this.memberList = rsp.memberList;
     this.memberListShow = this.memberList;
@@ -238,7 +295,7 @@ export default class ProjectMemberManagement extends Vue {
     const res = await this.$confirm('', {
       title: '确认移除成员?',
       buttonTrueColor: 'primary',
-      dark: this.$vuetify.theme.dark,
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await ProjectService.removeProjectMember(this.currentProject.id, userID);
@@ -254,7 +311,7 @@ export default class ProjectMemberManagement extends Vue {
       this.currentProject.id,
       userID,
       role,
-      tag,
+      tag
     );
     this.getProjectMember();
   }
@@ -266,13 +323,13 @@ export default class ProjectMemberManagement extends Vue {
       if (
         e.nickName
           .toLowerCase()
-          .indexOf(this.searchMemberContent.toLowerCase()) !== -1
+          .indexOf(this.searchMemberContent.toLowerCase()) !== -1 ||
         // serach email before .com
-        || e.email
+        e.email
           .split('.')[0]
           .toLowerCase()
-          .indexOf(this.searchMemberContent.toLowerCase()) !== -1
-        || e.phone
+          .indexOf(this.searchMemberContent.toLowerCase()) !== -1 ||
+        e.phone
           .toLowerCase()
           .indexOf(this.searchMemberContent.toLowerCase()) !== -1
       ) {

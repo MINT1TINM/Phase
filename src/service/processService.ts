@@ -9,7 +9,7 @@ class ProcessService {
   public static async createProcess(name: string, projectID: string) {
     const rsp = await basicService.postRequest('/process', {
       name,
-      projectID,
+      projectID
     });
 
     return rsp;
@@ -17,14 +17,14 @@ class ProcessService {
 
   public static async deleteProcess(processID: string) {
     const rsp = await basicService.deleteRequest('/process', {
-      processID,
+      processID
     });
     return rsp;
   }
 
   public static async getProcessList(projectID: string) {
     const rsp = await basicService.getRequest('/process/list', {
-      projectID,
+      projectID
     });
     store.commit('process/updateCurrentProcessList', rsp.processList);
     return rsp;
@@ -32,7 +32,7 @@ class ProcessService {
 
   public static async getProcessInfo(processID: string) {
     const rsp = await basicService.getRequest('/process/info', {
-      id: processID,
+      id: processID
     });
 
     return rsp;
@@ -40,23 +40,23 @@ class ProcessService {
 
   public static async updateProcessInfo(
     processID: string,
-    processInfo: Process,
+    processInfo: Process
   ) {
     const rsp = await basicService.putRequest('/process/info', {
       processID,
       name: processInfo.name,
-      description: processInfo.description,
+      description: processInfo.description
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }
 
   public static async updateProcessMember(
     processID: string,
-    member: ProcessMember[],
+    member: ProcessMember[]
   ) {
     const memberParams = [];
     for (const m of member) {
@@ -64,7 +64,7 @@ class ProcessService {
     }
     const rsp = await basicService.putRequest('/process/member', {
       processID,
-      member: memberParams,
+      member: memberParams
     });
     return rsp;
   }

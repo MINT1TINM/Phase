@@ -5,41 +5,17 @@ interface State {
 }
 
 const state: State = {
-  currentTask: {
-    id: '',
-    name: '',
-    description: '',
-    startDate: '',
-    endDate: '',
-    actionStartDate: '',
-    actionEndDate: '',
-    status: false,
-    tags: {
-      data: [],
-    },
-    member: {
-      data: [],
-    },
-    subTask: {
-      data: [],
-    },
-    sheet: {
-      data: [],
-    },
-    userID: '',
-    processID: '',
-    executorID: '',
-  },
+  currentTask: new Task()
 };
 
 const getters = {
-  currentTask: (s: State) => s.currentTask,
+  currentTask: (s: State) => s.currentTask
 };
 
 const mutations = {
   updateCurrentTask: (s: State, task: Task) => {
     s.currentTask = task;
-  },
+  }
 };
 
 const actions = {};
@@ -49,5 +25,5 @@ export default {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };

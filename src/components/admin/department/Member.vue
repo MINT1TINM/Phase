@@ -2,8 +2,8 @@
   <div style="height:calc(100vh - 48px); overflow:auto">
     <v-toolbar color="transparent" dense>
       <v-spacer></v-spacer>
-      <v-toolbar-items v-if="$route.params.departmentID!==`root`">
-        <v-btn text @click="insertMemberDialog=true">
+      <v-toolbar-items v-if="$route.params.departmentID !== `root`">
+        <v-btn text @click="insertMemberDialog = true">
           <v-icon size="20">mdi-plus</v-icon>&nbsp;成员
         </v-btn>
       </v-toolbar-items>
@@ -19,11 +19,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item,i) in departmentMemberList" :key="`member-${i}`">
+          <tr v-for="(item, i) in departmentMemberList" :key="`member-${i}`">
             <td class="caption text-left">{{ item.userID }}</td>
             <td class="caption text-left">{{ item.nickName }}</td>
             <td class="text-left">
-              <v-btn icon color="error" @click="removeDepartmentMember(item.userID)">
+              <v-btn
+                icon
+                color="error"
+                @click="removeDepartmentMember(item.userID)"
+              >
                 <v-icon size="20">mdi-close</v-icon>
               </v-btn>
             </td>
@@ -35,9 +39,11 @@
     <v-dialog persistent width="500" v-model="insertMemberDialog">
       <v-card>
         <v-toolbar flat dense class="transparent">
-          <v-toolbar-title class="subtitle-1 font-weight-black">新增成员</v-toolbar-title>
+          <v-toolbar-title class="subtitle-1 font-weight-black"
+            >新增成员</v-toolbar-title
+          >
           <v-spacer></v-spacer>
-          <v-btn icon @click="insertMemberDialog=false">
+          <v-btn icon @click="insertMemberDialog = false">
             <v-icon size="20">mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
@@ -76,9 +82,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import AdminService from '@/service/adminService';
 import { DepartmentMember } from '@/types/company';
 import UserService from '@/service/userService';
@@ -117,9 +121,10 @@ export default class DepartmentMemberManage extends Vue {
     this.loading = true;
     // Simulated ajax query
     const rsp = await UserService.searchUser(v);
-    this.userList = rsp.user.filter((e: UserInfo) => (
-      (e.nickName || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
-    ));
+    this.userList = rsp.user.filter(
+      (e: UserInfo) =>
+        (e.nickName || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+    );
     console.log(this.userList);
     this.loading = false;
   }
@@ -138,7 +143,10 @@ export default class DepartmentMemberManage extends Vue {
 
   private get userListShow() {
     console.log(this.userList);
-    return this.userList.filter((e: DepartmentMember) => this.selectedNickNameList.indexOf(e.nickName.toLowerCase()) === -1);
+    return this.userList.filter(
+      (e: DepartmentMember) =>
+        this.selectedNickNameList.indexOf(e.nickName.toLowerCase()) === -1
+    );
   }
 
   @Watch('currentDepartmentID')
@@ -160,5 +168,4 @@ export default class DepartmentMemberManage extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

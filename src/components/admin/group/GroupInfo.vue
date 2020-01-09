@@ -12,7 +12,10 @@
       <v-container fluid>
         <v-subheader class="subtitle-2 pl-1 mb-0">基本信息</v-subheader>
         <v-form ref="groupInfoForm">
-          <dim-form :formContent="groupInfoContent" :target="groupInfo"></dim-form>
+          <dim-form
+            :formContent="groupInfoContent"
+            :target="groupInfo"
+          ></dim-form>
         </v-form>
         <v-subheader class="subtitle-2 pl-1 mb-0">群组成员</v-subheader>
         <v-card outlined flat>
@@ -56,12 +59,19 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item,i) in groupInfo.member.data" :key="`member-${i}`">
+                <tr
+                  v-for="(item, i) in groupInfo.member.data"
+                  :key="`member-${i}`"
+                >
                   <td class="caption text-left">{{ item.userID }}</td>
                   <td class="caption text-left">{{ item.nickName }}</td>
                   <!-- <td class="caption text-left">{{ item.tags }}</td> -->
                   <td class="text-left">
-                    <v-btn icon color="error" @click="deleteGroupUser(item.userID)">
+                    <v-btn
+                      icon
+                      color="error"
+                      @click="deleteGroupUser(item.userID)"
+                    >
                       <v-icon size="20">mdi-close</v-icon>
                     </v-btn>
                   </td>
@@ -76,9 +86,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import AdminService from '@/service/adminService';
 import { Group, GroupMember } from '@/types/company';
 import UserService from '@/service/userService';
@@ -93,9 +101,9 @@ export default class AdminGroupInfo extends Vue {
     name: '',
     description: '',
     member: {
-      data: [],
+      data: []
     },
-    createdAt: '',
+    createdAt: ''
   };
 
   private loading = false;
@@ -110,13 +118,13 @@ export default class AdminGroupInfo extends Vue {
     {
       type: 'text-field',
       title: '群组名称',
-      name: 'name',
+      name: 'name'
     },
     {
       type: 'text-area',
       title: '简介',
-      name: 'description',
-    },
+      name: 'description'
+    }
   ];
 
   private async updateGroupInfo() {
@@ -128,9 +136,10 @@ export default class AdminGroupInfo extends Vue {
     this.loading = true;
     // Simulated ajax query
     const rsp = await UserService.searchUser(v);
-    this.userList = rsp.user.filter((e: UserInfo) => (
-      (e.nickName || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
-    ));
+    this.userList = rsp.user.filter(
+      (e: UserInfo) =>
+        (e.nickName || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+    );
     console.log(this.userList);
     this.loading = false;
   }
@@ -146,7 +155,7 @@ export default class AdminGroupInfo extends Vue {
     const res = await this.$confirm('此操作无法还原', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
-      dark: this.$vuetify.theme.dark,
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       await AdminService.deleteGroupMember(this.groupID, userID);
@@ -163,7 +172,10 @@ export default class AdminGroupInfo extends Vue {
   }
 
   private get userListShow() {
-    return this.userList.filter((e: GroupMember) => this.selectedNickNameList.indexOf(e.nickName.toLowerCase()) === -1);
+    return this.userList.filter(
+      (e: GroupMember) =>
+        this.selectedNickNameList.indexOf(e.nickName.toLowerCase()) === -1
+    );
   }
 
   private async getGroupInfo() {

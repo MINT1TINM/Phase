@@ -15,7 +15,11 @@
           class="mt-3"
           label="搜索模版"
         ></v-text-field>
-        <v-simple-table v-if="templateList.length>=1" height="400" style="overflow-y:auto">
+        <v-simple-table
+          v-if="templateList.length >= 1"
+          height="400"
+          style="overflow-y:auto"
+        >
           <thead>
             <tr>
               <th class="text-center">名称</th>
@@ -25,14 +29,21 @@
           </thead>
           <tbody>
             <tr
-              v-for="(item,i) in templateList"
+              v-for="(item, i) in templateList"
               :key="`template-${i}`"
-              :style="item.alreadyMember?`color:grey`:''"
+              :style="item.alreadyMember ? `color:grey` : ''"
             >
               <td class="text-center">{{ item.name }}</td>
-              <td class="text-center">{{ item.createdAt | format("yyyy-MM-dd") }}</td>
               <td class="text-center">
-                <v-btn @click="createSheet(item.id,item.type)" icon rounded color="primary">
+                {{ item.createdAt | format('yyyy-MM-dd') }}
+              </td>
+              <td class="text-center">
+                <v-btn
+                  @click="createSheet(item.id, item.type)"
+                  icon
+                  rounded
+                  color="primary"
+                >
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
               </td>
@@ -45,9 +56,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { Template } from '@/types/sheet';
 import SheetService from '@/service/sheetService';
@@ -75,7 +84,7 @@ export default class CreateSheet extends Vue {
     this.searching = true;
     const rsp = await SheetService.getSheetTemplateList(
       this.searchTemplateContent,
-      '',
+      ''
     );
     this.templateList = rsp.template;
     this.searching = false;
@@ -88,7 +97,7 @@ export default class CreateSheet extends Vue {
       templateID,
       type,
       this.taskID || '',
-      this.target || '',
+      this.target || ''
     );
     await SheetService.getSheetList(this.currentProjectID);
     this.$emit('closeDialog');
@@ -110,5 +119,4 @@ export default class CreateSheet extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

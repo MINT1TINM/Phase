@@ -4,7 +4,9 @@
 
     <v-layout justify-center class="py-3">
       <v-flex xs6>
-        <v-btn block rounded depressed color="error" @click="deleteTask">删除任务</v-btn>
+        <v-btn block rounded depressed color="error" @click="deleteTask"
+          >删除任务</v-btn
+        >
       </v-flex>
     </v-layout>
   </v-card>
@@ -30,7 +32,7 @@ export default class TaskOperations extends Vue {
     const res = await this.$confirm('此操作无法复原', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
-      dark: this.$vuetify.theme.dark,
+      dark: this.$vuetify.theme.dark
     });
     if (res) {
       const { taskID } = this.$route.params;
@@ -40,7 +42,7 @@ export default class TaskOperations extends Vue {
       this.updateCurrentProcessList(rsp.process);
 
       this.$router.push({
-        path: `/project/process/${this.$route.params.processID}/task`,
+        path: `/process/${this.$route.params.processID}/task`
       });
     }
   }

@@ -1,62 +1,77 @@
 <template>
-  <v-app>
-    <app-bar></app-bar>
+  <div>
+    <v-app-bar
+      dense
+      fixed
+      dark
+      color="primary darken-1"
+      style="margin-top:48px"
+    >
+      <v-layout>
+        <v-flex xs6>
+          <v-layout>
+            <v-select
+              solo-inverted
+              flat
+              dense
+              class="body-2"
+              single-line
+              hide-details
+              :items="keyList"
+              v-model="currentKey"
+              item-text="text"
+              item-value="value"
+            ></v-select>
+            <v-autocomplete
+              v-model="select"
+              dense
+              :loading="loading"
+              :items="result"
+              :search-input.sync="search"
+              cache-items
+              class="mx-1 body-2"
+              flat
+              hide-no-data
+              single-line
+              hide-details
+              label="搜索项目"
+              solo-inverted
+              item-text="name"
+              item-value="name"
+              @keyup.enter="searchProject(search)"
+              append-outer-icon="mdi-magnify"
+              @click:append-outer="searchProject(search)"
+              @click:row="showDetail"
+            ></v-autocomplete>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+      <v-btn outlined rounded small @click="exportResult">
+        <v-icon size="15">mdi-export-variant</v-icon>&nbsp;导出结果
+      </v-btn>
+    </v-app-bar>
     <v-content>
-      <v-app-bar dense app fixed dark color="primary darken-1" style="margin-top:48px">
-        <v-layout>
-          <v-flex xs6>
-            <v-layout>
-              <v-select
-                solo-inverted
-                flat
-                dense
-                class="body-2"
-                single-line
-                hide-details
-                :items="keyList"
-                v-model="currentKey"
-                item-text="text"
-                item-value="value"
-              ></v-select>
-              <v-autocomplete
-                v-model="select"
-                dense
-                :loading="loading"
-                :items="result"
-                :search-input.sync="search"
-                cache-items
-                class="mx-1 body-2"
-                flat
-                hide-no-data
-                single-line
-                hide-details
-                label="搜索项目"
-                solo-inverted
-                item-text="name"
-                item-value="name"
-                @keyup.enter="searchProject(search)"
-                append-outer-icon="mdi-magnify"
-                @click:append-outer="searchProject(search)"
-                @click:row="showDetail"
-              ></v-autocomplete>
-            </v-layout>
-          </v-flex>
-        </v-layout>
-        <v-btn outlined rounded small @click="exportResult">
-          <v-icon size="15">mdi-export-variant</v-icon>&nbsp;导出结果
-        </v-btn>
-      </v-app-bar>
       <transition appear appear-active-class="fade-left-enter">
-        <v-simple-table height="calc(100vh - 96px)" fixed-header class="transparent">
+        <v-simple-table
+          height="calc(100vh - 96px)"
+          fixed-header
+          class="transparent"
+        >
           <template v-slot:default>
             <thead>
               <tr>
-                <th v-for="(item,i) in headers" :key="`head-${i}`" class="text-left">{{item}}</th>
+                <th
+                  v-for="(item, i) in headers"
+                  :key="`head-${i}`"
+                  class="text-left"
+                >
+                  {{ item }}
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr
-                v-for="(item,i) in searchProjectResult"
+                v-for="(item, i) in searchProjectResult"
                 :key="`project-${i}`"
                 @click="showDetail(item)"
               >
@@ -71,13 +86,11 @@
         </v-simple-table>
       </transition>
     </v-content>
-  </v-app>
+  </div>
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import FinanceService from '@/service/financeService';
 import { AuditProject } from '@/types/finance';
@@ -96,7 +109,7 @@ export default class Certifcate extends Vue {
   private keyList = [
     { text: '项目名称', value: 'NAME' },
     { text: '项目代码', value: 'CODE' },
-    { text: '负责人工号', value: 'CHARGE_SNO' },
+    { text: '负责人工号', value: 'CHARGE_SNO' }
   ];
 
   private currentKey = 'NAME';
@@ -114,7 +127,7 @@ export default class Certifcate extends Vue {
     '项目名称',
     '负责人',
     '负责人工号',
-    '项目余额',
+    '项目余额'
   ];
 
   private async querySelections(v: string) {
@@ -125,7 +138,7 @@ export default class Certifcate extends Vue {
       this.search,
       undefined,
       undefined,
-      true,
+      true
     );
     this.result = rsp.project;
     this.loading = false;
@@ -142,23 +155,27 @@ export default class Certifcate extends Vue {
       head.push(field);
     }
 
-    const data: AuditProject[] = [];
+    const data: any[] = [];
     for (const item of this.searchProjectResult) {
-      data.push({
-        code: item.code,
-        name: item.name,
-        chargeName: item.chargeName,
-        chargeSno: item.chargeSno,
-        balance: item.balance,
-      });
+      data.push([
+        item.code,
+        item.name,
+        item.chargeName,
+        item.chargeSno,
+        item.balance
+      ]);
     }
 
     const rsp = await ToolkitService.exportListToXlsx(head, data);
+    window.open(
+      `/api/file/download?sName=${rsp.fileName}&type=export`,
+      '_blank'
+    );
   }
 
   private showDetail(item: AuditProject) {
     this.$router.push({
-      path: `/finance/project/${item.code}/${item.chargeSno}`,
+      path: `/project/${item.code}/${item.chargeSno}`
     });
     this.updateCurrentProject(item);
   }
@@ -170,5 +187,4 @@ export default class Certifcate extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

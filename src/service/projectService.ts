@@ -9,7 +9,7 @@ const vue = new Vue();
 class ProjectService {
   public static async createProject(name: string) {
     const rsp = await basicService.postRequest('/project', {
-      name,
+      name
     });
 
     return rsp;
@@ -19,7 +19,7 @@ class ProjectService {
     if (store.getters['user/projectIDList'].length >= 1) {
       const rsp = await basicService.getRequest('/project/list', {
         // use array as params
-        id: store.getters['user/projectIDList'],
+        id: store.getters['user/projectIDList']
       });
       store.commit('project/updateProjectList', rsp.projectList);
 
@@ -27,7 +27,7 @@ class ProjectService {
     }
     const rsp = {
       msg: 'success',
-      projectList: [],
+      projectList: []
     };
 
     return rsp;
@@ -41,7 +41,7 @@ class ProjectService {
     }
 
     const rsp = await basicService.getRequest('/project/member', {
-      id: memberIDList,
+      id: memberIDList
     });
     return rsp;
   }
@@ -54,11 +54,12 @@ class ProjectService {
       startDate: projectInfo.startDate,
       endDate: projectInfo.endDate,
       actionDate: projectInfo.actionDate,
+      extraInfo: projectInfo.extraInfo
     });
     store.commit('project/updateCurrentProject', rsp.project);
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }
@@ -66,11 +67,11 @@ class ProjectService {
   public static async removeProjectMember(projectID: string, userID: string) {
     const rsp = await basicService.putRequest('/project/member', {
       projectID,
-      userID,
+      userID
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('已移除成员');
+      vue.$snack('已移除成员');
     }
     return rsp;
   }
@@ -79,18 +80,18 @@ class ProjectService {
     projectID: string,
     userID: string,
     role: [],
-    tag: [],
+    tag: []
   ) {
     const rsp = await basicService.putRequest('/project/memberrole', {
       projectID,
       userID,
       role,
-      tag,
+      tag
     });
 
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }
@@ -108,16 +109,16 @@ class ProjectService {
   public static async submitInvitation(
     projectID: string,
     fromUserID: string,
-    toUserID: string,
+    toUserID: string
   ) {
     const rsp = await basicService.postRequest('/project/invitation', {
       fromUserID,
       toUserID,
-      projectID,
+      projectID
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('已发送邀请');
+      vue.$snack('已发送邀请');
     }
     return rsp;
   }
@@ -125,12 +126,12 @@ class ProjectService {
   public static async getInvitationList(
     projectID: string,
     fromUserID: string,
-    toUserID: string,
+    toUserID: string
   ) {
     const rsp = await basicService.getRequest('/project/invitation', {
       fromUserID,
       toUserID,
-      projectID,
+      projectID
     });
     store.commit('system/updateInvitationList', rsp.invitation);
     return rsp;
@@ -138,11 +139,11 @@ class ProjectService {
 
   public static async updateInvitationStatus(
     invitationID: string,
-    status: number,
+    status: number
   ) {
     const rsp = await basicService.putRequest('/project/invitation', {
       invitationID,
-      status,
+      status
     });
     return rsp;
   }
@@ -150,25 +151,25 @@ class ProjectService {
   public static async saveToTemplate(projectID: string, name: string) {
     const rsp = await basicService.postRequest('/project/template', {
       projectID,
-      name,
+      name
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('保存成功');
+      vue.$snack('保存成功');
     }
     return rsp;
   }
 
   public static async getProjectTemplateList(userID: string) {
     const rsp = await basicService.getRequest('/project/template/list', {
-      userID,
+      userID
     });
     return rsp;
   }
 
   public static async getTemplateInfo(templateID: string) {
     const rsp = await basicService.getRequest('/project/template', {
-      templateID,
+      templateID
     });
     return rsp;
   }
@@ -176,14 +177,14 @@ class ProjectService {
   public static async generateProject(name: string, templateID: string) {
     const rsp = await basicService.postRequest('/project/structure', {
       templateID,
-      name,
+      name
     });
     return rsp;
   }
 
   public static async deleteProject(projectID: string) {
     const rsp = await basicService.deleteRequest('/project', {
-      projectID,
+      projectID
     });
     return rsp;
   }

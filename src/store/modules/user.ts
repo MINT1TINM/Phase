@@ -6,25 +6,8 @@ interface State {
 }
 
 const state: State = {
-  authorization: {
-    access_token: '',
-    refresh_token: '',
-    token: '',
-    userID: '',
-  },
-  userInfo: {
-    city: '',
-    country: '',
-    headImgURL: '',
-    nickName: '',
-    openid: '',
-    privilege: [],
-    project: { data: [] },
-    province: '',
-    sex: '',
-    unionid: '',
-    applicationList: [],
-  },
+  authorization: new Authorization(),
+  userInfo: new UserInfo()
 };
 
 const getters = {
@@ -42,7 +25,7 @@ const getters = {
     return projectIDList;
   },
   privilege: (s: State) => s.userInfo.privilege,
-  isGod: (s: State) => s.userInfo.privilege.indexOf('god') !== -1,
+  isGod: (s: State) => s.userInfo.privilege.indexOf('god') !== -1
 };
 
 const mutations = {
@@ -56,27 +39,16 @@ const mutations = {
     s.userInfo.project.data = [];
   },
   clearUserInfo: (s: State) => {
-    s.userInfo = {
-      city: '',
-      country: '',
-      headImgURL: '',
-      nickName: '',
-      openid: '',
-      privilege: [],
-      project: { data: [] },
-      province: '',
-      sex: '',
-      unionid: '',
-    };
+    s.userInfo = new UserInfo();
   },
   clearAuthorization: (s: State) => {
     s.authorization = {
       access_token: '',
       refresh_token: '',
       token: '',
-      userID: '',
+      userID: ''
     };
-  },
+  }
 };
 
 const actions = {};
@@ -86,5 +58,5 @@ export default {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };

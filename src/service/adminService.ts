@@ -7,11 +7,11 @@ const vue = new Vue() as any;
 class AdminService {
   public static async createGroup(name: string) {
     const rsp = await BasicService.postRequest('/company/group', {
-      name,
+      name
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('创建成功');
+      vue.$snack('创建成功');
     }
     return rsp;
   }
@@ -23,7 +23,7 @@ class AdminService {
 
   public static async getGroupInfo(id: string) {
     const rsp = await BasicService.getRequest('/company/group/info', {
-      id,
+      id
     });
     return rsp;
   }
@@ -32,11 +32,11 @@ class AdminService {
     const rsp = await BasicService.putRequest('/company/group', {
       groupID,
       name: groupInfo.name,
-      description: groupInfo.description,
+      description: groupInfo.description
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }
@@ -44,11 +44,11 @@ class AdminService {
   public static async insertGroupMember(groupID: string, userID: string) {
     const rsp = await BasicService.postRequest('/company/group/member', {
       groupID,
-      userID,
+      userID
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }
@@ -56,22 +56,22 @@ class AdminService {
   public static async deleteGroupMember(groupID: string, userID: string) {
     const rsp = await BasicService.deleteRequest('/company/group/member', {
       groupID,
-      userID,
+      userID
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('删除成功');
+      vue.$snack('删除成功');
     }
     return rsp;
   }
 
   public static async updateDepartmentTree(department: any) {
     const rsp = await BasicService.putRequest('/company/department/tree', {
-      department,
+      department
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }
@@ -83,37 +83,37 @@ class AdminService {
 
   public static async getDepartment(departmentID: string) {
     const rsp = await BasicService.getRequest('/company/department', {
-      departmentID,
+      departmentID
     });
     return rsp;
   }
 
   public static async insertDepartmentMember(
     departmentID: string,
-    userID: string,
+    userID: string
   ) {
     const rsp = await BasicService.postRequest('/company/department/member', {
       departmentID,
-      userID,
+      userID
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }
 
   public static async removeDepartmentMember(
     departmentID: string,
-    userID: string,
+    userID: string
   ) {
     const rsp = await BasicService.deleteRequest('/company/department/member', {
       departmentID,
-      userID,
+      userID
     });
     if (rsp.msg === 'success') {
       // @ts-ignore
-      vue.$snackbar.show('删除成功');
+      vue.$snack('删除成功');
     }
     return rsp;
   }

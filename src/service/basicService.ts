@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import Vue from 'vue';
-import router from '@/router/router';
 import store from '@/store/store';
 
 const vue = new Vue() as any;
@@ -15,12 +14,11 @@ class BasicService {
     if (rsp.response) {
       console.log(rsp.response.status);
       if (rsp.response.status === 402) {
-        // @ts-ignore
-        vue.$snackbar.show('令牌过期，请重新登录');
+        vue.$snack('令牌过期，请重新登录');
 
         store.commit('user/clearAuthorization');
         store.commit('system/toggleFullScreenLoading', false);
-        router.push({ path: '/login' });
+        window.location.href = '/login';
       }
     }
     // err => no data
@@ -31,7 +29,7 @@ class BasicService {
     store.commit('system/toggleLoading', true);
     try {
       const rsp = await axios.get(`/api${url}`, {
-        params,
+        params
       });
       const json = rsp.data;
       const msg = { url, params, rsp: json };
@@ -52,14 +50,15 @@ class BasicService {
         onUploadProgress: (progressEvent: any) => {
           const totalLength = progressEvent.lengthComputable
             ? progressEvent.total
-            : progressEvent.target.getResponseHeader('content-length')
-            || progressEvent.target.getResponseHeader(
-              'x-decompressed-content-length',
-            );
+            : progressEvent.target.getResponseHeader('content-length') ||
+              progressEvent.target.getResponseHeader(
+                'x-decompressed-content-length'
+              );
 
-          const complete = `${(progressEvent.loaded / totalLength) * 100 || 0}%`;
+          const complete = `${(progressEvent.loaded / totalLength) * 100 ||
+            0}%`;
           store.commit('system/updateUploadPercent', progressEvent.loaded);
-        },
+        }
       };
       const rsp = await axios.post(`/api${url}`, params, config);
       const json = rsp.data;
@@ -92,7 +91,7 @@ class BasicService {
     store.commit('system/toggleLoading', true);
     try {
       const rsp = await axios.delete(`/api${url}`, {
-        params,
+        params
       });
       const json = rsp.data;
       const msg = { url, params, rsp: json };

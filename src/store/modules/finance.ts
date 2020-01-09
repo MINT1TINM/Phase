@@ -13,25 +13,25 @@ const state: State = {
     chargeName: '',
     chargeSno: '',
     balance: 0,
-    balanceSyear: '',
-  },
+    balanceSyear: ''
+  }
 };
 
 const getters = {
   searchProjectResult: (s: State) => s.searchProjectResult,
-  currentProject: (s: State) => s.currentProject,
+  currentProject: (s: State) => s.currentProject
 };
 
 const mutations = {
   updateSearchProjectResult: (
     s: State,
-    searchProjectResult: AuditProject[],
+    searchProjectResult: AuditProject[]
   ) => {
     s.searchProjectResult = searchProjectResult;
   },
   updateCurrentProject(s: State, project: AuditProject) {
     s.currentProject = project;
-  },
+  }
 };
 
 const actions = {};
@@ -41,5 +41,5 @@ export default {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };

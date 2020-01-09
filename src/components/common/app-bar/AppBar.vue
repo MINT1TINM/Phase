@@ -31,28 +31,46 @@
         class="font-weight-black text-none subtitle-1 px-2"
         color="primary"
         @click="goHome"
-      >{{systemName}}</v-btn>
+        >{{ systemName }}</v-btn
+      >
     </v-toolbar-items>
     <v-divider vertical inset></v-divider>
 
     <!-- current app  -->
-    <v-toolbar-items text class="ml-2" v-if="currentRoute!==`home`">
+    <v-toolbar-items
+      text
+      class="ml-2"
+      v-if="currentRoute !== `home` && currentApp"
+    >
       <template>
-        <v-btn style="padding:0 5px" text @click="toCurrentAppHome">{{currentApp.name}}</v-btn>
+        <v-btn style="padding:0 5px" text @click="toCurrentAppHome">{{
+          currentApp.name
+        }}</v-btn>
       </template>
     </v-toolbar-items>
 
-    <project-bar v-if="currentApp.nameEn==='project'"></project-bar>
-    <finance-bar v-if="currentApp.nameEn==='finance'"></finance-bar>
+    <project-bar
+      v-if="currentApp && currentApp.nameEn === 'project'"
+    ></project-bar>
+    <finance-bar
+      v-if="currentApp && currentApp.nameEn === 'finance'"
+    ></finance-bar>
+    <audit-bar v-if="currentApp && currentApp.nameEn === 'audit'"></audit-bar>
+    <ticket-bar
+      v-if="currentApp && currentApp.nameEn === 'ticket'"
+    ></ticket-bar>
 
     <v-spacer></v-spacer>
     <v-divider vertical inset></v-divider>
     <!-- notification center -->
 
-    <v-badge overlap style="height:100%">
-      <template v-if="invitationList.length>=1" v-slot:badge class="caption">
-        <small>{{invitationList.length}}</small>
-      </template>
+    <v-badge
+      overlap
+      color="primary darken-1"
+      style="height:100%"
+      :content="invitationList.length"
+      :value="invitationList.length"
+    >
       <v-toolbar-items>
         <v-btn text class="app-bar-btn" @click="toggleNotificationCenter(true)">
           <v-icon size="20">mdi-bell-outline</v-icon>
@@ -66,9 +84,16 @@
         <v-toolbar-items style="margin-right:-20px">
           <v-btn class="app-bar-btn" text v-on="on">
             <v-avatar color="primary darken-2" size="32">
-              <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
-              <span v-else-if="userInfo.nickname" class="white--text">{{nickName | avatar}}</span>
-              <span v-else class="white--text">{{userInfo.username | avatar}}</span>
+              <img
+                v-if="userInfo.headImgURL"
+                :src="userInfo.headImgURL | httpsfy"
+              />
+              <span v-else-if="userInfo.nickname" class="white--text">{{
+                nickName | avatar
+              }}</span>
+              <span v-else class="white--text">{{
+                userInfo.username | avatar
+              }}</span>
             </v-avatar>
           </v-btn>
         </v-toolbar-items>
@@ -77,17 +102,23 @@
         <v-list-item class="pb-2">
           <v-list-item-avatar color="primary">
             <v-avatar color="primary darken-2" size="36">
-              <img v-if="userInfo.headImgURL" :src="userInfo.headImgURL | httpsfy" />
+              <img
+                v-if="userInfo.headImgURL"
+                :src="userInfo.headImgURL | httpsfy"
+              />
               <span
                 v-else-if="userInfo.nickname"
                 class="white--text text-uppercase"
-              >{{nickName | avatar}}</span>
-              <span v-else class="white--text text-uppercase">{{userInfo.username | avatar}}</span>
+                >{{ nickName | avatar }}</span
+              >
+              <span v-else class="white--text text-uppercase">{{
+                userInfo.username | avatar
+              }}</span>
             </v-avatar>
           </v-list-item-avatar>
           <v-list-item-title>
-            <div v-if="userInfo.nickName">{{userInfo.nickName}}</div>
-            <div v-else>{{userInfo.username}}</div>
+            <div v-if="userInfo.nickName">{{ userInfo.nickName }}</div>
+            <div v-else>{{ userInfo.username }}</div>
           </v-list-item-title>
         </v-list-item>
         <v-divider></v-divider>
@@ -97,9 +128,11 @@
           @click="userMenuActions(i)"
         >
           <v-list-item-avatar>
-            <v-icon size="25">{{item.icon}}</v-icon>
+            <v-icon size="25">{{ item.icon }}</v-icon>
           </v-list-item-avatar>
-          <v-list-item-title class="text-uppercase">{{ item.title }}</v-list-item-title>
+          <v-list-item-title class="text-uppercase">{{
+            item.title
+          }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -112,7 +145,10 @@ import Component from 'vue-class-component';
 import { namespace } from 'vuex-class';
 import projectBar from './modules/ProjectBar.vue';
 import financeBar from './modules/FinanceBar.vue';
+import auditBar from './modules/AuditBar.vue';
+import ticketBar from './modules/TicketBar.vue';
 import { Invitation } from '@/types/project';
+import { App } from '@/types/system';
 
 const userModule = namespace('user');
 const systemModule = namespace('system');
@@ -120,7 +156,9 @@ const systemModule = namespace('system');
 @Component({
   components: {
     'project-bar': projectBar,
-    'finance-bar': financeBar
+    'finance-bar': financeBar,
+    'audit-bar': auditBar,
+    'ticket-bar': ticketBar
   }
 })
 export default class AppBar extends Vue {
@@ -155,14 +193,15 @@ export default class AppBar extends Vue {
 
   @systemModule.Mutation('updateLastPage') private updateLastPage: any;
 
-  @systemModule.Getter('appList') private appList: any;
+  @systemModule.Getter('appList') private appList!: App[];
 
   private async userMenuActions(num: number) {
     switch (num) {
       case 0:
         // setting
-        this.updateLastPage(this.$route.fullPath);
-        this.$router.push({ path: '/settings/profile' });
+        // this.updateLastPage(this.$route.fullPath);
+        // this.$router.push({ path: '/settings/profile' });
+        window.location.href = '/settings';
         break;
       case 1:
         // exit
@@ -177,20 +216,18 @@ export default class AppBar extends Vue {
           this.clearAuthorization();
           this.clearUserInfo();
 
-          this.$router.push({ path: '/' });
+          window.location.href = '/login';
         }
-
-        // this.$router.push({ path: "/" });
         break;
     }
   }
 
   private toCurrentAppHome() {
-    this.$router.push({ path: `/${this.currentApp.route}` });
+    this.$router.push({ path: '/' });
   }
 
   private goHome() {
-    this.$router.push({ path: '/home' });
+    window.location.href = '/home';
   }
 
   get nickName() {
@@ -198,7 +235,7 @@ export default class AppBar extends Vue {
   }
 
   get currentRoute() {
-    return this.$route.fullPath.split('/')[1];
+    return window.location.pathname.split('/')[1];
   }
 
   get currentApp() {
@@ -207,11 +244,7 @@ export default class AppBar extends Vue {
         (e: any) => this.currentRoute === e.route.split('/')[0]
       );
     }
-    return '';
-  }
-
-  private mounted() {
-    console.log(this.currentApp);
+    return undefined;
   }
 }
 </script>

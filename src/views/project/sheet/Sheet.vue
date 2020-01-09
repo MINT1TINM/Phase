@@ -3,21 +3,29 @@
     <v-toolbar dense>
       <v-tabs v-model="currentType">
         <v-tab href="#全部">全部</v-tab>
-        <v-tab :href="`#${item}`" v-for="(item,i) in typeList" :key="`t-${i}`">{{item}}</v-tab>
+        <v-tab
+          :href="`#${item}`"
+          v-for="(item, i) in typeList"
+          :key="`t-${i}`"
+          >{{ item }}</v-tab
+        >
       </v-tabs>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text @click="createSheetDialog=true">
+        <v-btn text @click="createSheetDialog = true">
           <v-icon size="20">mdi-plus</v-icon>&nbsp;新建表单
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
-    <v-container fluid style="height:calc(100vh - 98px);padding:0;overflow-y:auto">
-      <v-layout fill-height v-if="sheetList.length>=1">
+    <v-container
+      fluid
+      style="height:calc(100vh - 98px);padding:0;overflow-y:auto"
+    >
+      <v-layout fill-height v-if="sheetList.length >= 1">
         <transition appear appear-active-class="fade-up-enter">
           <!-- sheet list -->
-          <v-flex :class="currentProjectID&&currentSheetID?`xs9`:`xs12`">
+          <v-flex :class="currentProjectID && currentSheetID ? `xs9` : `xs12`">
             <v-simple-table class="transparent">
               <thead>
                 <tr>
@@ -30,28 +38,49 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="(item,i) in sheetListShow"
+                  v-for="(item, i) in sheetListShow"
                   :key="`sheet-${i}`"
-                  @click="currentSheetID = item.id;currentTemplateID = item.templateID"
-                  :style="currentSheetID === item.id?`background-color:#efefef36`:``"
+                  @click="
+                    currentSheetID = item.id;
+                    currentTemplateID = item.templateID;
+                  "
+                  :style="
+                    currentSheetID === item.id
+                      ? `background-color:#efefef36`
+                      : ``
+                  "
                 >
                   <td class="text-center">{{ item.name }}</td>
-                  <td class="text-center">{{ item.createdAt | format("yyyy-MM-dd hh:mm") }}</td>
-                  <td class="text-center">{{ item.updatedAt | format("yyyy-MM-dd hh:mm")}}</td>
+                  <td class="text-center">
+                    {{ item.createdAt | format('yyyy-MM-dd hh:mm') }}
+                  </td>
+                  <td class="text-center">
+                    {{ item.updatedAt | format('yyyy-MM-dd hh:mm') }}
+                  </td>
                   <td class="text-center">
                     <user-chip :userID="item.userID"></user-chip>
                   </td>
                   <td class="text-center">
-                    <v-chip small class="font-weight-black caption">{{item.target}}</v-chip>
+                    <v-chip small class="font-weight-black caption">{{
+                      item.target
+                    }}</v-chip>
                   </td>
                 </tr>
               </tbody>
             </v-simple-table>
           </v-flex>
         </transition>
-        <v-flex v-if="currentSheetID && currentTemplateID" xs3 class="inner-sidebar-withoutpadding">
+        <v-flex
+          v-if="currentSheetID && currentTemplateID"
+          xs3
+          class="inner-sidebar-withoutpadding"
+        >
           <transition appear appear-active-class="fade-up-enter">
-            <sheet-info ref="sheetInfo" :sheetID="currentSheetID" :templateID="currentTemplateID"></sheet-info>
+            <sheet-info
+              ref="sheetInfo"
+              :sheetID="currentSheetID"
+              :templateID="currentTemplateID"
+            ></sheet-info>
           </transition>
         </v-flex>
       </v-layout>
@@ -60,7 +89,10 @@
       </v-layout>
       <v-bottom-sheet v-model="createSheetDialog" inset>
         <v-sheet class="text-center" height="900px" style="overflow:auto">
-          <create-sheet :target="`普通`" @closeDialog="createSheetDialog=false"></create-sheet>
+          <create-sheet
+            :target="`普通`"
+            @closeDialog="createSheetDialog = false"
+          ></create-sheet>
         </v-sheet>
       </v-bottom-sheet>
       <v-bottom-sheet v-model="editSheetDialog" inset>
@@ -77,9 +109,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch,
-} from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 import { namespace } from 'vuex-class';
 import { Template, Sheet } from '@/types/sheet';
@@ -93,8 +123,8 @@ const sheetModule = namespace('sheet');
 @Component({
   components: {
     'create-sheet': createSheet,
-    'sheet-info': sheetInfo,
-  },
+    'sheet-info': sheetInfo
+  }
 })
 export default class ProjectSheet extends Vue {
   @projectModule.Getter('currentProjectID') private currentProjectID: any;
@@ -172,5 +202,4 @@ export default class ProjectSheet extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

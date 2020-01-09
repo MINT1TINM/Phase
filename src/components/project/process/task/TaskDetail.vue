@@ -1,17 +1,32 @@
 <template>
   <v-layout fill-height>
     <transition appear>
-      <v-flex xs5 class="inner-sidebar-withoutpadding px-3" style="overflow-y:auto">
+      <v-flex
+        xs5
+        class="inner-sidebar-withoutpadding px-3"
+        style="overflow-y:auto"
+      >
         <v-toolbar flat color="transparent" class="font-weight-black">
           任务信息
           <v-spacer></v-spacer>
-          <v-btn rounded text @click="updateTaskInfo">
+          <v-btn
+            rounded
+            text
+            @click="updateTaskInfo"
+            v-if="projectPermission(authorization.userID).indexOf(`u`) != -1"
+          >
             <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
           </v-btn>
         </v-toolbar>
         <v-container fluid>
           <v-form ref="taskInfoForm">
-            <dim-form :formContent="taskInfoContent" :target="currentTask"></dim-form>
+            <dim-form
+              :disabled="
+                projectPermission(authorization.userID).indexOf(`u`) == -1
+              "
+              :formContent="taskInfoContent"
+              :target="currentTask"
+            ></dim-form>
           </v-form>
         </v-container>
       </v-flex>
@@ -24,9 +39,15 @@
     >
       <transition appear appear-active-class="fade-up-enter">
         <v-container fluid>
-          <sub-task :subTask="currentTask.subTask || {data:[]}"></sub-task>
-          <related-sheet :sheetIDList="currentTask.sheet.data" class="mt-3"></related-sheet>
-          <related-file :fileList="currentTask.file.data" class="mt-3"></related-file>
+          <sub-task :subTask="currentTask.subTask || { data: [] }"></sub-task>
+          <related-sheet
+            :sheetIDList="currentTask.sheet.data"
+            class="mt-3"
+          ></related-sheet>
+          <related-draft
+            :sheetIDList="currentTask.draft.data"
+            class="mt-3"
+          ></related-draft>
           <operations class="mt-3"></operations>
         </v-container>
       </transition>
@@ -41,6 +62,7 @@ import subTask from './SubTask.vue';
 import operations from './Operations.vue';
 import relatedSheet from './RelatedSheet.vue';
 import relatedDraft from './RelatedDraft.vue';
+import relatedFile from './RelatedFile.vue';
 import TaskService from '@/service/taskService';
 import { Task } from '@/types/task';
 

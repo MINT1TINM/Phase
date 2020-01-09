@@ -9,16 +9,15 @@ const vue = new Vue() as any;
 class SheetService {
   public static async createSheetTemplate(template: Template) {
     // encode field name
-    for (let i = 0; i < template.field.data.length; i += 1) {
-      const field = template.field.data[i];
-      field.name = encodeUnicode(field.title);
+    for (let i = 0; i < template!.field!.data.length; i += 1) {
+      const field = template!.field!.data[i];
+      field.name = encodeUnicode(field.title!);
     }
-
 
     const rsp = await basicService.postRequest('/sheet/template', {
       name: template.name,
       field: template.field,
-      type: template.type,
+      type: template.type
     });
 
     return rsp;
@@ -26,21 +25,21 @@ class SheetService {
 
   public static async updateSheetTemplate(
     template: Template,
-    templateID: string,
+    templateID: string
   ) {
     // encode field name
-    for (const field of template.field.data) {
-      field.name = encodeUnicode(field.title);
+    for (const field of template!.field!.data) {
+      if (field) field.name = encodeUnicode(field.title!);
     }
 
     const rsp = await basicService.putRequest('/sheet/template', {
       templateID,
       name: template.name,
-      field: template.field,
+      field: template.field
     });
 
     if (rsp.msg === 'success') {
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
 
     return rsp;
@@ -48,7 +47,7 @@ class SheetService {
 
   public static async getSheetTemplate(templateID: string) {
     const rsp = await basicService.getRequest('/sheet/template', {
-      id: templateID,
+      id: templateID
     });
 
     return rsp;
@@ -56,11 +55,11 @@ class SheetService {
 
   public static async getSheetTemplateList(
     templateName: string,
-    userID: string,
+    userID: string
   ) {
     const rsp = await basicService.getRequest('/sheet/template/list', {
       userID,
-      templateName,
+      templateName
     });
 
     return rsp;
@@ -76,7 +75,7 @@ class SheetService {
 
   public static async deleteTemplate(templateID: string) {
     const rsp = await basicService.deleteRequest('/sheet/template', {
-      templateID,
+      templateID
     });
 
     return rsp;
@@ -87,17 +86,17 @@ class SheetService {
     templateID: string,
     type: string,
     taskID: string,
-    target?: string,
+    target?: string
   ) {
     const rsp = await basicService.postRequest('/sheet', {
       projectID,
       templateID,
       type,
       taskID,
-      target,
+      target
     });
     if (rsp.msg === 'success') {
-      vue.$snackbar.show('创建成功');
+      vue.$snack('创建成功');
     }
 
     return rsp;
@@ -105,7 +104,7 @@ class SheetService {
 
   public static async getSheetList(projectID: string) {
     const rsp = await basicService.getRequest('/sheet/list', {
-      projectID,
+      projectID
     });
     store.commit('sheet/updateSheetList', rsp.sheet);
     return rsp;
@@ -113,14 +112,14 @@ class SheetService {
 
   public static async getSheetInfoList(sheetIDList: string[]) {
     const rsp = await basicService.getRequest('/sheet/list/info', {
-      id: sheetIDList,
+      id: sheetIDList
     });
     return rsp;
   }
 
   public static async getSheetInfo(sheetID: string) {
     const rsp = await basicService.getRequest('/sheet', {
-      sheetID,
+      sheetID
     });
 
     return rsp;
@@ -130,16 +129,16 @@ class SheetService {
     sheetID: string,
     name: string,
     target: string,
-    content: {},
+    content: {}
   ) {
     const rsp = await basicService.putRequest('/sheet', {
       sheetID,
       name,
       target,
-      content,
+      content
     });
     if (rsp.msg === 'success') {
-      vue.$snackbar.show('更新成功');
+      vue.$snack('更新成功');
     }
     return rsp;
   }
@@ -147,12 +146,12 @@ class SheetService {
   public static async deleteSheet(
     sheetID: string,
     taskID: string,
-    target: string,
+    target: string
   ) {
     const rsp = await basicService.deleteRequest('/sheet', {
       sheetID,
       taskID,
-      target,
+      target
     });
 
     return rsp;
