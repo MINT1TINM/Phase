@@ -81,6 +81,12 @@ export default class ProjectIndex extends Vue {
       role: ['r']
     },
     {
+      icon: 'mdi-cart-outline',
+      name: '材料',
+      route: '/material',
+      role: ['r']
+    },
+    {
       icon: 'mdi-folder-outline',
       name: '文件',
       route: '/document',

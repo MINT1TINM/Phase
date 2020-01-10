@@ -16,7 +16,7 @@ interface State {
 }
 
 const state: State = {
-  companyName: 'DEMO',
+  companyName: 'Core',
   systemName: 'DIMStep',
   uploadPercent: 0,
   lastPage: '',

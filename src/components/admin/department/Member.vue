@@ -121,10 +121,7 @@ export default class DepartmentMemberManage extends Vue {
     this.loading = true;
     // Simulated ajax query
     const rsp = await UserService.searchUser(v);
-    this.userList = rsp.user.filter(
-      (e: UserInfo) =>
-        (e.nickName || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
-    );
+    this.userList = rsp.user;
     console.log(this.userList);
     this.loading = false;
   }

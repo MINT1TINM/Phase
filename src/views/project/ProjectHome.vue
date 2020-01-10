@@ -337,10 +337,9 @@ export default class ProjectHome extends Vue {
   }
 
   private async getTemplateList() {
-    const rsp = await ProjectService.getProjectTemplateList(
+    this.templateList = await ProjectService.getProjectTemplateList(
       this.authorization.userID
     );
-    this.templateList = rsp.template;
   }
 
   private async getTemplateInfo(templateID: string) {

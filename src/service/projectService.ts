@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 import basicService from '@/service/basicService';
 import store from '@/store/store';
-import { Project, ProjectMember } from '@/types/project';
+import { Project, ProjectMember, ProjectTemplate } from '@/types/project';
 
 const vue = new Vue();
 
@@ -164,7 +164,7 @@ class ProjectService {
     const rsp = await basicService.getRequest('/project/template/list', {
       userID
     });
-    return rsp;
+    return rsp.template as ProjectTemplate[];
   }
 
   public static async getTemplateInfo(templateID: string) {

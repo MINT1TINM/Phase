@@ -133,10 +133,9 @@ export default class ProjectTemplateList extends Vue {
   private newProjectName: string = '';
 
   private async getTemplateList() {
-    const rsp = await ProjectService.getProjectTemplateList(
+    this.templateList = await ProjectService.getProjectTemplateList(
       this.authorization.userID
     );
-    this.templateList = rsp.template;
   }
 
   private async generateProject() {

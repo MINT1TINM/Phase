@@ -136,11 +136,8 @@ export default class AdminGroupInfo extends Vue {
     this.loading = true;
     // Simulated ajax query
     const rsp = await UserService.searchUser(v);
-    this.userList = rsp.user.filter(
-      (e: UserInfo) =>
-        (e.nickName || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
-    );
-    console.log(this.userList);
+    // allow duplicated user group
+    this.userList = rsp.user;
     this.loading = false;
   }
 
