@@ -6,6 +6,17 @@
           >项目信息</v-toolbar-title
         >
       </v-toolbar>
+      <v-img
+        v-if="currentProject.folderURL"
+        height="150"
+        :src="`/api/file/download?sName=${item.folderURL}`"
+      ></v-img>
+      <v-img
+        v-else
+        class="white--text"
+        height="150"
+        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      ></v-img>
       <v-list dense>
         <v-list-item>
           <v-list-item-title>名称</v-list-item-title>
@@ -22,7 +33,7 @@
         <v-list-item>
           <v-list-item-title>投资估算</v-list-item-title>
           <v-list-item-subtitle>
-            ¥ {{ extraInfo.investment.toFixed(2) }}</v-list-item-subtitle
+            ¥ {{ (extraInfo.investment || 0).toFixed(2) }}</v-list-item-subtitle
           >
         </v-list-item>
       </v-list>
