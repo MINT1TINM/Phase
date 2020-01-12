@@ -52,8 +52,8 @@ export default class ProjectIndex extends Vue {
   private appList = [
     {
       icon: 'mdi-chart-timeline',
-      name: '日历',
-      route: '/calendar',
+      name: '仪表板',
+      route: '/dashboard',
       role: ['r']
     },
     {

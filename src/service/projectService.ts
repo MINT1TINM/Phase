@@ -58,7 +58,6 @@ class ProjectService {
     });
     store.commit('project/updateCurrentProject', rsp.project);
     if (rsp.msg === 'success') {
-      // @ts-ignore
       vue.$snack('更新成功');
     }
     return rsp;

@@ -19,7 +19,7 @@
 
                   <dim-form
                     :formContent="projectExtraInfo"
-                    :target="currentProject.extraInfo"
+                    :target="extraInfo"
                   ></dim-form>
 
                   <v-layout row justify-center class="pt-5">
@@ -91,6 +91,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import ProjectService from '@/service/projectService';
+import { Project, ProjectExtraInfo } from '@/types/project';
 
 const systemModule = namespace('system');
 const projectModule = namespace('project');
@@ -101,7 +102,7 @@ const projectModule = namespace('project');
 export default class Settings extends Vue {
   @systemModule.Getter('lastPage') private lastPage: any;
 
-  @projectModule.Getter('currentProject') private currentProject: any;
+  @projectModule.Getter('currentProject') private currentProject!: Project;
 
   @projectModule.Getter('currentProjectID') private currentProjectID!: string;
 
@@ -176,7 +177,9 @@ export default class Settings extends Vue {
   ];
 
   private async updateProjectInfo() {
-    await ProjectService.updateProjectInfo(this.currentProject);
+    let p = this.currentProject;
+    p.extraInfo = this.extraInfo;
+    await ProjectService.updateProjectInfo(p);
   }
 
   private async deleteProject() {
@@ -200,6 +203,18 @@ export default class Settings extends Vue {
   private get project() {
     console.log(this.currentProject);
     return this.currentProject;
+  }
+
+  private get extraInfo() {
+    let e = this.currentProject.extraInfo;
+    if (!e.tags) {
+      e.tags = { data: [] };
+    }
+    return e;
+  }
+
+  private set extraInfo(v: ProjectExtraInfo) {
+    this.extraInfo = v;
   }
 }
 </script>

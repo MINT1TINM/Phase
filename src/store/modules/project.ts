@@ -17,9 +17,6 @@ const getters = {
   currentProjectID: (s: State) => s.currentProjectID,
   currentProject: (s: State) => {
     let c = s.projectList.find((e: Project) => e.id === s.currentProjectID);
-    if (c && c?.extraInfo.tags) {
-      c.extraInfo = new ProjectExtraInfo();
-    }
     return c;
   },
 

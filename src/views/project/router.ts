@@ -20,9 +20,9 @@ const router = new Router({
       component: () => import('@/views/project/ProjectWorkSpace.vue'),
       children: [
         {
-          path: '/calendar',
+          path: '/dashboard',
           meta: '项目日历',
-          component: () => import('@/views/project/calendar/Calendar.vue')
+          component: () => import('@/views/project/dashboard/Dashboard.vue')
         },
         {
           path: '/process',
