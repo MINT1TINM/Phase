@@ -68,18 +68,18 @@ export default class ProjectIndex extends Vue {
       route: '/member',
       role: ['r']
     },
-    {
-      icon: 'mdi-file-document-edit-outline',
-      name: '合同',
-      route: '/contract',
-      role: ['r']
-    },
-    {
-      icon: 'mdi-checkbox-marked-circle-outline',
-      name: '跟踪',
-      route: '/track',
-      role: ['r']
-    },
+    // {
+    //   icon: 'mdi-file-document-edit-outline',
+    //   name: '合同',
+    //   route: '/contract',
+    //   role: ['r']
+    // },
+    // {
+    //   icon: 'mdi-checkbox-marked-circle-outline',
+    //   name: '跟踪',
+    //   route: '/track',
+    //   role: ['r']
+    // },
     {
       icon: 'mdi-folder-outline',
       name: '文件',
