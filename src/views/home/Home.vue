@@ -22,10 +22,6 @@
       <v-container grid-list-md fluid>
         <v-layout row wrap>
           <v-flex xs8 offset-2>
-            <v-card-title class="subtitle-1 font-weight-black">
-              应用
-              <v-spacer></v-spacer>
-            </v-card-title>
             <v-container>
               <transition appear appear-active-class="fade-up-enter">
                 <v-layout row wrap v-if="isGod">
@@ -91,6 +87,43 @@
                   </v-flex>
                 </v-layout>
               </transition>
+            </v-container>
+
+            <v-card-title class="subtitle-1 font-weight-black mt-5">
+              近期
+              <v-spacer></v-spacer>
+            </v-card-title>
+            <v-container>
+              <v-row dense>
+                <v-col cols="8">
+                  <v-card>
+                    <v-card-title class="body-2 font-weight-black">
+                      相关项目
+                    </v-card-title>
+                  </v-card>
+                </v-col>
+                <v-col cols="4">
+                  <v-card>
+                    <v-card-title class="body-2 font-weight-black">
+                      进度
+                    </v-card-title>
+                  </v-card>
+                </v-col>
+                <v-col cols="4">
+                  <v-card>
+                    <v-card-title class="body-2 font-weight-black">
+                      临近截止
+                    </v-card-title>
+                  </v-card>
+                </v-col>
+                <v-col cols="4">
+                  <v-card>
+                    <v-card-title class="body-2 font-weight-black">
+                      文件
+                    </v-card-title>
+                  </v-card>
+                </v-col>
+              </v-row>
             </v-container>
           </v-flex>
         </v-layout>

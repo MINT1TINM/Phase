@@ -223,7 +223,7 @@
                 :items="templateInfo.process"
                 item-children="task"
               >
-                <template v-slot:prepend="{ item, open }">
+                <template v-slot:prepend="{ item }">
                   <span v-if="!item.task">任务</span>
                   <span v-else>过程</span>
                 </template>

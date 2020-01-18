@@ -55,11 +55,11 @@ export default class ProjectContractInfo extends Vue {
       title: '乙方',
       name: 'contractorName'
     },
-    {
-      type: 'tags',
-      title: '乙方标签',
-      name: 'contractorTags'
-    },
+    // {
+    //   type: 'tags',
+    //   title: '乙方标签',
+    //   name: 'contractorTags'
+    // },
     {
       type: 'text-field',
       title: '总金额',
