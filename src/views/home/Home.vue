@@ -96,32 +96,16 @@
             <v-container>
               <v-row dense>
                 <v-col cols="8">
-                  <v-card>
-                    <v-card-title class="body-2 font-weight-black">
-                      相关项目
-                    </v-card-title>
-                  </v-card>
+                  <ProjectList></ProjectList>
                 </v-col>
                 <v-col cols="4">
-                  <v-card>
-                    <v-card-title class="body-2 font-weight-black">
-                      进度
-                    </v-card-title>
-                  </v-card>
+                  <Progress></Progress>
                 </v-col>
                 <v-col cols="4">
-                  <v-card>
-                    <v-card-title class="body-2 font-weight-black">
-                      临近截止
-                    </v-card-title>
-                  </v-card>
+                  <WillExpire></WillExpire>
                 </v-col>
                 <v-col cols="4">
-                  <v-card>
-                    <v-card-title class="body-2 font-weight-black">
-                      文件
-                    </v-card-title>
-                  </v-card>
+                  <RecentFile></RecentFile>
                 </v-col>
               </v-row>
             </v-container>
@@ -142,12 +126,21 @@ import ProjectService from '@/service/projectService';
 import { Authorization, UserInfo } from '@/types/user';
 import { App } from '@/types/system';
 
+import ProjectList from '@/components/home/ProjectList.vue';
+import Progress from '@/components/home/Progress.vue';
+import RecentFile from '@/components/home/RecentFile.vue';
+import WillExpire from '@/components/home/WillExpire.vue';
+
 const systemModule = namespace('system');
 const userModule = namespace('user');
 
 @Component({
   components: {
-    'app-bar': appBar
+    'app-bar': appBar,
+    ProjectList,
+    Progress,
+    RecentFile,
+    WillExpire
   }
 })
 export default class ComponentName extends Vue {
