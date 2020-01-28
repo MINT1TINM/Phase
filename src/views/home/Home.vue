@@ -88,27 +88,6 @@
                 </v-layout>
               </transition>
             </v-container>
-
-            <v-card-title class="subtitle-1 font-weight-black mt-5">
-              近期
-              <v-spacer></v-spacer>
-            </v-card-title>
-            <v-container>
-              <v-row dense>
-                <v-col cols="8">
-                  <ProjectList></ProjectList>
-                </v-col>
-                <v-col cols="4">
-                  <Progress></Progress>
-                </v-col>
-                <v-col cols="4">
-                  <WillExpire></WillExpire>
-                </v-col>
-                <v-col cols="4">
-                  <RecentFile></RecentFile>
-                </v-col>
-              </v-row>
-            </v-container>
           </v-flex>
         </v-layout>
       </v-container>
@@ -126,8 +105,6 @@ import ProjectService from '@/service/projectService';
 import { Authorization, UserInfo } from '@/types/user';
 import { App } from '@/types/system';
 
-import ProjectList from '@/components/home/ProjectList.vue';
-import Progress from '@/components/home/Progress.vue';
 import RecentFile from '@/components/home/RecentFile.vue';
 import WillExpire from '@/components/home/WillExpire.vue';
 
@@ -137,8 +114,6 @@ const userModule = namespace('user');
 @Component({
   components: {
     'app-bar': appBar,
-    ProjectList,
-    Progress,
     RecentFile,
     WillExpire
   }

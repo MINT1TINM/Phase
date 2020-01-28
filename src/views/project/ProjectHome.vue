@@ -66,6 +66,23 @@
               </v-layout>
             </transition>
           </v-container>
+
+          <!-- <v-card-title class="subtitle-1 font-weight-black">
+            近期
+            <v-spacer></v-spacer>
+          </v-card-title>
+
+          <v-container>
+            <v-row dense>
+              <v-col cols="8">
+                <Dashboard></Dashboard>
+              </v-col>
+              <v-col cols="4">
+                <Progress></Progress>
+              </v-col>
+            </v-row>
+          </v-container> -->
+
           <v-card-title class="subtitle-1 font-weight-black">
             正在进行
             <v-spacer></v-spacer>

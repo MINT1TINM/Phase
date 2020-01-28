@@ -239,7 +239,7 @@ export default class ProjectContract extends Vue {
   }
 
   private mounted() {
-    this.getContractList();
+    // this.getContractList();
   }
 }
 </script>

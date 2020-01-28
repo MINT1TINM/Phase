@@ -124,6 +124,31 @@ class Track {
   status!: boolean;
 }
 
+class Material {
+  id!: string;
+  createdAt!: string;
+  name!: string;
+
+  userUUID!: string;
+  userCache!: UserCache;
+
+  description!: string;
+  specification!: string;
+  unit!: string;
+
+  type!: string[];
+  region!: string;
+  city!: string;
+  brand!: string;
+  inquiryTime!: string;
+
+  marketPrice!: number;
+  price!: number;
+  taxRate!: number;
+
+  companyUUID!: string;
+}
+
 export {
   Project,
   ProjectMember,
@@ -135,5 +160,6 @@ export {
   TaskTemplate,
   Contract,
   Payment,
-  Track
+  Track,
+  Material
 };
