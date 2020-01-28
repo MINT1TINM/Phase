@@ -82,6 +82,10 @@ module.exports = {
 
   outputDir: 'dim-step',
   productionSourceMap: false,
+  pages: page(),
 
-  pages: page()
+  pwa: {
+    name: 'DIMStep',
+    themeColor: '#B474F3'
+  }
 };
