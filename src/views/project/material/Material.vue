@@ -29,6 +29,7 @@
         itemsPerPageOptions: [20, 50],
         showCurrentPage: true
       }"
+      @click:row="showInfo"
     >
       <template v-slot:item.userUUID="{ item }">
         <v-chip small class="caption font-weight-black">{{
@@ -37,6 +38,12 @@
       </template>
       <template v-slot:item.createdAt="{ item }">
         {{ item.createdAt | format('yyyy-MM-dd hh:mm:ss') }}
+      </template>
+      <template v-slot:item.price="{ item }">
+        ¥{{ item.price.toFixed(2) }}
+      </template>
+      <template v-slot:item.marketPrice="{ item }">
+        ¥{{ item.marketPrice.toFixed(2) }}
       </template>
     </v-data-table>
 
@@ -111,6 +118,10 @@ export default class ProjectMaterial extends Vue {
       this.options.page,
       this.options.itemsPerPage
     );
+  }
+
+  private showInfo(v: Material) {
+    this.$router.push({ path: `/material/${v.id}` });
   }
 
   private async createMaterial() {

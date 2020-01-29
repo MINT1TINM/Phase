@@ -70,6 +70,11 @@ const router = new Router({
           component: () => import('@/views/project/material/Material.vue')
         },
         {
+          path: '/material/:materialID',
+          meta: '材料',
+          component: () => import('@/views/project/material/MaterialInfo.vue')
+        },
+        {
           path: '/contract/:contractID',
           component: () => import('@/views/project/contract/ContractInfo.vue'),
           children: [
