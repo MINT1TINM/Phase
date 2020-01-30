@@ -1,4 +1,4 @@
-import { Contract } from '@/types/project';
+import { Contract, Payment } from '@/types/project';
 import BasicService from './basicService';
 
 class ContractService {
@@ -44,6 +44,43 @@ class ContractService {
 
   static async deleteContract(id: string) {
     const rsp = await BasicService.deleteRequest('/contract', {
+      id
+    });
+    if (rsp.msg === 'success') {
+      return Promise.resolve(rsp.msg);
+    }
+    return Promise.reject(rsp.msg);
+  }
+
+  static async createPayment(p: Payment) {
+    const rsp = await BasicService.postRequest('/contract/payment', p);
+    if (rsp.msg === 'success') {
+      return Promise.resolve(rsp.msg);
+    }
+    return Promise.reject(rsp.msg);
+  }
+
+  static async updatePayment(p: Payment) {
+    const rsp = await BasicService.putRequest('/contract/payment', p);
+    if (rsp.msg === 'success') {
+      return Promise.resolve(rsp.msg);
+    }
+    return Promise.reject(rsp.msg);
+  }
+
+  static async getPaymentList(p: Payment) {
+    const rsp = await BasicService.getRequest('/contract/payment', {
+      contractUUID: p.contractUUID,
+      projectUUID: p.projectUUID
+    });
+    if (rsp.msg === 'success') {
+      return Promise.resolve(rsp.payment);
+    }
+    return Promise.reject(rsp.msg);
+  }
+
+  static async deletePayment(id: string) {
+    const rsp = await BasicService.deleteRequest('/contract/payment', {
       id
     });
     if (rsp.msg === 'success') {
