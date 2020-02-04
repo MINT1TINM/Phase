@@ -161,7 +161,7 @@ export default class Settings extends Vue {
     },
     {
       type: 'text-field',
-      title: '投资估算',
+      title: '投资总额',
       name: 'investment'
     },
     // {
