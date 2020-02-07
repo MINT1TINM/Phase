@@ -25,7 +25,7 @@ const getters = {
     return projectIDList;
   },
   privilege: (s: State) => s.userInfo.privilege,
-  isGod: (s: State) => s.userInfo.privilege.indexOf('god') !== -1
+  isGod: (s: State) => s.userInfo.privilege?.indexOf('god') !== -1
 };
 
 const mutations = {

@@ -1,11 +1,11 @@
 <template>
   <v-layout fill-height>
     <v-container fluid class="pa-0">
-      <v-toolbar dense>
+      <v-toolbar flat color="transparent" dense>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn text @click="updateGroupInfo">
-            <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
+            <v-icon size="20" class="mr-2">mdi-content-save-outline</v-icon>保存
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
@@ -87,7 +87,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import AdminService from '@/service/adminService';
+import CompanyService from '@/service/companyService';
 import { Group, GroupMember } from '@/types/company';
 import UserService from '@/service/userService';
 import { UserInfo } from '@/types/user';
@@ -128,7 +128,7 @@ export default class AdminGroupInfo extends Vue {
   ];
 
   private async updateGroupInfo() {
-    await AdminService.updateGroupInfo(this.groupID, this.groupInfo);
+    await CompanyService.updateGroupInfo(this.groupID, this.groupInfo);
     this.$emit('updateGroupList');
   }
 
@@ -144,7 +144,7 @@ export default class AdminGroupInfo extends Vue {
   private async insertGroupMember(userID: any) {
     this.select = null;
     this.search = '';
-    await AdminService.insertGroupMember(this.groupID, userID);
+    await CompanyService.insertGroupMember(this.groupID, userID);
     this.getGroupInfo();
   }
 
@@ -155,7 +155,7 @@ export default class AdminGroupInfo extends Vue {
       dark: this.$vuetify.theme.dark
     });
     if (res) {
-      await AdminService.deleteGroupMember(this.groupID, userID);
+      await CompanyService.deleteGroupMember(this.groupID, userID);
       this.getGroupInfo();
     }
   }
@@ -176,7 +176,7 @@ export default class AdminGroupInfo extends Vue {
   }
 
   private async getGroupInfo() {
-    const rsp = await AdminService.getGroupInfo(this.groupID);
+    const rsp = await CompanyService.getGroupInfo(this.groupID);
     this.groupInfo = rsp.group;
   }
 

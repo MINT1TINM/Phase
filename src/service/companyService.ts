@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import BasicService from './basicService';
-import { Group } from '@/types/company';
+import { Group, Supplier } from '@/types/company';
 
 const vue = new Vue() as any;
 
-class AdminService {
+class CompanyService {
   public static async createGroup(name: string) {
     const rsp = await BasicService.postRequest('/company/group', {
       name
@@ -117,6 +117,11 @@ class AdminService {
     }
     return rsp;
   }
+
+  public static async searchSupplier(name: string) {
+    const rsp = await BasicService.getRequest('/company/supplier', { name });
+    return rsp.supplier as Supplier[];
+  }
 }
 
-export default AdminService;
+export default CompanyService;

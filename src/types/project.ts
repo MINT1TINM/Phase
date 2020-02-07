@@ -30,12 +30,80 @@ class ProjectMember {
 }
 
 class ProjectExtraInfo {
+  constructor() {
+    this.tags = { data: [] };
+    this.finishInfo = {
+      contractCompany: {
+        id: '',
+        name: '',
+        contactName: '',
+        phone: ''
+      },
+      investCompany: {
+        id: '',
+        name: '',
+        contactName: '',
+        phone: ''
+      },
+      projectCompany: {
+        id: '',
+        name: '',
+        contactName: '',
+        phone: ''
+      },
+      constructCompany: {
+        id: '',
+        name: '',
+        contactName: '',
+        phone: ''
+      }
+    };
+  }
+
+  type!: number;
   address!: string;
   location!: string[];
   consultTimeRange!: string[];
-  tags: { data: string[] } = { data: [] };
+  tags: { data: string[] };
   industry!: string;
   investment!: number;
+  finishInfo!: {
+    contractCompany: {
+      id: string;
+      name: string;
+      contactName: string;
+      phone: string;
+    };
+    investCompany: {
+      id: string;
+      name: string;
+      contactName: string;
+      phone: string;
+    };
+    projectCompany: {
+      id: string;
+      name: string;
+      contactName: string;
+      phone: string;
+    };
+    constructCompany: {
+      id: string;
+      name: string;
+      contactName: string;
+      phone: string;
+    };
+  };
+  startDate!: string;
+  endDate!: string;
+
+  auditPrice!: number;
+  auditDate!: string;
+
+  calFile!: string;
+  contractFile!: string;
+  projectFile!: string;
+  cadFile!: string;
+  cadPriceFile!: string;
 }
 
 class ProjectMemberComplete extends ProjectMember {

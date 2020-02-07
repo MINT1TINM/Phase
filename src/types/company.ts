@@ -30,4 +30,11 @@ class DepartmentMember {
   tags!: string[];
 }
 
-export { Group, GroupMember, Department, DepartmentMember };
+class Supplier {
+  id!: string;
+  name!: string;
+  phone!: string;
+  address!: string;
+}
+
+export { Group, GroupMember, Department, DepartmentMember, Supplier };

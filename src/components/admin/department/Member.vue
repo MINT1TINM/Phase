@@ -83,7 +83,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import AdminService from '@/service/adminService';
+import CompanyService from '@/service/companyService';
 import { DepartmentMember } from '@/types/company';
 import UserService from '@/service/userService';
 import { UserInfo } from '@/types/user';
@@ -103,17 +103,23 @@ export default class DepartmentMemberManage extends Vue {
   private select = null;
 
   private async getDepartment() {
-    const rsp = await AdminService.getDepartment(this.currentDepartmentID);
+    const rsp = await CompanyService.getDepartment(this.currentDepartmentID);
     this.departmentMemberList = rsp.department.member.data;
   }
 
   private async insertDepartmentMember(userID: string) {
-    await AdminService.insertDepartmentMember(this.currentDepartmentID, userID);
+    await CompanyService.insertDepartmentMember(
+      this.currentDepartmentID,
+      userID
+    );
     this.getDepartment();
   }
 
   private async removeDepartmentMember(userID: string) {
-    await AdminService.removeDepartmentMember(this.currentDepartmentID, userID);
+    await CompanyService.removeDepartmentMember(
+      this.currentDepartmentID,
+      userID
+    );
     this.getDepartment();
   }
 

@@ -77,7 +77,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { insertNodeToTree } from '@/utils/SearchNode';
-import AdminService from '@/service/adminService';
+import CompanyService from '@/service/companyService';
 
 const uuidv1 = require('uuid/v1');
 
@@ -103,7 +103,7 @@ export default class AdminDepartment extends Vue {
     });
     this.departmentName = '';
     this.createDepartmentDialog = false;
-    AdminService.updateDepartmentTree(result);
+    CompanyService.updateDepartmentTree(result);
   }
 
   @Watch('active')
@@ -115,7 +115,7 @@ export default class AdminDepartment extends Vue {
   }
 
   private async mounted() {
-    const rsp = await AdminService.getDepartmentTree();
+    const rsp = await CompanyService.getDepartmentTree();
     this.departmentTree = rsp.department.data;
   }
 }

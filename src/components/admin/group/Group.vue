@@ -80,7 +80,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import AdminService from '@/service/adminService';
+import CompanyService from '@/service/companyService';
 import { Group } from '@/types/company';
 import groupInfo from './GroupInfo.vue';
 
@@ -101,14 +101,14 @@ export default class AdminGroup extends Vue {
   private currentGroupID: string = '';
 
   private async createGroup() {
-    await AdminService.createGroup(this.newGroupName);
+    await CompanyService.createGroup(this.newGroupName);
     this.createGroupDialog = false;
     this.newGroupName = '';
     await this.getGroup();
   }
 
   private async getGroup() {
-    const rsp = await AdminService.getGroup();
+    const rsp = await CompanyService.getGroup();
     this.groupList = rsp.group;
   }
 
