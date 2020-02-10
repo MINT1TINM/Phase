@@ -3,6 +3,37 @@
     <v-row dense justify="center">
       <v-col lg="8" md="12">
         <v-row no-gutters>
+          <v-col cols="12" class="mb-2">
+            <v-card>
+              <v-toolbar dense flat class="transparent">
+                <v-toolbar-title class="subtitle-1 font-weight-black">
+                  进程
+                </v-toolbar-title>
+              </v-toolbar>
+              <v-stepper>
+                <v-stepper-header>
+                  <v-stepper-step class="body-2" complete step="1">
+                    创建项目
+                  </v-stepper-step>
+
+                  <v-divider></v-divider>
+
+                  <v-stepper-step class="body-2" complete step="2">
+                    审计处审批中
+                  </v-stepper-step>
+
+                  <v-divider></v-divider>
+
+                  <v-stepper-step
+                    :complete="workflowInstance.isFinished"
+                    step="2"
+                    class="body-2"
+                    >启动项目</v-stepper-step
+                  >
+                </v-stepper-header>
+              </v-stepper>
+            </v-card>
+          </v-col>
           <v-col cols="12">
             <v-card>
               <v-toolbar dense flat class="transparent">
@@ -319,6 +350,8 @@ import ProjectService from '@/service/projectService';
 import { Project, ProjectExtraInfo } from '@/types/project';
 
 import SearchSupplier from '@/plugins/search-supplier/Index.vue';
+import WorkflowService from '@/service/workflowService';
+import { Instance } from '@/types/workflow';
 
 const systemModule = namespace('system');
 const projectModule = namespace('project');
@@ -332,6 +365,8 @@ export default class Settings extends Vue {
   @systemModule.Getter('lastPage') private lastPage: any;
   @projectModule.Getter('currentProject') private currentProject!: Project;
   @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+
+  private workflowInstance: Instance = new Instance();
 
   private projectInfoList = [
     {
@@ -524,6 +559,14 @@ export default class Settings extends Vue {
     await ProjectService.getProjectList();
   }
 
+  private async getProjectFlow() {
+    this.workflowInstance = (
+      await WorkflowService.getWorkflowInstance(
+        this.currentProject.extraInfo.startFlowID
+      )
+    ).instance;
+  }
+
   private get project() {
     return this.currentProject;
   }
@@ -541,6 +584,10 @@ export default class Settings extends Vue {
 
   private get projectType() {
     return this.extraInfo.type;
+  }
+
+  private mounted() {
+    this.getProjectFlow();
   }
 }
 </script>

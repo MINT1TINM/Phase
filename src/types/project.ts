@@ -104,6 +104,9 @@ class ProjectExtraInfo {
   projectFile!: string;
   cadFile!: string;
   cadPriceFile!: string;
+
+  started!: boolean;
+  startFlowID!: number;
 }
 
 class ProjectMemberComplete extends ProjectMember {
