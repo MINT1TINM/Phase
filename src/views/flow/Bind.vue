@@ -9,10 +9,10 @@
     </v-toolbar>
 
     <v-row no-gutters>
-      <v-col cols="10">
+      <v-col cols="9">
         <v-container fluid>
           <v-row dense>
-            <v-col cols="2" v-for="(item, i) in permissionList" :key="`p-${i}`">
+            <v-col cols="3" v-for="(item, i) in permissionList" :key="`p-${i}`">
               <v-card>
                 <v-toolbar dense flat color="transparent">
                   <v-toolbar-title class="body-2 font-weight-black">
@@ -26,6 +26,7 @@
                     outlined
                     single-line
                     hide-details
+                    append-outer-icon="mdi-check"
                   ></v-text-field>
                 </v-container>
               </v-card>
@@ -33,30 +34,8 @@
           </v-row>
         </v-container>
       </v-col>
-
-      <v-col cols="2">
-        <v-card
-          style="height:calc(100vh - 96px)"
-          class="overflow-y-auto elevation-8"
-          color="transparent"
-        >
-          <v-toolbar dense flat color="transparent">
-            <v-toolbar-title class="body-2 font-weight-black">
-              工作流预设
-            </v-toolbar-title>
-          </v-toolbar>
-          <v-container fluid>
-            <v-text-field
-              solo-inverted
-              dense
-              flat
-              single-line
-              hide-details
-              label="搜索"
-            ></v-text-field>
-          </v-container>
-          <v-list color="transparent"> </v-list>
-        </v-card>
+      <v-col cols="3">
+        <SearchFlow></SearchFlow>
       </v-col>
     </v-row>
   </div>
@@ -69,9 +48,15 @@ import { App } from '@/types/system';
 import { UserPermission, UserPermissionCN } from '@/types/user';
 import UserService from '@/service/userService';
 
+import SearchFlow from '@/components/flow/SearchFlow.vue';
+
 const systemModule = namespace('system');
 
-@Component
+@Component({
+  components: {
+    SearchFlow
+  }
+})
 export default class AppAccess extends Vue {
   @systemModule.Getter('appList') private appList!: App[];
 

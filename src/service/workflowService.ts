@@ -1,15 +1,24 @@
 import basicService from '@/service/basicService';
-import { Instance } from '@/types/workflow';
+import { Instance, Flow } from '@/types/workflow';
 const uuidv1 = require('uuid/v1');
 
 class WorkflowService {
-  public static async getWorkflowList(page: number, size: number) {
+  public static async getWorkflowList(
+    page: number,
+    size: number,
+    name?: string
+  ) {
     const rsp = await basicService.getRequest('/workflow/flow/list', {
       page,
-      size
+      size,
+      name
     });
 
-    return rsp;
+    return rsp as {
+      msg: string;
+      flow: Flow[];
+      count: number;
+    };
   }
 
   public static async getWorkflow(id: number) {
@@ -17,7 +26,11 @@ class WorkflowService {
       id
     });
 
-    return rsp;
+    return rsp as {
+      msg: string;
+      flow: Flow;
+      count: number;
+    };
   }
 
   public static async createWorkflowInstance(

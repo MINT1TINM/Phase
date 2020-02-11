@@ -16,4 +16,15 @@ class Instance {
   title!: string;
 }
 
-export { Instance };
+class Flow {
+  id!: number;
+  name!: string;
+  version!: number;
+  resource!: any;
+  username!: string;
+  userid!: string;
+  company!: string;
+  deployTime!: string;
+}
+
+export { Instance, Flow };

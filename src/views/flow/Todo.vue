@@ -1,6 +1,18 @@
 <template>
   <div>
-    {{ instanceList }}
+    <v-data-table
+      :headers="headers"
+      :items="instanceList"
+      hide-default-footer
+      disable-sort
+      class="elevation-1"
+    >
+      <template v-slot:item.action="{ item }">
+        <v-btn icon><v-icon size="20">mdi-information-outline</v-icon></v-btn>
+        <v-btn icon color="success"><v-icon size="20">mdi-check</v-icon></v-btn>
+        <v-btn icon color="error"><v-icon size="20">mdi-close</v-icon></v-btn>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
@@ -20,6 +32,31 @@ export default class FlowTodo extends Vue {
   @userModule.Getter('userInfo') private userInfo!: UserInfo;
 
   private instanceList: Instance[] = [];
+
+  private get headers() {
+    return [
+      {
+        text: '名称',
+        value: 'procDefName'
+      },
+      {
+        text: '状态',
+        value: 'nodeID'
+      },
+      {
+        text: '事件',
+        value: 'startTime'
+      },
+      {
+        text: '启动人',
+        value: 'startUserId'
+      },
+      {
+        text: '操作',
+        value: 'action'
+      }
+    ];
+  }
 
   private async getFlowInstance() {
     // get user group
