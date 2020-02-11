@@ -54,7 +54,7 @@ export default class ProjectIndex extends Vue {
         name: '仪表板',
         route: '/dashboard',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition: true
       },
       {
         icon: 'mdi-view-dashboard-outline',

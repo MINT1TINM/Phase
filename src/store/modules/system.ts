@@ -57,14 +57,14 @@ const state: State = {
       themeColor: '#c7521c',
       themeColorDark: '#c7521c'
     },
-    // {
-    //   name: "活动",
-    //   nameEn: "event",
-    //   route: "event",
-    //   icon: "icon/icon_event.svg",
-    //   themeColor: "#c7521c",
-    //   themeColorDark: "#c7521c"
-    // },
+    {
+      name: '工作流',
+      nameEn: 'flow',
+      route: 'flow',
+      icon: 'icon/icon_event.svg',
+      themeColor: '#80DEEA',
+      themeColorDark: '#80DEEA'
+    },
     // {
     //   name: "财务",
     //   nameEn: "finance",

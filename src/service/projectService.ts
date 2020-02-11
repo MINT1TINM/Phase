@@ -7,12 +7,23 @@ import { Project, ProjectMember, ProjectTemplate } from '@/types/project';
 const vue = new Vue();
 
 class ProjectService {
-  public static async createProject(name: string) {
-    const rsp = await basicService.postRequest('/project', {
-      name
-    });
+  public static async createProject(name: string, wfInstanceID: number) {
+    const rsp = (await basicService.postRequest('/project', {
+      name: name,
+      extraInfo: {
+        startFlowID: wfInstanceID
+      }
+    })) as {
+      msg: string;
+      project: Project;
+      userProject: Project;
+    };
 
-    return rsp;
+    if (rsp.msg === 'success') {
+      return Promise.resolve(rsp);
+    } else {
+      return Promise.reject();
+    }
   }
 
   public static async getProjectList() {

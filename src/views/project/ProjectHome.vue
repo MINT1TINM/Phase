@@ -272,8 +272,9 @@ import ProjectService from '@/service/projectService';
 import appBar from '@/components/common/app-bar/AppBar.vue';
 
 import UserService from '@/service/userService';
-import { Authorization } from '@/types/user';
+import { Authorization, UserInfo } from '@/types/user';
 import { ProjectTemplate } from '@/types/project';
+import WorkflowService from '../../service/workflowService';
 
 const projectModule = namespace('project');
 const userModule = namespace('user');
@@ -319,19 +320,33 @@ export default class ProjectHome extends Vue {
 
   @userModule.Getter('authorization')
   private authorization!: Authorization;
+  @userModule.Getter('userInfo')
+  private userInfo!: UserInfo;
 
   @systemModule.Getter('systemName') private systemName!: string;
 
   private goToProject(projectId: number) {
     this.updateCurrentProjectID(projectId);
-    this.$router.push({ path: '/process' });
+    this.$router.push({ path: '/dashboard' });
   }
 
   private async createProject() {
-    const rsp = await ProjectService.createProject(this.createProjectInfo.name);
-    if (rsp.msg === 'success') {
+    try {
+      // Create workflow
+      const rsp = await WorkflowService.createWorkflowInstance(
+        1,
+        this.authorization.userID,
+        this.userInfo.nickName,
+        '审计处'
+      );
+
+      await ProjectService.createProject(this.createProjectInfo.name, rsp.id);
+      this.$snack('创建成功');
       await UserService.getUserInfo(this.authorization.userID);
       this.getProjectList();
+    } catch (err) {
+      console.log(err);
+      this.$snack('创建失败');
     }
     this.createProjectDialog = false;
   }

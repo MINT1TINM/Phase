@@ -65,6 +65,17 @@ class CompanyService {
     return rsp;
   }
 
+  public static async getUserGroup(userID: string) {
+    const rsp = await BasicService.getRequest('/company/group/list', {
+      userID
+    });
+
+    return rsp as {
+      msg: string;
+      groupUUIDList: string[];
+    };
+  }
+
   public static async updateDepartmentTree(department: any) {
     const rsp = await BasicService.putRequest('/company/department/tree', {
       department
