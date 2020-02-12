@@ -332,15 +332,7 @@ export default class ProjectHome extends Vue {
 
   private async createProject() {
     try {
-      // Create workflow
-      const rsp = await WorkflowService.createWorkflowInstance(
-        1,
-        this.authorization.userID,
-        this.userInfo.nickName,
-        '审计处'
-      );
-
-      await ProjectService.createProject(this.createProjectInfo.name, rsp.id);
+      await ProjectService.createProject(this.createProjectInfo.name);
       this.$snack('创建成功');
       await UserService.getUserInfo(this.authorization.userID);
       this.getProjectList();
@@ -352,16 +344,21 @@ export default class ProjectHome extends Vue {
   }
 
   private async generateProject() {
-    const rsp = await ProjectService.generateProject(
-      this.newProjectName,
-      this.currentTemplateID
-    );
-    if (rsp.msg === 'success') {
+    try {
+      await ProjectService.generateProject(
+        this.newProjectName,
+        this.currentTemplateID
+      );
+
       await UserService.getUserInfo(this.authorization.userID);
       this.getProjectList();
+
+      this.newProjectName = '';
+      this.generateProjectDialog = false;
+    } catch (err) {
+      console.log(err);
+      this.$snack('创建失败');
     }
-    this.newProjectName = '';
-    this.generateProjectDialog = false;
   }
 
   private async getProjectList() {

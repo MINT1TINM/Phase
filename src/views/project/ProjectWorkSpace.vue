@@ -34,6 +34,8 @@ import Component from 'vue-class-component';
 import { namespace } from 'vuex-class';
 import { Authorization } from '@/types/user';
 import { Project } from '@/types/project';
+import WorkflowService from '@/service/workflowService';
+import { Instance } from '../../types/workflow';
 
 const userModule = namespace('user');
 const projectModule = namespace('project');
@@ -47,7 +49,23 @@ export default class ProjectIndex extends Vue {
   @projectModule.Getter('projectPermission')
   private projectPermission: any;
 
+  private hasFlowInstance: boolean = false;
+
+  private async getProjectFlowInstance() {
+    const rsp = await WorkflowService.getWorkflowInstance(
+      this.currentProject.extraInfo.startFlowID
+    );
+    if (rsp.msg === 'success') {
+      this.hasFlowInstance = true;
+    }
+  }
+
+  private mounted() {
+    this.getProjectFlowInstance();
+  }
+
   private get appList() {
+    // started=1 && no active workflow instance -> project started
     return [
       {
         icon: 'mdi-chart-timeline',
@@ -61,49 +79,56 @@ export default class ProjectIndex extends Vue {
         name: '过程',
         route: '/process',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition:
+          this.currentProject.extraInfo.started && !this.hasFlowInstance
       },
       {
         icon: 'mdi-account-box-outline',
         name: '成员',
         route: '/member',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition:
+          this.currentProject.extraInfo.started && !this.hasFlowInstance
       },
       {
         icon: 'mdi-file-document-edit-outline',
         name: '合同',
         route: '/contract',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition:
+          this.currentProject.extraInfo.started && !this.hasFlowInstance
       },
       {
         icon: 'mdi-checkbox-marked-circle-outline',
         name: '跟踪',
         route: '/track',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition:
+          this.currentProject.extraInfo.started && !this.hasFlowInstance
       },
       {
         icon: 'mdi-cart-outline',
         name: '材料',
         route: '/material',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition:
+          this.currentProject.extraInfo.started && !this.hasFlowInstance
       },
       {
         icon: 'mdi-folder-outline',
         name: '文件',
         route: '/document',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition:
+          this.currentProject.extraInfo.started && !this.hasFlowInstance
       },
       {
         icon: 'mdi-file-table-outline',
         name: '表单',
         route: '/sheet',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition:
+          this.currentProject.extraInfo.started && !this.hasFlowInstance
       },
       {
         icon: 'mdi-tune',

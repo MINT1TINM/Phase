@@ -9,24 +9,43 @@
                 <v-toolbar-title class="subtitle-1 font-weight-black">
                   进程
                 </v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn
+                  text
+                  @click="submitForReview"
+                  v-if="!extraInfo.started || workflowInstance.nodeID == '开始'"
+                >
+                  <v-icon size="20" class="mr-2">mdi-check</v-icon>提交审批
+                </v-btn>
               </v-toolbar>
               <v-stepper>
                 <v-stepper-header>
-                  <v-stepper-step class="body-2" complete step="1">
-                    创建项目
+                  <v-stepper-step
+                    :complete="workflowInstance.nodeID == '开始'"
+                    class="body-2"
+                    step="1"
+                  >
+                    完善信息
                   </v-stepper-step>
 
                   <v-divider></v-divider>
 
-                  <v-stepper-step class="body-2" complete step="2">
+                  <v-stepper-step
+                    :complete="workflowInstance.nodeID == '审批'"
+                    class="body-2"
+                    step="2"
+                  >
                     审计处审批中
                   </v-stepper-step>
 
                   <v-divider></v-divider>
 
                   <v-stepper-step
-                    :complete="workflowInstance.isFinished"
-                    step="2"
+                    :complete="
+                      workflowInstance.isFinished ||
+                        workflowInstance.nodeID == '完成'
+                    "
+                    step="3"
                     class="body-2"
                     >启动项目</v-stepper-step
                   >
@@ -352,9 +371,11 @@ import { Project, ProjectExtraInfo } from '@/types/project';
 import SearchSupplier from '@/plugins/search-supplier/Index.vue';
 import WorkflowService from '@/service/workflowService';
 import { Instance } from '@/types/workflow';
+import { Authorization, UserInfo } from '@/types/user';
 
 const systemModule = namespace('system');
 const projectModule = namespace('project');
+const userModule = namespace('user');
 
 @Component({
   components: {
@@ -365,6 +386,11 @@ export default class Settings extends Vue {
   @systemModule.Getter('lastPage') private lastPage: any;
   @projectModule.Getter('currentProject') private currentProject!: Project;
   @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+
+  @userModule.Getter('authorization')
+  private authorization!: Authorization;
+  @userModule.Getter('userInfo')
+  private userInfo!: UserInfo;
 
   private workflowInstance: Instance = new Instance();
 
@@ -560,11 +586,57 @@ export default class Settings extends Vue {
   }
 
   private async getProjectFlow() {
-    this.workflowInstance = (
-      await WorkflowService.getWorkflowInstance(
-        this.currentProject.extraInfo.startFlowID
-      )
-    ).instance;
+    if (this.extraInfo.startFlowID) {
+      this.workflowInstance = {
+        ...new Instance(),
+        ...(
+          await WorkflowService.getWorkflowInstance(
+            this.currentProject.extraInfo.startFlowID
+          )
+        ).instance
+      };
+    } else {
+      this.workflowInstance = new Instance();
+    }
+  }
+
+  private async submitForReview() {
+    const c = await this.$confirm('', {
+      title: '确认提交?',
+      buttonTrueColor: 'primary',
+      dark: this.$vuetify.theme.dark
+    });
+    if (c) {
+      if (!this.extraInfo.startFlowID) {
+        const rsp = await WorkflowService.createWorkflowInstance(
+          1,
+          this.authorization.userID,
+          this.userInfo.nickName,
+          '审计处'
+        );
+        // mark started
+        this.extraInfo.started = true;
+        this.extraInfo.startFlowID = rsp.id;
+
+        await this.updateProjectInfo();
+        this.getProjectFlow();
+      } else {
+        try {
+          await WorkflowService.handleTask(
+            this.workflowInstance.taskID,
+            this.authorization.userID,
+            this.userInfo.nickName,
+            true,
+            this.workflowInstance.id,
+            'submit'
+          );
+          this.$snack('提交成功');
+          this.getProjectFlow();
+        } catch (err) {
+          this.$snack('提交失败');
+        }
+      }
+    }
   }
 
   private get project() {

@@ -7,7 +7,7 @@ import { Project, ProjectMember, ProjectTemplate } from '@/types/project';
 const vue = new Vue();
 
 class ProjectService {
-  public static async createProject(name: string, wfInstanceID: number) {
+  public static async createProject(name: string, wfInstanceID?: number) {
     const rsp = (await basicService.postRequest('/project', {
       name: name,
       extraInfo: {
@@ -184,12 +184,21 @@ class ProjectService {
     return rsp;
   }
 
-  public static async generateProject(name: string, templateID: string) {
+  public static async generateProject(
+    name: string,
+    templateID: string,
+    wfInstanceID?: number
+  ) {
     const rsp = await basicService.postRequest('/project/structure', {
       templateID,
-      name
+      name,
+      wfInstanceID
     });
-    return rsp;
+    if (rsp.msg === 'success') {
+      return Promise.resolve(rsp);
+    } else {
+      return Promise.reject();
+    }
   }
 
   public static async deleteProject(projectID: string) {

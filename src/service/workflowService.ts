@@ -90,6 +90,29 @@ class WorkflowService {
       instance: Instance[];
     };
   }
+
+  public static async handleTask(
+    taskID: number,
+    userID: string,
+    username: string,
+    pass: boolean,
+    procInstID: number,
+    comment: string
+  ) {
+    const rsp = await basicService.putRequest('/workflow/task', {
+      taskID,
+      userID,
+      username,
+      pass,
+      procInstID,
+      comment
+    });
+
+    if (rsp.msg === 'success') {
+      return Promise.resolve();
+    }
+    return Promise.reject();
+  }
 }
 
 export default WorkflowService;
