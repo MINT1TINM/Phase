@@ -35,7 +35,7 @@ import { namespace } from 'vuex-class';
 import { Authorization } from '@/types/user';
 import { Project } from '@/types/project';
 import WorkflowService from '@/service/workflowService';
-import { Instance } from '../../types/workflow';
+import { Instance } from '@/types/workflow';
 
 const userModule = namespace('user');
 const projectModule = namespace('project');

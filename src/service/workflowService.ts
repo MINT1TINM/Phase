@@ -1,5 +1,5 @@
 import basicService from '@/service/basicService';
-import { Instance, Flow } from '@/types/workflow';
+import { Instance, Flow, Event } from '@/types/workflow';
 const uuidv1 = require('uuid/v1');
 
 class WorkflowService {
@@ -112,6 +112,17 @@ class WorkflowService {
       return Promise.resolve();
     }
     return Promise.reject();
+  }
+
+  public static async getTimeline(instanceID: number) {
+    const rsp = await basicService.getRequest('/workflow/timeline', {
+      instanceID
+    });
+
+    return rsp as {
+      msg: string;
+      timeline: Event[];
+    };
   }
 }
 

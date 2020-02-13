@@ -14,6 +14,10 @@ const router = new Router({
           component: () => import('@/views/flow/Todo.vue')
         },
         {
+          path: '/todo/:instanceID',
+          component: () => import('@/views/flow/Timeline.vue')
+        },
+        {
           path: '/bind',
           component: () => import('@/views/flow/Bind.vue')
         }

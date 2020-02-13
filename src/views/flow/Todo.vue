@@ -8,12 +8,8 @@
       class="elevation-1"
     >
       <template v-slot:item.action="{ item }">
-        <v-btn icon><v-icon size="20">mdi-information-outline</v-icon></v-btn>
-        <v-btn icon color="success" @click="completeTask(item)"
-          ><v-icon size="20">mdi-check</v-icon></v-btn
-        >
-        <v-btn icon color="error" @click="resistTask(item)"
-          ><v-icon size="20">mdi-close</v-icon></v-btn
+        <v-btn icon :to="`/todo/${item.id}`"
+          ><v-icon size="20">mdi-information-outline</v-icon></v-btn
         >
       </template>
     </v-data-table>
@@ -79,42 +75,6 @@ export default class FlowTodo extends Vue {
       this.$snack('🤔该服务已下线');
     } else {
       this.instanceList = rsp.instance;
-    }
-  }
-
-  private async completeTask(item: Instance) {
-    const c = await this.$confirm('', {
-      title: '确认通过？',
-      buttonTrueColor: 'primary darken-1',
-      dark: this.$vuetify.theme.dark
-    });
-    if (c) {
-      const rsp = await WorkflowService.handleTask(
-        item.taskID,
-        this.authorization.userID,
-        this.userInfo.nickName,
-        true,
-        item.id,
-        'fucking passed!'
-      );
-    }
-  }
-
-  private async resistTask(item: Instance) {
-    const c = await this.$confirm('', {
-      title: '确认退回？',
-      buttonTrueColor: 'error darken-1',
-      dark: this.$vuetify.theme.dark
-    });
-    if (c) {
-      const rsp = await WorkflowService.handleTask(
-        item.taskID,
-        this.authorization.userID,
-        this.userInfo.nickName,
-        false,
-        item.id,
-        'fucking not passed!'
-      );
     }
   }
 

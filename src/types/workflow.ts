@@ -27,4 +27,12 @@ class Flow {
   deployTime!: string;
 }
 
-export { Instance, Flow };
+class Event {
+  comment!: string;
+  id!: number;
+  step!: number;
+  userid!: string;
+  username!: string;
+}
+
+export { Instance, Flow, Event };
