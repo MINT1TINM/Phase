@@ -1,5 +1,5 @@
 import basicService from '@/service/basicService';
-import { Instance, Flow, Event } from '@/types/workflow';
+import { Instance, Flow, Event, FlowLinkTask } from '@/types/workflow';
 const uuidv1 = require('uuid/v1');
 
 class WorkflowService {
@@ -26,9 +26,17 @@ class WorkflowService {
       id
     });
 
-    return rsp as {
-      msg: string;
+    const linkRsp = await basicService.getRequest('workflow/link/flow', {
+      flowID: id
+    });
+
+    return {
+      flow: rsp.flow,
+      count: rsp.count,
+      flowLink: linkRsp
+    } as {
       flow: Flow;
+      flowLink: any;
       count: number;
     };
   }
@@ -37,7 +45,8 @@ class WorkflowService {
     procDefId: number,
     userID: string,
     username: string,
-    department: string
+    department: string,
+    link: FlowLinkTask
   ) {
     const rsp = (await basicService.postRequest('/workflow/instance', {
       title: uuidv1(),
@@ -51,7 +60,14 @@ class WorkflowService {
       msg: string;
     };
 
-    if (rsp.msg === 'success') {
+    // Create link
+    const linkRsp = await basicService.postRequest('/workflow/link/task', {
+      flowID: procDefId,
+      instanceID: rsp.id,
+      ...link
+    });
+
+    if (rsp.msg === 'success' && linkRsp.msg === 'success') {
       return Promise.resolve(rsp);
     } else {
       return Promise.reject();
@@ -97,7 +113,9 @@ class WorkflowService {
     username: string,
     pass: boolean,
     procInstID: number,
-    comment: string
+    comment: string,
+    flowID?: number,
+    link?: any
   ) {
     const rsp = await basicService.putRequest('/workflow/task', {
       taskID,
@@ -108,7 +126,15 @@ class WorkflowService {
       comment
     });
 
-    if (rsp.msg === 'success') {
+    // Create link
+    const linkRsp = await basicService.postRequest('/workflow/link/task', {
+      flowID: flowID,
+      taskID: taskID,
+      instanceID: procInstID,
+      ...link
+    });
+
+    if (rsp.msg === 'success' && linkRsp.msg === 'success') {
       return Promise.resolve();
     }
     return Promise.reject();
@@ -122,6 +148,18 @@ class WorkflowService {
     return rsp as {
       msg: string;
       timeline: Event[];
+    };
+  }
+
+  public static async getLinkTask(taskID: number, instanceID?: number) {
+    const rsp = await basicService.getRequest('/workflow/link/task', {
+      taskID,
+      instanceID
+    });
+
+    return rsp as {
+      msg: string;
+      linkTask: FlowLinkTask;
     };
   }
 }

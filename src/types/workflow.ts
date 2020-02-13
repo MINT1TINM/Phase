@@ -27,12 +27,20 @@ class Flow {
   deployTime!: string;
 }
 
+class FlowLinkTask {
+  id!: string;
+  flowID!: number;
+  instanceID!: number;
+  extraInfo!: any;
+}
+
 class Event {
-  comment!: string;
+  comment!: any;
   id!: number;
   step!: number;
   userid!: string;
   username!: string;
+  taskID!: number;
 }
 
-export { Instance, Flow, Event };
+export { Instance, Flow, Event, FlowLinkTask };

@@ -21,7 +21,9 @@
               <v-stepper>
                 <v-stepper-header>
                   <v-stepper-step
-                    :complete="workflowInstance.nodeID == '开始'"
+                    :complete="
+                      workflowInstance.nodeID == '开始' || extraInfo.started
+                    "
                     class="body-2"
                     step="1"
                   >
@@ -31,7 +33,9 @@
                   <v-divider></v-divider>
 
                   <v-stepper-step
-                    :complete="workflowInstance.nodeID == '审批'"
+                    :complete="
+                      workflowInstance.nodeID == '审批' || extraInfo.started
+                    "
                     class="body-2"
                     step="2"
                   >
@@ -41,10 +45,7 @@
                   <v-divider></v-divider>
 
                   <v-stepper-step
-                    :complete="
-                      workflowInstance.isFinished ||
-                        workflowInstance.nodeID == '完成'
-                    "
+                    :complete="extraInfo.started"
                     step="3"
                     class="body-2"
                     >启动项目</v-stepper-step
@@ -370,7 +371,7 @@ import { Project, ProjectExtraInfo } from '@/types/project';
 
 import SearchSupplier from '@/plugins/search-supplier/Index.vue';
 import WorkflowService from '@/service/workflowService';
-import { Instance } from '@/types/workflow';
+import { Instance, FlowLinkTask } from '@/types/workflow';
 import { Authorization, UserInfo } from '@/types/user';
 
 const systemModule = namespace('system');
@@ -601,21 +602,33 @@ export default class Settings extends Vue {
   }
 
   private async submitForReview() {
+    await this.updateProjectInfo();
+
+    // Init link
+    const l = new FlowLinkTask();
+    l.extraInfo = {
+      type: 'project',
+      project: this.currentProject,
+      comment: '提交审核'
+    };
+
     const c = await this.$confirm('', {
       title: '确认提交?',
       buttonTrueColor: 'primary',
       dark: this.$vuetify.theme.dark
     });
     if (c) {
+      // Create instance if no instance
       if (!this.extraInfo.startFlowID) {
         const rsp = await WorkflowService.createWorkflowInstance(
           1,
           this.authorization.userID,
           this.userInfo.nickName,
-          '审计处'
+          '审计处',
+          l
         );
         // mark started
-        this.extraInfo.started = true;
+        // this.extraInfo.started = true;
         this.extraInfo.startFlowID = rsp.id;
 
         await this.updateProjectInfo();
@@ -628,7 +641,9 @@ export default class Settings extends Vue {
             this.userInfo.nickName,
             true,
             this.workflowInstance.id,
-            'submit'
+            '提交审核',
+            this.workflowInstance.procDefId,
+            l
           );
           this.$snack('提交成功');
           this.getProjectFlow();

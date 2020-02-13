@@ -15,7 +15,13 @@ const router = new Router({
         },
         {
           path: '/todo/:instanceID',
-          component: () => import('@/views/flow/Timeline.vue')
+          component: () => import('@/views/flow/Timeline.vue'),
+          children: [
+            {
+              path: '/todo/:instanceID/:taskID',
+              component: () => import('@/views/flow/InstanceTaskInfo.vue')
+            }
+          ]
         },
         {
           path: '/bind',
