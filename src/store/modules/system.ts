@@ -61,7 +61,7 @@ const state: State = {
       name: '工作流',
       nameEn: 'flow',
       route: 'flow',
-      icon: 'icon/icon_event.svg',
+      icon: 'icon/icon_flow.svg',
       themeColor: '#80DEEA',
       themeColorDark: '#80DEEA'
     },
