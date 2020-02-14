@@ -12,7 +12,7 @@
     <div>
       <v-row no-gutters>
         <v-col cols="4" style="height:calc(100vh - 96px);overflow-y:auto">
-          <v-timeline dense>
+          <v-timeline dense class="pr-5">
             <v-timeline-item
               v-for="(item, i) in timeline"
               :key="`t-${i}`"
@@ -21,7 +21,12 @@
               small
               right
             >
-              <v-card :to="`/todo/${instanceID}/${item.taskID}`">
+              <v-card
+                :color="
+                  item.taskID == $route.params.taskID ? 'cyan darken-1' : ''
+                "
+                :to="`/todo/${instanceID}/${item.taskID}`"
+              >
                 <v-list-item two-line>
                   <v-list-item-content>
                     <v-list-item-title class="body-2 font-weight-black">
@@ -41,9 +46,15 @@
           </v-timeline>
         </v-col>
         <v-col cols="8">
-          <v-container fluid>
-            <router-view :instance="instance"></router-view>
+          <v-container fluid v-if="$route.params.taskID">
+            <router-view
+              @updateTimeline="getTimeline"
+              :instance="instance"
+            ></router-view>
           </v-container>
+          <v-row style="height:100%" v-else justify="center" align="center">
+            <div class="title">请选择操作项</div>
+          </v-row>
         </v-col>
       </v-row>
     </div>
@@ -77,8 +88,9 @@ export default class FlowTimeline extends Vue {
   }
 
   private async getTimeline() {
-    const t = (await WorkflowService.getTimeline(Number(this.instance.id)))
-      .timeline;
+    const t = (
+      await WorkflowService.getTimeline(Number(this.instance.id))
+    ).timeline.reverse();
 
     this.timeline = t;
   }

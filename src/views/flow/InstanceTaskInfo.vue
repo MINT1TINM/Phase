@@ -3,7 +3,9 @@
     <ProjectInfo
       v-if="linkTask.extraInfo && linkTask.extraInfo.type === 'project'"
       :instance="instance"
+      @updateTimeline="$emit('updateTimeline')"
       :projectInfo="linkTask.extraInfo.project"
+      :comment="linkTask.extraInfo.comment"
     ></ProjectInfo>
   </div>
 </template>
