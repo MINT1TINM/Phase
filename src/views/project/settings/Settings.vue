@@ -5,11 +5,24 @@
         <v-row no-gutters>
           <v-col cols="12" class="mb-2">
             <v-card>
+              <v-btn :to="`/`" class="my-2 ml-1" v-if="!extraInfo.started" text>
+                <v-icon class="mr-2" size="20">mdi-arrow-left</v-icon>返回首页
+              </v-btn>
+
               <v-toolbar dense flat class="transparent">
                 <v-toolbar-title class="subtitle-1 font-weight-black">
                   进程
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
+                <v-btn
+                  v-if="!extraInfo.started || workflowInstance.nodeID == '开始'"
+                  text
+                  @click="updateProjectInfo()"
+                >
+                  <v-icon size="20" class="mr-2"
+                    >mdi-content-save-outline</v-icon
+                  >保存修改</v-btn
+                >
                 <v-btn
                   text
                   @click="submitForReview"
@@ -99,6 +112,7 @@
                 <v-layout row justify-center class="pt-10">
                   <v-flex xs6>
                     <v-btn
+                      v-if="extraInfo.started"
                       block
                       rounded
                       depressed
@@ -128,6 +142,7 @@
                 <v-layout row justify-center class="pt-10">
                   <v-flex xs6>
                     <v-btn
+                      v-if="extraInfo.started"
                       block
                       rounded
                       depressed

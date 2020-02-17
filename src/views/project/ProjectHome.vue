@@ -73,80 +73,140 @@
           </v-card-title>
           <v-toolbar dense flat color="transparent">
             <v-tabs v-model="tab">
-              <v-tab>正在进行</v-tab>
-              <v-tab>待审批</v-tab>
+              <v-tab href="#tab-1">正在进行</v-tab>
+              <v-tab href="#tab-2">待审批</v-tab>
             </v-tabs>
           </v-toolbar>
 
-          <v-toolbar class="mt-2" dense flat color="transparent">
-            <span class="mr-3 caption">筛选</span>
-            <v-text-field
-              dense
-              outlined
-              flat
-              single-line
-              hide-details
-              label="项目名称"
-              style="max-width:200px"
-            ></v-text-field>
-            <v-spacer></v-spacer>
-            <v-btn outlined>
-              <v-icon size="20" class="mr-2">mdi-magnify</v-icon>搜索
-            </v-btn>
-          </v-toolbar>
-          <v-container>
-            <transition appear appear-active-class="fade-up-enter">
-              <v-layout>
-                <v-col cols="12" class="pa-0">
-                  <v-simple-table class="transparent">
-                    <template v-slot:default>
-                      <thead>
-                        <tr>
-                          <th class="text-left">编号</th>
-                          <th class="text-left">名称</th>
-                          <th class="text-left">类型</th>
-                          <th class="text-left">投资审计</th>
-                          <th class="text-left">合同金额</th>
-                          <th class="text-left">送审金额</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          v-for="(item, i) in runningProject"
-                          :key="`project-${i}`"
-                          @click="goToProject(item)"
-                        >
-                          <td>{{ item.code }}</td>
-                          <td>{{ item.name }}</td>
-                          <td>
-                            <div v-if="item.extraInfo.type == 0">
-                              竣工结算审计
-                            </div>
-                            <div v-else-if="item.extraInfo.type == 1">
-                              全过程投资审计基建工程
-                            </div>
-                            <div v-else-if="item.extraInfo.type == 2">
-                              全过程投资审计修缮工程
-                            </div>
-                          </td>
-                          <td>
-                            ¥ {{ (item.extraInfo.investment || 0).toFixed(2) }}
-                          </td>
-                          <td>
-                            {{ (item.extraInfo.price || 0).toFixed(2) }} 万元
-                          </td>
-                          <td>
-                            {{ (item.extraInfo.auditPrice || 0).toFixed(2) }}
-                            万元
-                          </td>
-                        </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table>
-                </v-col>
-              </v-layout>
-            </transition>
-          </v-container>
+          <div v-if="tab == `tab-1`">
+            <v-toolbar class="mt-2" dense flat color="transparent">
+              <span class="mr-3 caption">筛选</span>
+              <v-text-field
+                dense
+                outlined
+                flat
+                single-line
+                hide-details
+                label="项目名称"
+                style="max-width:200px"
+              ></v-text-field>
+              <v-spacer></v-spacer>
+              <v-btn outlined>
+                <v-icon size="20" class="mr-2">mdi-magnify</v-icon>搜索
+              </v-btn>
+            </v-toolbar>
+            <v-container>
+              <transition appear appear-active-class="fade-up-enter">
+                <v-layout>
+                  <v-col cols="12" class="pa-0">
+                    <v-simple-table class="transparent">
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th class="text-left">编号</th>
+                            <th class="text-left">名称</th>
+                            <th class="text-left">类型</th>
+                            <th class="text-left">投资审计</th>
+                            <th class="text-left">合同金额</th>
+                            <th class="text-left">送审金额</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            v-for="(item, i) in runningProject"
+                            :key="`project-${i}`"
+                            @click="goToProject(item)"
+                          >
+                            <td>{{ item.code }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>
+                              <div v-if="item.extraInfo.type == 0">
+                                竣工结算审计
+                              </div>
+                              <div v-else-if="item.extraInfo.type == 1">
+                                全过程投资审计基建工程
+                              </div>
+                              <div v-else-if="item.extraInfo.type == 2">
+                                全过程投资审计修缮工程
+                              </div>
+                            </td>
+                            <td>
+                              ¥
+                              {{ (item.extraInfo.investment || 0).toFixed(2) }}
+                            </td>
+                            <td>
+                              {{ (item.extraInfo.price || 0).toFixed(2) }} 万元
+                            </td>
+                            <td>
+                              {{ (item.extraInfo.auditPrice || 0).toFixed(2) }}
+                              万元
+                            </td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </v-col>
+                </v-layout>
+              </transition>
+            </v-container>
+          </div>
+
+          <div v-else-if="tab == `tab-2`">
+            <v-container>
+              <transition appear appear-active-class="fade-up-enter">
+                <v-layout>
+                  <v-col cols="12" class="pa-0">
+                    <v-simple-table class="transparent">
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th class="text-left">编号</th>
+                            <th class="text-left">名称</th>
+                            <th class="text-left">类型</th>
+                            <th class="text-left">投资审计</th>
+                            <th class="text-left">合同金额</th>
+                            <th class="text-left">送审金额</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            v-for="(item, i) in checkingProject"
+                            :key="`project-${i}`"
+                            @click="goToProject(item)"
+                          >
+                            <td>{{ item.code }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>
+                              <div v-if="item.extraInfo.type == 0">
+                                竣工结算审计
+                              </div>
+                              <div v-else-if="item.extraInfo.type == 1">
+                                全过程投资审计基建工程
+                              </div>
+                              <div v-else-if="item.extraInfo.type == 2">
+                                全过程投资审计修缮工程
+                              </div>
+                            </td>
+                            <td>
+                              ¥
+                              {{ (item.extraInfo.investment || 0).toFixed(2) }}
+                            </td>
+                            <td>
+                              {{ (item.extraInfo.price || 0).toFixed(2) }} 万元
+                            </td>
+                            <td>
+                              {{ (item.extraInfo.auditPrice || 0).toFixed(2) }}
+                              万元
+                            </td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </v-col>
+                </v-layout>
+              </transition>
+            </v-container>
+          </div>
         </v-flex>
       </v-layout>
 
@@ -296,7 +356,7 @@ export default class ProjectHome extends Vue {
     if (p.extraInfo.started) {
       this.$router.push({ path: '/dashboard' });
     } else {
-      this.$router.push({ path: '/setting' });
+      this.$router.push({ path: '/settings' });
     }
   }
 

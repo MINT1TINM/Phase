@@ -54,7 +54,6 @@ class BasicService {
               progressEvent.target.getResponseHeader(
                 'x-decompressed-content-length'
               );
-
           const complete = `${(progressEvent.loaded / totalLength) * 100 ||
             0}%`;
           store.commit('system/updateUploadPercent', progressEvent.loaded);

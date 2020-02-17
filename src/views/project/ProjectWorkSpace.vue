@@ -5,6 +5,7 @@
       mini-variant-width="62"
       app
       clipped
+      v-if="currentProject.extraInfo.started"
       permanent
       fixed
     >
