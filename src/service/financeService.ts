@@ -2,7 +2,7 @@ import basicService from '@/service/basicService';
 import store from '@/store/store';
 
 class FinanceService {
-  public static async searchFinanceProject(
+  static async searchFinanceProject(
     key: string,
     value: string,
     pageSize?: number,
@@ -22,7 +22,7 @@ class FinanceService {
     return rsp;
   }
 
-  public static async searchCertificateGroup(
+  static async searchCertificateGroup(
     projectCode: string,
     staffNo: string,
     startDate?: number,
@@ -37,14 +37,14 @@ class FinanceService {
     return rsp;
   }
 
-  public static async searchCertificate(certificateNo: string) {
+  static async searchCertificate(certificateNo: string) {
     const rsp = await basicService.getRequest('/finance/certificate', {
       certificateNo: certificateNo.replace(/ /g, '')
     });
     return rsp;
   }
 
-  public static async searchSubject(
+  static async searchSubject(
     projectCode: string[],
     startDate: string,
     endDate: string
@@ -57,10 +57,7 @@ class FinanceService {
     return rsp;
   }
 
-  public static async searchSubjectDetail(
-    projectCode: string,
-    subjectCode: string
-  ) {
+  static async searchSubjectDetail(projectCode: string, subjectCode: string) {
     const rsp = await basicService.getRequest('/finance/subject/detail', {
       projectCode,
       subjectCode

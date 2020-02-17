@@ -83,25 +83,25 @@ const userModule = namespace('user');
   }
 })
 export default class TaskDetail extends Vue {
-  @userModule.Getter('authorization') private authorization!: Authorization;
+  @userModule.Getter('authorization') authorization!: Authorization;
 
-  @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+  @projectModule.Getter('currentProjectID') currentProjectID!: string;
 
   @projectModule.Getter('projectPermission')
-  private projectPermission: any;
+  projectPermission: any;
 
-  @processModule.Getter('currentProcess') private currentProcess: any;
+  @processModule.Getter('currentProcess') currentProcess: any;
 
   @processModule.Mutation('updateCurrentProcessTask')
-  private updateCurrentProcessTask: any;
+  updateCurrentProcessTask: any;
 
-  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+  @projectModule.Getter('projectMemberCache') projectMemberCache: any;
 
-  @taskModule.Getter('currentTask') private currentTask!: Task;
+  @taskModule.Getter('currentTask') currentTask!: Task;
 
-  private taskMember = [];
+  taskMember = [];
 
-  private statusList = [
+  statusList = [
     {
       text: '已完成',
       value: true
@@ -112,14 +112,14 @@ export default class TaskDetail extends Vue {
     }
   ];
 
-  private tagList = [
+  tagList = [
     {
       text: '红色',
       color: 'red'
     }
   ];
 
-  private taskInfoContent = [
+  taskInfoContent = [
     {
       type: 'text-field',
       title: '任务名称',
@@ -205,7 +205,7 @@ export default class TaskDetail extends Vue {
     }
   ];
 
-  private async getTaskInfo() {
+  async getTaskInfo() {
     const rsp = await TaskService.getTaskInfo(this.$route.params.taskID);
 
     const memberList = this.currentProcess(this.$route.params.processID).member
@@ -219,7 +219,7 @@ export default class TaskDetail extends Vue {
     this.taskInfoContent[3].list = this.taskMember as any;
   }
 
-  private async updateTaskInfo() {
+  async updateTaskInfo() {
     // update info
     await TaskService.updateTaskInfo(this.currentTask);
 
@@ -233,7 +233,7 @@ export default class TaskDetail extends Vue {
     this.syncTaskList();
   }
 
-  private async syncTaskList() {
+  async syncTaskList() {
     const rsp = await TaskService.getTaskList(this.$route.params.processID);
     this.updateCurrentProcessTask({
       processID: this.$route.params.processID,
@@ -241,12 +241,12 @@ export default class TaskDetail extends Vue {
     });
   }
 
-  private beforeRouteUpdate(to: any, from: any, next: any) {
+  beforeRouteUpdate(to: any, from: any, next: any) {
     next();
     this.getTaskInfo();
   }
 
-  private mounted() {
+  mounted() {
     this.getTaskInfo();
     console.log(this.currentTask);
   }

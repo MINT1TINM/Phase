@@ -74,24 +74,24 @@ const userModule = namespace('user');
 
 @Component
 export default class Login extends Vue {
-  public $refs!: {
+  $refs!: {
     loginForm: HTMLFormElement;
   };
 
-  private loginForm = {
+  loginForm = {
     username: '',
     password: ''
   };
 
   @systemModule.Mutation('toggleFullScreenLoading')
-  private toggleFullScreenLoading!: (v: boolean) => void;
+  toggleFullScreenLoading!: (v: boolean) => void;
 
-  @userModule.Getter('authorization') private authorization!: Authorization;
+  @userModule.Getter('authorization') authorization!: Authorization;
 
-  @userModule.Mutation('clearAuthorization') private clearAuthorization: any;
+  @userModule.Mutation('clearAuthorization') clearAuthorization: any;
 
   // login through username & password
-  private async standardLogin() {
+  async standardLogin() {
     if (this.$refs.loginForm.validate()) {
       this.toggleFullScreenLoading(true);
 
@@ -112,7 +112,7 @@ export default class Login extends Vue {
   }
 
   // login with wechat
-  private async wechatLogin() {
+  async wechatLogin() {
     const appid = 'wxdfa1c9397935814c';
     const redirectUri = 'https://phase.insdim.com/#/wechat/login';
     const responseType = 'code';

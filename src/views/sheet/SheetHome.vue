@@ -181,29 +181,27 @@ const systemModule = namespace('system');
   }
 })
 export default class SheetHome extends Vue {
-  @userModule.Getter('authorization') private authorization: any;
+  @userModule.Getter('authorization') authorization: any;
 
-  @sheetModule.Getter('typeList') private typeList: any;
+  @sheetModule.Getter('typeList') typeList: any;
 
-  @sheetModule.Getter('type') private type: any;
+  @sheetModule.Getter('type') type: any;
 
-  @sheetModule.Getter('viewMode') private viewMode!: string;
+  @sheetModule.Getter('viewMode') viewMode!: string;
 
   @sheetModule.Mutation('restoreSheetTemplate')
-  private restoreSheetTemplate: any;
+  restoreSheetTemplate: any;
 
   @sheetModule.Mutation('updateCurrentTemplateID')
-  private updateCurrentTemplateID: any;
+  updateCurrentTemplateID: any;
 
-  @sheetModule.Mutation('updateViewMode') private updateViewMode!: (
-    v: string
-  ) => void;
+  @sheetModule.Mutation('updateViewMode') updateViewMode!: (v: string) => void;
 
-  @systemModule.Getter('systemName') private systemName!: string;
+  @systemModule.Getter('systemName') systemName!: string;
 
-  private templateList = [];
+  templateList = [];
 
-  private toDesignPage(type: string) {
+  toDesignPage(type: string) {
     this.updateCurrentTemplateID('');
     this.restoreSheetTemplate();
 
@@ -212,7 +210,7 @@ export default class SheetHome extends Vue {
     });
   }
 
-  private async getTemplateList() {
+  async getTemplateList() {
     const rsp = await SheetService.getSheetTemplateList(
       '',
       this.authorization.userID
@@ -220,7 +218,7 @@ export default class SheetHome extends Vue {
     this.templateList = rsp.template;
   }
 
-  private toDesignTool(templateID: string, type: string) {
+  toDesignTool(templateID: string, type: string) {
     this.updateCurrentTemplateID(templateID);
     this.restoreSheetTemplate();
 
@@ -229,13 +227,13 @@ export default class SheetHome extends Vue {
     });
   }
 
-  private toPreviewTool(templateID: string) {
+  toPreviewTool(templateID: string) {
     this.$router.push({
       path: `/preview/${templateID}`
     });
   }
 
-  private mounted() {
+  mounted() {
     this.getTemplateList();
   }
 }

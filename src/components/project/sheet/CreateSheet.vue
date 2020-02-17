@@ -66,20 +66,20 @@ const projectModule = namespace('project');
 
 @Component
 export default class CreateSheet extends Vue {
-  @Prop({ default: '' }) private taskID?: string;
+  @Prop({ default: '' }) taskID?: string;
 
   // check draft or sheet
-  @Prop({ default: '' }) private target?: string;
+  @Prop({ default: '' }) target?: string;
 
-  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+  @projectModule.Getter('currentProjectID') currentProjectID: any;
 
-  private searchTemplateContent: string = '';
+  searchTemplateContent: string = '';
 
-  private templateList: Template[] = [];
+  templateList: Template[] = [];
 
-  private searching: boolean = false;
+  searching: boolean = false;
 
-  private async searchTemplate() {
+  async searchTemplate() {
     // search user via api
     this.searching = true;
     const rsp = await SheetService.getSheetTemplateList(
@@ -90,7 +90,7 @@ export default class CreateSheet extends Vue {
     this.searching = false;
   }
 
-  private async createSheet(templateID: string, type: string) {
+  async createSheet(templateID: string, type: string) {
     console.log(this.target);
     const rsp = await SheetService.createSheet(
       this.currentProjectID,
@@ -107,7 +107,7 @@ export default class CreateSheet extends Vue {
   }
 
   @Watch('searchTemplateContent')
-  private onSearchUserContentChanged() {
+  onSearchUserContentChanged() {
     if (this.searching) {
       return;
     }

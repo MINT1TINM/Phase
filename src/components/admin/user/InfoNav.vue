@@ -223,28 +223,28 @@ const systemModule = namespace('system');
   }
 })
 export default class AdminUserInfoNav extends Vue {
-  @Prop(String) public userID!: string;
+  @Prop(String) userID!: string;
 
-  @userModule.Getter('privilege') private privilege!: string[];
+  @userModule.Getter('privilege') privilege!: string[];
 
-  @systemModule.Getter('permissionList') private permissionList: any;
+  @systemModule.Getter('permissionList') permissionList: any;
 
-  @systemModule.Getter('appList') private applicationList!: App[];
+  @systemModule.Getter('appList') applicationList!: App[];
 
-  private userInfo: UserInfo = new UserInfo();
+  userInfo: UserInfo = new UserInfo();
 
-  private appAccessNav: boolean = false;
+  appAccessNav: boolean = false;
 
-  private tab = null;
+  tab = null;
 
-  private loginHistory: Login[] = [];
+  loginHistory: Login[] = [];
 
-  private async updateUserPrivilege(privilege: string[]) {
+  async updateUserPrivilege(privilege: string[]) {
     console.log(privilege);
     await UserService.updatePrivilege(this.userID, privilege);
   }
 
-  private async updateUserAppList() {
+  async updateUserAppList() {
     console.log(this.userInfo.applicationList);
     await UserService.updateUserAppList(
       this.userID,
@@ -252,17 +252,17 @@ export default class AdminUserInfoNav extends Vue {
     );
   }
 
-  private async getUserLoginHistory() {
+  async getUserLoginHistory() {
     const rsp = await UserService.getUserLoginHistory(this.userID);
     this.loginHistory = rsp.loginHistory;
   }
 
-  private async getUserInfo() {
+  async getUserInfo() {
     const rsp = await UserService.getOtherUserInfo(this.userID);
     this.userInfo = rsp.userInfo;
   }
 
-  private async deleteUser() {
+  async deleteUser() {
     const res = await this.$confirm('此操作无法还原', {
       title: '确认释放?',
       buttonTrueColor: 'primary',
@@ -274,16 +274,16 @@ export default class AdminUserInfoNav extends Vue {
     }
   }
 
-  private get selectableAppList() {
+  get selectableAppList() {
     return this.applicationList.slice(0, this.applicationList.length - 1);
   }
 
   @Watch('userID')
-  private async onUserIDChanged() {
+  async onUserIDChanged() {
     this.getUserInfo();
   }
 
-  private async mounted() {
+  async mounted() {
     this.userInfo = new UserInfo();
     if (this.userID) {
       this.getUserInfo();

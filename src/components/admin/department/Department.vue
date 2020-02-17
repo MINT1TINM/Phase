@@ -85,17 +85,17 @@ const systemModule = namespace('system');
 
 @Component
 export default class AdminDepartment extends Vue {
-  @systemModule.Getter('companyName') private companyName!: string;
+  @systemModule.Getter('companyName') companyName!: string;
 
-  private departmentTree: any = [];
+  departmentTree: any = [];
 
-  private active: any[] = [];
+  active: any[] = [];
 
-  private createDepartmentDialog: boolean = false;
+  createDepartmentDialog: boolean = false;
 
-  private departmentName: string = '';
+  departmentName: string = '';
 
-  private createDepartment() {
+  createDepartment() {
     const result = insertNodeToTree(this.active, this.active[0]!.id, {
       id: uuidv1(),
       name: this.departmentName,
@@ -107,14 +107,14 @@ export default class AdminDepartment extends Vue {
   }
 
   @Watch('active')
-  private onActiveChanged() {
+  onActiveChanged() {
     console.log(this.active);
     if (this.active[0] && this.active[0]!.id) {
       this.$router.push({ path: `/department/${this.active[0]!.id}` });
     }
   }
 
-  private async mounted() {
+  async mounted() {
     const rsp = await CompanyService.getDepartmentTree();
     this.departmentTree = rsp.department.data;
   }

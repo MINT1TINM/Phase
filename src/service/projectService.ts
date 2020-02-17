@@ -7,7 +7,7 @@ import { Project, ProjectMember, ProjectTemplate } from '@/types/project';
 const vue = new Vue();
 
 class ProjectService {
-  public static async createProject(name: string, wfInstanceID?: number) {
+  static async createProject(name: string, wfInstanceID?: number) {
     const rsp = (await basicService.postRequest('/project', {
       name: name,
       extraInfo: {
@@ -26,7 +26,7 @@ class ProjectService {
     }
   }
 
-  public static async getProjectList() {
+  static async getProjectList() {
     if (store.getters['user/projectIDList'].length >= 1) {
       const rsp = await basicService.getRequest('/project/list', {
         // use array as params
@@ -44,7 +44,7 @@ class ProjectService {
     return rsp;
   }
 
-  public static async getProjectMember(memberList: ProjectMember[]) {
+  static async getProjectMember(memberList: ProjectMember[]) {
     const memberIDList = [];
     for (let i = 0; i < memberList.length; i++) {
       const e = memberList[i];
@@ -57,7 +57,7 @@ class ProjectService {
     return rsp;
   }
 
-  public static async updateProjectInfo(projectInfo: Project) {
+  static async updateProjectInfo(projectInfo: Project) {
     const rsp = await basicService.putRequest('/project/info', {
       projectID: projectInfo.id,
       name: projectInfo.name,
@@ -74,7 +74,7 @@ class ProjectService {
     return rsp;
   }
 
-  public static async removeProjectMember(projectID: string, userID: string) {
+  static async removeProjectMember(projectID: string, userID: string) {
     const rsp = await basicService.putRequest('/project/member', {
       projectID,
       userID
@@ -86,7 +86,7 @@ class ProjectService {
     return rsp;
   }
 
-  public static async updateMemberRole(
+  static async updateMemberRole(
     projectID: string,
     userID: string,
     role: [],
@@ -106,7 +106,7 @@ class ProjectService {
     return rsp;
   }
 
-  public static async updateProjectFolder(file: any, projectID: string) {
+  static async updateProjectFolder(file: any, projectID: string) {
     const fileForm = new FormData();
     fileForm.append('file', file);
     fileForm.append('projectID', projectID);
@@ -116,7 +116,7 @@ class ProjectService {
   }
 
   // invitation
-  public static async submitInvitation(
+  static async submitInvitation(
     projectID: string,
     fromUserID: string,
     toUserID: string
@@ -133,7 +133,7 @@ class ProjectService {
     return rsp;
   }
 
-  public static async getInvitationList(
+  static async getInvitationList(
     projectID: string,
     fromUserID: string,
     toUserID: string
@@ -147,10 +147,7 @@ class ProjectService {
     return rsp;
   }
 
-  public static async updateInvitationStatus(
-    invitationID: string,
-    status: number
-  ) {
+  static async updateInvitationStatus(invitationID: string, status: number) {
     const rsp = await basicService.putRequest('/project/invitation', {
       invitationID,
       status
@@ -158,7 +155,7 @@ class ProjectService {
     return rsp;
   }
 
-  public static async saveToTemplate(projectID: string, name: string) {
+  static async saveToTemplate(projectID: string, name: string) {
     const rsp = await basicService.postRequest('/project/template', {
       projectID,
       name
@@ -170,21 +167,21 @@ class ProjectService {
     return rsp;
   }
 
-  public static async getProjectTemplateList(userID: string) {
+  static async getProjectTemplateList(userID: string) {
     const rsp = await basicService.getRequest('/project/template/list', {
       userID
     });
     return rsp.template as ProjectTemplate[];
   }
 
-  public static async getTemplateInfo(templateID: string) {
+  static async getTemplateInfo(templateID: string) {
     const rsp = await basicService.getRequest('/project/template', {
       templateID
     });
     return rsp;
   }
 
-  public static async generateProject(
+  static async generateProject(
     name: string,
     templateID: string,
     wfInstanceID?: number
@@ -201,7 +198,7 @@ class ProjectService {
     }
   }
 
-  public static async deleteProject(projectID: string) {
+  static async deleteProject(projectID: string) {
     const rsp = await basicService.deleteRequest('/project', {
       projectID
     });

@@ -22,7 +22,7 @@ class UserInfo {
   name!: string;
   phone!: string;
   email!: string;
-  privateInfo!: PrivateInfo;
+  Info!: Info;
   privacySetting!: PrivacySetting;
   applicationList!: string[];
   permission!: UserPermission;
@@ -42,7 +42,7 @@ class Login {
   location!: string;
 }
 
-class PrivateInfo {
+class Info {
   license!: string;
   workNum!: string;
 }
@@ -120,7 +120,7 @@ export {
   UserInfo,
   UserProject,
   Login,
-  PrivateInfo,
+  Info,
   PrivacySetting,
   UserPermission,
   UserPermissionCN,

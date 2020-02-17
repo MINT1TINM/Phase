@@ -192,53 +192,53 @@ const systemModule = namespace('system');
   }
 })
 export default class Document extends Vue {
-  public $refs!: {
+  $refs!: {
     createCatalogForm: HTMLFormElement;
   };
 
-  @Prop(Boolean) private window!: boolean;
+  @Prop(Boolean) window!: boolean;
 
-  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+  @projectModule.Getter('currentProjectID') currentProjectID: any;
 
-  @fileModule.Getter('fileList') private fileList: any;
+  @fileModule.Getter('fileList') fileList: any;
 
-  @fileModule.Getter('path') private path!: string[];
+  @fileModule.Getter('path') path!: string[];
 
-  @fileModule.Getter('pathPrettier') private pathPrettier!: string[];
+  @fileModule.Getter('pathPrettier') pathPrettier!: string[];
 
-  @fileModule.Mutation('updatePath') private updatePath!: any;
+  @fileModule.Mutation('updatePath') updatePath!: any;
 
-  @fileModule.Mutation('updatePathPrettier') private updatePathPrettier!: any;
+  @fileModule.Mutation('updatePathPrettier') updatePathPrettier!: any;
 
-  @fileModule.Mutation('restorePath') private restorePath!: any;
+  @fileModule.Mutation('restorePath') restorePath!: any;
 
-  @fileModule.Mutation('restorePathPrettier') private restorePathPrettier!: any;
+  @fileModule.Mutation('restorePathPrettier') restorePathPrettier!: any;
 
-  @systemModule.Getter('uploadPercent') private uploadPercent!: number;
+  @systemModule.Getter('uploadPercent') uploadPercent!: number;
 
   @systemModule.Mutation('updateUploadPercent')
-  private updateUploadPercent: any;
+  updateUploadPercent: any;
 
-  private currentObject = {};
-  private currentName: string = '';
-  private currentUUID: string = '';
-  private fileListShow = {};
-  private createCatalogDialog: boolean = false;
-  private uploadDialog: boolean = false;
-  private file: any = null;
+  currentObject = {};
+  currentName: string = '';
+  currentUUID: string = '';
+  fileListShow = {};
+  createCatalogDialog: boolean = false;
+  uploadDialog: boolean = false;
+  file: any = null;
 
-  private async getFileList() {
+  async getFileList() {
     const rsp = await FileService.getFile(this.currentProjectID, this.path);
     this.fileListShow = rsp.fileList;
   }
 
-  private showInfo(item: any, uuid: any) {
+  showInfo(item: any, uuid: any) {
     this.currentObject = item;
     this.currentName = item.name;
     this.currentUUID = uuid;
   }
 
-  private openCatalog(item: any, i: any) {
+  openCatalog(item: any, i: any) {
     // open catalog
     if (item.data) {
       this.updatePath([...this.path, i, 'data']);
@@ -249,7 +249,7 @@ export default class Document extends Vue {
     }
   }
 
-  private async createCatalog() {
+  async createCatalog() {
     if (this.$refs.createCatalogForm.validate()) {
       await FileService.createCatalog(
         this.currentProjectID,
@@ -261,21 +261,21 @@ export default class Document extends Vue {
     }
   }
 
-  private async uploadFile() {
+  async uploadFile() {
     await FileService.uploadFile(this.file, this.path, this.currentProjectID);
     this.uploadDialog = false;
     this.file = null;
     this.getFileList();
   }
 
-  private linkFile() {
+  linkFile() {
     console.log(this.currentObject);
     (this.currentObject as any).path = this.path;
     (this.currentObject as any).fileID = this.currentUUID;
     this.$emit('linkFile', this.currentObject);
   }
 
-  private goBack() {
+  goBack() {
     if (this.path.length > 1) {
       this.updatePath(this.path.slice(0, this.path.length - 2));
       this.updatePathPrettier(
@@ -287,7 +287,7 @@ export default class Document extends Vue {
     }
   }
 
-  private clickBlank(v: any) {
+  clickBlank(v: any) {
     // check if user has clicked in blank area
     if (v.target.id !== 'file-grid') {
       console.log('blank');
@@ -295,7 +295,7 @@ export default class Document extends Vue {
     }
   }
 
-  private clearDocumentInfo() {
+  clearDocumentInfo() {
     this.currentObject = {};
     this.currentName = '';
     this.currentUUID = '';
@@ -313,18 +313,18 @@ export default class Document extends Vue {
   }
 
   @Watch('path')
-  private async onPathChanged() {
+  async onPathChanged() {
     await this.getFileList();
   }
 
   @Watch('fileList', {
     deep: true
   })
-  private onFileListChanged() {
+  onFileListChanged() {
     this.fileListShow = this.fileList;
   }
 
-  private async mounted() {
+  async mounted() {
     this.getFileList();
     this.updateUploadPercent(0);
     // this.restorePath();

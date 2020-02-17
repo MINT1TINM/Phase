@@ -92,16 +92,16 @@ const systemModule = namespace('system');
 
 @Component
 export default class ProjectDashboardCalendar extends Vue {
-  public $refs!: {
+  $refs!: {
     calendar: any;
   };
 
-  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+  @projectModule.Getter('projectMemberCache') projectMemberCache: any;
 
-  @processModule.Getter('fullTaskList') private fullTaskList!: ProcessTask[];
+  @processModule.Getter('fullTaskList') fullTaskList!: ProcessTask[];
 
   @processModule.Getter('currentProcessIDList')
-  private currentProcessIDList!: string[];
+  currentProcessIDList!: string[];
 
   focus = '';
   type = 'month';
@@ -118,7 +118,7 @@ export default class ProjectDashboardCalendar extends Vue {
   selectedElement = null;
   selectedOpen = false;
 
-  private get monthFormatter() {
+  get monthFormatter() {
     return this.$refs.calendar.getFormatter({
       timeZone: 'UTC',
       month: 'long'
@@ -171,7 +171,7 @@ export default class ProjectDashboardCalendar extends Vue {
       : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`;
   }
 
-  private async mounted() {
+  async mounted() {
     await TaskService.getMultiProcessTaskList(this.currentProcessIDList);
   }
 }

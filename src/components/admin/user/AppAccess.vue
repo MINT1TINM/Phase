@@ -40,43 +40,43 @@ const systemModule = namespace('system');
 
 @Component
 export default class AppAccess extends Vue {
-  @Prop() private permission!: UserPermission;
+  @Prop() permission!: UserPermission;
 
-  @Prop() private userID!: string;
+  @Prop() userID!: string;
 
-  @systemModule.Getter('appList') private appList!: App[];
+  @systemModule.Getter('appList') appList!: App[];
 
-  private currentApp = new App();
+  currentApp = new App();
 
-  private tab = null;
+  tab = null;
 
-  private permissionShow: UserPermission = new UserPermission(false);
+  permissionShow: UserPermission = new UserPermission(false);
 
-  private getCN(v: string) {
+  getCN(v: string) {
     return (UserPermissionCN as any)[v];
   }
 
-  private async updatePermission() {
+  async updatePermission() {
     console.log(this.permissionShow);
     await UserService.updateUserPermission(this.userID, this.permissionShow);
     this.$emit('getUserInfo');
   }
 
-  private get permissionList() {
+  get permissionList() {
     return (this.permissionShow as any)[this.currentApp.nameEn];
   }
 
   @Watch('tab')
-  private onTabChanged(v: number) {
+  onTabChanged(v: number) {
     this.currentApp = this.appList[v];
   }
 
   @Watch('permission')
-  private onPermissionChanged() {
+  onPermissionChanged() {
     this.permissionShow = this.permission;
   }
 
-  private mounted() {
+  mounted() {
     this.permissionShow = this.permission || new UserPermission(false);
     console.log(this.permissionShow);
   }

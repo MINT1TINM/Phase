@@ -23,12 +23,12 @@ const projectModule = namespace('project');
 
 @Component
 export default class TaskOperations extends Vue {
-  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+  @projectModule.Getter('currentProjectID') currentProjectID: any;
 
   @processModule.Mutation('updateCurrentProcessList')
-  private updateCurrentProcessList: any;
+  updateCurrentProcessList: any;
 
-  private async deleteTask() {
+  async deleteTask() {
     const res = await this.$confirm('此操作无法复原', {
       title: '确认删除?',
       buttonTrueColor: 'primary',

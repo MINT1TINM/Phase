@@ -38,8 +38,8 @@ import PolicyService from '@/service/policyService';
   }
 })
 export default class EditPolicy extends Vue {
-  private policyInfo = new Policy();
-  private policyInfoContent = [
+  policyInfo = new Policy();
+  policyInfoContent = [
     {
       type: 'text-field',
       title: '标题',
@@ -67,7 +67,7 @@ export default class EditPolicy extends Vue {
     }
   ];
 
-  private async getInfo() {
+  async getInfo() {
     const rsp = await PolicyService.getPolicyInfo(Number(this.policyID));
     if (rsp.msg === 'notfound') {
       this.$router.push({ path: '/' });
@@ -75,11 +75,11 @@ export default class EditPolicy extends Vue {
     this.policyInfo = rsp.policyInfo;
   }
 
-  private async updatePolicy() {
+  async updatePolicy() {
     await PolicyService.updatePolicy(this.policyInfo);
   }
 
-  private async deletePolicy() {
+  async deletePolicy() {
     const res = await this.$confirm('此操作无法还原', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
@@ -91,11 +91,11 @@ export default class EditPolicy extends Vue {
     }
   }
 
-  private mounted() {
+  mounted() {
     this.getInfo();
   }
 
-  private get policyID() {
+  get policyID() {
     return this.$route.params.id;
   }
 }

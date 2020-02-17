@@ -73,20 +73,20 @@ Vue.use(VueClipboard);
 
 @Component
 export default class SearchFlow extends Vue {
-  private content: string = '';
-  private flowList: Flow[] = [];
+  content: string = '';
+  flowList: Flow[] = [];
 
-  private async searchFlow() {
+  async searchFlow() {
     if (this.content) {
       const rsp = await WorkflowService.getWorkflowList(1, 10, this.content);
       this.flowList = rsp.flow;
     }
   }
 
-  private onCopy(e: any) {
+  onCopy(e: any) {
     this.$snack(`ID: ${e.text} 已复制到剪贴板`);
   }
-  private onError(e: any) {
+  onError(e: any) {
     this.$snack(`复制失败`);
   }
 }

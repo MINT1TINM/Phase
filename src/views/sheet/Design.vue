@@ -192,28 +192,28 @@ const userModule = namespace('user');
 
 @Component
 export default class SheetDesign extends Vue {
-  public $refs!: {
+  $refs!: {
     sheetDesign: HTMLFormElement;
   };
 
-  @userModule.Getter('authorization') private authorization!: Authorization;
+  @userModule.Getter('authorization') authorization!: Authorization;
 
-  @sheetModule.Getter('sheetTemplate') private sheetTemplate: any;
+  @sheetModule.Getter('sheetTemplate') sheetTemplate: any;
 
-  @sheetModule.Getter('currentTemplateID') private currentTemplateID!: string;
+  @sheetModule.Getter('currentTemplateID') currentTemplateID!: string;
 
-  @sheetModule.Mutation('insertNewEmptyField') private insertNewEmptyField: any;
+  @sheetModule.Mutation('insertNewEmptyField') insertNewEmptyField: any;
 
   @sheetModule.Mutation('updateCurrentTemplateID')
-  private updateCurrentTemplateID: any;
+  updateCurrentTemplateID: any;
 
   @sheetModule.Mutation('updateSheetTemplate')
-  private updateSheetTemplate: any;
+  updateSheetTemplate: any;
 
   @sheetModule.Mutation('restoreSheetTemplate')
-  private restoreSheetTemplate: any;
+  restoreSheetTemplate: any;
 
-  private typeList = [
+  typeList = [
     { label: '文本', value: 'text-field' },
     { label: '文本框', value: 'text-area' },
     { label: '选择', value: 'select' },
@@ -221,17 +221,17 @@ export default class SheetDesign extends Vue {
     { label: '日期', value: 'date-picker' }
   ];
 
-  private insertField() {
+  insertField() {
     if (this.$refs.sheetDesign.validate()) {
       this.insertNewEmptyField();
     }
   }
 
-  private deleteField(i: number) {
+  deleteField(i: number) {
     this.sheetTemplate.field.data.splice(i, 1);
   }
 
-  private moveDown(i: number) {
+  moveDown(i: number) {
     this.sheetTemplate.field.data[i] = this.sheetTemplate.field.data.splice(
       i + 1,
       1,
@@ -239,7 +239,7 @@ export default class SheetDesign extends Vue {
     )[0];
   }
 
-  private moveUp(i: number) {
+  moveUp(i: number) {
     this.sheetTemplate.field.data[i] = this.sheetTemplate.field.data.splice(
       i - 1,
       1,
@@ -247,7 +247,7 @@ export default class SheetDesign extends Vue {
     )[0];
   }
 
-  private async saveTemplate() {
+  async saveTemplate() {
     if (this.$refs.sheetDesign.validate()) {
       this.updateSheetTemplate(this.sheetTemplate);
       console.log(this.sheetTemplate);
@@ -269,7 +269,7 @@ export default class SheetDesign extends Vue {
     }
   }
 
-  private async deleteTemplate(templateID: string) {
+  async deleteTemplate(templateID: string) {
     const res = await this.$confirm('此操作无法还原', {
       title: '确认释放?',
       buttonTrueColor: 'primary',
@@ -281,11 +281,11 @@ export default class SheetDesign extends Vue {
     }
   }
 
-  private async exportTemplate() {
+  async exportTemplate() {
     await SheetService.exportTemplate(this.sheetTemplate.id);
   }
 
-  private goHome() {
+  goHome() {
     // clear cache
     this.restoreSheetTemplate();
     this.updateCurrentTemplateID('');
@@ -293,12 +293,12 @@ export default class SheetDesign extends Vue {
   }
 
   @Watch('currentTemplateID')
-  private async onCurrentTemplateIDChanged() {
+  async onCurrentTemplateIDChanged() {
     const rsp = await SheetService.getSheetTemplate(this.currentTemplateID);
     this.updateSheetTemplate(rsp.template);
   }
 
-  private async mounted() {
+  async mounted() {
     if (this.currentTemplateID) {
       const rsp = await SheetService.getSheetTemplate(this.currentTemplateID);
       this.updateSheetTemplate(rsp.template);

@@ -18,11 +18,11 @@ const projectModule = namespace('project');
   name: 'user-chip'
 })
 export default class UserChip extends Vue {
-  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+  @projectModule.Getter('projectMemberCache') projectMemberCache: any;
 
-  @Prop(String) private userID!: string;
+  @Prop(String) userID!: string;
 
-  private get headImgURL() {
+  get headImgURL() {
     if (this.userID && this.projectMemberCache(this.userID).headImgURL !== '') {
       return `https${this.projectMemberCache(this.userID).headImgURL.substring(
         4
@@ -31,7 +31,7 @@ export default class UserChip extends Vue {
     return '';
   }
 
-  private get nickName() {
+  get nickName() {
     if (this.userID) {
       return this.projectMemberCache(this.userID).nickName;
     }

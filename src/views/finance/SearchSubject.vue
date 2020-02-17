@@ -191,29 +191,29 @@ import ToolkitService from '@/service/toolkitService';
 
 @Component
 export default class SearchSubject extends Vue {
-  public $refs!: {
+  $refs!: {
     searchSubjectForm: HTMLFormElement;
   };
 
-  private datePickerMenu: boolean = false;
+  datePickerMenu: boolean = false;
 
-  private dateRange = [];
+  dateRange = [];
 
-  private projectCode: string[] = [''];
+  projectCode: string[] = [''];
 
-  private subjectGroupList: any = {};
+  subjectGroupList: any = {};
 
-  private certificateList: any[] | undefined = [];
+  certificateList: any[] | undefined = [];
 
-  private detailNav: boolean = false;
+  detailNav: boolean = false;
 
-  private sumDAmount: number = 0;
+  sumDAmount: number = 0;
 
-  private sumJAmount: number = 0;
+  sumJAmount: number = 0;
 
-  private headers = ['科目名称', '科目代码', '借方发生数', '贷方发生数'];
+  headers = ['科目名称', '科目代码', '借方发生数', '贷方发生数'];
 
-  private certificateDetailHeaders = [
+  certificateDetailHeaders = [
     '凭证账号',
     '日期',
     '摘要',
@@ -225,7 +225,7 @@ export default class SearchSubject extends Vue {
     '负责人工号'
   ];
 
-  private async searchSubject() {
+  async searchSubject() {
     if (this.$refs.searchSubjectForm.validate()) {
       const rsp = await FinanceService.searchSubject(
         Array.from(new Set(this.projectCode)), // remove duplicated object
@@ -236,18 +236,18 @@ export default class SearchSubject extends Vue {
     }
   }
 
-  private async showDetail(item: Certificate) {
+  async showDetail(item: Certificate) {
     this.detailNav = true;
     this.certificateList = item.pzds;
   }
 
-  private insertProjectCode() {
+  insertProjectCode() {
     if (this.$refs.searchSubjectForm.validate()) {
       this.projectCode.push('');
     }
   }
 
-  private async exportResult() {
+  async exportResult() {
     // adjust head & data field
     const head: string[] = [];
     for (const field of this.headers) {
@@ -275,7 +275,7 @@ export default class SearchSubject extends Vue {
     );
   }
 
-  private async exportCertificateDetailList() {
+  async exportCertificateDetailList() {
     // adjust head & data field
     const head: string[] = [];
     for (const field of this.certificateDetailHeaders) {
@@ -304,11 +304,11 @@ export default class SearchSubject extends Vue {
     );
   }
 
-  private get dateRangeText() {
+  get dateRangeText() {
     return this.dateRange.join(' ~ ');
   }
 
-  private get dateRangeNum() {
+  get dateRangeNum() {
     return [
       new Date(this.dateRange[0]).getTime() / 1000,
       new Date(this.dateRange[1]).getTime() / 1000
@@ -316,7 +316,7 @@ export default class SearchSubject extends Vue {
   }
 
   @Watch('subjectGroupList')
-  private onSubjectGroupListChanged() {
+  onSubjectGroupListChanged() {
     if (Object.keys(this.subjectGroupList).length > 0) {
       for (const group in this.subjectGroupList) {
         console.log(group);

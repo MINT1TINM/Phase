@@ -21,13 +21,13 @@ const fileModule = namespace('file');
   components: {}
 })
 export default class CatalogInfo extends Vue {
-  @fileModule.Getter('fileList') private fileList: any;
+  @fileModule.Getter('fileList') fileList: any;
 
   get childrenNum() {
     return Object.values(this.fileList).length;
   }
 
-  private mounted() {}
+  mounted() {}
 }
 </script>
 

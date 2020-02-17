@@ -21,9 +21,9 @@ import TrackService from '@/service/trackService';
 
 @Component
 export default class ProjectTrackInfo extends Vue {
-  private track: Track = new Track();
+  track: Track = new Track();
 
-  private async getTrack() {
+  async getTrack() {
     try {
       this.track = await TrackService.getOneTrack(this.$route.params.trackID);
     } catch (err) {
@@ -31,7 +31,7 @@ export default class ProjectTrackInfo extends Vue {
     }
   }
 
-  private mounted() {
+  mounted() {
     this.getTrack();
   }
 }

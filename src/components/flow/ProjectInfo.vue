@@ -98,17 +98,17 @@ const userModule = namespace('user');
 
 @Component
 export default class ProjectInfo extends Vue {
-  @userModule.Getter('authorization') private authorization!: Authorization;
-  @userModule.Getter('userInfo') private userInfo!: UserInfo;
+  @userModule.Getter('authorization') authorization!: Authorization;
+  @userModule.Getter('userInfo') userInfo!: UserInfo;
 
   @Prop() projectInfo!: Project;
   @Prop() instance!: Instance;
   @Prop() comment!: string;
 
-  private commentDialog = false;
-  private newComment = '';
+  commentDialog = false;
+  newComment = '';
 
-  private async completeTask(item: Instance) {
+  async completeTask(item: Instance) {
     const l = new FlowLinkTask();
     l.flowID = this.instance.procDefId;
     l.instanceID = this.instance.id;
@@ -147,7 +147,7 @@ export default class ProjectInfo extends Vue {
     }
   }
 
-  private async resistTask(item: Instance) {
+  async resistTask(item: Instance) {
     const l = new FlowLinkTask();
     l.flowID = this.instance.procDefId;
     l.instanceID = this.instance.id;
@@ -172,7 +172,7 @@ export default class ProjectInfo extends Vue {
     } catch (err) {}
   }
 
-  private mounted() {
+  mounted() {
     console.log(this.instance);
   }
 }

@@ -31,11 +31,11 @@ const userModule = namespace('user');
 
 @Component
 export default class Privacy extends Vue {
-  @userModule.Getter('userInfo') private userInfo!: UserInfo;
+  @userModule.Getter('userInfo') userInfo!: UserInfo;
 
-  @userModule.Getter('authorization') private authorization!: Authorization;
+  @userModule.Getter('authorization') authorization!: Authorization;
 
-  private privacySettingList = [
+  privacySettingList = [
     {
       type: 'switch',
       title: '隐藏真实姓名',
@@ -53,15 +53,15 @@ export default class Privacy extends Vue {
     }
   ];
 
-  private get privacySetting() {
+  get privacySetting() {
     return this.userInfo.privacySetting!;
   }
 
-  private set privacySetting(v: PrivacySetting) {
+  set privacySetting(v: PrivacySetting) {
     this.privacySetting = v;
   }
 
-  private async updatePrivacySetting() {
+  async updatePrivacySetting() {
     await UserService.updatePrivacySetting(this.privacySetting);
     await UserService.getUserInfo(this.authorization.userID);
   }

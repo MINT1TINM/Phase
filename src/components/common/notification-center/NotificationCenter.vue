@@ -29,11 +29,11 @@ const systemModule = namespace('system');
   }
 })
 export default class NotificationCenter extends Vue {
-  public $refs!: {
+  $refs!: {
     invitation: HTMLFormElement;
   };
 
-  private mounted() {}
+  mounted() {}
 }
 </script>
 

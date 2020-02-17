@@ -76,11 +76,11 @@ import ToolkitService from '@/service/toolkitService';
 
 @Component
 export default class SearchCertificate extends Vue {
-  private certificateNo: string = '';
+  certificateNo: string = '';
 
-  private certificateList: Certificate[] = [];
+  certificateList: Certificate[] = [];
 
-  private headers = [
+  headers = [
     '凭证账号',
     '日期',
     '摘要',
@@ -92,12 +92,12 @@ export default class SearchCertificate extends Vue {
     '负责人工号'
   ];
 
-  private async searchCertificate() {
+  async searchCertificate() {
     const rsp = await FinanceService.searchCertificate(this.certificateNo);
     this.certificateList = rsp.certificate;
   }
 
-  private async exportResult() {
+  async exportResult() {
     // adjust head & data field
     const head: string[] = [];
     for (const field of this.headers) {

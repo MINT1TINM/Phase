@@ -85,9 +85,9 @@ import MaterialService from '@/service/materialService';
 
 @Component
 export default class ProjectMaterialInfo extends Vue {
-  private material: Material = new Material();
+  material: Material = new Material();
 
-  private materialInfoContent = [
+  materialInfoContent = [
     {
       subheader: '基本'
     },
@@ -149,13 +149,13 @@ export default class ProjectMaterialInfo extends Vue {
     }
   ];
 
-  private async getMaterialInfo() {
+  async getMaterialInfo() {
     this.material = await MaterialService.getOneMaterial(
       this.$route.params.materialID
     );
   }
 
-  private async deleteMaterial() {
+  async deleteMaterial() {
     try {
       await MaterialService.deleteMaterial(this.materialShow.id);
       this.$router.push({ path: `/material` });
@@ -165,7 +165,7 @@ export default class ProjectMaterialInfo extends Vue {
     }
   }
 
-  private async updateMaterial() {
+  async updateMaterial() {
     try {
       await MaterialService.updateMaterial(this.materialShow);
       this.$snack('更新成功');
@@ -174,17 +174,17 @@ export default class ProjectMaterialInfo extends Vue {
     }
   }
 
-  private get materialShow() {
+  get materialShow() {
     const m = this.material;
     m.inquiryTime = new Date(m.inquiryTime || 0).toISOString().slice(0, 10);
     return m;
   }
 
-  private set materialShow(v: Material) {
+  set materialShow(v: Material) {
     this.materialShow = v;
   }
 
-  private mounted() {
+  mounted() {
     this.getMaterialInfo();
   }
 }

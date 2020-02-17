@@ -34,7 +34,7 @@ import appBar from '@/components/common/app-bar/AppBar.vue';
   }
 })
 export default class AdminTemplate extends Vue {
-  private appList = [
+  appList = [
     {
       name: '主页',
       icon: 'mdi-home-outline',

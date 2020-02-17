@@ -28,12 +28,12 @@ const userModule = namespace('user');
 
 @Component
 export default class FlowTodo extends Vue {
-  @userModule.Getter('authorization') private authorization!: Authorization;
-  @userModule.Getter('userInfo') private userInfo!: UserInfo;
+  @userModule.Getter('authorization') authorization!: Authorization;
+  @userModule.Getter('userInfo') userInfo!: UserInfo;
 
-  private instanceList: Instance[] = [];
+  instanceList: Instance[] = [];
 
-  private get headers() {
+  get headers() {
     return [
       {
         text: '名称',
@@ -58,7 +58,7 @@ export default class FlowTodo extends Vue {
     ];
   }
 
-  private async getFlowInstance() {
+  async getFlowInstance() {
     // get user group
     const groupUUIDList = (
       await CompanyService.getUserGroup(this.authorization.userID)
@@ -78,7 +78,7 @@ export default class FlowTodo extends Vue {
     }
   }
 
-  private mounted() {
+  mounted() {
     this.getFlowInstance();
   }
 }

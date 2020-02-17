@@ -7,7 +7,7 @@ import { encodeUnicode } from '@/utils/ConvertType';
 
 const vue = new Vue() as any;
 class SheetService {
-  public static async createSheetTemplate(template: Template) {
+  static async createSheetTemplate(template: Template) {
     // encode field name
     for (let i = 0; i < template!.field!.data.length; i += 1) {
       const field = template!.field!.data[i];
@@ -23,10 +23,7 @@ class SheetService {
     return rsp;
   }
 
-  public static async updateSheetTemplate(
-    template: Template,
-    templateID: string
-  ) {
+  static async updateSheetTemplate(template: Template, templateID: string) {
     // encode field name
     for (const field of template!.field!.data) {
       if (field) field.name = encodeUnicode(field.title!);
@@ -45,7 +42,7 @@ class SheetService {
     return rsp;
   }
 
-  public static async getSheetTemplate(templateID: string) {
+  static async getSheetTemplate(templateID: string) {
     const rsp = await basicService.getRequest('/sheet/template', {
       id: templateID
     });
@@ -53,10 +50,7 @@ class SheetService {
     return rsp;
   }
 
-  public static async getSheetTemplateList(
-    templateName: string,
-    userID: string
-  ) {
+  static async getSheetTemplateList(templateName: string, userID: string) {
     const rsp = await basicService.getRequest('/sheet/template/list', {
       userID,
       templateName
@@ -65,15 +59,15 @@ class SheetService {
     return rsp;
   }
 
-  public static async exportTemplate(templateID: string) {
+  static async exportTemplate(templateID: string) {
     window.open(`/api/sheet/template/xlsx?id=${templateID}`, '_blank');
   }
 
-  public static async exportSheet(sheetID: string) {
+  static async exportSheet(sheetID: string) {
     window.open(`/api/sheet/xlsx?id=${sheetID}`, '_blank');
   }
 
-  public static async deleteTemplate(templateID: string) {
+  static async deleteTemplate(templateID: string) {
     const rsp = await basicService.deleteRequest('/sheet/template', {
       templateID
     });
@@ -81,7 +75,7 @@ class SheetService {
     return rsp;
   }
 
-  public static async createSheet(
+  static async createSheet(
     projectID: string,
     templateID: string,
     type: string,
@@ -102,7 +96,7 @@ class SheetService {
     return rsp;
   }
 
-  public static async getSheetList(projectID: string) {
+  static async getSheetList(projectID: string) {
     const rsp = await basicService.getRequest('/sheet/list', {
       projectID
     });
@@ -110,14 +104,14 @@ class SheetService {
     return rsp;
   }
 
-  public static async getSheetInfoList(sheetIDList: string[]) {
+  static async getSheetInfoList(sheetIDList: string[]) {
     const rsp = await basicService.getRequest('/sheet/list/info', {
       id: sheetIDList
     });
     return rsp;
   }
 
-  public static async getSheetInfo(sheetID: string) {
+  static async getSheetInfo(sheetID: string) {
     const rsp = await basicService.getRequest('/sheet', {
       sheetID
     });
@@ -125,7 +119,7 @@ class SheetService {
     return rsp;
   }
 
-  public static async updateSheet(
+  static async updateSheet(
     sheetID: string,
     name: string,
     target: string,
@@ -143,11 +137,7 @@ class SheetService {
     return rsp;
   }
 
-  public static async deleteSheet(
-    sheetID: string,
-    taskID: string,
-    target: string
-  ) {
+  static async deleteSheet(sheetID: string, taskID: string, target: string) {
     const rsp = await basicService.deleteRequest('/sheet', {
       sheetID,
       taskID,

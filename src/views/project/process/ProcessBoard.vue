@@ -29,9 +29,9 @@ import taskList from '@/components/project/process/task/TaskList.vue';
   }
 })
 export default class ProcessBoard extends Vue {
-  private tab: number = 0;
+  tab: number = 0;
 
-  private close() {
+  close() {
     this.$router.push({ path: '/process' });
   }
 }

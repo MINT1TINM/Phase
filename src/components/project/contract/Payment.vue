@@ -146,16 +146,16 @@ const projectModule = namespace('project');
 
 @Component
 export default class ProjectContractPayment extends Vue {
-  @Prop() private contract!: Contract;
+  @Prop() contract!: Contract;
 
-  @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+  @projectModule.Getter('currentProjectID') currentProjectID!: string;
 
-  private paymentList: Payment[] = [];
-  private newPayment: Payment = new Payment();
-  private currentPayment: Payment = new Payment();
-  private createPaymentDialog = false;
-  private editPaymentDialog = false;
-  private headers = [
+  paymentList: Payment[] = [];
+  newPayment: Payment = new Payment();
+  currentPayment: Payment = new Payment();
+  createPaymentDialog = false;
+  editPaymentDialog = false;
+  headers = [
     {
       text: '名称',
       value: 'name'
@@ -182,7 +182,7 @@ export default class ProjectContractPayment extends Vue {
     }
   ];
 
-  private paymentInfoContent = [
+  paymentInfoContent = [
     {
       type: 'text-field',
       name: 'name',
@@ -210,14 +210,14 @@ export default class ProjectContractPayment extends Vue {
     }
   ];
 
-  private async getPaymentList() {
+  async getPaymentList() {
     const p = new Payment();
     p.contractUUID = this.$route.params.contractID;
     p.projectUUID = this.currentProjectID;
     this.paymentList = await ContractService.getPaymentList(p);
   }
 
-  private async createPayment() {
+  async createPayment() {
     this.newPayment.projectUUID = this.currentProjectID;
     this.newPayment.contractUUID = this.$route.params.contractID;
     if (this.newPayment.name) {
@@ -233,7 +233,7 @@ export default class ProjectContractPayment extends Vue {
     }
   }
 
-  private async updatePayment() {
+  async updatePayment() {
     if (this.currentPayment.name) {
       try {
         await ContractService.updatePayment(this.currentPayment);
@@ -247,7 +247,7 @@ export default class ProjectContractPayment extends Vue {
     }
   }
 
-  private async deletePayment(id: string) {
+  async deletePayment(id: string) {
     const rsp = await this.$confirm('此操作无法恢复', {
       title: '确认删除?',
       buttonTrueColor: 'red darken-2',
@@ -264,7 +264,7 @@ export default class ProjectContractPayment extends Vue {
     }
   }
 
-  private async mounted() {
+  async mounted() {
     this.getPaymentList();
   }
 }

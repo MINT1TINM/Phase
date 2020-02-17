@@ -101,36 +101,30 @@ const financeModule = namespace('finance');
 @Component
 export default class Certifcate extends Vue {
   @financeModule.Getter('searchProjectResult')
-  private searchProjectResult!: AuditProject[];
+  searchProjectResult!: AuditProject[];
 
   @financeModule.Mutation('updateCurrentProject')
-  private updateCurrentProject!: (project: AuditProject) => void;
+  updateCurrentProject!: (project: AuditProject) => void;
 
-  private keyList = [
+  keyList = [
     { text: '项目名称', value: 'NAME' },
     { text: '项目代码', value: 'CODE' },
     { text: '负责人工号', value: 'CHARGE_SNO' }
   ];
 
-  private currentKey = 'NAME';
+  currentKey = 'NAME';
 
-  private search: string = '';
+  search: string = '';
 
-  private loading: boolean = false;
+  loading: boolean = false;
 
-  private select = null;
+  select = null;
 
-  private result = [];
+  result = [];
 
-  private headers = [
-    '项目代码',
-    '项目名称',
-    '负责人',
-    '负责人工号',
-    '项目余额'
-  ];
+  headers = ['项目代码', '项目名称', '负责人', '负责人工号', '项目余额'];
 
-  private async querySelections(v: string) {
+  async querySelections(v: string) {
     this.loading = true;
     // Simulated ajax query
     const rsp = await FinanceService.searchFinanceProject(
@@ -144,11 +138,11 @@ export default class Certifcate extends Vue {
     this.loading = false;
   }
 
-  private async searchProject(v: string) {
+  async searchProject(v: string) {
     await FinanceService.searchFinanceProject(this.currentKey, v, 50, 1);
   }
 
-  private async exportResult() {
+  async exportResult() {
     // adjust head & data field
     const head: string[] = [];
     for (const field of this.headers) {
@@ -173,7 +167,7 @@ export default class Certifcate extends Vue {
     );
   }
 
-  private showDetail(item: AuditProject) {
+  showDetail(item: AuditProject) {
     this.$router.push({
       path: `/project/${item.code}/${item.chargeSno}`
     });
@@ -181,7 +175,7 @@ export default class Certifcate extends Vue {
   }
 
   @Watch('search')
-  private async onSearchChanged(val: string) {
+  async onSearchChanged(val: string) {
     val && val !== this.select && (await this.querySelections(val));
   }
 }

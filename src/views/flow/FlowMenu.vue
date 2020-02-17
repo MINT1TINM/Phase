@@ -27,7 +27,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class FlowMenu extends Vue {
-  private get navItem() {
+  get navItem() {
     return [
       {
         icon: 'mdi-playlist-check',

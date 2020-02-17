@@ -26,9 +26,9 @@ import ContractService from '@/service/contractService';
 
 @Component
 export default class ProjectContractInfo extends Vue {
-  private contract: Contract = new Contract();
+  contract: Contract = new Contract();
 
-  private async getContract() {
+  async getContract() {
     try {
       this.contract = await ContractService.getOneContract(
         this.$route.params.contractID
@@ -38,7 +38,7 @@ export default class ProjectContractInfo extends Vue {
     }
   }
 
-  private mounted() {
+  mounted() {
     this.getContract();
   }
 }

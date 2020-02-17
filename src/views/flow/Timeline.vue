@@ -74,20 +74,20 @@ const userModule = namespace('user');
   components: {}
 })
 export default class FlowTimeline extends Vue {
-  @userModule.Getter('authorization') private authorization!: Authorization;
-  @userModule.Getter('userInfo') private userInfo!: UserInfo;
+  @userModule.Getter('authorization') authorization!: Authorization;
+  @userModule.Getter('userInfo') userInfo!: UserInfo;
 
-  private instance: Instance = new Instance();
-  private timeline: Event[] = [];
-  private linkTask: FlowLinkTask = new FlowLinkTask();
+  instance: Instance = new Instance();
+  timeline: Event[] = [];
+  linkTask: FlowLinkTask = new FlowLinkTask();
 
-  private async getInstance() {
+  async getInstance() {
     this.instance = (
       await WorkflowService.getWorkflowInstance(Number(this.instanceID))
     ).instance;
   }
 
-  private async getTimeline() {
+  async getTimeline() {
     const t = (
       await WorkflowService.getTimeline(Number(this.instance.id))
     ).timeline.reverse();
@@ -95,23 +95,23 @@ export default class FlowTimeline extends Vue {
     this.timeline = t;
   }
 
-  private get linkContent() {
+  get linkContent() {
     if (this.linkTask.extraInfo) {
       return this.linkTask.extraInfo.project;
     }
     return {};
   }
 
-  private get instanceID() {
+  get instanceID() {
     return this.$route.params.instanceID;
   }
 
   @Watch('instance')
-  private onChanged() {
+  onChanged() {
     this.getTimeline();
   }
 
-  private mounted() {
+  mounted() {
     this.getInstance();
     if (this.instance.id) this.getTimeline();
   }

@@ -6,7 +6,7 @@ import Vue from 'vue';
 const vue = new Vue();
 
 class AuthService {
-  public static getCoordinates() {
+  static getCoordinates() {
     const options = {
       enableHighAccuracy: true,
       maximumAge: 30000,
@@ -17,12 +17,12 @@ class AuthService {
     });
   }
 
-  public static async getUserLocation() {
+  static async getUserLocation() {
     const position = (await this.getCoordinates()) as any;
     return [position.coords.latitude, position.coords.longitude];
   }
 
-  public static async wechatLogin(code: string) {
+  static async wechatLogin(code: string) {
     let position = [];
     if ('geolocation' in navigator) {
       try {
@@ -44,7 +44,7 @@ class AuthService {
     }
   }
 
-  public static async standardLogin(username: string, password: string) {
+  static async standardLogin(username: string, password: string) {
     let position = [];
     if ('geolocation' in navigator) {
       try {

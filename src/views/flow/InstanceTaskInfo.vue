@@ -23,18 +23,18 @@ import ProjectInfo from '@/components/flow/ProjectInfo.vue';
   }
 })
 export default class FlowInstaceTaskInfo extends Vue {
-  @Prop() private instance!: Instance;
-  private linkTask: FlowLinkTask = new FlowLinkTask();
+  @Prop() instance!: Instance;
+  linkTask: FlowLinkTask = new FlowLinkTask();
 
-  private get instanceID() {
+  get instanceID() {
     return this.$route.params.instanceID;
   }
 
-  private get taskID() {
+  get taskID() {
     return this.$route.params.taskID;
   }
 
-  private async getTask() {
+  async getTask() {
     this.linkTask = (
       await WorkflowService.getLinkTask(
         Number(this.taskID),
@@ -44,11 +44,11 @@ export default class FlowInstaceTaskInfo extends Vue {
   }
 
   @Watch('taskID')
-  private onChanged() {
+  onChanged() {
     this.getTask();
   }
 
-  private mounted() {
+  mounted() {
     this.getTask();
   }
 }

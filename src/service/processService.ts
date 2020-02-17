@@ -6,7 +6,7 @@ import { Process, ProcessMember } from '@/types/process';
 
 const vue = new Vue();
 class ProcessService {
-  public static async createProcess(name: string, projectID: string) {
+  static async createProcess(name: string, projectID: string) {
     const rsp = await basicService.postRequest('/process', {
       name,
       projectID
@@ -15,14 +15,14 @@ class ProcessService {
     return rsp;
   }
 
-  public static async deleteProcess(processID: string) {
+  static async deleteProcess(processID: string) {
     const rsp = await basicService.deleteRequest('/process', {
       processID
     });
     return rsp;
   }
 
-  public static async getProcessList(projectID: string) {
+  static async getProcessList(projectID: string) {
     const rsp = await basicService.getRequest('/process/list', {
       projectID
     });
@@ -30,7 +30,7 @@ class ProcessService {
     return rsp;
   }
 
-  public static async getProcessInfo(processID: string) {
+  static async getProcessInfo(processID: string) {
     const rsp = await basicService.getRequest('/process/info', {
       id: processID
     });
@@ -38,10 +38,7 @@ class ProcessService {
     return rsp;
   }
 
-  public static async updateProcessInfo(
-    processID: string,
-    processInfo: Process
-  ) {
+  static async updateProcessInfo(processID: string, processInfo: Process) {
     const rsp = await basicService.putRequest('/process/info', {
       processID,
       name: processInfo.name,
@@ -54,10 +51,7 @@ class ProcessService {
     return rsp;
   }
 
-  public static async updateProcessMember(
-    processID: string,
-    member: ProcessMember[]
-  ) {
+  static async updateProcessMember(processID: string, member: ProcessMember[]) {
     const memberParams = [];
     for (const m of member) {
       memberParams.push(m.userID);

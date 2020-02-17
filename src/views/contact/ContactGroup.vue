@@ -32,7 +32,7 @@ const contactModule = namespace('contact');
   components: {}
 })
 export default class ContactGroup extends Vue {
-  private toGroup(group: string) {
+  toGroup(group: string) {
     this.$router.push({ path: `/${group}` });
   }
 }

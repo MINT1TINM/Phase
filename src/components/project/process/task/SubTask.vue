@@ -169,19 +169,19 @@ import previewCertificate from '@/components/finance/certificate/PreviewCertific
   }
 })
 export default class SubTaskList extends Vue {
-  @Prop({ default: () => ({ data: [] }) }) private subTask!: {
+  @Prop({ default: () => ({ data: [] }) }) subTask!: {
     data: [];
   };
 
-  private editSubTaskDialog: boolean = false;
+  editSubTaskDialog: boolean = false;
 
-  private searchCertificateDialog: boolean = false;
+  searchCertificateDialog: boolean = false;
 
-  private fileDialog: boolean = false;
+  fileDialog: boolean = false;
 
-  private currentCertificate: SubTaskCertificate = { uniNo: '', ord: '' };
+  currentCertificate: SubTaskCertificate = { uniNo: '', ord: '' };
 
-  private currentSubTask: SubTask = {
+  currentSubTask: SubTask = {
     id: '',
     name: '',
     createdAt: '',
@@ -191,7 +191,7 @@ export default class SubTaskList extends Vue {
     certificate: []
   };
 
-  private headers = [
+  headers = [
     {
       text: '状态',
       value: 'status',
@@ -212,7 +212,7 @@ export default class SubTaskList extends Vue {
     }
   ];
 
-  private async createSubTask() {
+  async createSubTask() {
     const newSubTask = new SubTask();
     newSubTask.name = '未命名子任务';
     newSubTask.content = [];
@@ -221,7 +221,7 @@ export default class SubTaskList extends Vue {
     await TaskService.getTaskInfo(this.$route.params.taskID);
   }
 
-  private async copySubTask(originalSubTask: SubTask) {
+  async copySubTask(originalSubTask: SubTask) {
     const newSubTask = new SubTask();
     newSubTask.name = originalSubTask.name;
     newSubTask.content = originalSubTask.content;
@@ -230,7 +230,7 @@ export default class SubTaskList extends Vue {
     await TaskService.getTaskInfo(this.$route.params.taskID);
   }
 
-  private async updateSubTask() {
+  async updateSubTask() {
     await TaskService.updateSubTask(
       this.$route.params.taskID,
       this.currentSubTask.id!,
@@ -243,7 +243,7 @@ export default class SubTaskList extends Vue {
     this.editSubTaskDialog = false;
   }
 
-  private async deleteSubTask(subTaskID: string) {
+  async deleteSubTask(subTaskID: string) {
     const res = await this.$confirm('此操作无法恢复', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
@@ -255,7 +255,7 @@ export default class SubTaskList extends Vue {
     }
   }
 
-  private insertContent() {
+  insertContent() {
     this.currentSubTask.content!.push({
       property: '',
       description: '',
@@ -266,11 +266,11 @@ export default class SubTaskList extends Vue {
     });
   }
 
-  private removeContent(i: number) {
+  removeContent(i: number) {
     this.currentSubTask.content!.splice(i, 1);
   }
 
-  private insertCertificate(certificate: SubTaskCertificate) {
+  insertCertificate(certificate: SubTaskCertificate) {
     if (
       this.currentSubTask.certificate === undefined ||
       this.currentSubTask.certificate === null
@@ -283,11 +283,11 @@ export default class SubTaskList extends Vue {
     });
   }
 
-  private removeCertificate(i: number) {
+  removeCertificate(i: number) {
     this.currentSubTask.certificate!.splice(i, 1);
   }
 
-  private linkFile(v: any) {
+  linkFile(v: any) {
     if (!this.currentSubTask.file) {
       (this.currentSubTask.file as any) = [];
     }
@@ -300,14 +300,14 @@ export default class SubTaskList extends Vue {
     this.fileDialog = false;
   }
 
-  private async downloadFile(item: any) {
+  async downloadFile(item: any) {
     window.open(`/api/file/download?sName=${item.sName}`, '_blank');
     // await FileService.downloadFile(item.sName);
   }
 
-  // private showFile(item: any) {}
+  //  showFile(item: any) {}
 
-  private removeFile(item: any) {
+  removeFile(item: any) {
     const index = (this.currentSubTask.file as any).indexOf(item);
     (this.currentSubTask.file as any).splice(index, 1);
   }

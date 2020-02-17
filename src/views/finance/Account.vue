@@ -126,17 +126,17 @@ const financeModule = namespace('finance');
 @Component
 export default class CertificateAccount extends Vue {
   @financeModule.Getter('currentProject')
-  private currentProject!: AuditProject;
+  currentProject!: AuditProject;
 
-  private certificateList: Certificate[] = [];
+  certificateList: Certificate[] = [];
 
-  private detailNav: boolean = false;
+  detailNav: boolean = false;
 
-  private currentCertificate: any = {};
+  currentCertificate: any = {};
 
-  private certificateHeaders = ['凭证账号', '摘要', '借方发生数', '贷方发生数'];
+  certificateHeaders = ['凭证账号', '摘要', '借方发生数', '贷方发生数'];
 
-  private certificateDetailHeaders = [
+  certificateDetailHeaders = [
     '凭证账号',
     '日期',
     '摘要',
@@ -148,7 +148,7 @@ export default class CertificateAccount extends Vue {
     '负责人工号'
   ];
 
-  private async getCertificateList() {
+  async getCertificateList() {
     const rsp = await FinanceService.searchCertificateGroup(
       this.$route.params.projectCode,
       this.$route.params.staffNo
@@ -156,7 +156,7 @@ export default class CertificateAccount extends Vue {
     this.certificateList = rsp.certificate;
   }
 
-  private async exportCertificateList() {
+  async exportCertificateList() {
     // adjust head & data field
     const head: string[] = [];
     for (const field of this.certificateHeaders) {
@@ -180,7 +180,7 @@ export default class CertificateAccount extends Vue {
     );
   }
 
-  private async exportCertificateDetailList() {
+  async exportCertificateDetailList() {
     // adjust head & data field
     const head: string[] = [];
     for (const field of this.certificateDetailHeaders) {
@@ -209,7 +209,7 @@ export default class CertificateAccount extends Vue {
     );
   }
 
-  private mounted() {
+  mounted() {
     this.getCertificateList();
   }
 }

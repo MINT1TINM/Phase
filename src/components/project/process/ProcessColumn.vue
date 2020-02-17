@@ -27,12 +27,12 @@ import taskList from './task/TaskList.vue';
   }
 })
 export default class ProjectColumn extends Vue {
-  @Prop({ default: 0 }) public processID!: number;
+  @Prop({ default: 0 }) processID!: number;
 
-  @Prop({ default: '' }) public processName!: string;
+  @Prop({ default: '' }) processName!: string;
 
   @Watch('processID')
-  private onProcessIDChanged() {
+  onProcessIDChanged() {
     console.log(this.processID);
   }
 }

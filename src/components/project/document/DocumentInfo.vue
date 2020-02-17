@@ -126,33 +126,33 @@ const userModule = namespace('user');
   components: {}
 })
 export default class DocumentInfo extends Vue {
-  @Prop({ default: '' }) public uuid!: string;
+  @Prop({ default: '' }) uuid!: string;
 
-  @Prop({ default: {} }) public item!: any;
+  @Prop({ default: {} }) item!: any;
 
-  @userModule.Getter('authorization') private authorization!: Authorization;
+  @userModule.Getter('authorization') authorization!: Authorization;
 
-  @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+  @projectModule.Getter('currentProjectID') currentProjectID!: string;
 
-  @fileModule.Getter('path') private path!: string[];
+  @fileModule.Getter('path') path!: string[];
 
-  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+  @projectModule.Getter('projectMemberCache') projectMemberCache: any;
 
   @projectModule.Getter('projectPermission')
-  private projectPermission: any;
+  projectPermission: any;
 
-  private currentName: string = '';
+  currentName: string = '';
 
-  private currentItem = {};
+  currentItem = {};
 
-  private renameDialog: boolean = false;
+  renameDialog: boolean = false;
 
   @Watch('item')
-  private onItemChanged() {
+  onItemChanged() {
     this.currentItem = this.currentItem;
   }
 
-  private async renameFile() {
+  async renameFile() {
     if (this.currentName !== this.item.name) {
       const rsp = await FileService.renameCatalog(
         this.currentProjectID,
@@ -166,7 +166,7 @@ export default class DocumentInfo extends Vue {
     }
   }
 
-  private async deleteFile() {
+  async deleteFile() {
     const res = await this.$confirm('此操作无法恢复', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
@@ -182,15 +182,15 @@ export default class DocumentInfo extends Vue {
     }
   }
 
-  private async downloadFile(item: any) {
+  async downloadFile(item: any) {
     window.open(`/api/file/download?sName=${item.sName}&type=upload`, '_blank');
     // await FileService.downloadFile(item.sName);
   }
 
-  private async previewFile(item: any) {
+  async previewFile(item: any) {
     window.open(`/api/file/preview?sName=${item.sName}`, '_blank');
   }
 
-  private mounted() {}
+  mounted() {}
 }
 </script>

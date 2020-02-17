@@ -89,30 +89,30 @@ const fileModule = namespace('file');
 
 @Component
 export default class CommonSearch extends Vue {
-  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+  @projectModule.Getter('currentProjectID') currentProjectID: any;
 
-  @fileModule.Getter('fileList') private fileList: any;
+  @fileModule.Getter('fileList') fileList: any;
 
-  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+  @projectModule.Getter('projectMemberCache') projectMemberCache: any;
 
-  @fileModule.Mutation('updatePath') private updatePath!: any;
+  @fileModule.Mutation('updatePath') updatePath!: any;
 
-  @fileModule.Mutation('updatePathPrettier') private updatePathPrettier!: any;
+  @fileModule.Mutation('updatePathPrettier') updatePathPrettier!: any;
 
-  private searchDocumentContent: string = '';
+  searchDocumentContent: string = '';
 
-  private fileListShow = {};
+  fileListShow = {};
 
-  private result: any[] = [];
+  result: any[] = [];
 
-  private currentFileIndex = 0;
+  currentFileIndex = 0;
 
-  private async getFileList() {
+  async getFileList() {
     const rsp = await FileService.getFile(this.currentProjectID, ['data']);
     this.fileListShow = rsp.fileList;
   }
 
-  private searchDocument() {
+  searchDocument() {
     if (this.searchDocumentContent !== '') {
       this.result = searchNode(
         this.fileListShow,
@@ -122,14 +122,14 @@ export default class CommonSearch extends Vue {
     console.log(this.result);
   }
 
-  private toFile() {
+  toFile() {
     this.$emit('closeDialog');
     this.updatePath(['data', ...this.result[this.currentFileIndex].path]);
     this.updatePathPrettier([...this.pathPrettier]);
     this.$router.push({ path: '/document' });
   }
 
-  private get pathPrettier() {
+  get pathPrettier() {
     if (this.fileList[this.currentFileIndex]) {
       return [
         '根目录',
@@ -142,16 +142,16 @@ export default class CommonSearch extends Vue {
   }
 
   @Watch('currentProjectID')
-  private onProjectIDChanged() {
+  onProjectIDChanged() {
     this.getFileList();
   }
 
   @Watch('searchDocumentContent')
-  private onSearchContentChanged() {
+  onSearchContentChanged() {
     this.searchDocument();
   }
 
-  private mounted() {
+  mounted() {
     this.getFileList();
   }
 }

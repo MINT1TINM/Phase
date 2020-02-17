@@ -50,13 +50,13 @@ const projectModule = namespace('project');
 
 @Component
 export default class ProjectDashboardInfo extends Vue {
-  @projectModule.Getter('currentProject') private currentProject!: Project;
+  @projectModule.Getter('currentProject') currentProject!: Project;
 
-  private get extraInfo() {
+  get extraInfo() {
     return this.currentProject.extraInfo;
   }
 
-  private mounted() {
+  mounted() {
     console.log(this.extraInfo);
   }
 }

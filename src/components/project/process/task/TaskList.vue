@@ -145,25 +145,25 @@ const userModule = namespace('user');
 
 @Component
 export default class TaskList extends Vue {
-  @Prop({ default: '' }) public processID!: string;
+  @Prop({ default: '' }) processID!: string;
 
-  @userModule.Getter('authorization') private authorization!: Authorization;
+  @userModule.Getter('authorization') authorization!: Authorization;
 
-  @processModule.Getter('currentProcessList') private currentProcessList: any;
+  @processModule.Getter('currentProcessList') currentProcessList: any;
 
   @processModule.Mutation('updateCurrentProcessTask')
-  private updateCurrentProcessTask: any;
+  updateCurrentProcessTask: any;
 
-  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+  @projectModule.Getter('projectMemberCache') projectMemberCache: any;
 
   @projectModule.Getter('projectPermission')
-  private projectPermission: any;
+  projectPermission: any;
 
-  private newTaskName: string = '';
+  newTaskName: string = '';
 
-  private taskList: ProcessTask[] = [];
+  taskList: ProcessTask[] = [];
 
-  private getDays(date: string) {
+  getDays(date: string) {
     const t1 = new Date().getTime();
     const t2 = new Date(date).getTime();
     const dateTime = 1000 * 60 * 60 * 24; // 每一天的毫秒数
@@ -172,7 +172,7 @@ export default class TaskList extends Vue {
     return days;
   }
 
-  private async createTask() {
+  async createTask() {
     const rsp = await TaskService.createTask(
       this.processID || this.$route.params.processID,
       this.newTaskName
@@ -181,7 +181,7 @@ export default class TaskList extends Vue {
     this.getTaskListManually();
   }
 
-  private async getTaskListManually() {
+  async getTaskListManually() {
     const rsp = await TaskService.getTaskList(
       this.processID || this.$route.params.processID
     );
@@ -192,20 +192,20 @@ export default class TaskList extends Vue {
     });
   }
 
-  private toTaskDetail(task: ProcessTask) {
+  toTaskDetail(task: ProcessTask) {
     this.$emit('func', task.taskID || task.id);
     this.$router.push({
       path: `/process/${this.processID}/task/${task.taskID || task.id}`
     });
   }
 
-  private getCurrentProcessFromProp() {
+  getCurrentProcessFromProp() {
     return this.currentProcessList.find(
       (e: Process) => e.id === this.processID
     );
   }
 
-  private async toggleTaskStatus(taskID: string) {
+  async toggleTaskStatus(taskID: string) {
     // stop task card click event
     // eslint-disable-next-line no-restricted-globals
     event!.stopPropagation();
@@ -225,11 +225,11 @@ export default class TaskList extends Vue {
     this.getTaskListManually();
   }
 
-  private get currentTask() {
+  get currentTask() {
     return this.$route.params.taskID;
   }
 
-  private get taskListShow() {
+  get taskListShow() {
     return this.getCurrentProcessFromProp().task.data.sort(
       (a: ProcessTask, b: ProcessTask) => (a.createdAt < b.createdAt ? 1 : -1)
     );
@@ -237,7 +237,7 @@ export default class TaskList extends Vue {
 
   // update when list changed
   @Watch('currentProcessList')
-  private onCurrentProcessListChanged() {
+  onCurrentProcessListChanged() {
     console.log('changed');
     if (this.currentProcessList) {
       this.taskList = this.getCurrentProcessFromProp().task.data;
@@ -245,12 +245,12 @@ export default class TaskList extends Vue {
   }
 
   @Watch('processID')
-  private onProcessIDChanged() {
+  onProcessIDChanged() {
     console.log(this.processID);
     this.taskList = this.getCurrentProcessFromProp().task.data;
   }
 
-  private mounted() {
+  mounted() {
     this.taskList = this.getCurrentProcessFromProp().task.data;
   }
 }

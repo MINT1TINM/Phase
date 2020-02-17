@@ -54,11 +54,11 @@ const userModule = namespace('user');
 
 @Component
 export default class SecuritySetting extends Vue {
-  @userModule.Getter('authorization') private authorization!: Authorization;
+  @userModule.Getter('authorization') authorization!: Authorization;
 
-  private loginHistory: Login[] = [];
+  loginHistory: Login[] = [];
 
-  private updatePasswordFormList = [
+  updatePasswordFormList = [
     {
       type: 'text-field',
       title: '当前密码',
@@ -79,18 +79,18 @@ export default class SecuritySetting extends Vue {
     }
   ];
 
-  private updatePasswordTarget = {};
+  updatePasswordTarget = {};
 
-  private async getUserLoginHistory() {
+  async getUserLoginHistory() {
     const rsp = await UserService.getUserLoginHistory(
       this.authorization.userID
     );
     this.loginHistory = rsp.loginHistory;
   }
 
-  private async updatePassword() {}
+  async updatePassword() {}
 
-  private mounted() {
+  mounted() {
     this.getUserLoginHistory();
   }
 }

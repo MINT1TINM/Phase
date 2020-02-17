@@ -159,26 +159,26 @@ class SearchContract {
 
 @Component
 export default class ProjectContract extends Vue {
-  public $refs!: {
+  $refs!: {
     datePickerMenu: HTMLBaseElement;
   };
 
-  private search = new SearchContract([
+  search = new SearchContract([
     new Date(new Date().getTime() - 7 * 1000 * 60 * 60 * 24)
       .toISOString()
       .substr(0, 10),
     new Date().toISOString().slice(0, 10)
   ]);
-  private datePickerMenu = false;
-  private createContractDialog = false;
-  private newContract: Contract = new Contract();
-  private options: { page: number; itemsPerPage: number } = {
+  datePickerMenu = false;
+  createContractDialog = false;
+  newContract: Contract = new Contract();
+  options: { page: number; itemsPerPage: number } = {
     page: 1,
     itemsPerPage: 20
   };
-  private loading = false;
+  loading = false;
 
-  private headers = [
+  headers = [
     {
       text: '编号',
       align: 'left',
@@ -191,8 +191,8 @@ export default class ProjectContract extends Vue {
     { text: '签约时间', value: 'signedAt' },
     { text: '金额', value: 'amount' }
   ];
-  private contractList: Contract[] = [];
-  private contractFormContent = [
+  contractList: Contract[] = [];
+  contractFormContent = [
     {
       type: 'text-field',
       name: 'name',
@@ -200,9 +200,9 @@ export default class ProjectContract extends Vue {
     }
   ];
 
-  private async searchContract() {}
+  async searchContract() {}
 
-  private async createContract() {
+  async createContract() {
     if (this.newContract.name) {
       try {
         await ContractService.createContract(this.newContract);
@@ -216,7 +216,7 @@ export default class ProjectContract extends Vue {
     }
   }
 
-  private async getContractList() {
+  async getContractList() {
     this.loading = true;
     this.contractList = await ContractService.getContractList(
       this.options.page,
@@ -225,20 +225,20 @@ export default class ProjectContract extends Vue {
     this.loading = false;
   }
 
-  private showInfo(v: Contract) {
+  showInfo(v: Contract) {
     this.$router.push({ path: `/contract/${v.id}/info` });
   }
 
-  private get dateRangeText() {
+  get dateRangeText() {
     return this.search.timeRange.join(' ~ ');
   }
 
   @Watch('options')
-  private onOptionsChanged() {
+  onOptionsChanged() {
     this.getContractList();
   }
 
-  private mounted() {
+  mounted() {
     // this.getContractList();
   }
 }

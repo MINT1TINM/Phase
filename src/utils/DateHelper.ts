@@ -1,5 +1,5 @@
 class DateHelper {
-  public static format(date: string, fmt: string) {
+  static format(date: string, fmt: string) {
     const d = new Date(date);
     const o: { [key: string]: number } = {
       'M+': d.getMonth() + 1, // 月份
@@ -28,7 +28,7 @@ class DateHelper {
     return fmt;
   }
 
-  public static getWeekDay(date: string) {
+  static getWeekDay(date: string) {
     const w = new Date(date).getDay();
     let weekDay: string = '';
     switch (w) {
@@ -57,7 +57,7 @@ class DateHelper {
     return weekDay;
   }
 
-  public static parseTimeToDate(time: string) {
+  static parseTimeToDate(time: string) {
     const t = new Date(time);
     return `${t.getFullYear()}-${t.getMonth()}-${t.getDate()}`;
   }

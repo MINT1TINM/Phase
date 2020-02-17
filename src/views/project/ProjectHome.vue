@@ -67,88 +67,36 @@
             </transition>
           </v-container>
 
-          <!-- <v-card-title class="subtitle-1 font-weight-black">
-            近期
-            <v-spacer></v-spacer>
-          </v-card-title>
-
-          <v-container>
-            <v-row dense>
-              <v-col cols="8">
-                <Dashboard></Dashboard>
-              </v-col>
-              <v-col cols="4">
-                <Progress></Progress>
-              </v-col>
-            </v-row>
-          </v-container> -->
-
           <v-card-title class="subtitle-1 font-weight-black">
-            正在进行
+            我的项目
             <v-spacer></v-spacer>
-
-            <v-btn
-              @click="updateViewMode(`grid`)"
-              icon
-              :color="viewMode === `grid` ? 'primary' : ''"
-            >
-              <v-icon>mdi-grid-large</v-icon>
-            </v-btn>
-
-            <v-btn
-              @click="updateViewMode(`list`)"
-              icon
-              :color="viewMode === `list` ? 'primary' : ''"
-            >
-              <v-icon>mdi-format-list-bulleted</v-icon>
-            </v-btn>
           </v-card-title>
+          <v-toolbar dense flat color="transparent">
+            <v-tabs v-model="tab">
+              <v-tab>正在进行</v-tab>
+              <v-tab>待审批</v-tab>
+            </v-tabs>
+          </v-toolbar>
+
+          <v-toolbar class="mt-2" dense flat color="transparent">
+            <span class="mr-3 caption">筛选</span>
+            <v-text-field
+              dense
+              outlined
+              flat
+              single-line
+              hide-details
+              label="项目名称"
+              style="max-width:200px"
+            ></v-text-field>
+            <v-spacer></v-spacer>
+            <v-btn outlined>
+              <v-icon size="20" class="mr-2">mdi-magnify</v-icon>搜索
+            </v-btn>
+          </v-toolbar>
           <v-container>
             <transition appear appear-active-class="fade-up-enter">
-              <v-layout row wrap v-if="viewMode === `grid`">
-                <v-flex
-                  xs3
-                  v-for="(item, i) in runningProject"
-                  :key="`project-${i}`"
-                >
-                  <v-hover v-slot:default="{ hover }">
-                    <v-card
-                      :elevation="hover ? 8 : 0"
-                      outlined
-                      @click="goToProject(item.id)"
-                    >
-                      <v-img
-                        v-if="item.folderURL"
-                        height="150"
-                        :src="`/api/file/download?sName=${item.folderURL}`"
-                      ></v-img>
-                      <v-img
-                        v-else
-                        class="white--text"
-                        height="150"
-                        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                      ></v-img>
-                      <v-card-title class="body-2 font-weight-black pb-0">
-                        {{ item.name | cut }}
-                        <v-spacer></v-spacer>
-                        <v-avatar size="26">
-                          <v-img :src="item.headImgURL"></v-img>
-                        </v-avatar>
-                        <span class="ml-2 font-weight-black caption">{{
-                          item.nickName
-                        }}</span>
-                      </v-card-title>
-
-                      <v-card-text class="caption">
-                        <span class="grey--text font-weight-regular">{{
-                          item.createdAt | format('yyyy-MM-dd')
-                        }}</span></v-card-text
-                      >
-                    </v-card>
-                  </v-hover>
-                </v-flex>
-              </v-layout>
-              <v-layout v-else>
+              <v-layout>
                 <v-col cols="12" class="pa-0">
                   <v-simple-table class="transparent">
                     <template v-slot:default>
@@ -166,6 +114,7 @@
                         <tr
                           v-for="(item, i) in runningProject"
                           :key="`project-${i}`"
+                          @click="goToProject(item)"
                         >
                           <td>{{ item.code }}</td>
                           <td>{{ item.name }}</td>
@@ -195,32 +144,6 @@
                     </template>
                   </v-simple-table>
                 </v-col>
-                <!-- <v-list two-line width="100%" class="transparent">
-                  <template v-for="(item, i) in projectList">
-                    <div :key="`project-${i}`">
-                      <v-list-item @click="goToProject(item.id)">
-                        <v-list-item-content>
-                          <v-list-item-title class="font-weight-black">{{
-                            item.name
-                          }}</v-list-item-title>
-                          <v-list-item-subtitle class="caption">{{
-                            item.createdAt | format('yyyy-MM-dd')
-                          }}</v-list-item-subtitle>
-                        </v-list-item-content>
-                        <v-list-item-avatar min-width="100">
-                          <v-avatar size="32">
-                            <v-img :src="item.headImgURL"></v-img>
-                          </v-avatar>
-                          <span
-                            class="ml-3 font-weight-black caption text-right"
-                            >{{ item.nickName }}</span
-                          >
-                        </v-list-item-avatar>
-                      </v-list-item>
-                      <v-divider></v-divider>
-                    </div>
-                  </template>
-                </v-list> -->
               </v-layout>
             </transition>
           </v-container>
@@ -332,52 +255,61 @@ const systemModule = namespace('system');
   }
 })
 export default class ProjectHome extends Vue {
-  private createProjectDialog: boolean = false;
-  private generateProjectDialog: boolean = false;
-  private createProjectContent = [
+  createProjectDialog: boolean = false;
+  generateProjectDialog: boolean = false;
+  createProjectContent = [
     {
       title: '名称',
       type: 'text-field',
       name: 'name'
     }
   ];
-  private createProjectInfo = {
+  createProjectInfo = {
     name: ''
   };
-  private projectListShow = [];
-  private templateList: ProjectTemplate[] = [];
-  private templateInfo: ProjectTemplate = new ProjectTemplate();
-  private currentTemplateID: string = '';
-  private newProjectName: string = '';
+  projectListShow = [];
+  templateList: ProjectTemplate[] = [];
+  templateInfo: ProjectTemplate = new ProjectTemplate();
+  currentTemplateID: string = '';
+  newProjectName: string = '';
+  tab = null;
 
-  @projectModule.Getter('projectList') private projectList!: Project[];
+  @projectModule.Getter('projectList') projectList!: Project[];
   @projectModule.Mutation('updateCurrentProjectID')
-  private updateCurrentProjectID: any;
+  updateCurrentProjectID: any;
   @projectModule.Mutation('clearCurrentProjectID')
-  private clearCurrentProjectID: any;
-  @projectModule.Getter('viewMode') private viewMode!: string;
-  @projectModule.Mutation('updateViewMode') private updateViewMode!: (
+  clearCurrentProjectID: any;
+  @projectModule.Getter('viewMode') viewMode!: string;
+  @projectModule.Mutation('updateViewMode') updateViewMode!: (
     v: string
   ) => void;
 
   @userModule.Getter('authorization')
-  private authorization!: Authorization;
+  authorization!: Authorization;
   @userModule.Getter('userInfo')
-  private userInfo!: UserInfo;
+  userInfo!: UserInfo;
 
-  @systemModule.Getter('systemName') private systemName!: string;
+  @systemModule.Getter('systemName') systemName!: string;
 
-  private goToProject(projectId: number) {
-    this.updateCurrentProjectID(projectId);
-    this.$router.push({ path: '/dashboard' });
+  goToProject(p: Project) {
+    this.updateCurrentProjectID(p.id);
+    if (p.extraInfo.started) {
+      this.$router.push({ path: '/dashboard' });
+    } else {
+      this.$router.push({ path: '/setting' });
+    }
   }
 
-  private async createProject() {
+  async createProject() {
     try {
-      await ProjectService.createProject(this.createProjectInfo.name);
+      const rsp = await ProjectService.createProject(
+        this.createProjectInfo.name
+      );
       this.$snack('创建成功');
       await UserService.getUserInfo(this.authorization.userID);
       this.getProjectList();
+
+      this.goToProject(rsp.project);
     } catch (err) {
       console.log(err);
       this.$snack('创建失败');
@@ -385,7 +317,7 @@ export default class ProjectHome extends Vue {
     this.createProjectDialog = false;
   }
 
-  private async generateProject() {
+  async generateProject() {
     try {
       await ProjectService.generateProject(
         this.newProjectName,
@@ -403,34 +335,34 @@ export default class ProjectHome extends Vue {
     }
   }
 
-  private async getProjectList() {
+  async getProjectList() {
     await ProjectService.getProjectList();
   }
 
-  private async getTemplateList() {
+  async getTemplateList() {
     this.templateList = await ProjectService.getProjectTemplateList(
       this.authorization.userID
     );
   }
 
-  private async getTemplateInfo(templateID: string) {
+  async getTemplateInfo(templateID: string) {
     const rsp = await ProjectService.getTemplateInfo(templateID);
     this.templateInfo = rsp.template;
   }
 
-  private get runningProject() {
+  get runningProject() {
     return this.projectList.filter(e => {
       return e.extraInfo.started;
     });
   }
 
-  private get checkingProject() {
+  get checkingProject() {
     return this.projectList.filter(e => {
       return !e.extraInfo.started;
     });
   }
 
-  private mounted() {
+  mounted() {
     this.clearCurrentProjectID();
     this.getProjectList();
     this.getTemplateList();

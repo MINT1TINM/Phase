@@ -6,7 +6,7 @@ import store from '@/store/store';
 const vue = new Vue() as any;
 
 class BasicService {
-  public static async getData(rsp: any) {
+  static async getData(rsp: any) {
     let rspData = rsp;
     if (rsp.data) {
       rspData = rsp.data;
@@ -25,7 +25,7 @@ class BasicService {
     return rspData;
   }
 
-  public static async getRequest(url: string, params: any) {
+  static async getRequest(url: string, params: any) {
     store.commit('system/toggleLoading', true);
     try {
       const rsp = await axios.get(`/api${url}`, {
@@ -43,7 +43,7 @@ class BasicService {
     }
   }
 
-  public static async postRequest(url: string, params: any) {
+  static async postRequest(url: string, params: any) {
     store.commit('system/toggleLoading', true);
     try {
       const config = {
@@ -72,7 +72,7 @@ class BasicService {
     }
   }
 
-  public static async putRequest(url: string, params: any) {
+  static async putRequest(url: string, params: any) {
     store.commit('system/toggleLoading', true);
     try {
       const rsp = await axios.put(`/api${url}`, params);
@@ -87,7 +87,7 @@ class BasicService {
     }
   }
 
-  public static async deleteRequest(url: string, params: any) {
+  static async deleteRequest(url: string, params: any) {
     store.commit('system/toggleLoading', true);
     try {
       const rsp = await axios.delete(`/api${url}`, {

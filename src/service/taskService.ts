@@ -13,7 +13,7 @@ import {
 const vue = new Vue();
 
 class TaskService {
-  public static async getTaskList(processID: string) {
+  static async getTaskList(processID: string) {
     const rsp = await basicService.getRequest('/task/list', {
       processID
     });
@@ -24,7 +24,7 @@ class TaskService {
     return rsp;
   }
 
-  public static async getMultiProcessTaskList(processIDList: string[]) {
+  static async getMultiProcessTaskList(processIDList: string[]) {
     const rsp = await basicService.getRequest('/task/list/full', {
       id: processIDList
     });
@@ -32,7 +32,7 @@ class TaskService {
     return rsp;
   }
 
-  public static async createTask(processID: string, name: string) {
+  static async createTask(processID: string, name: string) {
     const rsp = await basicService.postRequest('/task', {
       processID,
       name
@@ -41,7 +41,7 @@ class TaskService {
     return rsp;
   }
 
-  public static async getTaskInfo(taskID: string) {
+  static async getTaskInfo(taskID: string) {
     const rsp = await basicService.getRequest('/task/info', {
       taskID
     });
@@ -49,7 +49,7 @@ class TaskService {
     return rsp;
   }
 
-  public static async updateTaskInfo(taskInfo: Task) {
+  static async updateTaskInfo(taskInfo: Task) {
     const rsp = await basicService.putRequest('/task/info', {
       taskID: taskInfo.id,
       name: taskInfo.name,
@@ -68,7 +68,7 @@ class TaskService {
     return rsp;
   }
 
-  public static async insertTaskFile(taskID: string, file: any) {
+  static async insertTaskFile(taskID: string, file: any) {
     const rsp = await basicService.postRequest('/task/file', {
       taskID,
       file
@@ -79,7 +79,7 @@ class TaskService {
     return rsp;
   }
 
-  public static async deleteTaskFile(taskID: string, fileID: string) {
+  static async deleteTaskFile(taskID: string, fileID: string) {
     const rsp = await basicService.deleteRequest('/task/file', {
       taskID,
       fileID
@@ -90,14 +90,14 @@ class TaskService {
     return rsp;
   }
 
-  public static async deleteTask(taskID: string) {
+  static async deleteTask(taskID: string) {
     const rsp = await basicService.deleteRequest('/task', {
       taskID
     });
     return rsp;
   }
 
-  public static async toggleTaskStatus(
+  static async toggleTaskStatus(
     ProcessID: string,
     taskID: string,
     status: boolean
@@ -110,7 +110,7 @@ class TaskService {
     return rsp;
   }
 
-  public static async updateTaskMember(taskID: string, member: TaskMember[]) {
+  static async updateTaskMember(taskID: string, member: TaskMember[]) {
     const rsp = await basicService.putRequest('/task/member', {
       taskID,
       member
@@ -118,7 +118,7 @@ class TaskService {
     return rsp;
   }
 
-  public static async createSubTask(taskID: string, subTask: SubTask) {
+  static async createSubTask(taskID: string, subTask: SubTask) {
     const rsp = await basicService.postRequest('/task/subtask', {
       taskID,
       subTask
@@ -129,7 +129,7 @@ class TaskService {
     return rsp;
   }
 
-  public static async updateSubTask(
+  static async updateSubTask(
     taskID: string,
     subTaskID: string,
     name: string,
@@ -151,7 +151,7 @@ class TaskService {
     return rsp;
   }
 
-  public static async deleteSubTask(taskID: string, subTaskID: string) {
+  static async deleteSubTask(taskID: string, subTaskID: string) {
     const rsp = await basicService.deleteRequest('/task/subtask', {
       taskID,
       subTaskID

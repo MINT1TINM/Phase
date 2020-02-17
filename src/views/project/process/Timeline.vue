@@ -27,12 +27,12 @@ const processModule = namespace('process');
 })
 export default class Timeline extends Vue {
   @processModule.Mutation('updateCurrentProcessTask')
-  private updateCurrentProcessTask: any;
+  updateCurrentProcessTask: any;
 
-  private taskList = [];
-  private taskListShow = [];
+  taskList = [];
+  taskListShow = [];
 
-  private async getTaskListManually() {
+  async getTaskListManually() {
     const rsp = await TaskService.getTaskList(this.$route.params.processID);
     this.taskList = rsp.taskList;
 
@@ -42,7 +42,7 @@ export default class Timeline extends Vue {
     });
   }
 
-  private mounted() {
+  mounted() {
     this.getTaskListManually();
   }
 }

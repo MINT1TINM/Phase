@@ -41,13 +41,13 @@ const userModule = namespace('user');
 
 @Component
 export default class ExplorePolicy extends Vue {
-  @userModule.Getter('isGod') private isGod!: boolean;
+  @userModule.Getter('isGod') isGod!: boolean;
 
-  private searchContent: string = '';
-  private policyList: Policy[] = [];
-  private count: number = 0;
+  searchContent: string = '';
+  policyList: Policy[] = [];
+  count: number = 0;
 
-  private async search() {
+  async search() {
     this.$router.push({
       path: `/explore/${this.searchContent}`,
       query: {
@@ -56,7 +56,7 @@ export default class ExplorePolicy extends Vue {
     });
   }
 
-  private async createPolicy() {
+  async createPolicy() {
     const rsp = await PolicyService.createPolicy('未命名政策');
     if (rsp.id) {
       this.$router.push({ path: `/edit/${rsp.id}` });

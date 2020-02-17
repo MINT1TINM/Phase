@@ -118,27 +118,27 @@ const userModule = namespace('user');
 @Component
 export default class ProjectTemplateList extends Vue {
   @userModule.Getter('authorization')
-  private authorization!: Authorization;
+  authorization!: Authorization;
 
-  private typeList = [
+  typeList = [
     {
       name: '推荐',
       route: '#foryou'
     }
   ];
-  private templateList: ProjectTemplate[] = [];
-  private generateProjectDialog: boolean = false;
-  private templateInfo: ProjectTemplate = new ProjectTemplate();
-  private currentTemplateID: string = '';
-  private newProjectName: string = '';
+  templateList: ProjectTemplate[] = [];
+  generateProjectDialog: boolean = false;
+  templateInfo: ProjectTemplate = new ProjectTemplate();
+  currentTemplateID: string = '';
+  newProjectName: string = '';
 
-  private async getTemplateList() {
+  async getTemplateList() {
     this.templateList = await ProjectService.getProjectTemplateList(
       this.authorization.userID
     );
   }
 
-  private async generateProject() {
+  async generateProject() {
     const rsp = await ProjectService.generateProject(
       this.newProjectName,
       this.currentTemplateID
@@ -151,12 +151,12 @@ export default class ProjectTemplateList extends Vue {
     }
   }
 
-  private async getTemplateInfo(templateID: string) {
+  async getTemplateInfo(templateID: string) {
     const rsp = await ProjectService.getTemplateInfo(templateID);
     this.templateInfo = rsp.template;
   }
 
-  private async mounted() {
+  async mounted() {
     this.getTemplateList();
   }
 }

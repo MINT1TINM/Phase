@@ -79,36 +79,36 @@ import TrackService from '@/service/trackService';
 
 @Component
 export default class ProjectTrack extends Vue {
-  private headers = [
+  headers = [
     { text: '名称', value: 'name' },
     { text: '创建人', value: 'userUUID' },
     { text: '创建时间', value: 'createdAt' },
     { text: '状态', value: 'status' }
   ];
-  private trackFormContent = [
+  trackFormContent = [
     {
       type: 'text-field',
       name: 'name',
       title: '名称'
     }
   ];
-  private createTrackDialog = false;
-  private newTrack = new Track();
-  private trackList: Track[] = [];
-  private options: { page: number; itemsPerPage: number } = {
+  createTrackDialog = false;
+  newTrack = new Track();
+  trackList: Track[] = [];
+  options: { page: number; itemsPerPage: number } = {
     page: 1,
     itemsPerPage: 20
   };
-  private loading = false;
+  loading = false;
 
-  private async getTrackList() {
+  async getTrackList() {
     this.trackList = await TrackService.getTrackList(
       this.options.page,
       this.options.itemsPerPage
     );
   }
 
-  private async createTrack() {
+  async createTrack() {
     if (this.newTrack.name) {
       try {
         await TrackService.createTrack(this.newTrack);
@@ -122,11 +122,11 @@ export default class ProjectTrack extends Vue {
     }
   }
 
-  private showInfo(v: Track) {
+  showInfo(v: Track) {
     this.$router.push({ path: `/track/${v.id}/timeline` });
   }
 
-  private mounted() {
+  mounted() {
     this.getTrackList();
   }
 }

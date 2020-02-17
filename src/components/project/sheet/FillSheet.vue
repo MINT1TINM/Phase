@@ -106,15 +106,15 @@ const projectModule = namespace('project');
   components: {}
 })
 export default class FillSheet extends Vue {
-  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+  @projectModule.Getter('currentProjectID') currentProjectID: any;
 
-  @Prop({ default: {} }) private templateInfo!: Template;
+  @Prop({ default: {} }) templateInfo!: Template;
 
-  @Prop({ default: {} }) private sheetInfo!: Sheet;
+  @Prop({ default: {} }) sheetInfo!: Sheet;
 
-  private target = {};
+  target = {};
 
-  private async saveSheet() {
+  async saveSheet() {
     const rsp = await SheetService.updateSheet(
       this.sheetInfoShow.id,
       this.sheetInfoShow.name,
@@ -125,16 +125,16 @@ export default class FillSheet extends Vue {
     this.closeDialog();
   }
 
-  private insertListElement() {
+  insertListElement() {
     this.sheetInfoShow.content.push({});
     console.log(this.sheetInfoShow);
   }
 
-  private closeDialog() {
+  closeDialog() {
     this.$emit('closeDialog');
   }
 
-  private get sheetInfoShow() {
+  get sheetInfoShow() {
     for (let i = 0; i < this.templateInfo.field.data.length; i++) {
       const e = this.templateInfo.field.data[i];
       if (e.type === 'multi-select') {
@@ -150,7 +150,7 @@ export default class FillSheet extends Vue {
     return this.sheetInfo;
   }
 
-  private mounted() {}
+  mounted() {}
 }
 </script>
 

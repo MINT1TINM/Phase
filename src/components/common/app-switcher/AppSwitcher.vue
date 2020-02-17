@@ -37,11 +37,11 @@ const systemModule = namespace('system');
 
 @Component
 export default class AppSwitcher extends Vue {
-  @systemModule.Mutation('toggleAppSwitcher') private toggleAppSwitcher: any;
+  @systemModule.Mutation('toggleAppSwitcher') toggleAppSwitcher: any;
 
-  @systemModule.Getter('appList') private appList: any;
+  @systemModule.Getter('appList') appList: any;
 
-  private toApp(route: string) {
+  toApp(route: string) {
     window.location.href = `/${route}`;
   }
 }

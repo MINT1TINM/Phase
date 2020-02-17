@@ -50,13 +50,13 @@ const systemModule = namespace('system');
 
 @Component
 export default class Invitation extends Vue {
-  @usermodule.Getter('authorization') private authorization: any;
+  @usermodule.Getter('authorization') authorization: any;
 
-  @systemModule.Getter('notificationCenter') private notificationCenter: any;
+  @systemModule.Getter('notificationCenter') notificationCenter: any;
 
-  @systemModule.Getter('invitationList') private invitationList!: Invitation[];
+  @systemModule.Getter('invitationList') invitationList!: Invitation[];
 
-  private async updateInvitationStatus(status: number, invitationID: string) {
+  async updateInvitationStatus(status: number, invitationID: string) {
     await ProjectService.updateInvitationStatus(invitationID, status);
     // get project id list
     await UserService.getUserInfo(this.authorization.userID);
@@ -66,12 +66,12 @@ export default class Invitation extends Vue {
     this.getInvitationList();
   }
 
-  private async getInvitationList() {
+  async getInvitationList() {
     await ProjectService.getInvitationList('', '', this.authorization.userID);
     await UserService.getUserInfo(this.authorization.userID);
   }
 
-  private mounted() {
+  mounted() {
     console.log(this.invitationList);
   }
 }

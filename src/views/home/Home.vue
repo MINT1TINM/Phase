@@ -119,23 +119,23 @@ const userModule = namespace('user');
   }
 })
 export default class ComponentName extends Vue {
-  @systemModule.Getter('appList') private appList!: App[];
+  @systemModule.Getter('appList') appList!: App[];
 
-  @systemModule.Getter('estateAppList') private estateAppList!: App[];
+  @systemModule.Getter('estateAppList') estateAppList!: App[];
 
-  @systemModule.Getter('systemName') private systemName!: string;
+  @systemModule.Getter('systemName') systemName!: string;
 
-  @userModule.Getter('authorization') private authorization!: Authorization;
+  @userModule.Getter('authorization') authorization!: Authorization;
 
-  @userModule.Getter('userInfo') private userInfo!: UserInfo;
+  @userModule.Getter('userInfo') userInfo!: UserInfo;
 
-  @userModule.Getter('isGod') private isGod!: boolean;
+  @userModule.Getter('isGod') isGod!: boolean;
 
-  private goToApp(route: string) {
+  goToApp(route: string) {
     window.location.href = `/${route}`;
   }
 
-  private get time() {
+  get time() {
     const hour = new Date().getHours();
     if (hour < 9) {
       return '早上好,';
@@ -152,7 +152,7 @@ export default class ComponentName extends Vue {
     return '晚上好,';
   }
 
-  private get availableAppList() {
+  get availableAppList() {
     const availableAppList: App[] = [];
     for (const app of this.appList) {
       if ((this.userInfo.applicationList! || []).indexOf(app.nameEn) !== -1) {
@@ -162,7 +162,7 @@ export default class ComponentName extends Vue {
     return availableAppList;
   }
 
-  private async mounted() {
+  async mounted() {
     await ProjectService.getInvitationList('', '', this.authorization.userID);
   }
 }

@@ -119,33 +119,33 @@ const contactModule = namespace('contact');
   }
 })
 export default class AdminUser extends Vue {
-  @userModule.Getter('privilege') private privilege!: string[];
+  @userModule.Getter('privilege') privilege!: string[];
 
-  @userModule.Getter('authorization') private authorization!: Authorization;
+  @userModule.Getter('authorization') authorization!: Authorization;
 
-  @contactModule.Getter('currentContactID') private currentContactID!: string;
+  @contactModule.Getter('currentContactID') currentContactID!: string;
 
   @contactModule.Mutation('updateCurrentContactID')
-  private updateCurrentContactID!: (v: string) => void;
+  updateCurrentContactID!: (v: string) => void;
 
-  private userList: UserInfo[] = [];
+  userList: UserInfo[] = [];
 
-  private createUserDialog: boolean = false;
+  createUserDialog: boolean = false;
 
-  private infoNav: boolean = false;
+  infoNav: boolean = false;
 
-  private newUserName = '';
+  newUserName = '';
 
-  private newNickName = '';
+  newNickName = '';
 
-  private newPassword = '';
+  newPassword = '';
 
-  private async getUserList() {
+  async getUserList() {
     const rsp = await UserService.getUserList();
     this.userList = rsp.user;
   }
 
-  private async createUser() {
+  async createUser() {
     await UserService.createUser(
       this.newUserName,
       this.newNickName,
@@ -158,13 +158,13 @@ export default class AdminUser extends Vue {
     this.getUserList();
   }
 
-  private showInfo(user: UserInfo) {
+  showInfo(user: UserInfo) {
     this.infoNav = true;
     console.log(user.id);
     this.updateCurrentContactID(user.id!);
   }
 
-  private mounted() {
+  mounted() {
     this.getUserList();
   }
 }

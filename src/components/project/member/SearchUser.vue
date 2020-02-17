@@ -63,19 +63,19 @@ const userModule = namespace('user');
 @Component
 export default class ComponentName extends Vue {
   @projectModule.Getter('currentProjectMemberIDList')
-  private currentProjectMemberIDList: any;
+  currentProjectMemberIDList: any;
 
-  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+  @projectModule.Getter('currentProjectID') currentProjectID: any;
 
-  @userModule.Getter('authorization') private authorization: any;
+  @userModule.Getter('authorization') authorization: any;
 
-  private userList: ProjectMemberComplete[] = [];
+  userList: ProjectMemberComplete[] = [];
 
-  private searching: boolean = false;
+  searching: boolean = false;
 
-  private searchUserContent: string = '';
+  searchUserContent: string = '';
 
-  private async searchUser() {
+  async searchUser() {
     // search user via api
     this.searching = true;
     const rsp = await UserService.searchUser(this.searchUserContent);
@@ -90,7 +90,7 @@ export default class ComponentName extends Vue {
     this.searching = false;
   }
 
-  private async submitInvitation(toUserID: string) {
+  async submitInvitation(toUserID: string) {
     const rsp = await ProjectService.submitInvitation(
       this.currentProjectID,
       this.authorization.userID,
@@ -98,10 +98,10 @@ export default class ComponentName extends Vue {
     );
   }
 
-  private hasSentInvitation() {}
+  hasSentInvitation() {}
 
   @Watch('searchUserContent')
-  private onSearchUserContentChanged() {
+  onSearchUserContentChanged() {
     if (this.searching) {
       return;
     }
@@ -111,7 +111,7 @@ export default class ComponentName extends Vue {
     this.searchUser();
   }
 
-  private async mounted() {}
+  async mounted() {}
 }
 </script>
 

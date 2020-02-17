@@ -89,11 +89,11 @@ import MaterialService from '@/service/materialService';
 
 @Component
 export default class ProjectMaterial extends Vue {
-  private materialList: Material[] = [];
-  private newMaterial: Material = new Material();
+  materialList: Material[] = [];
+  newMaterial: Material = new Material();
 
-  private createMaterialDialog = false;
-  private materialFormContent = [
+  createMaterialDialog = false;
+  materialFormContent = [
     {
       type: 'text-field',
       name: 'name',
@@ -101,30 +101,30 @@ export default class ProjectMaterial extends Vue {
     }
   ];
 
-  private headers = [
+  headers = [
     { text: '名称', value: 'name' },
     { text: '创建人', value: 'userUUID' },
     { text: '创建时间', value: 'createdAt' },
     { text: '市场价', value: 'marketPrice' },
     { text: '面价', value: 'price' }
   ];
-  private options: { page: number; itemsPerPage: number } = {
+  options: { page: number; itemsPerPage: number } = {
     page: 1,
     itemsPerPage: 20
   };
 
-  private async getMaterialList() {
+  async getMaterialList() {
     this.materialList = await MaterialService.getMaterialList(
       this.options.page,
       this.options.itemsPerPage
     );
   }
 
-  private showInfo(v: Material) {
+  showInfo(v: Material) {
     this.$router.push({ path: `/material/${v.id}` });
   }
 
-  private async createMaterial() {
+  async createMaterial() {
     if (this.newMaterial.name) {
       try {
         await MaterialService.createMaterial(this.newMaterial);
@@ -137,7 +137,7 @@ export default class ProjectMaterial extends Vue {
     }
   }
 
-  private async mounted() {
+  async mounted() {
     this.getMaterialList();
   }
 }

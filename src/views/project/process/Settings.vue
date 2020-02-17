@@ -96,16 +96,16 @@ const userModule = namespace('user');
   components: {}
 })
 export default class Settings extends Vue {
-  @userModule.Getter('authorization') private authorization!: Authorization;
+  @userModule.Getter('authorization') authorization!: Authorization;
 
-  @projectModule.Getter('currentProject') private currentProject: any;
+  @projectModule.Getter('currentProject') currentProject: any;
 
-  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+  @projectModule.Getter('currentProjectID') currentProjectID: any;
 
   @projectModule.Getter('projectPermission')
-  private projectPermission: any;
+  projectPermission: any;
 
-  private settingsContent = [
+  settingsContent = [
     {
       type: 'text-field',
       title: '名称',
@@ -117,11 +117,11 @@ export default class Settings extends Vue {
       name: 'description'
     }
   ];
-  private range: [number, number] = [0, 0];
-  private processInfo: Process = new Process();
-  private processMember: ProcessMember[] = [];
+  range: [number, number] = [0, 0];
+  processInfo: Process = new Process();
+  processMember: ProcessMember[] = [];
 
-  private async getProcessInfo() {
+  async getProcessInfo() {
     const rsp = await ProcessService.getProcessInfo(
       this.$route.params.processID
     );
@@ -129,14 +129,14 @@ export default class Settings extends Vue {
     this.processMember = this.processInfo.member!.data;
   }
 
-  private async updateProcessInfo() {
+  async updateProcessInfo() {
     const rsp = await ProcessService.updateProcessInfo(
       this.$route.params.processID,
       this.processInfo
     );
   }
 
-  private async deleteProcess() {
+  async deleteProcess() {
     const res = await this.$confirm('此操作无法恢复', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
@@ -148,7 +148,7 @@ export default class Settings extends Vue {
     }
   }
 
-  // private async removeMember(item: Member) {}
+  //  async removeMember(item: Member) {}
 
   get projectMember() {
     console.log(this.currentProject.member.data);
@@ -156,7 +156,7 @@ export default class Settings extends Vue {
   }
 
   @Watch('processMember')
-  private async onProcessMemberChanged() {
+  async onProcessMemberChanged() {
     // watch change after initialized
     if (this.processMember !== this.processInfo.member!.data) {
       await ProcessService.updateProcessMember(
@@ -167,7 +167,7 @@ export default class Settings extends Vue {
     }
   }
 
-  private mounted() {
+  mounted() {
     this.getProcessInfo();
   }
 }

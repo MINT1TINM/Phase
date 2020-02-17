@@ -162,7 +162,7 @@ const systemModule = namespace('system');
   }
 })
 export default class AppBar extends Vue {
-  private userMenu = [
+  userMenu = [
     {
       icon: 'mdi-settings-outline',
       title: '设置'
@@ -173,29 +173,29 @@ export default class AppBar extends Vue {
     }
   ];
 
-  @userModule.Getter('userInfo') private userInfo: any;
+  @userModule.Getter('userInfo') userInfo: any;
 
-  @userModule.Mutation('clearAuthorization') private clearAuthorization: any;
+  @userModule.Mutation('clearAuthorization') clearAuthorization: any;
 
-  @userModule.Mutation('clearUserInfo') private clearUserInfo: any;
+  @userModule.Mutation('clearUserInfo') clearUserInfo: any;
 
   @systemModule.Mutation('toggleFullScreenLoading')
-  private toggleFullScreenLoading: any;
+  toggleFullScreenLoading: any;
 
-  @systemModule.Mutation('toggleAppSwitcher') private toggleAppSwitcher: any;
+  @systemModule.Mutation('toggleAppSwitcher') toggleAppSwitcher: any;
 
   @systemModule.Mutation('toggleNotificationCenter')
-  private toggleNotificationCenter: any;
+  toggleNotificationCenter: any;
 
-  @systemModule.Getter('invitationList') private invitationList!: Invitation[];
+  @systemModule.Getter('invitationList') invitationList!: Invitation[];
 
-  @systemModule.Getter('systemName') private systemName!: string;
+  @systemModule.Getter('systemName') systemName!: string;
 
-  @systemModule.Mutation('updateLastPage') private updateLastPage: any;
+  @systemModule.Mutation('updateLastPage') updateLastPage: any;
 
-  @systemModule.Getter('appList') private appList!: App[];
+  @systemModule.Getter('appList') appList!: App[];
 
-  private async userMenuActions(num: number) {
+  async userMenuActions(num: number) {
     switch (num) {
       case 0:
         // setting
@@ -222,11 +222,11 @@ export default class AppBar extends Vue {
     }
   }
 
-  private toCurrentAppHome() {
+  toCurrentAppHome() {
     this.$router.push({ path: '/' });
   }
 
-  private goHome() {
+  goHome() {
     window.location.href = '/home';
   }
 

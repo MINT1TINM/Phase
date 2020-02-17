@@ -91,17 +91,17 @@ const projectModule = namespace('project');
   }
 })
 export default class SheetInfo extends Vue {
-  @sheetModule.Getter('type') private type: any;
+  @sheetModule.Getter('type') type: any;
 
-  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+  @projectModule.Getter('currentProjectID') currentProjectID: any;
 
-  @Prop({ default: '' }) private templateID!: string;
+  @Prop({ default: '' }) templateID!: string;
 
-  @Prop({ default: '' }) private sheetID!: string;
+  @Prop({ default: '' }) sheetID!: string;
 
-  private sheetInfo: Sheet = new Sheet();
+  sheetInfo: Sheet = new Sheet();
 
-  private templateInfo: Template = {
+  templateInfo: Template = {
     name: '',
     field: {
       data: []
@@ -110,15 +110,15 @@ export default class SheetInfo extends Vue {
     locked: false
   };
 
-  private fillSheetDialog: boolean = false;
+  fillSheetDialog: boolean = false;
 
-  private async getSheetInfo(sheetID: string) {
+  async getSheetInfo(sheetID: string) {
     this.sheetInfo = new Sheet();
     const rsp = await SheetService.getSheetInfo(sheetID);
     this.sheetInfo = rsp.sheet;
   }
 
-  private async getTemplateInfo(templateID: string) {
+  async getTemplateInfo(templateID: string) {
     this.templateInfo = {
       name: '',
       field: {
@@ -131,11 +131,11 @@ export default class SheetInfo extends Vue {
     this.templateInfo = rsp.template;
   }
 
-  private async exportSheet() {
+  async exportSheet() {
     await SheetService.exportSheet(this.sheetID);
   }
 
-  private async deleteSheet() {
+  async deleteSheet() {
     const res = await this.$confirm('此操作无法复原', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
@@ -148,12 +148,12 @@ export default class SheetInfo extends Vue {
   }
 
   @Watch('templateID')
-  private onTemplateIDChanged() {
+  onTemplateIDChanged() {
     this.getTemplateInfo(this.templateID);
   }
 
   @Watch('sheetID')
-  private onSheetIDChanged() {
+  onSheetIDChanged() {
     this.getSheetInfo(this.sheetID);
   }
 
@@ -164,7 +164,7 @@ export default class SheetInfo extends Vue {
     return '';
   }
 
-  private mounted() {
+  mounted() {
     this.getTemplateInfo(this.templateID);
     this.getSheetInfo(this.sheetID);
   }

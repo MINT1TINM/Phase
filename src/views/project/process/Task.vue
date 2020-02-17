@@ -29,13 +29,13 @@ import taskList from '@/components/project/process/task/TaskList.vue';
   }
 })
 export default class Task extends Vue {
-  public activeTask: string = '';
+  activeTask: string = '';
 
-  private get processID() {
+  get processID() {
     return this.$route.params.processID;
   }
 
-  private getKey(data: any) {
+  getKey(data: any) {
     this.activeTask = data;
   }
 }

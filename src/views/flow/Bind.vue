@@ -58,26 +58,26 @@ const systemModule = namespace('system');
   }
 })
 export default class AppAccess extends Vue {
-  @systemModule.Getter('appList') private appList!: App[];
+  @systemModule.Getter('appList') appList!: App[];
 
-  private currentApp = new App();
-  private tab = null;
-  private permissionShow: UserPermission = new UserPermission(false);
+  currentApp = new App();
+  tab = null;
+  permissionShow: UserPermission = new UserPermission(false);
 
-  private getCN(v: string) {
+  getCN(v: string) {
     return (UserPermissionCN as any)[v];
   }
 
-  private get permissionList() {
+  get permissionList() {
     return (this.permissionShow as any)[this.currentApp.nameEn];
   }
 
   @Watch('tab')
-  private onTabChanged(v: number) {
+  onTabChanged(v: number) {
     this.currentApp = this.appList[v];
   }
 
-  private mounted() {}
+  mounted() {}
 }
 </script>
 

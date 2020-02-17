@@ -94,9 +94,9 @@ import { UserInfo } from '@/types/user';
 
 @Component
 export default class AdminGroupInfo extends Vue {
-  @Prop(String) public groupID!: string;
+  @Prop(String) groupID!: string;
 
-  private groupInfo: Group = {
+  groupInfo: Group = {
     id: '',
     name: '',
     description: '',
@@ -106,15 +106,15 @@ export default class AdminGroupInfo extends Vue {
     createdAt: ''
   };
 
-  private loading = false;
+  loading = false;
 
-  private userList = [];
+  userList = [];
 
-  private search: string = '';
+  search: string = '';
 
-  private select = null;
+  select = null;
 
-  private groupInfoContent = [
+  groupInfoContent = [
     {
       type: 'text-field',
       title: '群组名称',
@@ -127,12 +127,12 @@ export default class AdminGroupInfo extends Vue {
     }
   ];
 
-  private async updateGroupInfo() {
+  async updateGroupInfo() {
     await CompanyService.updateGroupInfo(this.groupID, this.groupInfo);
     this.$emit('updateGroupList');
   }
 
-  private async querySelections(v: string) {
+  async querySelections(v: string) {
     this.loading = true;
     // Simulated ajax query
     const rsp = await UserService.searchUser(v);
@@ -141,14 +141,14 @@ export default class AdminGroupInfo extends Vue {
     this.loading = false;
   }
 
-  private async insertGroupMember(userID: any) {
+  async insertGroupMember(userID: any) {
     this.select = null;
     this.search = '';
     await CompanyService.insertGroupMember(this.groupID, userID);
     this.getGroupInfo();
   }
 
-  private async deleteGroupUser(userID: string) {
+  async deleteGroupUser(userID: string) {
     const res = await this.$confirm('此操作无法还原', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
@@ -160,7 +160,7 @@ export default class AdminGroupInfo extends Vue {
     }
   }
 
-  private get selectedNickNameList() {
+  get selectedNickNameList() {
     const userNickNameList: string[] = [];
     for (const item of this.groupInfo.member.data) {
       userNickNameList.push((item as GroupMember).nickName.toLowerCase());
@@ -168,29 +168,29 @@ export default class AdminGroupInfo extends Vue {
     return userNickNameList;
   }
 
-  private get userListShow() {
+  get userListShow() {
     return this.userList.filter(
       (e: GroupMember) =>
         this.selectedNickNameList.indexOf(e.nickName.toLowerCase()) === -1
     );
   }
 
-  private async getGroupInfo() {
+  async getGroupInfo() {
     const rsp = await CompanyService.getGroupInfo(this.groupID);
     this.groupInfo = rsp.group;
   }
 
   @Watch('search')
-  private async onSearchContentChanged(val: string) {
+  async onSearchContentChanged(val: string) {
     val && val !== this.select && this.querySelections(val);
   }
 
   @Watch('groupID')
-  private async onGroupIDChanged() {
+  async onGroupIDChanged() {
     this.getGroupInfo();
   }
 
-  private async mounted() {
+  async mounted() {
     if (this.groupID !== '') {
       this.getGroupInfo();
     }

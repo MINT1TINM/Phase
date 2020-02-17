@@ -42,33 +42,28 @@
       </v-flex>
     </v-layout>
 
-    <!-- private info -->
+    <!--  info -->
     <div class="pa-2 mt-5">
       <v-subheader class="subtitle-2 px-0 mb-0">
         隐私
         <v-spacer></v-spacer>
-        <v-btn text rounded @click="togglePrivateInfo()">
-          <div v-if="privateInfoShow"><v-icon>mdi-chevron-up</v-icon>隐藏</div>
+        <v-btn text rounded @click="toggleInfo()">
+          <div v-if="InfoShow"><v-icon>mdi-chevron-up</v-icon>隐藏</div>
           <div v-else><v-icon>mdi-chevron-down</v-icon>显示</div>
         </v-btn>
       </v-subheader>
       <v-divider class="mb-2"></v-divider>
     </div>
-    <div v-if="privateInfoShow">
+    <div v-if="InfoShow">
       <dim-form
         class="mt-4"
         keyName="profile"
-        :formContent="privateInfoList"
-        :target="privateInfo"
+        :formContent="InfoList"
+        :target="Info"
       ></dim-form>
       <v-layout justify-center class="pt-5">
         <v-flex xs6>
-          <v-btn
-            block
-            rounded
-            depressed
-            color="primary"
-            @click="updatePrivateInfo()"
+          <v-btn block rounded depressed color="primary" @click="updateInfo()"
             >保存</v-btn
           >
         </v-flex>
@@ -81,7 +76,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import UserService from '@/service/userService';
-import { Authorization, UserInfo, PrivateInfo } from '@/types/user';
+import { Authorization, UserInfo, Info } from '@/types/user';
 
 const userModule = namespace('user');
 
@@ -89,11 +84,11 @@ const userModule = namespace('user');
   components: {}
 })
 export default class Profile extends Vue {
-  @userModule.Getter('userInfo') private userInfo!: any;
+  @userModule.Getter('userInfo') userInfo!: any;
 
-  @userModule.Getter('authorization') private authorization!: Authorization;
+  @userModule.Getter('authorization') authorization!: Authorization;
 
-  private profileList = [
+  profileList = [
     {
       type: 'text-field',
       title: '用户名',
@@ -140,7 +135,7 @@ export default class Profile extends Vue {
     }
   ];
 
-  private privateInfoList = [
+  InfoList = [
     {
       type: 'text-field',
       title: '身份证',
@@ -153,27 +148,27 @@ export default class Profile extends Vue {
     }
   ];
 
-  private privateInfo: PrivateInfo = new PrivateInfo();
+  Info: Info = new Info();
 
-  private privateInfoShow: boolean = false;
+  InfoShow: boolean = false;
 
-  private togglePrivateInfo() {
-    if (this.privateInfoShow === false && !this.privateInfo.license) {
-      this.getPrivateInfo();
+  toggleInfo() {
+    if (this.InfoShow === false && !this.Info.license) {
+      this.getInfo();
     }
-    this.privateInfoShow = !this.privateInfoShow;
+    this.InfoShow = !this.InfoShow;
   }
 
-  private async getPrivateInfo() {
-    const rsp = await UserService.getPrivateInfo();
-    this.privateInfo = rsp.privateInfo;
+  async getInfo() {
+    const rsp = await UserService.getInfo();
+    this.Info = rsp.Info;
   }
 
-  private async updatePrivateInfo() {
-    await UserService.updatePrivateInfo(this.privateInfo);
+  async updateInfo() {
+    await UserService.updateInfo(this.Info);
   }
 
-  private async updateUserInfo() {
+  async updateUserInfo() {
     await UserService.updateUserInfo(this.userInfo);
     await UserService.getUserInfo(this.authorization.userID);
   }

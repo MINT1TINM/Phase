@@ -78,19 +78,19 @@ const systemModule = namespace('system');
 
 @Component
 export default class ContactInfo extends Vue {
-  @userModule.Getter('privilege') private privilege!: string[];
+  @userModule.Getter('privilege') privilege!: string[];
 
-  @systemModule.Getter('permissionList') private permissionList: any;
+  @systemModule.Getter('permissionList') permissionList: any;
 
-  private userInfo: UserInfo = new UserInfo();
-  private tab = null;
+  userInfo: UserInfo = new UserInfo();
+  tab = null;
 
-  private get userID() {
+  get userID() {
     return this.$route.params.userID;
   }
 
   @Watch('userID')
-  private async onUserIDChanged() {
+  async onUserIDChanged() {
     this.userInfo = new UserInfo();
     if (this.userID) {
       const rsp = await UserService.getOtherUserInfo(this.userID);
@@ -98,7 +98,7 @@ export default class ContactInfo extends Vue {
     }
   }
 
-  private async mounted() {
+  async mounted() {
     this.userInfo = new UserInfo();
     if (this.userID) {
       const rsp = await UserService.getOtherUserInfo(this.userID);

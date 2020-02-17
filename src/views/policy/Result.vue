@@ -80,13 +80,13 @@ const userModule = namespace('user');
 
 @Component
 export default class PolicyExploreResult extends Vue {
-  @userModule.Getter('isGod') private isGod!: boolean;
+  @userModule.Getter('isGod') isGod!: boolean;
 
-  private policyList: Policy[] = [];
-  private count: number = 0;
-  private searchContent: string = '';
+  policyList: Policy[] = [];
+  count: number = 0;
+  searchContent: string = '';
 
-  private async searchPolicy() {
+  async searchPolicy() {
     const rsp = await PolicyService.searchPolicy(
       this.search,
       Number(this.$route.query.page),
@@ -96,34 +96,34 @@ export default class PolicyExploreResult extends Vue {
     this.count = rsp.count || 0;
   }
 
-  private get search() {
+  get search() {
     return this.$route.params.search;
   }
 
-  private get totalPage() {
+  get totalPage() {
     return Math.ceil(this.count / 50) || 1;
   }
 
-  private get currentPage() {
+  get currentPage() {
     return Number(this.$route.query.page);
   }
 
-  private set currentPage(v: number) {
+  set currentPage(v: number) {
     this.$router.push({ query: { page: String(v) } });
   }
 
   @Watch('search')
-  private async onSearchChanged() {
+  async onSearchChanged() {
     this.searchPolicy();
   }
 
   @Watch('currentPage')
-  private async onPageChanged() {
+  async onPageChanged() {
     this.$vuetify.goTo(0, { duration: 300 });
     this.searchPolicy();
   }
 
-  private mounted() {
+  mounted() {
     this.searchPolicy();
     this.searchContent = this.search;
   }

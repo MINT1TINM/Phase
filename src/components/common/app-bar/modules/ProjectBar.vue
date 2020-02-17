@@ -178,42 +178,42 @@ const systemModule = namespace('system');
   }
 })
 export default class ProjectBar extends Vue {
-  private searchProjectContent: string = '';
+  searchProjectContent: string = '';
 
-  private projectSwitcher: boolean = false;
+  projectSwitcher: boolean = false;
 
-  private processSwitcher: boolean = false;
+  processSwitcher: boolean = false;
 
-  private saveToTemplateDialog: boolean = false;
+  saveToTemplateDialog: boolean = false;
 
-  private commonSearchDialog: boolean = false;
+  commonSearchDialog: boolean = false;
 
-  private templateName: string = '';
+  templateName: string = '';
 
-  @projectModule.Getter('projectList') private projectList: any;
+  @projectModule.Getter('projectList') projectList: any;
 
-  @projectModule.Getter('currentProject') private currentProject: any;
+  @projectModule.Getter('currentProject') currentProject: any;
 
-  @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+  @projectModule.Getter('currentProjectID') currentProjectID!: string;
 
-  @processModule.Getter('currentProcess') private currentProcess!: (
+  @processModule.Getter('currentProcess') currentProcess!: (
     v: string
   ) => Process;
 
   @processModule.Getter('currentProcessList')
-  private currentProcessList!: Process[];
+  currentProcessList!: Process[];
 
   @projectModule.Mutation('updateCurrentProjectID')
-  private updateCurrentProjectID: any;
+  updateCurrentProjectID: any;
 
   @systemModule.Mutation('toggleFullScreenLoading')
-  private toggleFullScreenLoading: any;
+  toggleFullScreenLoading: any;
 
-  private goToAllProject() {
+  goToAllProject() {
     this.$router.push({ path: '/project' });
   }
 
-  private alterProject(projectID: number) {
+  alterProject(projectID: number) {
     this.toggleFullScreenLoading(true);
     this.projectSwitcher = false;
 
@@ -225,7 +225,7 @@ export default class ProjectBar extends Vue {
     }, 500);
   }
 
-  private alterProcess(processID: number) {
+  alterProcess(processID: number) {
     this.toggleFullScreenLoading(true);
     this.processSwitcher = false;
 
@@ -236,7 +236,7 @@ export default class ProjectBar extends Vue {
     }, 500);
   }
 
-  private async saveToTemplate() {
+  async saveToTemplate() {
     await ProjectService.saveToTemplate(
       this.currentProjectID,
       this.templateName
@@ -245,10 +245,10 @@ export default class ProjectBar extends Vue {
     this.saveToTemplateDialog = false;
   }
 
-  private get projectListShow() {
+  get projectListShow() {
     return this.projectList;
   }
 
-  private mounted() {}
+  mounted() {}
 }
 </script>

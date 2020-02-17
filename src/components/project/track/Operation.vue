@@ -53,9 +53,9 @@ import TrackService from '@/service/trackService';
 
 @Component
 export default class ProjectTrackOperation extends Vue {
-  @Prop() private track!: Track;
+  @Prop() track!: Track;
 
-  private trackContent = [
+  trackContent = [
     {
       type: 'text-field',
       title: '跟踪对象',
@@ -68,7 +68,7 @@ export default class ProjectTrackOperation extends Vue {
     }
   ];
 
-  private async updateTrack() {
+  async updateTrack() {
     try {
       await TrackService.updateTrack(this.trackShow);
       this.$snack('更新成功');
@@ -77,7 +77,7 @@ export default class ProjectTrackOperation extends Vue {
     }
   }
 
-  private async deleteTrack() {
+  async deleteTrack() {
     const rsp = await this.$confirm('此操作无法恢复', {
       title: '确认删除?',
       buttonTrueColor: 'red darken-1',
@@ -95,15 +95,15 @@ export default class ProjectTrackOperation extends Vue {
     }
   }
 
-  private get trackShow() {
+  get trackShow() {
     return this.track;
   }
 
-  private set trackShow(v: Track) {
+  set trackShow(v: Track) {
     this.trackShow = v;
   }
 
-  private mounted() {}
+  mounted() {}
 }
 </script>
 

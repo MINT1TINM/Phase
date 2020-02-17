@@ -56,9 +56,9 @@ import ContractService from '@/service/contractService';
 
 @Component
 export default class ProjectContractOperation extends Vue {
-  @Prop() private contract!: Contract;
+  @Prop() contract!: Contract;
 
-  private contractContent = [
+  contractContent = [
     {
       type: 'text-field',
       title: '编号',
@@ -91,7 +91,7 @@ export default class ProjectContractOperation extends Vue {
     }
   ];
 
-  private async updateContract() {
+  async updateContract() {
     try {
       await ContractService.updateContract(this.contractShow);
       this.$snack('更新成功');
@@ -100,7 +100,7 @@ export default class ProjectContractOperation extends Vue {
     }
   }
 
-  private async deleteContract() {
+  async deleteContract() {
     const rsp = await this.$confirm('此操作无法恢复', {
       title: '确认删除?',
       buttonTrueColor: 'red darken-1',
@@ -118,15 +118,15 @@ export default class ProjectContractOperation extends Vue {
     }
   }
 
-  private get contractShow() {
+  get contractShow() {
     return this.contract;
   }
 
-  private set contractShow(v: Contract) {
+  set contractShow(v: Contract) {
     this.contractShow = v;
   }
 
-  private mounted() {}
+  mounted() {}
 }
 </script>
 

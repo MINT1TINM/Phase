@@ -384,18 +384,18 @@ const userModule = namespace('user');
   }
 })
 export default class Settings extends Vue {
-  @systemModule.Getter('lastPage') private lastPage: any;
-  @projectModule.Getter('currentProject') private currentProject!: Project;
-  @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+  @systemModule.Getter('lastPage') lastPage: any;
+  @projectModule.Getter('currentProject') currentProject!: Project;
+  @projectModule.Getter('currentProjectID') currentProjectID!: string;
 
   @userModule.Getter('authorization')
-  private authorization!: Authorization;
+  authorization!: Authorization;
   @userModule.Getter('userInfo')
-  private userInfo!: UserInfo;
+  userInfo!: UserInfo;
 
-  private workflowInstance: Instance = new Instance();
+  workflowInstance: Instance = new Instance();
 
-  private projectInfoList = [
+  projectInfoList = [
     {
       type: 'text-field',
       title: '名称',
@@ -425,7 +425,7 @@ export default class Settings extends Vue {
     }
   ];
 
-  private get projectExtraInfo() {
+  get projectExtraInfo() {
     return [
       {
         type: 'select',
@@ -483,7 +483,7 @@ export default class Settings extends Vue {
     ];
   }
 
-  private get finishInfoContent() {
+  get finishInfoContent() {
     return [
       {
         type: 'date-picker',
@@ -563,13 +563,13 @@ export default class Settings extends Vue {
     ];
   }
 
-  private async updateProjectInfo() {
+  async updateProjectInfo() {
     let p = this.currentProject;
     p.extraInfo = this.extraInfo;
     await ProjectService.updateProjectInfo(p);
   }
 
-  private async deleteProject() {
+  async deleteProject() {
     const res = await this.$confirm('此操作无法还原', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
@@ -581,12 +581,12 @@ export default class Settings extends Vue {
     }
   }
 
-  private async updateProjectFolder(v: any) {
+  async updateProjectFolder(v: any) {
     await ProjectService.updateProjectFolder(v, this.currentProjectID);
     await ProjectService.getProjectList();
   }
 
-  private async getProjectFlow() {
+  async getProjectFlow() {
     if (this.extraInfo.startFlowID) {
       this.workflowInstance = {
         ...new Instance(),
@@ -601,7 +601,7 @@ export default class Settings extends Vue {
     }
   }
 
-  private async submitForReview() {
+  async submitForReview() {
     await this.updateProjectInfo();
 
     // Init link
@@ -654,26 +654,26 @@ export default class Settings extends Vue {
     }
   }
 
-  private get project() {
+  get project() {
     return this.currentProject;
   }
 
-  private get extraInfo() {
+  get extraInfo() {
     const newExtraInfo = new ProjectExtraInfo();
     const e = { ...newExtraInfo, ...this.currentProject.extraInfo };
     console.log(this.currentProject.extraInfo);
     return e;
   }
 
-  private set extraInfo(v: ProjectExtraInfo) {
+  set extraInfo(v: ProjectExtraInfo) {
     this.extraInfo = v;
   }
 
-  private get projectType() {
+  get projectType() {
     return this.extraInfo.type;
   }
 
-  private mounted() {
+  mounted() {
     this.getProjectFlow();
   }
 }

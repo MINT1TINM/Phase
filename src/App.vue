@@ -69,25 +69,25 @@ const systemModule = namespace('system');
   }
 })
 export default class App extends Vue {
-  @systemModule.Getter('fullScreenLoading') private fullScreenLoading: any;
+  @systemModule.Getter('fullScreenLoading') fullScreenLoading: any;
 
-  @systemModule.Getter('loading') private loading: any;
+  @systemModule.Getter('loading') loading: any;
 
-  @systemModule.Getter('appSwitcher') private appSwitcher: any;
+  @systemModule.Getter('appSwitcher') appSwitcher: any;
 
-  @systemModule.Mutation('toggleAppSwitcher') private toggleAppSwitcher: any;
+  @systemModule.Mutation('toggleAppSwitcher') toggleAppSwitcher: any;
 
-  @systemModule.Getter('notificationCenter') private notificationCenter: any;
+  @systemModule.Getter('notificationCenter') notificationCenter: any;
 
   @systemModule.Mutation('toggleNotificationCenter')
-  private toggleNotificationCenter: any;
+  toggleNotificationCenter: any;
 
-  @systemModule.Getter('systemName') private systemName!: string;
+  @systemModule.Getter('systemName') systemName!: string;
 
-  @systemModule.Getter('companyName') private companyName!: string;
+  @systemModule.Getter('companyName') companyName!: string;
 
   @systemModule.Mutation('toggleFullScreenLoading')
-  private toggleFullScreenLoading: any;
+  toggleFullScreenLoading: any;
 
   get appSwitcherShow() {
     return this.appSwitcher;
@@ -105,7 +105,7 @@ export default class App extends Vue {
     this.toggleNotificationCenter(v);
   }
 
-  private isDarkMode() {
+  isDarkMode() {
     if (matchMedia('(prefers-color-scheme: dark)').matches) {
       this.$vuetify.theme.dark = true;
     } else {
@@ -120,7 +120,7 @@ export default class App extends Vue {
     }, 5000);
   }
 
-  private mounted() {
+  mounted() {
     document.title = `${this.systemName} | ${this.companyName}`;
     this.toggleFullScreenLoading(false);
 

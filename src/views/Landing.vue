@@ -51,18 +51,18 @@ const systemModule = namespace('system');
 
 @Component
 export default class Landing extends Vue {
-  @userModule.Getter('authorization') private authorization: any;
+  @userModule.Getter('authorization') authorization: any;
 
-  @userModule.Mutation('clearAuthorization') private clearAuthorization: any;
+  @userModule.Mutation('clearAuthorization') clearAuthorization: any;
 
   @systemModule.Mutation('toggleFullScreenLoading')
-  private toggleFullScreenLoading: any;
+  toggleFullScreenLoading: any;
 
-  @systemModule.Getter('systemName') private systemName!: string;
+  @systemModule.Getter('systemName') systemName!: string;
 
-  @systemModule.Getter('companyName') private companyName!: string;
+  @systemModule.Getter('companyName') companyName!: string;
 
-  private async autoLogin() {
+  async autoLogin() {
     this.toggleFullScreenLoading(true);
     const { userID } = this.authorization;
 
@@ -79,7 +79,7 @@ export default class Landing extends Vue {
     }
   }
 
-  private mounted() {}
+  mounted() {}
 }
 </script>
 

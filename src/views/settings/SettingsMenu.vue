@@ -57,11 +57,11 @@ const systemModule = namespace('system');
 
 @Component
 export default class Settings extends Vue {
-  @systemModule.Getter('lastPage') private lastPage: any;
+  @systemModule.Getter('lastPage') lastPage: any;
 
-  @systemModule.Getter('systemName') private systemName!: string;
+  @systemModule.Getter('systemName') systemName!: string;
 
-  private settingsItems = [
+  settingsItems = [
     {
       text: '个人信息',
       icon: 'mdi-account-circle-outline',

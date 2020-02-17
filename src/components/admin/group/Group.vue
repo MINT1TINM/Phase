@@ -90,34 +90,34 @@ import groupInfo from './GroupInfo.vue';
   }
 })
 export default class AdminGroup extends Vue {
-  private groupList: Group[] = [];
+  groupList: Group[] = [];
 
-  private createGroupDialog: boolean = false;
+  createGroupDialog: boolean = false;
 
-  private infoNav: boolean = false;
+  infoNav: boolean = false;
 
-  private newGroupName: string = '';
+  newGroupName: string = '';
 
-  private currentGroupID: string = '';
+  currentGroupID: string = '';
 
-  private async createGroup() {
+  async createGroup() {
     await CompanyService.createGroup(this.newGroupName);
     this.createGroupDialog = false;
     this.newGroupName = '';
     await this.getGroup();
   }
 
-  private async getGroup() {
+  async getGroup() {
     const rsp = await CompanyService.getGroup();
     this.groupList = rsp.group;
   }
 
-  private async showInfo(id: string) {
+  async showInfo(id: string) {
     this.infoNav = true;
     this.currentGroupID = id;
   }
 
-  private async mounted() {
+  async mounted() {
     this.getGroup();
   }
 }

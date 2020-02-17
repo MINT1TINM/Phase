@@ -44,12 +44,12 @@ const projectModule = namespace('project');
   components: {}
 })
 export default class ProjectIndex extends Vue {
-  @userModule.Getter('authorization') private authorization!: Authorization;
-  @projectModule.Getter('currentProject') private currentProject!: Project;
+  @userModule.Getter('authorization') authorization!: Authorization;
+  @projectModule.Getter('currentProject') currentProject!: Project;
   @projectModule.Getter('projectPermission')
-  private projectPermission: any;
+  projectPermission: any;
 
-  private get appList() {
+  get appList() {
     // started=1 && no active workflow instance -> project started
     return [
       {
@@ -57,7 +57,7 @@ export default class ProjectIndex extends Vue {
         name: '仪表板',
         route: '/dashboard',
         role: ['r'],
-        condition: true
+        condition: this.currentProject.extraInfo.started
       },
       {
         icon: 'mdi-view-dashboard-outline',

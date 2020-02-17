@@ -100,29 +100,29 @@ const userModule = namespace('user');
   }
 })
 export default class ProcessList extends Vue {
-  @userModule.Getter('authorization') private authorization!: Authorization;
+  @userModule.Getter('authorization') authorization!: Authorization;
 
-  @projectModule.Getter('currentProjectID') private currentProjectID!: string;
+  @projectModule.Getter('currentProjectID') currentProjectID!: string;
 
   @processModule.Mutation('updateCurrentProcessList')
-  private updateCurrentProcessList: any;
+  updateCurrentProcessList: any;
 
   @projectModule.Getter('projectPermission')
-  private projectPermission: any;
+  projectPermission: any;
 
-  private processList: Process[] = [];
-  private processListShow: Process[] = [];
-  private createProcessDialog: boolean = false;
-  private processName: string = '';
-  private searchProcessContent: string = '';
+  processList: Process[] = [];
+  processListShow: Process[] = [];
+  createProcessDialog: boolean = false;
+  processName: string = '';
+  searchProcessContent: string = '';
 
-  private async createProcess() {
+  async createProcess() {
     await ProcessService.createProcess(this.processName, this.currentProjectID);
     this.createProcessDialog = false;
     this.getProcessList();
   }
 
-  private async getProcessList() {
+  async getProcessList() {
     const rsp = await ProcessService.getProcessList(this.currentProjectID);
     this.processList = rsp.process;
     this.processListShow = rsp.process;
@@ -130,7 +130,7 @@ export default class ProcessList extends Vue {
   }
 
   @Watch('searchProcessContent')
-  private onSearchProcessContentChanged() {
+  onSearchProcessContentChanged() {
     this.processListShow = [];
     const { processList } = this;
     const { searchProcessContent } = this;
@@ -163,11 +163,11 @@ export default class ProcessList extends Vue {
   }
 
   @Watch('currentProjectID')
-  private onCurrentProjectIDChanged() {
+  onCurrentProjectIDChanged() {
     this.getProcessList();
   }
 
-  private mounted() {
+  mounted() {
     this.getProcessList();
   }
 }

@@ -2,17 +2,12 @@ import Vue from 'vue';
 
 import basicService from '@/service/basicService';
 import store from '@/store/store';
-import {
-  UserInfo,
-  PrivateInfo,
-  PrivacySetting,
-  UserPermission
-} from '@/types/user';
+import { UserInfo, Info, PrivacySetting, UserPermission } from '@/types/user';
 
 const vue = new Vue() as any;
 
 class UserService {
-  public static async getUserInfo(userID: string) {
+  static async getUserInfo(userID: string) {
     const rsp = await basicService.getRequest('/user/info', { id: userID });
     store.commit('user/updateUserInfo', await rsp.userInfo);
     if (!rsp.userInfo.project) {
@@ -21,22 +16,22 @@ class UserService {
     return rsp;
   }
 
-  public static async getPrivateInfo() {
-    const rsp = await basicService.getRequest('/user/privateinfo', {});
+  static async getInfo() {
+    const rsp = await basicService.getRequest('/user/info', {});
     return rsp;
   }
 
-  public static async getOtherUserInfo(userID: string) {
+  static async getOtherUserInfo(userID: string) {
     const rsp = await basicService.getRequest('/user/info', { id: userID });
     return rsp;
   }
 
-  public static async getUserList() {
+  static async getUserList() {
     const rsp = await basicService.getRequest('/user/list', {});
     return rsp;
   }
 
-  public static async updateUserInfo(userInfo: UserInfo) {
+  static async updateUserInfo(userInfo: UserInfo) {
     const rsp = await basicService.putRequest('/user/info', {
       id: store.getters['user/authorization'].userID,
       name: userInfo.name,
@@ -52,10 +47,10 @@ class UserService {
     return Promise.reject();
   }
 
-  public static async updatePrivateInfo(privateInfo: PrivateInfo) {
-    const rsp = await basicService.putRequest('/user/privateinfo', {
-      license: privateInfo.license,
-      workNum: privateInfo.workNum
+  static async updateInfo(Info: Info) {
+    const rsp = await basicService.putRequest('/user/info', {
+      license: Info.license,
+      workNum: Info.workNum
     });
     if (rsp.msg === 'success') {
       vue.$snack('修改成功');
@@ -64,7 +59,7 @@ class UserService {
     return Promise.reject();
   }
 
-  public static async updatePrivacySetting(privacySetting: PrivacySetting) {
+  static async updatePrivacySetting(privacySetting: PrivacySetting) {
     const rsp = await basicService.putRequest('/user/privacysetting', {
       hideEmail: privacySetting.hideEmail,
       hideName: privacySetting.hideName,
@@ -76,7 +71,7 @@ class UserService {
     return rsp;
   }
 
-  public static async updatePrivilege(id: string, privilege: string[]) {
+  static async updatePrivilege(id: string, privilege: string[]) {
     const rsp = await basicService.putRequest('/user/privilege', {
       id,
       privilege
@@ -88,7 +83,7 @@ class UserService {
     return Promise.reject();
   }
 
-  public static async updateUserAppList(id: string, appList: string[]) {
+  static async updateUserAppList(id: string, appList: string[]) {
     const rsp = await basicService.putRequest('/user/applist', {
       id,
       appList
@@ -100,10 +95,7 @@ class UserService {
     return Promise.reject();
   }
 
-  public static async updateUserPermission(
-    id: string,
-    permission: UserPermission
-  ) {
+  static async updateUserPermission(id: string, permission: UserPermission) {
     const rsp = await basicService.putRequest('/user/permission', {
       id,
       permission
@@ -115,7 +107,7 @@ class UserService {
     return Promise.reject();
   }
 
-  public static async createUser(
+  static async createUser(
     username: string,
     nickName: string,
     password: string
@@ -132,21 +124,21 @@ class UserService {
     return Promise.reject();
   }
 
-  public static async searchUser(content: string) {
+  static async searchUser(content: string) {
     const rsp = await basicService.getRequest('/user/search', {
       content
     });
     return rsp;
   }
 
-  public static async getUserLoginHistory(id: string) {
+  static async getUserLoginHistory(id: string) {
     const rsp = await basicService.getRequest('/user/login/history', {
       id
     });
     return rsp;
   }
 
-  public static async deleteUser(userID: string) {
+  static async deleteUser(userID: string) {
     const rsp = await basicService.deleteRequest('/user', {
       userID
     });

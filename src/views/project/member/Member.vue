@@ -260,20 +260,20 @@ const userModule = namespace('user');
   }
 })
 export default class ProjectMemberManagement extends Vue {
-  @projectModule.Getter('currentProject') private currentProject: any;
+  @projectModule.Getter('currentProject') currentProject: any;
 
-  @projectModule.Getter('projectList') private projectList: any;
+  @projectModule.Getter('projectList') projectList: any;
 
-  @userModule.Getter('authorization') private authorization: any;
+  @userModule.Getter('authorization') authorization: any;
 
-  private memberList: ProjectMemberComplete[] = [];
-  private memberListShow: ProjectMemberComplete[] = [];
-  private searchMemberContent: string = '';
-  private targetMember: ProjectMember = new ProjectMember();
-  private addMemberDialog: boolean = false;
-  private editMemberRoleDialog: boolean = false;
+  memberList: ProjectMemberComplete[] = [];
+  memberListShow: ProjectMemberComplete[] = [];
+  searchMemberContent: string = '';
+  targetMember: ProjectMember = new ProjectMember();
+  addMemberDialog: boolean = false;
+  editMemberRoleDialog: boolean = false;
 
-  private async getProjectMember() {
+  async getProjectMember() {
     const rsp = await ProjectService.getProjectMember(
       this.currentProject.member.data
     );
@@ -291,7 +291,7 @@ export default class ProjectMemberManagement extends Vue {
     this.memberListShow = this.memberList;
   }
 
-  private async removeMember(userID: string) {
+  async removeMember(userID: string) {
     const res = await this.$confirm('', {
       title: '确认移除成员?',
       buttonTrueColor: 'primary',
@@ -306,7 +306,7 @@ export default class ProjectMemberManagement extends Vue {
     }
   }
 
-  private async updateMemberRole(userID: string, role: [], tag: []) {
+  async updateMemberRole(userID: string, role: [], tag: []) {
     await ProjectService.updateMemberRole(
       this.currentProject.id,
       userID,
@@ -317,7 +317,7 @@ export default class ProjectMemberManagement extends Vue {
   }
 
   @Watch('searchMemberContent')
-  private onSearchMemberContentChanged() {
+  onSearchMemberContentChanged() {
     this.memberListShow = [];
     for (const e of this.memberList) {
       if (
@@ -338,7 +338,7 @@ export default class ProjectMemberManagement extends Vue {
     }
   }
 
-  private mounted() {
+  mounted() {
     this.getProjectMember();
   }
 }

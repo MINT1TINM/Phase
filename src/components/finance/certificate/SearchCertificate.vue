@@ -74,16 +74,16 @@ import { Certificate } from '@/types/finance';
 
 @Component
 export default class CertificateSearch extends Vue {
-  private searchContent: string = '';
+  searchContent: string = '';
 
-  private certificateList: Certificate[] = [];
+  certificateList: Certificate[] = [];
 
-  private async searchCertificate() {
+  async searchCertificate() {
     const rsp = await FinanceService.searchCertificate(this.searchContent);
     this.certificateList = rsp.certificate;
   }
 
-  private insertCertificate(uniNo: string, ord: string, i: number) {
+  insertCertificate(uniNo: string, ord: string, i: number) {
     this.$emit('insertCertificate', { uniNo, ord });
   }
 }

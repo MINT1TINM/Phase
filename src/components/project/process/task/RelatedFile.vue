@@ -64,12 +64,12 @@ import TaskService from '@/service/taskService';
   }
 })
 export default class RelatedFile extends Vue {
-  @Prop() private fileList: any;
+  @Prop() fileList: any;
 
-  private fileDialog: boolean = false;
-  private fileListShow: any[] = [];
+  fileDialog: boolean = false;
+  fileListShow: any[] = [];
 
-  private async linkFile(v: any) {
+  async linkFile(v: any) {
     console.log(v);
     // if (!this.fileListShow) {
     //   (this.fileListShow as any) = [];
@@ -82,14 +82,14 @@ export default class RelatedFile extends Vue {
     this.fileDialog = false;
   }
 
-  private async downloadFile(item: any) {
+  async downloadFile(item: any) {
     window.open('/api/file/download?sName=' + item.sName, '_blank');
     // await FileService.downloadFile(item.sName);
   }
 
-  // private showFile(item: any) {}
+  //  showFile(item: any) {}
 
-  private async removeFile(item: any) {
+  async removeFile(item: any) {
     // const index = (this.fileListShow as any).indexOf(item);
     // (this.fileListShow as any).splice(index, 1);
     await TaskService.deleteTaskFile(this.$route.params.taskID, item.fileID);
@@ -97,7 +97,7 @@ export default class RelatedFile extends Vue {
   }
 
   @Watch('fileList')
-  private onFileChanged() {
+  onFileChanged() {
     this.fileListShow = this.fileList;
   }
 }

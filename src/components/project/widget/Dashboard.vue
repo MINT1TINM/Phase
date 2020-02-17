@@ -58,7 +58,7 @@ const projectModule = namespace('project');
 
 @Component
 export default class ProjectWidgetDashboard extends Vue {
-  @projectModule.Getter('projectList') private projectList: any;
+  @projectModule.Getter('projectList') projectList: any;
 }
 </script>
 

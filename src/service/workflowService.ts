@@ -3,11 +3,7 @@ import { Instance, Flow, Event, FlowLinkTask } from '@/types/workflow';
 const uuidv1 = require('uuid/v1');
 
 class WorkflowService {
-  public static async getWorkflowList(
-    page: number,
-    size: number,
-    name?: string
-  ) {
+  static async getWorkflowList(page: number, size: number, name?: string) {
     const rsp = await basicService.getRequest('/workflow/flow/list', {
       page,
       size,
@@ -21,7 +17,7 @@ class WorkflowService {
     };
   }
 
-  public static async getWorkflow(id: number) {
+  static async getWorkflow(id: number) {
     const rsp = await basicService.getRequest('/workflow/flow', {
       id
     });
@@ -41,7 +37,7 @@ class WorkflowService {
     };
   }
 
-  public static async createWorkflowInstance(
+  static async createWorkflowInstance(
     procDefId: number,
     userID: string,
     username: string,
@@ -74,7 +70,7 @@ class WorkflowService {
     }
   }
 
-  public static async getWorkflowInstance(id: number) {
+  static async getWorkflowInstance(id: number) {
     const rsp = await basicService.getRequest('/workflow/instance', {
       id
     });
@@ -85,7 +81,7 @@ class WorkflowService {
     };
   }
 
-  public static async getWorkflowInstanceList(
+  static async getWorkflowInstanceList(
     group: string[],
     username: string,
     userUUID: string,
@@ -107,7 +103,7 @@ class WorkflowService {
     };
   }
 
-  public static async handleTask(
+  static async handleTask(
     taskID: number,
     userID: string,
     username: string,
@@ -140,7 +136,7 @@ class WorkflowService {
     return Promise.reject();
   }
 
-  public static async getTimeline(instanceID: number) {
+  static async getTimeline(instanceID: number) {
     const rsp = await basicService.getRequest('/workflow/timeline', {
       instanceID
     });
@@ -151,7 +147,7 @@ class WorkflowService {
     };
   }
 
-  public static async getLinkTask(taskID: number, instanceID?: number) {
+  static async getLinkTask(taskID: number, instanceID?: number) {
     const rsp = await basicService.getRequest('/workflow/link/task', {
       taskID,
       instanceID

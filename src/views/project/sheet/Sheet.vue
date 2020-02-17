@@ -127,27 +127,27 @@ const sheetModule = namespace('sheet');
   }
 })
 export default class ProjectSheet extends Vue {
-  @projectModule.Getter('currentProjectID') private currentProjectID: any;
+  @projectModule.Getter('currentProjectID') currentProjectID: any;
 
-  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+  @projectModule.Getter('projectMemberCache') projectMemberCache: any;
 
-  @sheetModule.Getter('sheetList') private sheetList: any;
+  @sheetModule.Getter('sheetList') sheetList: any;
 
-  private createSheetDialog: boolean = false;
+  createSheetDialog: boolean = false;
 
-  private editSheetDialog: boolean = false;
+  editSheetDialog: boolean = false;
 
-  private searchSheetContent: string = '';
+  searchSheetContent: string = '';
 
-  private sheetListShow: any[] = [];
+  sheetListShow: any[] = [];
 
-  private currentSheetID: string = '';
+  currentSheetID: string = '';
 
-  private currentTemplateID: string = '';
+  currentTemplateID: string = '';
 
-  private currentType: string = 'all';
+  currentType: string = 'all';
 
-  private searchSheet() {
+  searchSheet() {
     this.sheetListShow = [];
     for (const item of this.sheetList) {
       if (item.name.indexOf(this.searchSheetContent) !== -1) {
@@ -156,7 +156,7 @@ export default class ProjectSheet extends Vue {
     }
   }
 
-  private async getSheetList() {
+  async getSheetList() {
     this.createSheetDialog = false;
     await SheetService.getSheetList(this.currentProjectID);
   }
@@ -172,18 +172,18 @@ export default class ProjectSheet extends Vue {
   }
 
   @Watch('searchSheetContent')
-  private onSearchSheetContentChanged() {
+  onSearchSheetContentChanged() {
     this.searchSheet();
   }
 
   @Watch('sheetList')
-  private onSheetListChanged() {
+  onSheetListChanged() {
     this.currentType = '全部';
     this.sheetListShow = this.sheetList;
   }
 
   @Watch('currentType')
-  private onCurrentTypeChanged() {
+  onCurrentTypeChanged() {
     this.sheetListShow = [];
     if (this.currentType === '全部') {
       this.sheetListShow = this.sheetList;
@@ -196,7 +196,7 @@ export default class ProjectSheet extends Vue {
     }
   }
 
-  private mounted() {
+  mounted() {
     this.getSheetList();
   }
 }

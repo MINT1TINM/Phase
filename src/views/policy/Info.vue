@@ -38,9 +38,9 @@ import { Policy } from '@/types/policy';
 
 @Component
 export default class PolicyInfo extends Vue {
-  private policyInfo = new Policy();
+  policyInfo = new Policy();
 
-  private async getInfo() {
+  async getInfo() {
     const rsp = await PolicyService.getPolicyInfo(
       Number(this.$route.params.id)
     );
@@ -50,7 +50,7 @@ export default class PolicyInfo extends Vue {
     this.policyInfo = rsp.policyInfo;
   }
 
-  private mounted() {
+  mounted() {
     this.getInfo();
   }
 }

@@ -90,24 +90,24 @@ import { UserInfo } from '@/types/user';
 
 @Component
 export default class DepartmentMemberManage extends Vue {
-  private departmentMemberList: DepartmentMember[] = [];
+  departmentMemberList: DepartmentMember[] = [];
 
-  private insertMemberDialog: boolean = false;
+  insertMemberDialog: boolean = false;
 
-  private loading = false;
+  loading = false;
 
-  private userList = [];
+  userList = [];
 
-  private search: string = '';
+  search: string = '';
 
-  private select = null;
+  select = null;
 
-  private async getDepartment() {
+  async getDepartment() {
     const rsp = await CompanyService.getDepartment(this.currentDepartmentID);
     this.departmentMemberList = rsp.department.member.data;
   }
 
-  private async insertDepartmentMember(userID: string) {
+  async insertDepartmentMember(userID: string) {
     await CompanyService.insertDepartmentMember(
       this.currentDepartmentID,
       userID
@@ -115,7 +115,7 @@ export default class DepartmentMemberManage extends Vue {
     this.getDepartment();
   }
 
-  private async removeDepartmentMember(userID: string) {
+  async removeDepartmentMember(userID: string) {
     await CompanyService.removeDepartmentMember(
       this.currentDepartmentID,
       userID
@@ -123,7 +123,7 @@ export default class DepartmentMemberManage extends Vue {
     this.getDepartment();
   }
 
-  private async querySelections(v: string) {
+  async querySelections(v: string) {
     this.loading = true;
     // Simulated ajax query
     const rsp = await UserService.searchUser(v);
@@ -132,11 +132,11 @@ export default class DepartmentMemberManage extends Vue {
     this.loading = false;
   }
 
-  private get currentDepartmentID() {
+  get currentDepartmentID() {
     return this.$route.params.departmentID;
   }
 
-  private get selectedNickNameList() {
+  get selectedNickNameList() {
     const userNickNameList: string[] = [];
     for (const item of this.departmentMemberList) {
       userNickNameList.push((item as DepartmentMember).nickName.toLowerCase());
@@ -144,7 +144,7 @@ export default class DepartmentMemberManage extends Vue {
     return userNickNameList;
   }
 
-  private get userListShow() {
+  get userListShow() {
     console.log(this.userList);
     return this.userList.filter(
       (e: DepartmentMember) =>
@@ -153,7 +153,7 @@ export default class DepartmentMemberManage extends Vue {
   }
 
   @Watch('currentDepartmentID')
-  private async onChanged() {
+  async onChanged() {
     if (this.currentDepartmentID !== 'root') {
       this.getDepartment();
       console.log(this.departmentMemberList);
@@ -161,11 +161,11 @@ export default class DepartmentMemberManage extends Vue {
   }
 
   @Watch('search')
-  private async onSearchContentChanged(val: string) {
+  async onSearchContentChanged(val: string) {
     val && val !== this.select && this.querySelections(val);
   }
 
-  private mounted() {
+  mounted() {
     this.getDepartment();
   }
 }

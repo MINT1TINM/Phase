@@ -30,18 +30,18 @@ export default class SearchSupplierPlugin extends Vue {
   @Prop(String) id!: string;
   @Prop() name!: string | undefined;
 
-  private idShow: string = '';
-  private search: string = '';
-  private supplierList: Supplier[] = [];
-  private loading = false;
+  idShow: string = '';
+  search: string = '';
+  supplierList: Supplier[] = [];
+  loading = false;
 
   @Watch('search')
-  private onDateChanged(val: string) {
+  onDateChanged(val: string) {
     val && !this.loading && this.querySelections(val);
   }
 
   @Watch('idShow')
-  private onIdShowChanged() {
+  onIdShowChanged() {
     this.$emit('update:id', this.idShow);
     this.$emit(
       'update:name',
@@ -51,12 +51,12 @@ export default class SearchSupplierPlugin extends Vue {
     );
   }
 
-  private async querySelections(v: string) {
+  async querySelections(v: string) {
     this.loading = true;
     this.supplierList = await CompanyService.searchSupplier(v);
     this.loading = false;
   }
 
-  private mounted() {}
+  mounted() {}
 }
 </script>

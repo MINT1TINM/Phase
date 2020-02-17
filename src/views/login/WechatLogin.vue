@@ -13,9 +13,9 @@ const systemModule = namespace('system');
 @Component
 export default class WechatLogin extends Vue {
   @systemModule.Mutation('toggleFullScreenLoading')
-  private toggleFullScreenLoading: any;
+  toggleFullScreenLoading: any;
 
-  private async wechatLogin() {
+  async wechatLogin() {
     const { code } = this.$route.query;
     console.log(code);
     this.toggleFullScreenLoading(true);
@@ -30,7 +30,7 @@ export default class WechatLogin extends Vue {
     }
   }
 
-  private mounted() {
+  mounted() {
     this.wechatLogin();
   }
 }

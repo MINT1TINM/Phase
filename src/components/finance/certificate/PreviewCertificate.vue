@@ -67,14 +67,14 @@ import { Certificate } from '@/types/finance';
 
 @Component
 export default class CertificatePreview extends Vue {
-  @Prop(String) public uniNo!: string;
+  @Prop(String) uniNo!: string;
 
-  @Prop(String) public ord!: string;
+  @Prop(String) ord!: string;
 
-  private certificate: Certificate = new Certificate();
+  certificate: Certificate = new Certificate();
 
   @Watch('uniNo')
-  private async onUniNoChanged() {
+  async onUniNoChanged() {
     const rsp = await FinanceService.searchCertificate(this.uniNo);
     this.certificate = rsp.certificate.find(
       (e: Certificate) => e.ord === this.ord

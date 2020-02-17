@@ -58,7 +58,7 @@ import { Track } from '@/types/project';
 
 @Component
 export default class ProjectTrackPayment extends Vue {
-  @Prop() private track!: Track;
+  @Prop() track!: Track;
 }
 </script>
 

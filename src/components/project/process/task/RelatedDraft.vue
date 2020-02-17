@@ -74,17 +74,17 @@ const projectModule = namespace('project');
   }
 })
 export default class RelatedDocument extends Vue {
-  @Prop({ default: [] }) private sheetIDList!: [];
+  @Prop({ default: [] }) sheetIDList!: [];
 
-  @projectModule.Getter('projectMemberCache') private projectMemberCache: any;
+  @projectModule.Getter('projectMemberCache') projectMemberCache: any;
 
-  private createSheetDialog: boolean = false;
-  private editSheetDialog: boolean = false;
-  private sheetList: Sheet[] = [];
-  private currentSheet: Sheet = new Sheet();
-  private templateInfo: Template = new Template();
+  createSheetDialog: boolean = false;
+  editSheetDialog: boolean = false;
+  sheetList: Sheet[] = [];
+  currentSheet: Sheet = new Sheet();
+  templateInfo: Template = new Template();
 
-  private headers = [
+  headers = [
     {
       text: '名称',
       value: 'name',
@@ -106,7 +106,7 @@ export default class RelatedDocument extends Vue {
   ];
 
   @Watch('sheetIDList')
-  private async onSheetIDListChanged(v: string[]) {
+  async onSheetIDListChanged(v: string[]) {
     if (v.length > 0) {
       const rsp = await SheetService.getSheetInfoList(v);
       this.sheetList = rsp.sheet;
@@ -115,7 +115,7 @@ export default class RelatedDocument extends Vue {
     }
   }
 
-  private async getTemplateInfo(templateID: string) {
+  async getTemplateInfo(templateID: string) {
     this.templateInfo = {
       name: '',
       field: {
@@ -128,7 +128,7 @@ export default class RelatedDocument extends Vue {
     this.templateInfo = rsp.template;
   }
 
-  private async deleteTaskDraft(sheetID: string) {
+  async deleteTaskDraft(sheetID: string) {
     const res = await this.$confirm('此操作无法恢复', {
       title: '确认删除?',
       buttonTrueColor: 'primary',
@@ -144,7 +144,7 @@ export default class RelatedDocument extends Vue {
     }
   }
 
-  private async mounted() {
+  async mounted() {
     if (this.sheetIDList.length > 0) {
       const rsp = await SheetService.getSheetInfoList(this.sheetIDList);
       this.sheetList = rsp.sheet;

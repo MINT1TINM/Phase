@@ -37,9 +37,9 @@ import { Contract } from '@/types/project';
 
 @Component
 export default class ProjectContractInfo extends Vue {
-  @Prop() private contract!: Contract;
+  @Prop() contract!: Contract;
 
-  private contractContent = [
+  contractContent = [
     {
       type: 'text-field',
       title: '编号',
@@ -72,15 +72,15 @@ export default class ProjectContractInfo extends Vue {
     }
   ];
 
-  private get contractShow() {
+  get contractShow() {
     return this.contract;
   }
 
-  private set contractShow(v: Contract) {
+  set contractShow(v: Contract) {
     this.contractShow = v;
   }
 
-  private mounted() {
+  mounted() {
     console.log(this.contract);
   }
 }
