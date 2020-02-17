@@ -1,10 +1,10 @@
 <template>
   <v-chip pill small>
     <v-avatar color="primary" size="10" left>
-      <v-img v-if="headImgURL!==``" :src="headImgURL"></v-img>
-      <span v-else>{{nickName | avatar}}</span>
+      <v-img v-if="headImgURL !== ``" :src="headImgURL"></v-img>
+      <span v-else>{{ nickName | avatar }}</span>
     </v-avatar>
-    <span class="font-weight-black">{{nickName}}</span>
+    <span class="font-weight-black">{{ nickName }}</span>
   </v-chip>
 </template>
 
@@ -40,5 +40,4 @@ export default class UserChip extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
