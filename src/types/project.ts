@@ -96,6 +96,7 @@ class ProjectExtraInfo {
   startDate!: string;
   endDate!: string;
 
+  price!: number;
   auditPrice!: number;
   auditDate!: string;
 

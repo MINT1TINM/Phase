@@ -108,7 +108,7 @@
               <v-layout row wrap v-if="viewMode === `grid`">
                 <v-flex
                   xs3
-                  v-for="(item, i) in projectList"
+                  v-for="(item, i) in runningProject"
                   :key="`project-${i}`"
                 >
                   <v-hover v-slot:default="{ hover }">
@@ -149,7 +149,53 @@
                 </v-flex>
               </v-layout>
               <v-layout v-else>
-                <v-list two-line width="100%" class="transparent">
+                <v-col cols="12" class="pa-0">
+                  <v-simple-table class="transparent">
+                    <template v-slot:default>
+                      <thead>
+                        <tr>
+                          <th class="text-left">编号</th>
+                          <th class="text-left">名称</th>
+                          <th class="text-left">类型</th>
+                          <th class="text-left">投资审计</th>
+                          <th class="text-left">合同金额</th>
+                          <th class="text-left">送审金额</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          v-for="(item, i) in runningProject"
+                          :key="`project-${i}`"
+                        >
+                          <td>{{ item.code }}</td>
+                          <td>{{ item.name }}</td>
+                          <td>
+                            <div v-if="item.extraInfo.type == 0">
+                              竣工结算审计
+                            </div>
+                            <div v-else-if="item.extraInfo.type == 1">
+                              全过程投资审计基建工程
+                            </div>
+                            <div v-else-if="item.extraInfo.type == 2">
+                              全过程投资审计修缮工程
+                            </div>
+                          </td>
+                          <td>
+                            ¥ {{ (item.extraInfo.investment || 0).toFixed(2) }}
+                          </td>
+                          <td>
+                            {{ (item.extraInfo.price || 0).toFixed(2) }} 万元
+                          </td>
+                          <td>
+                            {{ (item.extraInfo.auditPrice || 0).toFixed(2) }}
+                            万元
+                          </td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                </v-col>
+                <!-- <v-list two-line width="100%" class="transparent">
                   <template v-for="(item, i) in projectList">
                     <div :key="`project-${i}`">
                       <v-list-item @click="goToProject(item.id)">
@@ -174,7 +220,7 @@
                       <v-divider></v-divider>
                     </div>
                   </template>
-                </v-list>
+                </v-list> -->
               </v-layout>
             </transition>
           </v-container>
@@ -273,7 +319,7 @@ import appBar from '@/components/common/app-bar/AppBar.vue';
 
 import UserService from '@/service/userService';
 import { Authorization, UserInfo } from '@/types/user';
-import { ProjectTemplate } from '@/types/project';
+import { ProjectTemplate, Project } from '@/types/project';
 import WorkflowService from '../../service/workflowService';
 
 const projectModule = namespace('project');
@@ -304,16 +350,12 @@ export default class ProjectHome extends Vue {
   private currentTemplateID: string = '';
   private newProjectName: string = '';
 
-  @projectModule.Getter('projectList') private projectList: any;
-
+  @projectModule.Getter('projectList') private projectList!: Project[];
   @projectModule.Mutation('updateCurrentProjectID')
   private updateCurrentProjectID: any;
-
   @projectModule.Mutation('clearCurrentProjectID')
   private clearCurrentProjectID: any;
-
   @projectModule.Getter('viewMode') private viewMode!: string;
-
   @projectModule.Mutation('updateViewMode') private updateViewMode!: (
     v: string
   ) => void;
@@ -374,6 +416,18 @@ export default class ProjectHome extends Vue {
   private async getTemplateInfo(templateID: string) {
     const rsp = await ProjectService.getTemplateInfo(templateID);
     this.templateInfo = rsp.template;
+  }
+
+  private get runningProject() {
+    return this.projectList.filter(e => {
+      return e.extraInfo.started;
+    });
+  }
+
+  private get checkingProject() {
+    return this.projectList.filter(e => {
+      return !e.extraInfo.started;
+    });
   }
 
   private mounted() {

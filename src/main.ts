@@ -4,7 +4,7 @@ import '@/styles/style.css';
 import axios from 'axios';
 import Vue from 'vue';
 
-import './register-service-worker';
+import './registerServiceWorker';
 
 import App from '@/App.vue';
 
