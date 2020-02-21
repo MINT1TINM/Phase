@@ -192,6 +192,7 @@ export default class ProjectInfo extends Vue {
       );
 
       this.$emit('updateTimeline');
+      this.$router.push({ path: '/todo' });
     } catch (err) {}
   }
 
