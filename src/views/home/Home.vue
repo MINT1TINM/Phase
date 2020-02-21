@@ -91,6 +91,32 @@
           </v-flex>
         </v-layout>
       </v-container>
+
+      <v-container grid-list-md fluid>
+        <v-layout row wrap>
+          <v-flex xs8 offset-2>
+            <v-toolbar dense flat color="transparent">
+              <v-toolbar-title class="subtitle-1 font-weight-black"
+                >近期</v-toolbar-title
+              >
+            </v-toolbar>
+
+            <v-data-table
+              :headers="headers"
+              :items="instanceList"
+              hide-default-footer
+              disable-sort
+              class="elevation-0 transparent"
+            >
+              <template v-slot:item.action="{ item }">
+                <v-btn icon @click="toFlow(item)">
+                  <v-icon size="20">mdi-information-outline</v-icon>
+                </v-btn>
+              </template>
+            </v-data-table>
+          </v-flex>
+        </v-layout>
+      </v-container>
     </v-content>
   </v-app>
 </template>
@@ -107,6 +133,9 @@ import { App } from '@/types/system';
 
 import RecentFile from '@/components/home/RecentFile.vue';
 import WillExpire from '@/components/home/WillExpire.vue';
+import WorkflowService from '../../service/workflowService';
+import CompanyService from '@/service/companyService';
+import { Instance } from '../../types/workflow';
 
 const systemModule = namespace('system');
 const userModule = namespace('user');
@@ -120,16 +149,13 @@ const userModule = namespace('user');
 })
 export default class ComponentName extends Vue {
   @systemModule.Getter('appList') appList!: App[];
-
   @systemModule.Getter('estateAppList') estateAppList!: App[];
-
   @systemModule.Getter('systemName') systemName!: string;
-
   @userModule.Getter('authorization') authorization!: Authorization;
-
   @userModule.Getter('userInfo') userInfo!: UserInfo;
-
   @userModule.Getter('isGod') isGod!: boolean;
+
+  instanceList: Instance[] = [];
 
   goToApp(route: string) {
     window.location.href = `/${route}`;
@@ -152,6 +178,31 @@ export default class ComponentName extends Vue {
     return '晚上好,';
   }
 
+  get headers() {
+    return [
+      {
+        text: '名称',
+        value: 'procDefName'
+      },
+      {
+        text: '状态',
+        value: 'nodeID'
+      },
+      {
+        text: '事件',
+        value: 'startTime'
+      },
+      {
+        text: '启动人',
+        value: 'startUserName'
+      },
+      {
+        text: '操作',
+        value: 'action'
+      }
+    ];
+  }
+
   get availableAppList() {
     const availableAppList: App[] = [];
     for (const app of this.appList) {
@@ -162,8 +213,33 @@ export default class ComponentName extends Vue {
     return availableAppList;
   }
 
+  async getFlowInstance() {
+    // get user group
+    const groupUUIDList = (
+      await CompanyService.getUserGroup(this.authorization.userID)
+    ).groupUUIDList;
+
+    const rsp = await WorkflowService.getWorkflowInstanceList(
+      groupUUIDList,
+      this.userInfo.nickName,
+      this.authorization.userID,
+      1,
+      100
+    );
+    if (rsp.msg === 'failed') {
+      this.$snack('🤔该服务已下线');
+    } else {
+      this.instanceList = rsp.instance;
+    }
+  }
+
+  toFlow(ins: Instance) {
+    window.location.href = `/flow#/todo/${ins.id}`;
+  }
+
   async mounted() {
     await ProjectService.getInvitationList('', '', this.authorization.userID);
+    this.getFlowInstance();
   }
 }
 </script>

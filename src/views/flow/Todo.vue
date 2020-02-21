@@ -49,7 +49,7 @@ export default class FlowTodo extends Vue {
       },
       {
         text: '启动人',
-        value: 'startUserId'
+        value: 'startUserName'
       },
       {
         text: '操作',
