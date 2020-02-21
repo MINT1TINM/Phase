@@ -185,22 +185,49 @@ export default class ProjectAssign extends Vue {
 
     if (r) {
       await this.updateProjectInfo();
-      const l = new FlowLinkTask();
-      l.extraInfo = {
-        type: 'assignment',
-        comment: '提交审核',
-        project: this.currentProject
-      };
 
-      const rsp = await WorkflowService.createWorkflowInstance(
-        4,
-        this.authorization.userID,
-        this.userInfo.nickName,
-        '审计处',
-        l
-      );
+      // Create instance if no instance
+      if (!this.extraInfo.assignFlowID) {
+        const l = new FlowLinkTask();
+        l.extraInfo = {
+          type: 'assignment',
+          comment: '提交审核',
+          project: this.currentProject
+        };
 
-      this.extraInfo.assignFlowID = rsp.id;
+        const rsp = await WorkflowService.createWorkflowInstance(
+          4,
+          this.authorization.userID,
+          this.userInfo.nickName,
+          '审计处',
+          l
+        );
+        this.extraInfo.assignFlowID = rsp.id;
+      } else {
+        const l = new FlowLinkTask();
+        l.extraInfo = {
+          type: 'assignment',
+          comment: '提交审核',
+          project: this.currentProject
+        };
+
+        try {
+          await WorkflowService.handleTask(
+            this.workflowInstance.taskID,
+            this.authorization.userID,
+            this.userInfo.nickName,
+            true,
+            this.workflowInstance.id,
+            '提交审核',
+            this.workflowInstance.procDefId,
+            l
+          );
+          this.$snack('提交成功');
+        } catch (err) {
+          this.$snack('提交失败');
+        }
+      }
+
       this.updateProjectInfo();
       this.getFlow();
     }
