@@ -191,6 +191,7 @@ export default class AssignAudit extends Vue {
     l.extraInfo = {
       type: 'assignment',
       comment: this.newComment,
+      project: this.projectInfo,
       next: this.nextCan
     };
     if (this.nextCan) {
@@ -216,6 +217,7 @@ export default class AssignAudit extends Vue {
         await ProjectService.updateProjectInfo({ ...this.projectInfo, ...p });
 
         this.$emit('updateTimeline');
+        this.$router.push({ path: '/' });
       } catch (err) {}
     }
   }
@@ -226,6 +228,7 @@ export default class AssignAudit extends Vue {
     l.instanceID = this.instance.id;
     l.extraInfo = {
       type: 'assignment',
+      project: this.projectInfo,
       comment: this.newComment
     };
 
@@ -244,7 +247,7 @@ export default class AssignAudit extends Vue {
       // Update project.extrainfo.started to true
       const p = new Project();
       p.extraInfo = new ProjectExtraInfo();
-      p.extraInfo.started = true;
+      p.extraInfo.assigned = true;
 
       await ProjectService.updateProjectInfo({ ...this.projectInfo, ...p });
       this.$snack('操作成功，该工作流结束');
@@ -258,6 +261,7 @@ export default class AssignAudit extends Vue {
     l.instanceID = this.instance.id;
     l.extraInfo = {
       type: 'project',
+      project: this.projectInfo,
       comment: this.newComment
     };
 
@@ -283,7 +287,7 @@ export default class AssignAudit extends Vue {
   }
 
   mounted() {
-    console.log(this.instance);
+    console.log(this.projectInfo);
     this.getGroup();
   }
 }

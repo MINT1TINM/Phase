@@ -144,7 +144,8 @@ export default class ProjectInfo extends Vue {
     l.instanceID = this.instance.id;
     l.extraInfo = {
       type: 'project',
-      comment: '审核通过'
+      comment: '审核通过',
+      project: this.projectInfo
     };
 
     try {
@@ -176,7 +177,8 @@ export default class ProjectInfo extends Vue {
     l.instanceID = this.instance.id;
     l.extraInfo = {
       type: 'project',
-      comment: this.newComment
+      comment: this.newComment,
+      project: this.projectInfo
     };
 
     try {
@@ -198,6 +200,7 @@ export default class ProjectInfo extends Vue {
 
   mounted() {
     console.log(this.instance);
+    console.log(this.projectInfo);
   }
 }
 </script>
