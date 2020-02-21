@@ -3,14 +3,22 @@
     <v-toolbar dense flat color="transparent">
       <v-spacer></v-spacer>
       <v-btn
-        v-if="instance.nodeID == '审批'"
+        v-if="instance.nodeID == '二级单位'"
         text
         color="success lighten-2"
         @click="finishDialog = true"
-        ><v-icon class="mr-2" size="20">mdi-check</v-icon>通过</v-btn
-      >
+        ><v-icon class="mr-2" size="20">mdi-check</v-icon>已阅
+      </v-btn>
+
       <v-btn
-        v-if="instance.nodeID == '审批'"
+        v-if="instance.nodeID == '审计处工程科科员'"
+        text
+        color="success lighten-2"
+        @click="nextCanDialog = true"
+        ><v-icon class="mr-2" size="20">mdi-check</v-icon>通过
+      </v-btn>
+      <v-btn
+        v-if="instance.nodeID == '审计处工程科科员'"
         text
         color="error lighten-2"
         @click="commentDialog = true"
@@ -49,34 +57,67 @@
 
         <v-divider></v-divider>
 
-        <v-subheader v-if="projectInfo">项目信息</v-subheader>
+        <v-subheader>项目信息</v-subheader>
         {{ projectInfo }}
       </v-container>
     </v-card>
 
+    <v-dialog width="600" v-model="nextCanDialog">
+      <v-card>
+        <v-container fluid>
+          <v-textarea
+            label="修改意见"
+            v-model="newComment"
+            outlined
+            hide-details
+          ></v-textarea>
+
+          <v-select
+            class="mt-3"
+            dense
+            outlined
+            hide-details
+            label="发送至"
+            :items="groupList"
+            item-text="name"
+            item-value="id"
+            v-model="nextCan"
+          ></v-select>
+        </v-container>
+        <v-row class="py-4" no-gutters justify="center">
+          <v-btn
+            depressed
+            rounded
+            color="primary darken-1"
+            @click="completeTask(instance)"
+            >确认</v-btn
+          >
+          <v-btn rounded class="ml-2" text @click="nextCanDialog = false"
+            >取消</v-btn
+          >
+        </v-row>
+      </v-card>
+    </v-dialog>
+
     <v-dialog width="600" v-model="finishDialog">
       <v-card>
-        <v-card-title class="subtitle-1 font-weight-black">通过</v-card-title>
-        <v-card-text>
+        <v-container fluid>
           <v-textarea
             label="备注"
             v-model="newComment"
             outlined
             hide-details
           ></v-textarea>
-        </v-card-text>
+        </v-container>
         <v-row class="py-4" no-gutters justify="center">
           <v-btn
             depressed
             rounded
             color="primary darken-1"
-            @click="
-              completeTask(instance);
-              finishDialog = false;
-            "
+            @click="finishAssign(instance)"
             >确认</v-btn
           >
-          <v-btn rounded class="ml-2" text @click="finishDialog = false"
+          <v-btn rounded class="ml-2" text @click="nextCanDialog = false"
             >取消</v-btn
           >
         </v-row>
@@ -122,11 +163,13 @@ import WorkflowService from '@/service/workflowService';
 import { namespace } from 'vuex-class';
 import { Authorization, UserInfo } from '@/types/user';
 import ProjectService from '@/service/projectService';
+import CompanyService from '@/service/companyService';
+import { Group } from '@/types/company';
 
 const userModule = namespace('user');
 
 @Component
-export default class ProjectInfo extends Vue {
+export default class AssignAudit extends Vue {
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;
 
@@ -134,17 +177,56 @@ export default class ProjectInfo extends Vue {
   @Prop() instance!: Instance;
   @Prop() comment!: string;
 
-  finishDialog = false;
   commentDialog = false;
+  finishDialog = false;
+  nextCanDialog = false;
   newComment = '';
+  groupList: Group[] = [];
+  nextCan: string = '';
 
   async completeTask(item: Instance) {
     const l = new FlowLinkTask();
     l.flowID = this.instance.procDefId;
     l.instanceID = this.instance.id;
     l.extraInfo = {
-      type: 'project',
-      comment: '审核通过'
+      type: 'assignment',
+      comment: this.newComment,
+      next: this.nextCan
+    };
+    if (this.nextCan) {
+      this.nextCanDialog = false;
+      try {
+        await WorkflowService.handleTask(
+          item.taskID,
+          this.authorization.userID,
+          this.userInfo.nickName,
+          true,
+          item.id,
+          '审核通过',
+          this.instance.procDefId,
+          l,
+          this.nextCan
+        );
+
+        // Update project.extrainfo.started to true
+        const p = new Project();
+        p.extraInfo = new ProjectExtraInfo();
+        p.extraInfo.started = true;
+
+        await ProjectService.updateProjectInfo({ ...this.projectInfo, ...p });
+
+        this.$emit('updateTimeline');
+      } catch (err) {}
+    }
+  }
+
+  async finishAssign(item: Instance) {
+    const l = new FlowLinkTask();
+    l.flowID = this.instance.procDefId;
+    l.instanceID = this.instance.id;
+    l.extraInfo = {
+      type: 'assignment',
+      comment: this.newComment
     };
 
     try {
@@ -154,7 +236,7 @@ export default class ProjectInfo extends Vue {
         this.userInfo.nickName,
         true,
         item.id,
-        '审核通过',
+        '已阅',
         this.instance.procDefId,
         l
       );
@@ -195,8 +277,14 @@ export default class ProjectInfo extends Vue {
     } catch (err) {}
   }
 
+  async getGroup() {
+    const rsp = await CompanyService.getGroup();
+    this.groupList = rsp.group;
+  }
+
   mounted() {
     console.log(this.instance);
+    this.getGroup();
   }
 }
 </script>

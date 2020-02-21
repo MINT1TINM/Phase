@@ -111,7 +111,8 @@ class WorkflowService {
     procInstID: number,
     comment: string,
     flowID?: number,
-    link?: any
+    link?: any,
+    nextCandidate?: string
   ) {
     const rsp = await basicService.putRequest('/workflow/task', {
       taskID,
@@ -119,7 +120,8 @@ class WorkflowService {
       username,
       pass,
       procInstID,
-      comment
+      comment,
+      nextCandidate
     });
 
     // Create link

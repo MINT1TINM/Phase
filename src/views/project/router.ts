@@ -16,7 +16,7 @@ const router = new Router({
       component: () => import('@/views/project/ProjectTemplate.vue')
     },
     {
-      path: '/:processID/index',
+      path: '/index',
       component: () => import('@/views/project/ProjectWorkSpace.vue'),
       children: [
         {
@@ -135,6 +135,10 @@ const router = new Router({
           component: () => import('@/views/project/settings/Settings.vue')
         }
       ]
+    },
+    {
+      path: '/assign',
+      component: () => import('@/views/project/settings/Assign.vue')
     }
   ],
   scrollBehavior(to, from, savedPosition) {

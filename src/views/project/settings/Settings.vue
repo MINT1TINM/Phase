@@ -4,7 +4,7 @@
       <v-col lg="8" md="12">
         <v-row no-gutters>
           <v-col cols="12" class="mb-2">
-            <v-card>
+            <v-card v-if="!extraInfo.started">
               <v-btn :to="`/`" class="my-2 ml-1" v-if="!extraInfo.started" text>
                 <v-icon class="mr-2" size="20">mdi-arrow-left</v-icon>返回首页
               </v-btn>
@@ -15,7 +15,9 @@
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn
-                  v-if="!extraInfo.started || workflowInstance.nodeID == '开始'"
+                  v-if="
+                    workflowInstance.nodeID == '开始' || !extraInfo.startFlowID
+                  "
                   text
                   @click="updateProjectInfo()"
                 >
@@ -26,7 +28,9 @@
                 <v-btn
                   text
                   @click="submitForReview"
-                  v-if="!extraInfo.started || workflowInstance.nodeID == '开始'"
+                  v-if="
+                    workflowInstance.nodeID == '开始' || !extraInfo.startFlowID
+                  "
                 >
                   <v-icon size="20" class="mr-2">mdi-check</v-icon>提交审批
                 </v-btn>

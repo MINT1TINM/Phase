@@ -32,6 +32,12 @@ class ProjectMember {
 class ProjectExtraInfo {
   constructor() {
     this.tags = { data: [] };
+    this.investAuditCompany = {
+      id: '',
+      name: '',
+      contactName: '',
+      phone: ''
+    };
     this.finishInfo = {
       contractCompany: {
         id: '',
@@ -67,6 +73,15 @@ class ProjectExtraInfo {
   tags: { data: string[] };
   industry!: string;
   investment!: number;
+
+  investAuditCompany!: {
+    id: string;
+    name: string;
+    contactName: string;
+    phone: string;
+  };
+  assignInvestAuditType!: number;
+
   finishInfo!: {
     contractCompany: {
       id: string;
@@ -108,6 +123,9 @@ class ProjectExtraInfo {
 
   started!: boolean;
   startFlowID!: number;
+
+  assigned!: boolean;
+  assignFlowID!: number;
 }
 
 class ProjectMemberComplete extends ProjectMember {

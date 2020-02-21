@@ -7,6 +7,14 @@
       :projectInfo="linkTask.extraInfo.project"
       :comment="linkTask.extraInfo.comment"
     ></ProjectInfo>
+
+    <AssignAudit
+      v-if="linkTask.extraInfo && linkTask.extraInfo.type === 'assignment'"
+      :instance="instance"
+      @updateTimeline="$emit('updateTimeline')"
+      :projectInfo="linkTask.extraInfo.project"
+      :comment="linkTask.extraInfo.comment"
+    ></AssignAudit>
   </div>
 </template>
 
@@ -16,10 +24,12 @@ import { FlowLinkTask, Instance } from '@/types/workflow';
 import WorkflowService from '@/service/workflowService';
 
 import ProjectInfo from '@/components/flow/ProjectInfo.vue';
+import AssignAudit from '@/components/flow/AssignAudit.vue';
 
 @Component({
   components: {
-    ProjectInfo
+    ProjectInfo,
+    AssignAudit
   }
 })
 export default class FlowInstaceTaskInfo extends Vue {

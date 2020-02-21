@@ -109,13 +109,13 @@
                             <th class="text-left">投资审计</th>
                             <th class="text-left">合同金额</th>
                             <th class="text-left">送审金额</th>
+                            <th class="text-left">操作</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr
                             v-for="(item, i) in runningProject"
                             :key="`project-${i}`"
-                            @click="goToProject(item)"
                           >
                             <td>{{ item.code }}</td>
                             <td>{{ item.name }}</td>
@@ -131,8 +131,8 @@
                               </div>
                             </td>
                             <td>
-                              ¥
                               {{ (item.extraInfo.investment || 0).toFixed(2) }}
+                              万元
                             </td>
                             <td>
                               {{ (item.extraInfo.price || 0).toFixed(2) }} 万元
@@ -140,6 +140,20 @@
                             <td>
                               {{ (item.extraInfo.auditPrice || 0).toFixed(2) }}
                               万元
+                            </td>
+                            <td>
+                              <v-btn @click="goToProject(item)" text>
+                                <v-icon size="20" class="mr-2">
+                                  mdi-information-outline
+                                </v-icon>
+                                详情
+                              </v-btn>
+                              <v-btn text @click="goToAssign(item)">
+                                <v-icon size="20" class="mr-2">
+                                  mdi-call-split
+                                </v-icon>
+                                分配</v-btn
+                              >
                             </td>
                           </tr>
                         </tbody>
@@ -163,16 +177,13 @@
                             <th class="text-left">编号</th>
                             <th class="text-left">名称</th>
                             <th class="text-left">类型</th>
-                            <th class="text-left">投资审计</th>
-                            <th class="text-left">合同金额</th>
-                            <th class="text-left">送审金额</th>
+                            <th class="text-left">操作</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr
                             v-for="(item, i) in checkingProject"
                             :key="`project-${i}`"
-                            @click="goToProject(item)"
                           >
                             <td>{{ item.code }}</td>
                             <td>{{ item.name }}</td>
@@ -188,15 +199,12 @@
                               </div>
                             </td>
                             <td>
-                              ¥
-                              {{ (item.extraInfo.investment || 0).toFixed(2) }}
-                            </td>
-                            <td>
-                              {{ (item.extraInfo.price || 0).toFixed(2) }} 万元
-                            </td>
-                            <td>
-                              {{ (item.extraInfo.auditPrice || 0).toFixed(2) }}
-                              万元
+                              <v-btn @click="goToProject(item)" text>
+                                <v-icon size="20" class="mr-2">
+                                  mdi-information-outline
+                                </v-icon>
+                                详情
+                              </v-btn>
                             </td>
                           </tr>
                         </tbody>
@@ -304,6 +312,7 @@ import UserService from '@/service/userService';
 import { Authorization, UserInfo } from '@/types/user';
 import { ProjectTemplate, Project } from '@/types/project';
 import WorkflowService from '../../service/workflowService';
+import { FlowLinkTask } from '../../types/workflow';
 
 const projectModule = namespace('project');
 const userModule = namespace('user');
@@ -333,6 +342,7 @@ export default class ProjectHome extends Vue {
   currentTemplateID: string = '';
   newProjectName: string = '';
   tab = null;
+  assignDialog = false;
 
   @projectModule.Getter('projectList') projectList!: Project[];
   @projectModule.Mutation('updateCurrentProjectID')
@@ -358,6 +368,11 @@ export default class ProjectHome extends Vue {
     } else {
       this.$router.push({ path: '/settings' });
     }
+  }
+
+  goToAssign(p: Project) {
+    this.updateCurrentProjectID(p.id);
+    this.$router.push({ path: `/assign` });
   }
 
   async createProject() {

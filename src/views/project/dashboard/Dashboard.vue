@@ -21,10 +21,9 @@
           </v-col>
         </v-row>
       </v-card>
-      <Calendar class="mt-5"></Calendar>
     </v-col>
     <v-col cols="3">
-      <Info></Info>
+      <ProjectInfo :projectInfo="currentProject"></ProjectInfo>
       <Progress class="mt-5"></Progress>
     </v-col>
   </v-row>
@@ -32,19 +31,24 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
-import Calendar from '@/components/project/dashboard/Calendar.vue';
 import Info from '@/components/project/dashboard/Info.vue';
 import Progress from '@/components/project/dashboard/Progress.vue';
+import ProjectInfo from '@/components/project/widget/Info.vue';
+import { namespace } from 'vuex-class';
+import { Project } from '@/types/project';
+
+const projectModule = namespace('project');
 
 @Component({
   components: {
-    Calendar,
     Info,
-    Progress
+    Progress,
+    ProjectInfo
   }
 })
-export default class ProjectDashboard extends Vue {}
+export default class ProjectDashboard extends Vue {
+  @projectModule.Getter('currentProject') currentProject!: Project;
+}
 </script>
 
 <style scoped></style>
