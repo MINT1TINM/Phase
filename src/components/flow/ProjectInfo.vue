@@ -50,7 +50,7 @@
         <v-divider></v-divider>
 
         <v-subheader v-if="projectInfo">项目信息</v-subheader>
-        {{ projectInfo }}
+        <Info :projectInfo="projectInfo" v-if="projectInfo"></Info>
       </v-container>
     </v-card>
 
@@ -123,9 +123,15 @@ import { namespace } from 'vuex-class';
 import { Authorization, UserInfo } from '@/types/user';
 import ProjectService from '@/service/projectService';
 
+import Info from '@/components/project/widget/Info.vue';
+
 const userModule = namespace('user');
 
-@Component
+@Component({
+  components: {
+    Info
+  }
+})
 export default class ProjectInfo extends Vue {
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;

@@ -57,8 +57,8 @@
 
         <v-divider></v-divider>
 
-        <v-subheader>项目信息</v-subheader>
-        {{ projectInfo }}
+        <v-subheader v-if="projectInfo">项目信息</v-subheader>
+        <Info :projectInfo="projectInfo" v-if="projectInfo"></Info>
       </v-container>
     </v-card>
 
@@ -166,9 +166,15 @@ import ProjectService from '@/service/projectService';
 import CompanyService from '@/service/companyService';
 import { Group } from '@/types/company';
 
+import Info from '@/components/project/widget/Info.vue';
+
 const userModule = namespace('user');
 
-@Component
+@Component({
+  components: {
+    Info
+  }
+})
 export default class AssignAudit extends Vue {
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;

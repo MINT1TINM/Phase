@@ -58,22 +58,22 @@
                       <td class="font-weight-black text-center">
                         <v-chip
                           class="mx-1 text-uppercase"
-                          v-if="item.projectRole.indexOf('c') != -1"
+                          v-if="item.role.indexOf('c') != -1"
                           >C</v-chip
                         >
                         <v-chip
                           class="mx-1 text-uppercase"
-                          v-if="item.projectRole.indexOf('r') != -1"
+                          v-if="item.role.indexOf('r') != -1"
                           >R</v-chip
                         >
                         <v-chip
                           class="mx-1 text-uppercase"
-                          v-if="item.projectRole.indexOf('u') != -1"
+                          v-if="item.role.indexOf('u') != -1"
                           >U</v-chip
                         >
                         <v-chip
                           class="mx-1 text-uppercase"
-                          v-if="item.projectRole.indexOf('d') != -1"
+                          v-if="item.role.indexOf('d') != -1"
                           >D</v-chip
                         >
                       </td>
@@ -92,7 +92,7 @@
                             <v-btn
                               small
                               v-if="
-                                item.id !== currentProject.userID &&
+                                item.userID !== currentProject.userID &&
                                   authorization.userID === currentProject.userID
                               "
                               icon
@@ -112,7 +112,7 @@
                         <v-tooltip
                           bottom
                           v-if="
-                            item.id !== currentProject.userID &&
+                            item.userID !== currentProject.userID &&
                               authorization.userID === currentProject.userID
                           "
                         >
@@ -248,8 +248,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import searchUser from '@/components/project/member/SearchUser.vue';
 import ProjectService from '@/service/projectService';
-import { UserProject } from '@/types/user';
-import { ProjectMemberComplete, ProjectMember } from '@/types/project';
+import { ProjectMemberComplete, ProjectMember, Project } from '@/types/project';
 
 const projectModule = namespace('project');
 const userModule = namespace('user');
@@ -260,34 +259,20 @@ const userModule = namespace('user');
   }
 })
 export default class ProjectMemberManagement extends Vue {
-  @projectModule.Getter('currentProject') currentProject: any;
-
+  @projectModule.Getter('currentProject') currentProject!: Project;
   @projectModule.Getter('projectList') projectList: any;
-
   @userModule.Getter('authorization') authorization: any;
 
-  memberList: ProjectMemberComplete[] = [];
-  memberListShow: ProjectMemberComplete[] = [];
+  memberList: ProjectMember[] = [];
+  memberListShow: ProjectMember[] = [];
   searchMemberContent: string = '';
   targetMember: ProjectMember = new ProjectMember();
   addMemberDialog: boolean = false;
   editMemberRoleDialog: boolean = false;
 
   async getProjectMember() {
-    const rsp = await ProjectService.getProjectMember(
-      this.currentProject.member.data
-    );
-    for (const e of rsp.memberList) {
-      // find user role in this particular project
-      e.projectRole = e.project.data.find(
-        (u: UserProject) => u.projectID === this.currentProject.id
-      ).role;
-
-      e.tag = e.project.data.find(
-        (u: UserProject) => u.projectID === this.currentProject.id
-      ).tag;
-    }
-    this.memberList = rsp.memberList;
+    // TODO: 补全用户信息
+    this.memberList = this.currentProject.member.data;
     this.memberListShow = this.memberList;
   }
 

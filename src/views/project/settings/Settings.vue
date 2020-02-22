@@ -481,11 +481,6 @@ export default class Settings extends Vue {
       },
       {
         type: 'text-field',
-        title: '财务处立项编号',
-        name: 'feeCode'
-      },
-      {
-        type: 'text-field',
         title: '投资总额',
         name: 'investment'
       },

@@ -23,6 +23,9 @@ class ProjectMember {
   id!: string;
   userID!: string;
   userUUID!: string;
+  nickName!: string;
+  email!: string;
+  phone!: string;
   role!: string[];
   projectRole!: [];
   headImgURL!: string;
@@ -67,12 +70,15 @@ class ProjectExtraInfo {
   }
 
   type!: number;
+  code!: string;
   address!: string;
   location!: string[];
   consultTimeRange!: string[];
   tags: { data: string[] };
   industry!: string;
   investment!: number;
+
+  financeCode!: string;
 
   investAuditCompany!: {
     id: string;
@@ -82,6 +88,7 @@ class ProjectExtraInfo {
   };
   assignInvestAuditType!: number;
 
+  // FINISH
   finishInfo!: {
     contractCompany: {
       id: string;
