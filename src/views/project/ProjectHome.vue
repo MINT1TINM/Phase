@@ -349,7 +349,6 @@ export default class ProjectHome extends Vue {
   updateCurrentProjectID: any;
   @projectModule.Mutation('clearCurrentProjectID')
   clearCurrentProjectID: any;
-  @projectModule.Getter('viewMode') viewMode!: string;
   @projectModule.Mutation('updateViewMode') updateViewMode!: (
     v: string
   ) => void;

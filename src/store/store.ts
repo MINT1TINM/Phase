@@ -48,7 +48,6 @@ const vuexSession: any = new VuexPersistence<any>({
     mutation.type === 'project/clearCurrentProjectID' ||
     mutation.type === 'project/updateProjectList' ||
     mutation.type === 'project/updateCurrentProject' ||
-    mutation.type === 'project/updateViewMode' ||
     mutation.type === 'process/updateCurrentProcessList' ||
     mutation.type === 'process/updateCurrentProcessTask' ||
     mutation.type === 'sheet/insertNewEmptyField' ||

@@ -4,13 +4,11 @@ import { Task } from '@/types/task';
 interface State {
   currentProjectID: string;
   projectList: Project[];
-  viewMode: string;
 }
 
 const state: State = {
   currentProjectID: '',
-  projectList: [],
-  viewMode: 'grid'
+  projectList: []
 };
 
 const getters = {
@@ -54,8 +52,7 @@ const getters = {
         (e: ProjectMember) => e.userID === userID
       )?.role || []
     );
-  },
-  viewMode: (s: State) => s.viewMode
+  }
 };
 
 const mutations = {
@@ -74,9 +71,6 @@ const mutations = {
   },
   updateProjectList: (s: State, projectList: Project[]) => {
     s.projectList = projectList;
-  },
-  updateViewMode: (s: State, viewMode: string) => {
-    s.viewMode = viewMode;
   }
 };
 
