@@ -1,4 +1,4 @@
-import { Authorization, UserInfo, UserProject } from '@/types/user';
+import { Authorization, UserInfo } from '@/types/user';
 
 interface State {
   authorization: Authorization;
@@ -17,8 +17,8 @@ const getters = {
     const projectIDList = [];
 
     if (s.userInfo.project) {
-      for (const item of s.userInfo.project.data) {
-        projectIDList.push(item.projectID || item.projectUUID);
+      for (const item of s.userInfo.project) {
+        projectIDList.push(item.id);
       }
     }
 
@@ -36,7 +36,7 @@ const mutations = {
     s.authorization = authorization;
   },
   initUserProject: (s: State) => {
-    s.userInfo.project.data = [];
+    s.userInfo.project = [];
   },
   clearUserInfo: (s: State) => {
     s.userInfo = new UserInfo();

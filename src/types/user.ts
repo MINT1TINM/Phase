@@ -1,3 +1,5 @@
+import { Project } from './project';
+
 class Authorization {
   access_token!: string;
   refresh_token!: string;
@@ -13,9 +15,7 @@ class UserInfo {
   nickName!: string;
   openid!: string;
   privilege!: string[];
-  project!: {
-    data: UserProject[];
-  };
+  project!: Project[];
   province!: string;
   sex!: string;
   unionid!: string;
@@ -26,12 +26,6 @@ class UserInfo {
   privacySetting!: PrivacySetting;
   applicationList!: string[];
   permission!: UserPermission;
-}
-
-class UserProject {
-  projectID!: string;
-  projectUUID!: string;
-  role!: [];
 }
 
 class Login {
@@ -118,7 +112,6 @@ const UserPermissionCN = {
 export {
   Authorization,
   UserInfo,
-  UserProject,
   Login,
   Info,
   PrivacySetting,
