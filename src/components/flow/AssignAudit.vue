@@ -53,10 +53,26 @@
               {{ comment }}
             </v-list-item-subtitle>
           </v-list-item>
+
+          <v-list-item>
+            <v-list-item-title class="body-2">
+              审计单位
+            </v-list-item-title>
+            <v-list-item-subtitle class="body-2">
+              {{ projectInfo.extraInfo.investAuditCompany.name }}
+            </v-list-item-subtitle>
+          </v-list-item>
         </v-list>
 
         <v-divider></v-divider>
-
+        <v-subheader>参与人员</v-subheader>
+        <v-list dense>
+          <v-list-item v-for="(item, i) in assignMember" :key="`m-${i}`">
+            <v-list-item-title>{{ item.nickName }}</v-list-item-title>
+            <v-list-item-title>{{ item.userID }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+        <v-divider></v-divider>
         <v-subheader v-if="projectInfo">项目信息</v-subheader>
         <Info :projectInfo="projectInfo" v-if="projectInfo"></Info>
       </v-container>
@@ -117,7 +133,7 @@
             @click="finishAssign(instance)"
             >确认</v-btn
           >
-          <v-btn rounded class="ml-2" text @click="nextCanDialog = false"
+          <v-btn rounded class="ml-2" text @click="finishDialog = false"
             >取消</v-btn
           >
         </v-row>
@@ -157,7 +173,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Project, ProjectExtraInfo } from '@/types/project';
+import { Project, ProjectExtraInfo, ProjectMember } from '@/types/project';
 import { Instance, FlowLinkTask } from '@/types/workflow';
 import WorkflowService from '@/service/workflowService';
 import { namespace } from 'vuex-class';
@@ -229,6 +245,7 @@ export default class AssignAudit extends Vue {
   }
 
   async finishAssign(item: Instance) {
+    console.log('shit');
     const l = new FlowLinkTask();
     l.flowID = this.instance.procDefId;
     l.instanceID = this.instance.id;
@@ -254,6 +271,28 @@ export default class AssignAudit extends Vue {
       const p = new Project();
       p.extraInfo = new ProjectExtraInfo();
       p.extraInfo.assigned = true;
+
+      // add assign member to project
+      // TODO: remove duplicated
+      const addMember: ProjectMember[] = [];
+
+      this.assignMember.forEach(e => {
+        if (
+          this.projectInfo.member.data.find(e => {
+            return e.userID === e.userID;
+          }) === undefined
+        ) {
+          const m = new ProjectMember();
+          m.userID = e.userID;
+          m.nickName = e.nickName;
+          m.role = [];
+          addMember.push(m);
+        }
+      });
+
+      p.member.data = [...this.projectInfo.member.data, ...addMember];
+
+      console.log({ ...this.projectInfo, ...p });
 
       await ProjectService.updateProjectInfo({ ...this.projectInfo, ...p });
       this.$snack('操作成功，该工作流结束');
@@ -292,8 +331,11 @@ export default class AssignAudit extends Vue {
     this.groupList = rsp.group;
   }
 
+  get assignMember() {
+    return this.projectInfo.extraInfo.investAuditCompany.member;
+  }
+
   mounted() {
-    console.log(this.projectInfo);
     this.getGroup();
   }
 }

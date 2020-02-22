@@ -54,6 +54,7 @@ export default class SearchSupplierPlugin extends Vue {
   async querySelections(v: string) {
     this.loading = true;
     this.supplierList = await CompanyService.searchSupplier(v);
+    console.log(this.supplierList);
     this.loading = false;
   }
 

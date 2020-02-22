@@ -124,8 +124,25 @@ class CompanyService {
   }
 
   static async searchSupplier(name: string) {
-    const rsp = await BasicService.getRequest('/company/supplier', { name });
+    const rsp = await BasicService.getRequest('/company/supplier/search', {
+      name
+    });
     return rsp.supplier as Supplier[];
+  }
+
+  static async getSupplierList(page: number, size: number) {
+    const rsp = await BasicService.getRequest('/company/supplier/list', {
+      page,
+      size
+    });
+    return rsp.supplier as Supplier[];
+  }
+
+  static async getSupplier(uuid: string) {
+    const rsp = await BasicService.getRequest('/company/supplier', {
+      uuid
+    });
+    return rsp.supplier as Supplier;
   }
 }
 

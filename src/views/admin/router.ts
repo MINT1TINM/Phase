@@ -39,6 +39,14 @@ const router = new Router({
         {
           path: '/user',
           component: () => import('@/components/admin/user/User.vue')
+        },
+        {
+          path: '/supplier',
+          component: () => import('@/components/admin/supplier/Supplier.vue')
+        },
+        {
+          path: '/supplier/:supplierID',
+          component: () => import('@/components/admin/supplier/Info.vue')
         }
       ]
     }

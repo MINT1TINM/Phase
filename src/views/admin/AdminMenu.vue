@@ -51,10 +51,15 @@ export default class AdminTemplate extends Vue {
       route: '/group'
     },
     {
-      name: '部门',
-      icon: 'mdi-format-line-style',
-      route: '/department'
+      name: '供应商',
+      icon: 'mdi-inbox-multiple-outline',
+      route: '/supplier'
     }
+    // {
+    //   name: '部门',
+    //   icon: 'mdi-format-line-style',
+    //   route: '/department'
+    // }
   ];
 }
 </script>

@@ -1,3 +1,5 @@
+import { UserInfo } from './user';
+
 class Group {
   id!: string;
   name!: string;
@@ -31,10 +33,30 @@ class DepartmentMember {
 }
 
 class Supplier {
+  constructor() {
+    this.member = { data: [] };
+  }
+
   id!: string;
   name!: string;
   phone!: string;
   address!: string;
+  member!: {
+    data: SupplierMember[];
+  };
+  extraInfo!: any;
 }
 
-export { Group, GroupMember, Department, DepartmentMember, Supplier };
+class SupplierMember {
+  userID!: string;
+  nickName!: string;
+}
+
+export {
+  Group,
+  GroupMember,
+  Department,
+  DepartmentMember,
+  Supplier,
+  SupplierMember
+};

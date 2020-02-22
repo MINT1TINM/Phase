@@ -75,6 +75,7 @@
                 <v-container fluid>
                   <SearchSupplier
                     :id.sync="extraInfo.investAuditCompany.id"
+                    :name.sync="extraInfo.investAuditCompany.name"
                   ></SearchSupplier>
                   <v-text-field
                     dense
@@ -85,22 +86,37 @@
                     hide-details
                     label="企业名称"
                   ></v-text-field>
-                  <v-text-field
-                    dense
-                    class="mt-3"
-                    outlined
-                    v-model="extraInfo.investAuditCompany.contactName"
-                    hide-details
-                    label="联系人"
-                  ></v-text-field>
-                  <v-text-field
-                    dense
-                    v-model="extraInfo.investAuditCompany.phone"
-                    outlined
-                    class="mt-3"
-                    hide-details
-                    label="联系人电话"
-                  ></v-text-field>
+
+                  <v-list dense class="mt-3" color="transparent">
+                    <v-list-item-group
+                      v-model="extraInfo.investAuditCompany.member"
+                      multiple
+                      color="primary"
+                    >
+                      <v-list-item
+                        style="pointer-events:none"
+                        v-for="(item, i) in memberList"
+                        :key="`m-${i}`"
+                        :value="item.userID"
+                      >
+                        <template v-slot:default="{ active, toggle }">
+                          <v-list-item-action style="pointer-events:auto">
+                            <v-checkbox
+                              :input-value="active"
+                              :true-value="item.userID"
+                              @click="toggle"
+                            ></v-checkbox>
+                          </v-list-item-action>
+                          <v-list-item-title>{{
+                            item.nickName
+                          }}</v-list-item-title>
+                          <v-list-item-subtitle>
+                            {{ item.userID }}
+                          </v-list-item-subtitle>
+                        </template>
+                      </v-list-item>
+                    </v-list-item-group>
+                  </v-list>
                 </v-container>
               </v-col>
               <v-col cols="6">
@@ -136,6 +152,8 @@ import WorkflowService from '@/service/workflowService';
 import { Authorization, UserInfo } from '@/types/user';
 import SearchSupplier from '@/plugins/search-supplier/Index.vue';
 import ProjectService from '@/service/projectService';
+import { SupplierMember } from '@/types/company';
+import CompanyService from '../../../service/companyService';
 
 const projectModule = namespace('project');
 const userModule = namespace('user');
@@ -154,7 +172,7 @@ export default class ProjectAssign extends Vue {
   userInfo!: UserInfo;
 
   workflowInstance: Instance = new Instance();
-
+  memberList: SupplierMember[] = [];
   assignTypeList = [
     {
       text: '综合分配',
@@ -256,13 +274,36 @@ export default class ProjectAssign extends Vue {
     return e;
   }
 
+  get companyID() {
+    return this.extraInfo.investAuditCompany.id;
+  }
+
+  get assignMember() {
+    return this.extraInfo.investAuditCompany.member;
+  }
+
   @Watch('currentProjectID')
   onChanged() {
     this.getFlow();
   }
 
-  mounted() {
+  @Watch('companyID')
+  async onCompanyIDChanged() {
+    this.memberList = (
+      await CompanyService.getSupplier(this.companyID)
+    ).member.data;
+  }
+
+  // @Watch('assignMember')
+  // onMemberChanged() {
+  //   console.log(this.assignMember);
+  // }
+
+  async mounted() {
     this.getFlow();
+    this.memberList = (
+      await CompanyService.getSupplier(this.companyID)
+    ).member.data;
   }
 }
 </script>

@@ -1,6 +1,12 @@
 import { UserCache } from './user';
+import { SupplierMember } from './company';
 
 class Project {
+  constructor() {
+    this.member = {
+      data: []
+    };
+  }
   id!: string;
   createAt!: number;
   updatedAt!: number;
@@ -38,8 +44,7 @@ class ProjectExtraInfo {
     this.investAuditCompany = {
       id: '',
       name: '',
-      contactName: '',
-      phone: ''
+      member: []
     };
     this.finishInfo = {
       contractCompany: {
@@ -83,8 +88,7 @@ class ProjectExtraInfo {
   investAuditCompany!: {
     id: string;
     name: string;
-    contactName: string;
-    phone: string;
+    member: ProjectMember[];
   };
   assignInvestAuditType!: number;
 
