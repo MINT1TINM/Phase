@@ -11,6 +11,7 @@
 
               <v-spacer></v-spacer>
               <v-btn
+                :disabled="extraInfo.assigned"
                 v-if="
                   workflowInstance.nodeID == '开始' || !extraInfo.assignFlowID
                 "
@@ -22,6 +23,7 @@
               >
               <v-btn
                 text
+                :disabled="extraInfo.assigned"
                 v-if="
                   workflowInstance.nodeID == '开始' || !extraInfo.assignFlowID
                 "
@@ -46,13 +48,12 @@
 
                 <v-stepper-step
                   :complete="
-                    extraInfo.assigned ||
-                      workflowInstance.nodeID == '审计处工程科科员'
+                    extraInfo.assigned || workflowInstance.nodeID == '组长审批'
                   "
                   class="body-2"
                   step="2"
                 >
-                  审计处工程科科员审批
+                  组长审批
                 </v-stepper-step>
 
                 <v-divider></v-divider>
@@ -61,7 +62,7 @@
                   :complete="extraInfo.assigned"
                   step="3"
                   class="body-2"
-                  >二级单位反馈</v-stepper-step
+                  >处长审批</v-stepper-step
                 >
               </v-stepper-header>
             </v-stepper>
@@ -86,6 +87,8 @@
                     hide-details
                     label="企业名称"
                   ></v-text-field>
+
+                  <v-subheader class="pt-6 px-0">参与人员</v-subheader>
 
                   <v-list dense class="mt-3" color="transparent">
                     <v-list-item-group
@@ -126,6 +129,7 @@
                 <v-container fluid>
                   <v-select
                     dense
+                    label="分配方式"
                     hide-details
                     outlined
                     v-model="extraInfo.assignAuditCompanyType"
@@ -133,6 +137,38 @@
                     item-text="text"
                     item-value="value"
                   ></v-select>
+                  <v-text-field
+                    dense
+                    outlined
+                    class="mt-3"
+                    hide-details
+                    label="甲方审计费"
+                    type="number"
+                    prefix="¥"
+                    v-model="extraInfo.assignPrice"
+                  ></v-text-field>
+
+                  <v-file-input
+                    @change="uploadFile"
+                    class="body-2 mt-3"
+                    :label="`分配附件`"
+                    :placeholder="
+                      extraInfo.assignFile !== ''
+                        ? extraInfo.assignFile
+                        : `上传文件`
+                    "
+                    prepend-icon=""
+                    prepend-inner-icon="mdi-paperclip"
+                    append-outer-icon="mdi-download-outline"
+                    @click:append-outer="
+                      extraInfo.assignFile
+                        ? downloadFile(extraInfo.assignFile)
+                        : () => {}
+                    "
+                    outlined
+                    :display-size="1000"
+                  >
+                  </v-file-input>
                 </v-container>
               </v-col>
             </v-row>
@@ -154,6 +190,7 @@ import SearchSupplier from '@/plugins/search-supplier/Index.vue';
 import ProjectService from '@/service/projectService';
 import { SupplierMember } from '@/types/company';
 import CompanyService from '../../../service/companyService';
+import FileService from '@/service/fileService';
 
 const projectModule = namespace('project');
 const userModule = namespace('user');
@@ -191,7 +228,19 @@ export default class ProjectAssign extends Vue {
   async updateProjectInfo() {
     let p = this.currentProject;
     p.extraInfo = this.extraInfo;
+
+    console.log(p);
     await ProjectService.updateProjectInfo(p);
+  }
+
+  async uploadFile(v: any) {
+    const rsp = await FileService.uploadFile(v, '', '');
+    this.extraInfo.assignFile = rsp.path;
+    this.updateProjectInfo();
+  }
+
+  async downloadFile(path: string) {
+    FileService.downloadFileFromFs(path);
   }
 
   async assignCompany() {
@@ -202,8 +251,6 @@ export default class ProjectAssign extends Vue {
     });
 
     if (r) {
-      await this.updateProjectInfo();
-
       // Create instance if no instance
       if (!this.extraInfo.assignFlowID) {
         const l = new FlowLinkTask();
@@ -220,7 +267,9 @@ export default class ProjectAssign extends Vue {
           '审计处',
           l
         );
+
         this.extraInfo.assignFlowID = rsp.id;
+        await this.updateProjectInfo();
       } else {
         const l = new FlowLinkTask();
         l.extraInfo = {

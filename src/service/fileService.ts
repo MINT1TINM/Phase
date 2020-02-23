@@ -64,6 +64,10 @@ class FileService {
     }
     return rsp;
   }
+
+  static async downloadFileFromFs(path: string) {
+    window.open(`http://127.0.0.1:9088?image=${path}`, '_blank');
+  }
 }
 
 export default FileService;

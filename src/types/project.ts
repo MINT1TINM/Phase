@@ -47,6 +47,16 @@ class ProjectExtraInfo {
       member: []
     };
     this.finishInfo = {
+      startDate: '',
+      endDate: '',
+      price: 0,
+      auditPrice: 0,
+      auditDate: '',
+      calFile: '',
+      contractFile: '',
+      projectFile: '',
+      cadFile: '',
+      cadPriceFile: '',
       contractCompany: {
         id: '',
         name: '',
@@ -90,7 +100,6 @@ class ProjectExtraInfo {
     name: string;
     member: ProjectMember[];
   };
-  assignInvestAuditType!: number;
 
   // FINISH
   finishInfo!: {
@@ -135,8 +144,12 @@ class ProjectExtraInfo {
   started!: boolean;
   startFlowID!: number;
 
+  // 分配审计单位
   assigned!: boolean;
   assignFlowID!: number;
+  assignFile!: string;
+  assignInvestAuditType!: number;
+  assignPrice!: number;
 }
 
 class ProjectMemberComplete extends ProjectMember {

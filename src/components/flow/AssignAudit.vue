@@ -3,22 +3,22 @@
     <v-toolbar dense flat color="transparent">
       <v-spacer></v-spacer>
       <v-btn
-        v-if="instance.nodeID == '二级单位'"
+        v-if="instance.nodeID == '处长审批'"
         text
         color="success lighten-2"
         @click="finishDialog = true"
-        ><v-icon class="mr-2" size="20">mdi-check</v-icon>已阅
+        ><v-icon class="mr-2" size="20">mdi-check</v-icon>通过
       </v-btn>
 
       <v-btn
-        v-if="instance.nodeID == '审计处工程科科员'"
+        v-if="instance.nodeID == '组长审批'"
         text
         color="success lighten-2"
         @click="nextCanDialog = true"
         ><v-icon class="mr-2" size="20">mdi-check</v-icon>通过
       </v-btn>
       <v-btn
-        v-if="instance.nodeID == '审计处工程科科员'"
+        v-if="instance.nodeID != '开始'"
         text
         color="error lighten-2"
         @click="commentDialog = true"
@@ -82,23 +82,11 @@
       <v-card>
         <v-container fluid>
           <v-textarea
-            label="修改意见"
+            label="备注"
             v-model="newComment"
             outlined
             hide-details
           ></v-textarea>
-
-          <v-select
-            class="mt-3"
-            dense
-            outlined
-            hide-details
-            label="发送至"
-            :items="groupList"
-            item-text="name"
-            item-value="id"
-            v-model="nextCan"
-          ></v-select>
         </v-container>
         <v-row class="py-4" no-gutters justify="center">
           <v-btn
@@ -203,8 +191,6 @@ export default class AssignAudit extends Vue {
   finishDialog = false;
   nextCanDialog = false;
   newComment = '';
-  groupList: Group[] = [];
-  nextCan: string = '';
 
   async completeTask(item: Instance) {
     const l = new FlowLinkTask();
@@ -213,35 +199,25 @@ export default class AssignAudit extends Vue {
     l.extraInfo = {
       type: 'assignment',
       comment: this.newComment,
-      project: this.projectInfo,
-      next: this.nextCan
+      project: this.projectInfo
     };
-    if (this.nextCan) {
-      this.nextCanDialog = false;
-      try {
-        await WorkflowService.handleTask(
-          item.taskID,
-          this.authorization.userID,
-          this.userInfo.nickName,
-          true,
-          item.id,
-          '审核通过',
-          this.instance.procDefId,
-          l,
-          this.nextCan
-        );
 
-        // Update project.extrainfo.started to true
-        const p = new Project();
-        p.extraInfo = new ProjectExtraInfo();
-        p.extraInfo.started = true;
+    this.nextCanDialog = false;
+    try {
+      await WorkflowService.handleTask(
+        item.taskID,
+        this.authorization.userID,
+        this.userInfo.nickName,
+        true,
+        item.id,
+        '审核通过',
+        this.instance.procDefId,
+        l
+      );
 
-        await ProjectService.updateProjectInfo({ ...this.projectInfo, ...p });
-
-        this.$emit('updateTimeline');
-        this.$router.push({ path: '/' });
-      } catch (err) {}
-    }
+      this.$emit('updateTimeline');
+      this.$router.push({ path: '/' });
+    } catch (err) {}
   }
 
   async finishAssign(item: Instance) {
@@ -267,11 +243,6 @@ export default class AssignAudit extends Vue {
         l
       );
 
-      // Update project.extrainfo.started to true
-      const p = new Project();
-      p.extraInfo = new ProjectExtraInfo();
-      p.extraInfo.assigned = true;
-
       // add assign member to project
       // TODO: remove duplicated
       const addMember: ProjectMember[] = [];
@@ -290,11 +261,13 @@ export default class AssignAudit extends Vue {
         }
       });
 
-      p.member.data = [...this.projectInfo.member.data, ...addMember];
+      this.projectInfo.member.data = [
+        ...this.projectInfo.member.data,
+        ...addMember
+      ];
+      this.projectInfo.extraInfo.assigned = true;
 
-      console.log({ ...this.projectInfo, ...p });
-
-      await ProjectService.updateProjectInfo({ ...this.projectInfo, ...p });
+      await ProjectService.updateProjectInfo(this.projectInfo);
       this.$snack('操作成功，该工作流结束');
       this.$router.push({ path: '/' });
     } catch (err) {}
@@ -326,18 +299,11 @@ export default class AssignAudit extends Vue {
     } catch (err) {}
   }
 
-  async getGroup() {
-    const rsp = await CompanyService.getGroup();
-    this.groupList = rsp.group;
-  }
-
   get assignMember() {
     return this.projectInfo.extraInfo.investAuditCompany.member;
   }
 
-  mounted() {
-    this.getGroup();
-  }
+  mounted() {}
 }
 </script>
 

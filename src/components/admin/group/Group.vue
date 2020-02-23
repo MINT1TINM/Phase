@@ -5,21 +5,20 @@
       class="inner-sidebar-withoutpadding"
       style="height:calc(100vh - 48px);overflow-y:auto"
     >
-      <v-toolbar class="transparent" dense>
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn text @click="createGroupDialog = true">
-            <v-icon size="20">mdi-plus</v-icon>&nbsp;新建群组
-          </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
-
       <v-row no-gutters>
         <v-col cols="3" class="inner-sidebar-withoutpadding">
+          <v-toolbar class="transparent" dense flat>
+            <v-spacer></v-spacer>
+            <v-toolbar-items>
+              <v-btn text @click="createGroupDialog = true">
+                <v-icon class="mr-2" size="20">mdi-plus</v-icon>新建群组
+              </v-btn>
+            </v-toolbar-items>
+          </v-toolbar>
           <v-treeview
             style="height:calc(100vh - 96px);overflow-y:auto"
-            dense
             open-all
+            dense
             class="body-2"
             activatable
             :items="groupList"
