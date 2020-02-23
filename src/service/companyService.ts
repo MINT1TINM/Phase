@@ -96,42 +96,6 @@ class CompanyService {
     return rsp;
   }
 
-  static async getDepartmentTree() {
-    const rsp = await BasicService.getRequest('/company/department/tree', {});
-    return rsp;
-  }
-
-  static async getDepartment(departmentID: string) {
-    const rsp = await BasicService.getRequest('/company/department', {
-      departmentID
-    });
-    return rsp;
-  }
-
-  static async insertDepartmentMember(departmentID: string, userID: string) {
-    const rsp = await BasicService.postRequest('/company/department/member', {
-      departmentID,
-      userID
-    });
-    if (rsp.msg === 'success') {
-      // @ts-ignore
-      vue.$snack('更新成功');
-    }
-    return rsp;
-  }
-
-  static async removeDepartmentMember(departmentID: string, userID: string) {
-    const rsp = await BasicService.deleteRequest('/company/department/member', {
-      departmentID,
-      userID
-    });
-    if (rsp.msg === 'success') {
-      // @ts-ignore
-      vue.$snack('删除成功');
-    }
-    return rsp;
-  }
-
   static async searchSupplier(name: string) {
     const rsp = await BasicService.getRequest('/company/supplier/search', {
       name
@@ -152,6 +116,15 @@ class CompanyService {
       uuid
     });
     return rsp.supplier as Supplier;
+  }
+
+  static async updateSupplier(s: Supplier) {
+    const rsp = await BasicService.putRequest('/company/supplier', s);
+
+    if (rsp.msg === 'success') {
+      return Promise.resolve();
+    }
+    return Promise.reject();
   }
 }
 
