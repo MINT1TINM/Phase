@@ -258,14 +258,12 @@ export default class AssignAudit extends Vue {
           m.userID = e.userID;
           m.nickName = e.nickName;
           m.role = [];
-          addMember.push(m);
+          this.projectInfo.member.data.push(m);
         }
       });
 
-      this.projectInfo.member.data = [
-        ...this.projectInfo.member.data,
-        ...addMember
-      ];
+      console.log(this.projectInfo.member.data);
+
       this.projectInfo.extraInfo.assigned = true;
 
       await ProjectService.updateProjectInfo(this.projectInfo);

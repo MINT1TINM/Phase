@@ -11,24 +11,8 @@
 
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn
-          text
-          @click="linkFile"
-          v-if="window && currentObject.type && currentObject.type != `catalog`"
-        >
-          <v-icon size="20">mdi-link</v-icon>&nbsp;链接
-        </v-btn>
         <v-btn text @click="uploadDialog = true">
           <v-icon size="20">mdi-cloud-upload-outline</v-icon>&nbsp;上传
-        </v-btn>
-        <v-btn
-          text
-          @click="
-            createCatalogDialog = true;
-            currentName = ``;
-          "
-        >
-          <v-icon size="20">mdi-folder-outline</v-icon>&nbsp;新建文件夹
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
