@@ -101,7 +101,11 @@ export default class FlowTimeline extends Vue {
   async checkAccess() {
     const member = (await CompanyService.getGroupInfo(this.instance.candidate))
       .member.data;
-    if (member.indexOf(this.authorization.userID)) {
+    if (
+      member.findIndex(e => {
+        return e.userID === this.authorization.userID;
+      }) != -1
+    ) {
       this.hasAccess = true;
     } else {
       this.hasAccess = false;

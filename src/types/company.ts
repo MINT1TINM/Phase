@@ -5,7 +5,7 @@ class Group {
   name!: string;
   description!: string;
   member!: {
-    data: string[];
+    data: GroupMember[];
   };
   createdAt!: string;
   level!: number;
