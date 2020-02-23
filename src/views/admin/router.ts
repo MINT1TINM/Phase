@@ -15,18 +15,6 @@ const router = new Router({
           component: () => import('@/components/admin/Home.vue')
         },
         {
-          path: '/department',
-          component: () =>
-            import('@/components/admin/department/Department.vue'),
-          children: [
-            {
-              path: '/department/:departmentID',
-              component: () =>
-                import('@/components/admin/department/Member.vue')
-            }
-          ]
-        },
-        {
           path: '/group',
           component: () => import('@/components/admin/group/Group.vue'),
           children: [
