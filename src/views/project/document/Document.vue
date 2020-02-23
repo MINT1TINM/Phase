@@ -11,8 +11,24 @@
 
       <v-spacer></v-spacer>
       <v-toolbar-items>
+        <v-btn
+          text
+          @click="linkFile"
+          v-if="window && currentObject.type && currentObject.type != `catalog`"
+        >
+          <v-icon size="20">mdi-link</v-icon>&nbsp;链接
+        </v-btn>
         <v-btn text @click="uploadDialog = true">
           <v-icon size="20">mdi-cloud-upload-outline</v-icon>&nbsp;上传
+        </v-btn>
+        <v-btn
+          text
+          @click="
+            createCatalogDialog = true;
+            currentName = ``;
+          "
+        >
+          <v-icon size="20">mdi-folder-outline</v-icon>&nbsp;新建文件夹
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -183,23 +199,14 @@ export default class Document extends Vue {
   @Prop(Boolean) window!: boolean;
 
   @projectModule.Getter('currentProjectID') currentProjectID: any;
-
   @fileModule.Getter('fileList') fileList: any;
-
   @fileModule.Getter('path') path!: string[];
-
   @fileModule.Getter('pathPrettier') pathPrettier!: string[];
-
   @fileModule.Mutation('updatePath') updatePath!: any;
-
   @fileModule.Mutation('updatePathPrettier') updatePathPrettier!: any;
-
   @fileModule.Mutation('restorePath') restorePath!: any;
-
   @fileModule.Mutation('restorePathPrettier') restorePathPrettier!: any;
-
   @systemModule.Getter('uploadPercent') uploadPercent!: number;
-
   @systemModule.Mutation('updateUploadPercent')
   updateUploadPercent: any;
 
@@ -246,7 +253,11 @@ export default class Document extends Vue {
   }
 
   async uploadFile() {
-    await FileService.uploadFile(this.file, this.path, this.currentProjectID);
+    await FileService.uploadFileLegacy(
+      this.file,
+      this.path,
+      this.currentProjectID
+    );
     this.uploadDialog = false;
     this.file = null;
     this.getFileList();

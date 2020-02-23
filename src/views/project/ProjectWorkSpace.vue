@@ -100,13 +100,13 @@ export default class ProjectIndex extends Vue {
         role: ['r'],
         condition: this.currentProject.extraInfo.started
       },
-      // {
-      //   icon: 'mdi-folder-outline',
-      //   name: '文件',
-      //   route: '/document',
-      //   role: ['r'],
-      //   condition: this.currentProject.extraInfo.started
-      // },
+      {
+        icon: 'mdi-folder-outline',
+        name: '文件',
+        route: '/document',
+        role: ['r'],
+        condition: this.currentProject.extraInfo.started
+      },
       {
         icon: 'mdi-file-table-outline',
         name: '表单',

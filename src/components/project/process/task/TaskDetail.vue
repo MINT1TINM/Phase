@@ -45,7 +45,7 @@
             class="mt-3"
           ></related-sheet>
           <related-file
-            :sheetIDList="currentTask.file.data"
+            :fileList="currentTask.file.data"
             class="mt-3"
           ></related-file>
           <operations class="mt-3"></operations>
@@ -84,23 +84,16 @@ const userModule = namespace('user');
 })
 export default class TaskDetail extends Vue {
   @userModule.Getter('authorization') authorization!: Authorization;
-
   @projectModule.Getter('currentProjectID') currentProjectID!: string;
-
   @projectModule.Getter('projectPermission')
   projectPermission: any;
-
   @processModule.Getter('currentProcess') currentProcess: any;
-
   @processModule.Mutation('updateCurrentProcessTask')
   updateCurrentProcessTask: any;
-
   @projectModule.Getter('projectMemberCache') projectMemberCache: any;
-
   @taskModule.Getter('currentTask') currentTask!: Task;
 
   taskMember = [];
-
   statusList = [
     {
       text: '已完成',
@@ -118,7 +111,6 @@ export default class TaskDetail extends Vue {
       color: 'red'
     }
   ];
-
   taskInfoContent = [
     {
       type: 'text-field',

@@ -53,6 +53,22 @@ class FileService {
     return rsp;
   }
 
+  public static async uploadFileLegacy(
+    file: any,
+    path: string[],
+    projectID: string
+  ) {
+    store.commit('system/updateUploadPercent', 0);
+    const fileForm = new FormData();
+    fileForm.append('path', path.toString());
+    fileForm.append('file', file);
+    fileForm.append('projectID', projectID);
+
+    const rsp = await basicService.postRequest('/file/legacy', fileForm);
+    store.commit('system/updateUploadPercent', 0);
+    return rsp;
+  }
+
   static async deleteFile(path: string[], projectID: string) {
     const rsp = await basicService.deleteRequest('/file', {
       path,

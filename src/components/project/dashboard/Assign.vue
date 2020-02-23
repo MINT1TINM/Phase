@@ -54,7 +54,7 @@ export default class ProjectDashboardAssign extends Vue {
         name: '类型',
         value: this.assignTypeList[
           this.projectInfo.extraInfo.assignAuditCompanyType
-        ].text
+        ]?.text
       },
       {
         name: '名称',
@@ -62,7 +62,7 @@ export default class ProjectDashboardAssign extends Vue {
       },
       {
         name: '审计价格',
-        value: `¥ ${this.projectInfo.extraInfo.assignPrice}`
+        value: `¥ ${this.projectInfo.extraInfo.assignPrice || 0}`
       }
     ];
   }
