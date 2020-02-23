@@ -148,7 +148,7 @@ class ProjectExtraInfo {
   assigned!: boolean;
   assignFlowID!: number;
   assignFile!: string;
-  assignInvestAuditType!: number;
+  assignAuditCompanyType!: number;
   assignPrice!: number;
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar dense flat color="transparent">
+    <v-toolbar v-if="hasAccess" dense flat color="transparent">
       <v-spacer></v-spacer>
       <v-btn
         v-if="instance.nodeID == '审批'"
@@ -139,6 +139,7 @@ export default class ProjectInfo extends Vue {
   @Prop() projectInfo!: Project;
   @Prop() instance!: Instance;
   @Prop() comment!: string;
+  @Prop() hasAccess!: boolean;
 
   finishDialog = false;
   commentDialog = false;

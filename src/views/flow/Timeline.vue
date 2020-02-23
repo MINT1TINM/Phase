@@ -50,6 +50,7 @@
             <router-view
               @updateTimeline="getTimeline"
               :instance="instance"
+              :hasAccess="hasAccess"
             ></router-view>
           </v-container>
           <v-row style="height:100%" v-else justify="center" align="center">
@@ -67,6 +68,7 @@ import WorkflowService from '@/service/workflowService';
 import { Event, Instance, FlowLinkTask } from '@/types/workflow';
 import { namespace } from 'vuex-class';
 import { Authorization, UserInfo } from '@/types/user';
+import CompanyService from '@/service/companyService';
 
 const userModule = namespace('user');
 
@@ -80,6 +82,7 @@ export default class FlowTimeline extends Vue {
   instance: Instance = new Instance();
   timeline: Event[] = [];
   linkTask: FlowLinkTask = new FlowLinkTask();
+  hasAccess: boolean = false;
 
   async getInstance() {
     this.instance = (
@@ -93,6 +96,16 @@ export default class FlowTimeline extends Vue {
     ).timeline.reverse();
 
     this.timeline = t;
+  }
+
+  async checkAccess() {
+    const member = (await CompanyService.getGroupInfo(this.instance.candidate))
+      .member.data;
+    if (member.indexOf(this.authorization.userID)) {
+      this.hasAccess = true;
+    } else {
+      this.hasAccess = false;
+    }
   }
 
   get linkContent() {
@@ -109,11 +122,15 @@ export default class FlowTimeline extends Vue {
   @Watch('instance')
   onChanged() {
     this.getTimeline();
+    this.checkAccess();
   }
 
   mounted() {
     this.getInstance();
-    if (this.instance.id) this.getTimeline();
+    if (this.instance.id) {
+      this.getTimeline();
+      this.checkAccess();
+    }
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar dense flat color="transparent">
+    <v-toolbar dense flat color="transparent" v-if="hasAccess">
       <v-spacer></v-spacer>
       <v-btn
         v-if="instance.nodeID == '处长审批'"
@@ -186,6 +186,7 @@ export default class AssignAudit extends Vue {
   @Prop() projectInfo!: Project;
   @Prop() instance!: Instance;
   @Prop() comment!: string;
+  @Prop() hasAccess!: boolean;
 
   commentDialog = false;
   finishDialog = false;

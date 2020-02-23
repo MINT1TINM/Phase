@@ -163,8 +163,7 @@ export default class AdminGroupInfo extends Vue {
   }
 
   async getGroupInfo() {
-    const rsp = await CompanyService.getGroupInfo(this.groupID);
-    this.groupInfo = rsp.group;
+    this.groupInfo = await CompanyService.getGroupInfo(this.groupID);
   }
 
   @Watch('search')

@@ -6,6 +6,7 @@
       @updateTimeline="$emit('updateTimeline')"
       :projectInfo="linkTask.extraInfo.project"
       :comment="linkTask.extraInfo.comment"
+      :hasAccess="hasAccess"
     ></ProjectInfo>
 
     <AssignAudit
@@ -14,6 +15,7 @@
       @updateTimeline="$emit('updateTimeline')"
       :projectInfo="linkTask.extraInfo.project"
       :comment="linkTask.extraInfo.comment"
+      :hasAccess="hasAccess"
     ></AssignAudit>
   </div>
 </template>
@@ -25,6 +27,7 @@ import WorkflowService from '@/service/workflowService';
 
 import ProjectInfo from '@/components/flow/ProjectInfo.vue';
 import AssignAudit from '@/components/flow/AssignAudit.vue';
+import CompanyService from '../../service/companyService';
 
 @Component({
   components: {
@@ -34,6 +37,7 @@ import AssignAudit from '@/components/flow/AssignAudit.vue';
 })
 export default class FlowInstaceTaskInfo extends Vue {
   @Prop() instance!: Instance;
+  @Prop() hasAccess!: boolean;
   linkTask: FlowLinkTask = new FlowLinkTask();
 
   get instanceID() {

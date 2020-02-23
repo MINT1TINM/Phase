@@ -59,14 +59,14 @@ export default class ProjectIndex extends Vue {
     // started=1 && no active workflow instance -> project started
     return [
       {
-        icon: 'mdi-chart-timeline',
+        icon: 'mdi-view-dashboard-outline',
         name: '仪表板',
         route: '/dashboard',
         role: ['r'],
         condition: this.currentProject.extraInfo.started
       },
       {
-        icon: 'mdi-view-dashboard-outline',
+        icon: 'mdi-view-agenda',
         name: '过程',
         route: '/process',
         role: ['r'],

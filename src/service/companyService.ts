@@ -23,7 +23,7 @@ class CompanyService {
     const rsp = await BasicService.getRequest('/company/group/info', {
       id
     });
-    return rsp;
+    return rsp.group as Group;
   }
 
   static async updateGroupInfo(groupID: string, groupInfo: Group) {

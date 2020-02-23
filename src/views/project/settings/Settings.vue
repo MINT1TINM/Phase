@@ -525,7 +525,6 @@ export default class Settings extends Vue {
         title: '结算书',
         name: 'calFile',
         changeFunc: async (v: any) => {
-          console.log(v);
           const rsp = await FileService.uploadFile(v, '', '');
           this.extraInfo.finishInfo.calFile = rsp.path;
           this.updateProjectInfo();
@@ -538,8 +537,10 @@ export default class Settings extends Vue {
         type: 'file-input',
         title: '合同书',
         name: 'contractFile',
-        changeFunc: () => {
-          console.log('changed');
+        changeFunc: async (v: any) => {
+          const rsp = await FileService.uploadFile(v, '', '');
+          this.extraInfo.finishInfo.contractFile = rsp.path;
+          this.updateProjectInfo();
         },
         downFunc: () => {
           console.log('download');
@@ -549,8 +550,10 @@ export default class Settings extends Vue {
         type: 'file-input',
         title: '开竣工',
         name: 'projectFile',
-        changeFunc: () => {
-          console.log('changed');
+        changeFunc: async (v: any) => {
+          const rsp = await FileService.uploadFile(v, '', '');
+          this.extraInfo.finishInfo.projectFile = rsp.path;
+          this.updateProjectInfo();
         },
         downFunc: () => {
           console.log('download');
@@ -560,8 +563,10 @@ export default class Settings extends Vue {
         type: 'file-input',
         title: '竣工蓝图',
         name: 'cadFile',
-        changeFunc: () => {
-          console.log('changed');
+        changeFunc: async (v: any) => {
+          const rsp = await FileService.uploadFile(v, '', '');
+          this.extraInfo.finishInfo.cadFile = rsp.path;
+          this.updateProjectInfo();
         },
         downFunc: () => {
           console.log('download');
@@ -571,8 +576,10 @@ export default class Settings extends Vue {
         type: 'file-input',
         title: '施工图预算',
         name: 'cadPriceFile',
-        changeFunc: () => {
-          console.log('changed');
+        changeFunc: async (v: any) => {
+          const rsp = await FileService.uploadFile(v, '', '');
+          this.extraInfo.finishInfo.cadPriceFile = rsp.path;
+          this.updateProjectInfo();
         },
         downloadFunc: () => {
           console.log('download');

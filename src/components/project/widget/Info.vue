@@ -91,10 +91,6 @@ export default class ProjectWidgetInfo extends Vue {
         value: this.projectInfo.extraInfo.investment
       },
       {
-        name: '施工总承包合同价',
-        value: this.projectInfo.extraInfo.price
-      },
-      {
         name: '所属行业',
         value: this.projectInfo.extraInfo.industry
       }
