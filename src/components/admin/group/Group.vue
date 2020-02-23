@@ -107,7 +107,7 @@ export default class AdminGroup extends Vue {
     const g = new Group();
     g.name = this.newGroupName;
     g.parent = this.currentGroupID;
-    g.level = this.currentGroupLevel;
+    g.level = this.currentGroupLevel + 1;
 
     await CompanyService.createGroup(g);
 
