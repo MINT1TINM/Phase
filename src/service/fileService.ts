@@ -41,7 +41,7 @@ class FileService {
     return rsp;
   }
 
-  static async uploadFile(file: any, path: string[], projectID: string) {
+  static async uploadFile(file: any, path: any, projectID: string) {
     // store.commit("system/updateUploadPercent", 0);
     const fileForm = new FormData();
     fileForm.append('path', path.toString());

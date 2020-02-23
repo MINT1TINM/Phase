@@ -45,6 +45,11 @@ export default class AdminTemplate extends Vue {
       icon: 'mdi-account-outline',
       route: '/user'
     },
+    // {
+    //   name: '部门',
+    //   icon: 'mdi-format-line-style',
+    //   route: '/department'
+    // },
     {
       name: '群组',
       icon: 'mdi-account-group-outline',
@@ -55,11 +60,6 @@ export default class AdminTemplate extends Vue {
       icon: 'mdi-inbox-multiple-outline',
       route: '/supplier'
     }
-    // {
-    //   name: '部门',
-    //   icon: 'mdi-format-line-style',
-    //   route: '/department'
-    // }
   ];
 }
 </script>

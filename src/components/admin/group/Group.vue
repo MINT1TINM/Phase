@@ -14,38 +14,46 @@
         </v-toolbar-items>
       </v-toolbar>
 
-      <v-simple-table class="transparent">
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">名称</th>
-              <th class="text-left">简介</th>
-              <th class="text-left">创建时间</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="(item, i) in groupList"
-              :key="`user-${i}`"
-              @click="showInfo(item.id)"
-            >
-              <td class="caption">{{ item.name }}</td>
-              <td class="caption">{{ item.description }}</td>
-              <td class="caption">
-                {{ item.createdAt | format('yyyy-MM-dd') }}
-              </td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
-    </v-flex>
+      <v-row no-gutters>
+        <v-col cols="3" class="inner-sidebar-withoutpadding">
+          <v-treeview
+            style="height:calc(100vh - 96px);overflow-y:auto"
+            dense
+            open-all
+            class="body-2"
+            activatable
+            :items="groupList"
+            item-text="name"
+            item-children="children"
+            item-key="id"
+            :active.sync="active"
+            return-object
+          ></v-treeview>
+        </v-col>
+        <v-col cols="9">
+          <div v-if="currentGroupID">
+            <group-info
+              :groupID="currentGroupID"
+              @updateGroupList="getGroup"
+            ></group-info>
 
-    <v-navigation-drawer width="800" right temporary fixed v-model="infoNav">
-      <group-info
-        :groupID="currentGroupID"
-        @updateGroupList="getGroup"
-      ></group-info>
-    </v-navigation-drawer>
+            <v-row no-gutters justify="center" class="mt-10">
+              <v-col cols="6">
+                <v-btn
+                  v-if="currentGroupLevel != 0"
+                  block
+                  rounded
+                  depressed
+                  color="error darken-2"
+                  @click="deleteGroup(currentGroupID)"
+                  >删除群组</v-btn
+                >
+              </v-col>
+            </v-row>
+          </div>
+        </v-col>
+      </v-row>
+    </v-flex>
 
     <v-dialog persistent v-model="createGroupDialog" width="300">
       <v-card>
@@ -79,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import CompanyService from '@/service/companyService';
 import { Group } from '@/types/company';
 import groupInfo from './GroupInfo.vue';
@@ -91,17 +99,19 @@ import groupInfo from './GroupInfo.vue';
 })
 export default class AdminGroup extends Vue {
   groupList: Group[] = [];
-
+  active: Group[] = [];
   createGroupDialog: boolean = false;
-
   infoNav: boolean = false;
-
   newGroupName: string = '';
 
-  currentGroupID: string = '';
-
   async createGroup() {
-    await CompanyService.createGroup(this.newGroupName);
+    const g = new Group();
+    g.name = this.newGroupName;
+    g.parent = this.currentGroupID;
+    g.level = this.currentGroupLevel;
+
+    await CompanyService.createGroup(g);
+
     this.createGroupDialog = false;
     this.newGroupName = '';
     await this.getGroup();
@@ -112,9 +122,29 @@ export default class AdminGroup extends Vue {
     this.groupList = rsp.group;
   }
 
-  async showInfo(id: string) {
-    this.infoNav = true;
-    this.currentGroupID = id;
+  async deleteGroup(id: string) {
+    const rsp = await this.$confirm('此操作无法恢复', {
+      title: '删除群组',
+      buttonTrueColor: 'error',
+      dark: this.$vuetify.theme.dark
+    });
+    if (rsp) {
+      try {
+        await CompanyService.deleteGroup(id);
+        this.$snack('删除成功');
+        this.getGroup();
+      } catch (_) {
+        this.$snack('删除失败');
+      }
+    }
+  }
+
+  get currentGroupID() {
+    return this.active[0]?.id;
+  }
+
+  get currentGroupLevel() {
+    return this.active[0]?.level;
   }
 
   async mounted() {

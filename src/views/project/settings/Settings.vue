@@ -392,6 +392,7 @@ import SearchSupplier from '@/plugins/search-supplier/Index.vue';
 import WorkflowService from '@/service/workflowService';
 import { Instance, FlowLinkTask } from '@/types/workflow';
 import { Authorization, UserInfo } from '@/types/user';
+import FileService from '../../../service/fileService';
 
 const systemModule = namespace('system');
 const projectModule = namespace('project');
@@ -523,8 +524,11 @@ export default class Settings extends Vue {
         type: 'file-input',
         title: '结算书',
         name: 'calFile',
-        changeFunc: (v: any) => {
+        changeFunc: async (v: any) => {
           console.log(v);
+          const rsp = await FileService.uploadFile(v, '', '');
+          this.extraInfo.finishInfo.calFile = rsp.path;
+          this.updateProjectInfo();
         },
         downFunc: () => {
           console.log('download');

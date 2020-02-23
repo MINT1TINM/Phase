@@ -5,10 +5,8 @@ import { Group, Supplier } from '@/types/company';
 const vue = new Vue() as any;
 
 class CompanyService {
-  static async createGroup(name: string) {
-    const rsp = await BasicService.postRequest('/company/group', {
-      name
-    });
+  static async createGroup(g: Group) {
+    const rsp = await BasicService.postRequest('/company/group', g);
     if (rsp.msg === 'success') {
       // @ts-ignore
       vue.$snack('创建成功');
@@ -63,6 +61,17 @@ class CompanyService {
       vue.$snack('删除成功');
     }
     return rsp;
+  }
+
+  static async deleteGroup(id: string) {
+    const rsp = await BasicService.deleteRequest('/company/group', {
+      id
+    });
+    if (rsp.msg === 'success') {
+      return Promise.resolve();
+    } else {
+      return Promise.reject();
+    }
   }
 
   static async getUserGroup(userID: string) {

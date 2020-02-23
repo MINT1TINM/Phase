@@ -94,6 +94,18 @@ class ProjectExtraInfo {
 
   // FINISH
   finishInfo!: {
+    startDate: string;
+    endDate: string;
+
+    price: number;
+    auditPrice: number;
+    auditDate: string;
+
+    calFile: string;
+    contractFile: string;
+    projectFile: string;
+    cadFile: string;
+    cadPriceFile: string;
     contractCompany: {
       id: string;
       name: string;
@@ -119,18 +131,6 @@ class ProjectExtraInfo {
       phone: string;
     };
   };
-  startDate!: string;
-  endDate!: string;
-
-  price!: number;
-  auditPrice!: number;
-  auditDate!: string;
-
-  calFile!: string;
-  contractFile!: string;
-  projectFile!: string;
-  cadFile!: string;
-  cadPriceFile!: string;
 
   started!: boolean;
   startFlowID!: number;

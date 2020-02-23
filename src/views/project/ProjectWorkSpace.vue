@@ -11,7 +11,12 @@
     >
       <v-list nav dense color="transparent">
         <div v-for="(item, i) in appList" :key="i">
-          <v-list-item :disabled="!item.condition" link :to="item.route">
+          <v-list-item
+            class="my-1"
+            :disabled="!item.condition"
+            link
+            :to="item.route"
+          >
             <template>
               <v-list-item-icon style="margin-right:0">
                 <v-icon>{{ item.icon }}</v-icon>

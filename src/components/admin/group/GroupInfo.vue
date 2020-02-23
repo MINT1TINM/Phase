@@ -96,24 +96,11 @@ import { UserInfo } from '@/types/user';
 export default class AdminGroupInfo extends Vue {
   @Prop(String) groupID!: string;
 
-  groupInfo: Group = {
-    id: '',
-    name: '',
-    description: '',
-    member: {
-      data: []
-    },
-    createdAt: ''
-  };
-
+  groupInfo: Group = new Group();
   loading = false;
-
   userList = [];
-
   search: string = '';
-
   select = null;
-
   groupInfoContent = [
     {
       type: 'text-field',

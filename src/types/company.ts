@@ -8,6 +8,8 @@ class Group {
     data: [];
   };
   createdAt!: string;
+  level!: number;
+  parent!: string;
 }
 
 class GroupMember {

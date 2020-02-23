@@ -1,30 +1,39 @@
 <template>
   <v-row class="px-3">
-    <v-col cols="9">
-      <v-card>
-        <v-row>
-          <v-col cols="2">
-            <v-row justify="center" class="body-2 mt-2 font-weight-black">
-              待处理任务
+    <v-col cols="6">
+      <v-row>
+        <v-col cols="12">
+          <v-card>
+            <v-row>
+              <v-col cols="2">
+                <v-row justify="center" class="body-2 mt-2 font-weight-black">
+                  待处理任务
+                </v-row>
+                <v-row justify="center" class="display-1 my-3">
+                  {{ 3 }}
+                </v-row>
+              </v-col>
+              <v-col cols="2">
+                <v-row justify="center" class="body-2 mt-2 font-weight-black">
+                  待审批
+                </v-row>
+                <v-row justify="center" class="display-1 my-3">
+                  {{ 2 }}
+                </v-row>
+              </v-col>
             </v-row>
-            <v-row justify="center" class="display-1 my-3">
-              {{ 3 }}
-            </v-row>
-          </v-col>
-          <v-col cols="2">
-            <v-row justify="center" class="body-2 mt-2 font-weight-black">
-              待审批
-            </v-row>
-            <v-row justify="center" class="display-1 my-3">
-              {{ 2 }}
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-card>
+          </v-card>
+        </v-col>
+        <v-col cols="12">
+          <v-card>
+            <ProjectInfo :projectInfo="currentProject"></ProjectInfo>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-col>
-    <v-col cols="3">
-      <ProjectInfo :projectInfo="currentProject"></ProjectInfo>
-      <Progress class="mt-5"></Progress>
+
+    <v-col cols="6">
+      <v-card> </v-card>
     </v-col>
   </v-row>
 </template>
