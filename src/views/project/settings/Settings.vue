@@ -530,7 +530,7 @@ export default class Settings extends Vue {
           this.updateProjectInfo();
         },
         downFunc: () => {
-          console.log('download');
+          FileService.downloadFileFromFs(this.extraInfo.finishInfo.cadFile);
         }
       },
       {
@@ -543,7 +543,9 @@ export default class Settings extends Vue {
           this.updateProjectInfo();
         },
         downFunc: () => {
-          console.log('download');
+          FileService.downloadFileFromFs(
+            this.extraInfo.finishInfo.contractFile
+          );
         }
       },
       {
@@ -556,7 +558,7 @@ export default class Settings extends Vue {
           this.updateProjectInfo();
         },
         downFunc: () => {
-          console.log('download');
+          FileService.downloadFileFromFs(this.extraInfo.finishInfo.projectFile);
         }
       },
       {
@@ -569,7 +571,7 @@ export default class Settings extends Vue {
           this.updateProjectInfo();
         },
         downFunc: () => {
-          console.log('download');
+          FileService.downloadFileFromFs(this.extraInfo.finishInfo.cadFile);
         }
       },
       {
@@ -582,7 +584,9 @@ export default class Settings extends Vue {
           this.updateProjectInfo();
         },
         downloadFunc: () => {
-          console.log('download');
+          FileService.downloadFileFromFs(
+            this.extraInfo.finishInfo.cadPriceFile
+          );
         }
       }
     ];

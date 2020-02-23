@@ -82,7 +82,7 @@ class FileService {
   }
 
   static async downloadFileFromFs(path: string) {
-    window.open(`http://127.0.0.1:9088?image=${path}`, '_blank');
+    window.open(`http://47.93.246.204:9088/image?path=${path}`, '_blank');
   }
 }
 
