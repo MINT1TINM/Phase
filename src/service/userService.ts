@@ -2,7 +2,13 @@ import Vue from 'vue';
 
 import basicService from '@/service/basicService';
 import store from '@/store/store';
-import { UserInfo, Info, PrivacySetting, UserPermission } from '@/types/user';
+import {
+  UserInfo,
+  Info,
+  PrivacySetting,
+  UserPermission,
+  UserCache
+} from '@/types/user';
 
 const vue = new Vue() as any;
 
@@ -19,6 +25,11 @@ class UserService {
   static async getInfo() {
     const rsp = await basicService.getRequest('/user/info', {});
     return rsp;
+  }
+
+  static async getUserCache(id: string[]) {
+    const rsp = await basicService.getRequest('/user/avatar', { id });
+    return rsp.userAvatar as UserCache[];
   }
 
   static async getOtherUserInfo(userID: string) {

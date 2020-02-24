@@ -171,6 +171,7 @@ import CompanyService from '@/service/companyService';
 import { Group } from '@/types/company';
 
 import Info from '@/components/project/widget/Info.vue';
+import UserService from '../../service/userService';
 
 const userModule = namespace('user');
 
@@ -247,6 +248,8 @@ export default class AssignAudit extends Vue {
       // TODO: remove duplicated
       const addMember: ProjectMember[] = [];
 
+      const memberCache = await UserService.getUserCache(this.assignMember);
+
       this.assignMember.forEach(e => {
         if (
           this.projectInfo.member.data.find(e => {
@@ -254,8 +257,11 @@ export default class AssignAudit extends Vue {
           }) === undefined
         ) {
           const m = new ProjectMember();
-          m.userID = e.userID;
-          m.nickName = e.nickName;
+          m.userID = e;
+          m.nickName =
+            memberCache.find(c => {
+              c.id === e;
+            })?.nickName || '';
           m.role = [];
           this.projectInfo.member.data.push(m);
         }
