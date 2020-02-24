@@ -75,6 +75,7 @@
 
                 <v-container fluid>
                   <SearchSupplier
+                    v-if="!extraInfo.assigned"
                     :id.sync="extraInfo.investAuditCompany.id"
                     :name.sync="extraInfo.investAuditCompany.name"
                   ></SearchSupplier>
@@ -100,6 +101,7 @@
                         style="pointer-events:none"
                         v-for="(item, i) in memberList"
                         :key="`m-${i}`"
+                        :disabled="extraInfo.assigned"
                         :value="item.userID"
                       >
                         <template v-slot:default="{ active, toggle }">
@@ -107,6 +109,7 @@
                             <v-checkbox
                               :input-value="active"
                               :true-value="item.userID"
+                              :disabled="extraInfo.assigned"
                               @click="toggle"
                             ></v-checkbox>
                           </v-list-item-action>
@@ -135,12 +138,14 @@
                     v-model="extraInfo.assignAuditCompanyType"
                     :items="assignTypeList"
                     item-text="text"
+                    :disabled="extraInfo.assigned"
                     item-value="value"
                   ></v-select>
                   <v-text-field
                     dense
                     outlined
                     class="mt-3"
+                    :disabled="extraInfo.assigned"
                     hide-details
                     label="甲方审计费"
                     type="number"
@@ -152,10 +157,17 @@
                     @change="uploadFile"
                     class="body-2 mt-3"
                     :label="`分配附件`"
+                    :disabled="extraInfo.assigned"
+                    dense
                     :placeholder="
                       extraInfo.assignFile !== ''
                         ? extraInfo.assignFile
                         : `上传文件`
+                    "
+                    :hint="
+                      extraInfo.assignFile !== ''
+                        ? extraInfo.assignFile
+                        : `未上传`
                     "
                     prepend-icon=""
                     prepend-inner-icon="mdi-paperclip"

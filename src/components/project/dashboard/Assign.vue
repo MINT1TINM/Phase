@@ -2,7 +2,7 @@
   <div>
     <v-toolbar dense flat color="transparent">
       <v-toolbar-title class="body-2 font-weight-black"
-        >投资审计单位</v-toolbar-title
+        >投资审计</v-toolbar-title
       >
     </v-toolbar>
 
@@ -13,7 +13,12 @@
         </v-subheader>
         <v-list-item v-else>
           <v-list-item-title>{{ item.name }}</v-list-item-title>
-          <v-list-item-subtitle>{{ item.value }}</v-list-item-subtitle>
+          <v-list-item-subtitle v-if="item.chip">
+            <v-chip-group>
+              <v-chip small v-for="c in item.value" :key="c">{{ c }}</v-chip>
+            </v-chip-group>
+          </v-list-item-subtitle>
+          <v-list-item-subtitle v-else>{{ item.value }}</v-list-item-subtitle>
         </v-list-item>
       </div>
     </v-list>
@@ -27,11 +32,18 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Project } from '@/types/project';
+import { Project, ProjectMember } from '@/types/project';
+import { namespace, Getter } from 'vuex-class';
+
+const projectModule = namespace('project');
 
 @Component
 export default class ProjectDashboardAssign extends Vue {
   @Prop() projectInfo!: Project;
+
+  @projectModule.Getter('projectMemberCache') projectMemberCache!: (
+    id: string
+  ) => ProjectMember;
 
   assignTypeList = [
     {
@@ -51,17 +63,24 @@ export default class ProjectDashboardAssign extends Vue {
   get list() {
     return [
       {
-        name: '类型',
+        name: '分配方式',
         value: this.assignTypeList[
           this.projectInfo.extraInfo.assignAuditCompanyType
         ]?.text
       },
       {
-        name: '名称',
+        name: '投资审计单位',
         value: this.projectInfo.extraInfo.investAuditCompany.name
       },
       {
-        name: '审计价格',
+        name: '负责人员',
+        chip: true,
+        value: this.projectInfo.extraInfo.investAuditCompany.member.map(
+          e => this.projectMemberCache(e).nickName
+        )
+      },
+      {
+        name: '甲方审计费',
         value: `¥ ${this.projectInfo.extraInfo.assignPrice || 0}`
       }
     ];

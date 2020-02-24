@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
-    <v-row dense justify="center">
-      <v-col lg="8" md="12">
+    <v-row>
+      <v-col cols="6">
         <v-row no-gutters>
-          <v-col cols="12" class="mb-2">
+          <v-col cols="12">
             <v-card v-if="!extraInfo.started">
               <v-btn :to="`/`" class="my-2 ml-1" v-if="!extraInfo.started" text>
                 <v-icon class="mr-2" size="20">mdi-arrow-left</v-icon>返回首页
@@ -74,7 +74,7 @@
           <v-col cols="12">
             <v-card>
               <v-toolbar dense flat class="transparent">
-                <v-toolbar-title class="subtitle-1 font-weight-black">
+                <v-toolbar-title class="body-2 font-weight-black">
                   基本信息
                 </v-toolbar-title>
               </v-toolbar>
@@ -130,10 +130,10 @@
             </v-card>
           </v-col>
 
-          <v-col cols="12" class="mt-2">
+          <v-col cols="12" class="mt-6">
             <v-card>
               <v-toolbar dense flat class="transparent">
-                <v-toolbar-title class="subtitle-1 font-weight-black">
+                <v-toolbar-title class="body-2 font-weight-black">
                   附加信息
                 </v-toolbar-title>
               </v-toolbar>
@@ -160,11 +160,11 @@
             </v-card>
           </v-col>
 
-          <v-col cols="12" class="mt-2" v-if="projectType == 0">
+          <v-col cols="12" class="mt-6">
             <v-card>
               <v-toolbar dense flat class="transparent">
-                <v-toolbar-title class="subtitle-1 font-weight-black">
-                  竣工阶段
+                <v-toolbar-title class="body-2 font-weight-black">
+                  送审信息
                 </v-toolbar-title>
               </v-toolbar>
               <v-container>
@@ -172,174 +172,10 @@
                   :formContent="finishInfoContent"
                   :target="extraInfo.finishInfo"
                 ></dim-form>
-              </v-container>
-              <v-container fluid>
-                <v-row dense>
-                  <v-col cols="4">
-                    <v-card outlined>
-                      <v-card-title class="body-2 font-weight-black">
-                        施工总承包单位
-                      </v-card-title>
-
-                      <v-container fluid>
-                        <SearchSupplier
-                          :id.sync="extraInfo.finishInfo.contractCompany.id"
-                          :name.sync="extraInfo.finishInfo.contractCompany.name"
-                        >
-                        </SearchSupplier>
-
-                        <v-text-field
-                          dense
-                          class="mt-3"
-                          outlined
-                          disabled
-                          v-model="extraInfo.finishInfo.contractCompany.name"
-                          hide-details
-                          label="企业名称"
-                        ></v-text-field>
-
-                        <v-text-field
-                          dense
-                          class="mt-3"
-                          outlined
-                          v-model="
-                            extraInfo.finishInfo.contractCompany.contactName
-                          "
-                          hide-details
-                          label="联系人"
-                        ></v-text-field>
-                        <v-text-field
-                          dense
-                          v-model="extraInfo.finishInfo.contractCompany.phone"
-                          outlined
-                          class="mt-3"
-                          hide-details
-                          label="联系人电话"
-                        ></v-text-field>
-                      </v-container>
-                    </v-card>
-                  </v-col>
-
-                  <v-col cols="4">
-                    <v-card outlined>
-                      <v-card-title class="body-2 font-weight-black">
-                        投资监理单位
-                      </v-card-title>
-
-                      <v-container fluid>
-                        <SearchSupplier
-                          :id.sync="extraInfo.finishInfo.investCompany.id"
-                        ></SearchSupplier>
-                        <v-text-field
-                          dense
-                          class="mt-3"
-                          outlined
-                          disabled
-                          v-model="extraInfo.finishInfo.investCompany.name"
-                          hide-details
-                          label="企业名称"
-                        ></v-text-field>
-                        <v-text-field
-                          dense
-                          class="mt-3"
-                          outlined
-                          v-model="extraInfo.finishInfo.investCompany.name"
-                          hide-details
-                          label="联系人"
-                        ></v-text-field>
-                        <v-text-field
-                          dense
-                          v-model="extraInfo.finishInfo.investCompany.phone"
-                          outlined
-                          class="mt-3"
-                          hide-details
-                          label="联系人电话"
-                        ></v-text-field>
-                      </v-container>
-                    </v-card>
-                  </v-col>
-
-                  <v-col cols="4">
-                    <v-card outlined>
-                      <v-card-title class="body-2 font-weight-black">
-                        工程监理单位
-                      </v-card-title>
-                      <v-container fluid>
-                        <SearchSupplier
-                          :id.sync="extraInfo.finishInfo.projectCompany.id"
-                        ></SearchSupplier>
-                        <v-text-field
-                          dense
-                          disabled
-                          class="mt-3"
-                          outlined
-                          v-model="extraInfo.finishInfo.projectCompany.name"
-                          hide-details
-                          label="企业名称"
-                        ></v-text-field>
-                        <v-text-field
-                          dense
-                          class="mt-3"
-                          outlined
-                          v-model="extraInfo.finishInfo.projectCompany.name"
-                          hide-details
-                          label="联系人"
-                        ></v-text-field>
-                        <v-text-field
-                          dense
-                          v-model="extraInfo.finishInfo.projectCompany.phone"
-                          outlined
-                          class="mt-3"
-                          hide-details
-                          label="联系人电话"
-                        ></v-text-field>
-                      </v-container>
-                    </v-card>
-                  </v-col>
-
-                  <v-col cols="4">
-                    <v-card outlined>
-                      <v-card-title class="body-2 font-weight-black">
-                        代建单位
-                      </v-card-title>
-
-                      <v-container fluid>
-                        <SearchSupplier
-                          :id.sync="extraInfo.finishInfo.constructCompany.id"
-                        ></SearchSupplier>
-                        <v-text-field
-                          dense
-                          disabled
-                          class="mt-3"
-                          outlined
-                          v-model="extraInfo.finishInfo.constructCompany.name"
-                          hide-details
-                          label="企业名称"
-                        ></v-text-field>
-                        <v-text-field
-                          dense
-                          class="mt-3"
-                          outlined
-                          v-model="extraInfo.finishInfo.constructCompany.name"
-                          hide-details
-                          label="联系人"
-                        ></v-text-field>
-                        <v-text-field
-                          dense
-                          v-model="extraInfo.finishInfo.constructCompany.phone"
-                          outlined
-                          class="mt-3"
-                          hide-details
-                          label="联系人电话"
-                        ></v-text-field>
-                      </v-container>
-                    </v-card>
-                  </v-col>
-                </v-row>
-
                 <v-layout row justify-center class="pt-10">
                   <v-flex xs6>
                     <v-btn
+                      v-if="extraInfo.started"
                       block
                       rounded
                       depressed
@@ -353,7 +189,7 @@
             </v-card>
           </v-col>
 
-          <v-col cols="12" class="mt-2">
+          <v-col cols="12" class="mt-6">
             <v-card>
               <v-toolbar dense flat class="transparent">
                 <v-toolbar-title class="subtitle-1 font-weight-black">
@@ -378,6 +214,186 @@
           </v-col>
         </v-row>
       </v-col>
+      <v-col cols="6">
+        <v-row no-gutters>
+          <v-col cols="12" class="mb-6">
+            <v-card>
+              <v-toolbar dense flat class="transparent">
+                <v-toolbar-title class="body-2 font-weight-black">
+                  采购信息
+                </v-toolbar-title>
+              </v-toolbar>
+              <v-container fluid>
+                <dim-form
+                  :target="extraInfo.stock"
+                  :formContent="stockContent"
+                ></dim-form>
+                <v-layout row justify-center class="pt-10">
+                  <v-flex xs6>
+                    <v-btn
+                      v-if="extraInfo.started"
+                      block
+                      rounded
+                      depressed
+                      color="primary darken-1"
+                      @click="updateProjectInfo()"
+                      >保存</v-btn
+                    >
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card>
+          </v-col>
+          <v-col cols="12" class="mb-6">
+            <v-card>
+              <v-toolbar dense flat class="transparent">
+                <v-toolbar-title class="body-2 font-weight-black">
+                  单位信息
+                </v-toolbar-title>
+              </v-toolbar>
+              <v-container fluid>
+                <v-row dense>
+                  <v-col cols="4">
+                    <v-card outlined>
+                      <v-card-title class="body-2 font-weight-black">
+                        施工总承包单位
+                      </v-card-title>
+
+                      <v-container fluid>
+                        <SearchSupplier
+                          :id.sync="extraInfo.company.contractCompany.id"
+                          :name.sync="extraInfo.company.contractCompany.name"
+                        >
+                        </SearchSupplier>
+
+                        <dim-form
+                          dense
+                          :target="extraInfo.company.contractCompany"
+                          :formContent="companyInfoContent"
+                        >
+                        </dim-form>
+                      </v-container>
+                    </v-card>
+                  </v-col>
+
+                  <v-col cols="4">
+                    <v-card outlined>
+                      <v-card-title class="body-2 font-weight-black">
+                        工程监理单位
+                      </v-card-title>
+                      <v-container fluid>
+                        <SearchSupplier
+                          :id.sync="extraInfo.company.projectCompany.id"
+                        ></SearchSupplier>
+                        <dim-form
+                          dense
+                          :target="extraInfo.company.projectCompany"
+                          :formContent="companyInfoContent"
+                        >
+                        </dim-form>
+                      </v-container>
+                    </v-card>
+                  </v-col>
+
+                  <v-col cols="4">
+                    <v-card outlined>
+                      <v-card-title class="body-2 font-weight-black">
+                        代建单位
+                      </v-card-title>
+
+                      <v-container fluid>
+                        <SearchSupplier
+                          :id.sync="extraInfo.company.constructCompany.id"
+                        ></SearchSupplier>
+                        <dim-form
+                          dense
+                          :target="extraInfo.company.constructCompany"
+                          :formContent="companyInfoContent"
+                        >
+                        </dim-form>
+                      </v-container>
+                    </v-card>
+                  </v-col>
+                </v-row>
+
+                <v-layout row justify-center class="pt-10">
+                  <v-flex xs6>
+                    <v-btn
+                      block
+                      rounded
+                      depressed
+                      color="primary darken-1"
+                      @click="updateProjectInfo()"
+                      >保存</v-btn
+                    >
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card>
+          </v-col>
+          <v-col cols="12" class="mb-6">
+            <v-card>
+              <Assign :projectInfo="currentProject"></Assign>
+            </v-card>
+          </v-col>
+          <v-col cols="12" class="mb-6">
+            <v-card>
+              <v-toolbar dense flat class="transparent">
+                <v-toolbar-title class="body-2 font-weight-black">
+                  审价结果
+                </v-toolbar-title>
+              </v-toolbar>
+              <v-container fluid>
+                <dim-form
+                  :target="extraInfo.check"
+                  :formContent="checkContent"
+                ></dim-form>
+                <v-layout row justify-center class="pt-10">
+                  <v-flex xs6>
+                    <v-btn
+                      v-if="extraInfo.started"
+                      block
+                      rounded
+                      depressed
+                      color="primary darken-1"
+                      @click="updateProjectInfo()"
+                      >保存</v-btn
+                    >
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card>
+          </v-col>
+          <v-col cols="12" class="mb-6">
+            <v-card>
+              <v-toolbar dense flat class="transparent">
+                <v-toolbar-title class="body-2 font-weight-black">
+                  审计结果
+                </v-toolbar-title>
+              </v-toolbar>
+              <v-container fluid>
+                <dim-form
+                  :target="extraInfo.checkResult"
+                  :formContent="checkResultContent"
+                ></dim-form>
+                <v-layout row justify-center class="pt-10">
+                  <v-flex xs6>
+                    <v-btn
+                      v-if="extraInfo.started"
+                      block
+                      rounded
+                      depressed
+                      color="primary darken-1"
+                      @click="updateProjectInfo()"
+                      >保存</v-btn
+                    >
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -392,7 +408,9 @@ import SearchSupplier from '@/plugins/search-supplier/Index.vue';
 import WorkflowService from '@/service/workflowService';
 import { Instance, FlowLinkTask } from '@/types/workflow';
 import { Authorization, UserInfo } from '@/types/user';
-import FileService from '../../../service/fileService';
+import FileService from '@/service/fileService';
+
+import Assign from '@/components/project/dashboard/Assign.vue';
 
 const systemModule = namespace('system');
 const projectModule = namespace('project');
@@ -400,7 +418,8 @@ const userModule = namespace('user');
 
 @Component({
   components: {
-    SearchSupplier
+    SearchSupplier,
+    Assign
   }
 })
 export default class Settings extends Vue {
@@ -450,6 +469,9 @@ export default class Settings extends Vue {
       {
         type: 'select',
         title: '类型',
+        changeFunc: () => {
+          this.updateProjectInfo();
+        },
         name: 'type',
         list: [
           { name: '竣工结算审计', id: 0 },
@@ -498,6 +520,192 @@ export default class Settings extends Vue {
     ];
   }
 
+  get stockContent() {
+    const start = [
+      {
+        type: 'select',
+        title: '采购方式',
+        name: 'type',
+        text: 'text',
+        value: 'value',
+        changeFunc: () => {
+          this.updateProjectInfo();
+        },
+        list: [
+          {
+            text: '非招标',
+            value: 0
+          },
+          {
+            text: '二级单位备案',
+            value: 1
+          },
+          {
+            text: '公开招投标',
+            value: 2
+          }
+        ]
+      }
+    ];
+    let c: any[] = [];
+
+    switch (this.extraInfo.stock.type) {
+      case 0:
+        c = start;
+        return c;
+        break;
+      case 1:
+        c = [
+          ...start,
+          ...[
+            {
+              type: 'text-field',
+              title: '备案编号',
+              name: 'achieveCode'
+            },
+            {
+              type: 'file-input',
+              title: '备案表附件',
+              name: 'achieveFile',
+              changeFunc: async (v: any) => {
+                if (v) {
+                  const rsp = await FileService.uploadFile(v, '', '');
+                  this.extraInfo.stock.achieveFile = rsp.path;
+                  this.updateProjectInfo();
+                }
+              },
+              downFunc: () => {
+                console.log('download');
+                FileService.downloadFileFromFs(
+                  this.extraInfo.stock.achieveFile
+                );
+              }
+            }
+          ]
+        ];
+        return c;
+        break;
+      case 2:
+        c = [
+          ...start,
+          ...[
+            {
+              type: 'text-field',
+              title: '采购编号',
+              name: 'code'
+            },
+            {
+              type: 'text-field',
+              title: '招标采购名称',
+              name: 'name'
+            },
+            {
+              type: 'text-field',
+              title: '招标采购单位',
+              name: 'agentCompany'
+            },
+            {
+              type: 'date-picker',
+              title: '采购日期',
+              name: 'date'
+            },
+            { type: 'text-field', title: '招标控制价', name: 'controlPrice' },
+            {
+              type: 'text-field',
+              title: '中标金额',
+              name: 'price'
+            },
+            {
+              type: 'file-input',
+              title: '招标蓝图',
+              name: 'sketchFile',
+              changeFunc: async (v: any) => {
+                if (v) {
+                  const rsp = await FileService.uploadFile(v, '', '');
+                  this.extraInfo.stock.sketchFile = rsp.path;
+                  this.updateProjectInfo();
+                }
+              },
+              downFunc: () => {
+                FileService.downloadFileFromFs(this.extraInfo.stock.sketchFile);
+              }
+            },
+            {
+              type: 'file-input',
+              title: '招标文件',
+              name: 'file',
+              changeFunc: async (v: any) => {
+                if (v) {
+                  const rsp = await FileService.uploadFile(v, '', '');
+                  this.extraInfo.stock.file = rsp.path;
+                  this.updateProjectInfo();
+                }
+              },
+              downFunc: () => {
+                FileService.downloadFileFromFs(this.extraInfo.stock.file);
+              }
+            },
+            {
+              type: 'file-input',
+              title: '中标通知书',
+              name: 'bidNotification',
+              changeFunc: async (v: any) => {
+                if (v) {
+                  const rsp = await FileService.uploadFile(v, '', '');
+                  this.extraInfo.stock.bidNotification = rsp.path;
+                  this.updateProjectInfo();
+                }
+              },
+              downFunc: () => {
+                FileService.downloadFileFromFs(
+                  this.extraInfo.stock.bidNotification
+                );
+              }
+            },
+            {
+              type: 'file-input',
+              title: '中标商务标软件版',
+              name: 'bidFinance',
+              changeFunc: async (v: any) => {
+                if (v) {
+                  const rsp = await FileService.uploadFile(v, '', '');
+                  this.extraInfo.stock.bidFinance = rsp.path;
+                  this.updateProjectInfo();
+                }
+              },
+              downFunc: () => {
+                FileService.downloadFileFromFs(this.extraInfo.stock.bidFinance);
+              }
+            }
+          ]
+        ];
+        return c;
+
+      default:
+        break;
+    }
+  }
+
+  get companyInfoContent() {
+    return [
+      {
+        type: 'text-field',
+        title: '企业名称',
+        name: 'name'
+      },
+      {
+        type: 'text-field',
+        title: '联系人',
+        name: 'contactName'
+      },
+      {
+        type: 'text-field',
+        title: '联系人电话',
+        name: 'phone'
+      }
+    ];
+  }
+
   get finishInfoContent() {
     return [
       {
@@ -525,9 +733,11 @@ export default class Settings extends Vue {
         title: '结算书',
         name: 'calFile',
         changeFunc: async (v: any) => {
-          const rsp = await FileService.uploadFile(v, '', '');
-          this.extraInfo.finishInfo.calFile = rsp.path;
-          this.updateProjectInfo();
+          if (v) {
+            const rsp = await FileService.uploadFile(v, '', '');
+            this.extraInfo.finishInfo.calFile = rsp.path;
+            this.updateProjectInfo();
+          }
         },
         downFunc: () => {
           FileService.downloadFileFromFs(this.extraInfo.finishInfo.cadFile);
@@ -587,6 +797,111 @@ export default class Settings extends Vue {
           FileService.downloadFileFromFs(
             this.extraInfo.finishInfo.cadPriceFile
           );
+        }
+      }
+    ];
+  }
+
+  get checkContent() {
+    return [
+      {
+        type: 'text-field',
+        title: '审价金额',
+        name: 'price'
+      },
+      {
+        type: 'date-picker',
+        title: '审价日期',
+        name: 'date'
+      },
+      {
+        type: 'text-field',
+        title: '投资审计审价编号',
+        name: 'code'
+      },
+      {
+        type: 'text-field',
+        title: '乙方审计费',
+        name: 'auditPrice'
+      },
+      {
+        type: 'file-input',
+        title: '审计报告扫描版',
+        name: 'report',
+        changeFunc: async (v: any) => {
+          if (v) {
+            const rsp = await FileService.uploadFile(v, '', '');
+            this.extraInfo.check.report = rsp.path;
+            this.updateProjectInfo();
+          }
+        },
+        downFunc: () => {
+          FileService.downloadFileFromFs(this.extraInfo.check.report);
+        }
+      },
+      {
+        type: 'file-input',
+        title: '审计结算软件版',
+        name: 'cal',
+        changeFunc: async (v: any) => {
+          if (v) {
+            const rsp = await FileService.uploadFile(v, '', '');
+            this.extraInfo.check.cal = rsp.path;
+            this.updateProjectInfo();
+          }
+        },
+        downFunc: () => {
+          FileService.downloadFileFromFs(this.extraInfo.check.cal);
+        }
+      },
+      {
+        type: 'file-input',
+        title: '审计费发票',
+        name: 'invoice',
+        changeFunc: async (v: any) => {
+          if (v) {
+            const rsp = await FileService.uploadFile(v, '', '');
+            this.extraInfo.check.invoice = rsp.path;
+            this.updateProjectInfo();
+          }
+        },
+        downFunc: () => {
+          FileService.downloadFileFromFs(this.extraInfo.check.invoice);
+        }
+      }
+    ];
+  }
+
+  get checkResultContent() {
+    return [
+      {
+        type: 'text-field',
+        title: '审定金额',
+        name: 'price'
+      },
+      {
+        type: 'text-field',
+        title: '审计编号',
+        name: 'code'
+      },
+      {
+        type: 'date-picker',
+        title: '审计编号日期',
+        name: 'date'
+      },
+      {
+        type: 'file-input',
+        title: '审计报告扫描版',
+        name: 'report',
+        changeFunc: async (v: any) => {
+          if (v) {
+            const rsp = await FileService.uploadFile(v, '', '');
+            this.extraInfo.checkResult.report = rsp.path;
+            this.updateProjectInfo();
+          }
+        },
+        downFunc: () => {
+          FileService.downloadFileFromFs(this.extraInfo.checkResult.report);
         }
       }
     ];
@@ -696,10 +1011,6 @@ export default class Settings extends Vue {
 
   set extraInfo(v: ProjectExtraInfo) {
     this.extraInfo = v;
-  }
-
-  get projectType() {
-    return this.extraInfo.type;
   }
 
   mounted() {

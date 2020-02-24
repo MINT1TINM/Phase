@@ -222,7 +222,6 @@ export default class AssignAudit extends Vue {
   }
 
   async finishAssign(item: Instance) {
-    console.log('shit');
     const l = new FlowLinkTask();
     l.flowID = this.instance.procDefId;
     l.instanceID = this.instance.id;
@@ -261,8 +260,6 @@ export default class AssignAudit extends Vue {
           this.projectInfo.member.data.push(m);
         }
       });
-
-      console.log(this.projectInfo.member.data);
 
       this.projectInfo.extraInfo.assigned = true;
 

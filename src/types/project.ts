@@ -47,8 +47,8 @@ class ProjectExtraInfo {
       member: []
     };
     this.finishInfo = {
-      startDate: '',
-      endDate: '',
+      startDate: new Date().toISOString().slice(0, 10),
+      endDate: new Date().toISOString().slice(0, 10),
       price: 0,
       auditPrice: 0,
       auditDate: '',
@@ -56,31 +56,48 @@ class ProjectExtraInfo {
       contractFile: '',
       projectFile: '',
       cadFile: '',
-      cadPriceFile: '',
-      contractCompany: {
-        id: '',
-        name: '',
-        contactName: '',
-        phone: ''
-      },
-      investCompany: {
-        id: '',
-        name: '',
-        contactName: '',
-        phone: ''
-      },
-      projectCompany: {
-        id: '',
-        name: '',
-        contactName: '',
-        phone: ''
-      },
-      constructCompany: {
-        id: '',
-        name: '',
-        contactName: '',
-        phone: ''
-      }
+      cadPriceFile: ''
+    };
+    this.stock = {
+      type: 0,
+      achieveCode: '',
+      achieveFile: '',
+
+      code: '',
+      name: '',
+      agentCompany: '',
+      date: new Date().toISOString().slice(0, 10),
+      controlPrice: 0,
+      price: 0,
+
+      // files
+      sketchFile: '',
+      file: '',
+      bidNotification: '',
+      bidFinance: ''
+    };
+    this.company = {
+      projectCompany: { id: '', name: '', contactName: '', phone: '' },
+      projectDepartment: { id: '', name: '', contactName: '', phone: '' },
+      constructCompany: { id: '', name: '', contactName: '', phone: '' },
+      contractCompany: { id: '', name: '', contactName: '', phone: '' }
+    };
+    this.check = {
+      price: 0,
+      date: new Date().toISOString().slice(0, 10),
+      code: '',
+      auditPrice: 0,
+
+      // files
+      report: '',
+      cal: '',
+      invoice: ''
+    };
+    this.checkResult = {
+      price: 0,
+      code: '',
+      date: new Date().toISOString().slice(0, 10),
+      report: ''
     };
   }
 
@@ -95,13 +112,7 @@ class ProjectExtraInfo {
 
   financeCode!: string;
 
-  investAuditCompany!: {
-    id: string;
-    name: string;
-    member: ProjectMember[];
-  };
-
-  // FINISH
+  // 送审信息
   finishInfo!: {
     startDate: string;
     endDate: string;
@@ -115,41 +126,91 @@ class ProjectExtraInfo {
     projectFile: string;
     cadFile: string;
     cadPriceFile: string;
-    contractCompany: {
-      id: string;
-      name: string;
-      contactName: string;
-      phone: string;
-    };
-    investCompany: {
-      id: string;
-      name: string;
-      contactName: string;
-      phone: string;
-    };
-    projectCompany: {
-      id: string;
-      name: string;
-      contactName: string;
-      phone: string;
-    };
-    constructCompany: {
-      id: string;
-      name: string;
-      contactName: string;
-      phone: string;
-    };
   };
 
   started!: boolean;
   startFlowID!: number;
 
-  // 分配审计单位
+  // 分配投资审计
   assigned!: boolean;
   assignFlowID!: number;
   assignFile!: string;
-  assignAuditCompanyType!: number;
+  assignAuditCompanyType!: number; // text: '0 综合分配', text: '1 二次议标', 2 公开招投标',
   assignPrice!: number;
+  investAuditCompany!: {
+    id: string;
+    name: string;
+    member: string[];
+  };
+
+  // 采购
+  stock!: {
+    type: number; // 0 非招标 // 1 二级单位备案 // 2 公开招投标
+    achieveCode: string;
+    achieveFile: string;
+
+    code: string;
+    name: string;
+    agentCompany: string;
+    date: string;
+    controlPrice: number;
+    price: number;
+
+    // files
+    sketchFile: string;
+    file: string;
+    bidNotification: string;
+    bidFinance: string;
+  };
+
+  // 单位
+  company!: {
+    projectDepartment: {
+      id: string;
+      name: string;
+      contactName: string;
+      phone: string;
+    }; // 工程主管部门
+    contractCompany: {
+      id: string;
+      name: string;
+      contactName: string;
+      phone: string;
+    }; // 施工总承包单位
+    projectCompany: {
+      id: string;
+      name: string;
+      contactName: string;
+      phone: string;
+    }; // 工程监理单位
+    constructCompany: {
+      id: string;
+      name: string;
+      contactName: string;
+      phone: string;
+    }; // 代建单位
+  };
+
+  // 审价结果
+  check!: {
+    price: number;
+    date: string;
+    code: string;
+    auditPrice: number;
+
+    // files
+    report: string;
+    cal: string;
+    invoice: string;
+  };
+
+  // 审定结果
+  checkResult!: {
+    price: number;
+    code: string;
+    date: string;
+    report: string;
+  };
 }
 
 class ProjectMemberComplete extends ProjectMember {
