@@ -253,7 +253,30 @@
               </v-toolbar>
               <v-container fluid>
                 <v-row dense>
-                  <v-col cols="4">
+                  <v-col cols="6">
+                    <v-card outlined>
+                      <v-card-title class="body-2 font-weight-black">
+                        工程主管部门
+                      </v-card-title>
+
+                      <v-container fluid>
+                        <SearchGroup
+                          :id.sync="extraInfo.company.projectDepartment.id"
+                          :name.sync="extraInfo.company.projectDepartment.name"
+                        >
+                        </SearchGroup>
+
+                        <dim-form
+                          dense
+                          :target="extraInfo.company.projectDepartment"
+                          :formContent="companyInfoContent"
+                        >
+                        </dim-form>
+                      </v-container>
+                    </v-card>
+                  </v-col>
+
+                  <v-col cols="6">
                     <v-card outlined>
                       <v-card-title class="body-2 font-weight-black">
                         施工总承包单位
@@ -276,7 +299,7 @@
                     </v-card>
                   </v-col>
 
-                  <v-col cols="4">
+                  <v-col cols="6">
                     <v-card outlined>
                       <v-card-title class="body-2 font-weight-black">
                         工程监理单位
@@ -295,7 +318,7 @@
                     </v-card>
                   </v-col>
 
-                  <v-col cols="4">
+                  <v-col cols="6">
                     <v-card outlined>
                       <v-card-title class="body-2 font-weight-black">
                         代建单位
@@ -404,13 +427,14 @@ import { namespace } from 'vuex-class';
 import ProjectService from '@/service/projectService';
 import { Project, ProjectExtraInfo } from '@/types/project';
 
-import SearchSupplier from '@/plugins/search-supplier/Index.vue';
 import WorkflowService from '@/service/workflowService';
 import { Instance, FlowLinkTask } from '@/types/workflow';
 import { Authorization, UserInfo } from '@/types/user';
 import FileService from '@/service/fileService';
 
 import Assign from '@/components/project/dashboard/Assign.vue';
+import SearchSupplier from '@/components/common/search/SearchSupplier.vue';
+import SearchGroup from '@/components/common/search/SearchGroup.vue';
 
 const systemModule = namespace('system');
 const projectModule = namespace('project');
@@ -419,6 +443,7 @@ const userModule = namespace('user');
 @Component({
   components: {
     SearchSupplier,
+    SearchGroup,
     Assign
   }
 })
@@ -488,6 +513,11 @@ export default class Settings extends Vue {
       },
       {
         type: 'text-field',
+        title: '审计处立项编号',
+        name: 'auditCode'
+      },
+      {
+        type: 'text-field',
         title: '财务处立项编号',
         name: 'financeCode'
       },
@@ -505,6 +535,16 @@ export default class Settings extends Vue {
         type: 'text-field',
         title: '所属行业',
         name: 'industry'
+      },
+      {
+        type: 'date-picker',
+        title: '开工日期',
+        name: 'startDate'
+      },
+      {
+        type: 'date-picker',
+        title: '竣工日期',
+        name: 'startDate'
       }
     ];
   }
@@ -697,16 +737,6 @@ export default class Settings extends Vue {
 
   get finishInfoContent() {
     return [
-      {
-        type: 'date-picker',
-        title: '开工日期',
-        name: 'startDate'
-      },
-      {
-        type: 'date-picker',
-        title: '竣工日期',
-        name: 'startDate'
-      },
       {
         type: 'text-field',
         title: '送审金额',

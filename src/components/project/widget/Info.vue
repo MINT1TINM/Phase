@@ -60,9 +60,6 @@ export default class ProjectWidgetInfo extends Vue {
         value: this.projectInfo.description
       },
       {
-        subheader: '附加信息'
-      },
-      {
         name: '类型',
         value: this.type(this.projectInfo.extraInfo.type)
       },
@@ -85,6 +82,14 @@ export default class ProjectWidgetInfo extends Vue {
       {
         name: '所属行业',
         value: this.projectInfo.extraInfo.industry
+      },
+      {
+        name: '开工日期',
+        value: this.projectInfo.extraInfo.startDate
+      },
+      {
+        name: '竣工日期',
+        value: this.projectInfo.extraInfo.endDate
       }
     ];
   }

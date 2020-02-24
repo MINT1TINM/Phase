@@ -101,18 +101,7 @@ const router = new Router({
         },
         {
           path: '/track/:trackID',
-          component: () => import('@/views/project/track/TrackInfo.vue'),
-          children: [
-            {
-              path: '/track/:trackID/timeline',
-              component: () => import('@/components/project/track/Timeline.vue')
-            },
-            {
-              path: '/track/:trackID/operation',
-              component: () =>
-                import('@/components/project/track/Operation.vue')
-            }
-          ]
+          component: () => import('@/views/project/track/TrackInfo.vue')
         },
         {
           path: '/document',

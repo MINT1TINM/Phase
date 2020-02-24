@@ -10,6 +10,29 @@
         <v-col cols="12">
           <v-card outlined>
             <v-card-title class="body-2 font-weight-black">
+              工程主管部门
+            </v-card-title>
+
+            <v-list dense>
+              <div v-for="(item, i) in companyInfoContent" :key="`l-${i}`">
+                <v-subheader class="ml-2 mt-2" v-if="item.subheader">
+                  {{ item.subheader }}
+                </v-subheader>
+                <v-list-item v-else>
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+
+                  <v-list-item-subtitle>{{
+                    extraInfo.company.projectDepartment[item.name]
+                  }}</v-list-item-subtitle>
+                </v-list-item>
+              </div>
+            </v-list>
+          </v-card>
+        </v-col>
+
+        <v-col cols="12">
+          <v-card outlined>
+            <v-card-title class="body-2 font-weight-black">
               施工总承包单位
             </v-card-title>
 

@@ -16,7 +16,7 @@ class CompanyService {
 
   static async getGroup() {
     const rsp = await BasicService.getRequest('/company/group', {});
-    return rsp;
+    return rsp.group as Group[];
   }
 
   static async getGroupInfo(id: string) {

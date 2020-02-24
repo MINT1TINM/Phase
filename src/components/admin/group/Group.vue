@@ -117,8 +117,7 @@ export default class AdminGroup extends Vue {
   }
 
   async getGroup() {
-    const rsp = await CompanyService.getGroup();
-    this.groupList = rsp.group;
+    this.groupList = await CompanyService.getGroup();
   }
 
   async deleteGroup(id: string) {

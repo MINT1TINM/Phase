@@ -1,5 +1,6 @@
 import { Invitation } from '@/types/project';
 import { App } from '@/types/system';
+import { Group } from '@/types/company';
 
 interface State {
   companyName: string;
@@ -13,6 +14,7 @@ interface State {
   uploadPercent: number;
   invitationList: Invitation[];
   permissionList: object[];
+  groupList: Group[];
 }
 
 const state: State = {
@@ -89,7 +91,8 @@ const state: State = {
       text: '管理',
       value: 'god'
     }
-  ]
+  ],
+  groupList: []
 };
 
 const getters = {
@@ -129,6 +132,9 @@ const mutations = {
   },
   updateInvitationList: (s: State, invitationList: Invitation[]) => {
     s.invitationList = invitationList;
+  },
+  updateGroupList: (s: State, g: Group[]) => {
+    s.groupList = g;
   }
 };
 

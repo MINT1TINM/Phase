@@ -90,21 +90,14 @@ const fileModule = namespace('file');
 @Component
 export default class CommonSearch extends Vue {
   @projectModule.Getter('currentProjectID') currentProjectID: any;
-
   @fileModule.Getter('fileList') fileList: any;
-
   @projectModule.Getter('projectMemberCache') projectMemberCache: any;
-
   @fileModule.Mutation('updatePath') updatePath!: any;
-
   @fileModule.Mutation('updatePathPrettier') updatePathPrettier!: any;
 
   searchDocumentContent: string = '';
-
   fileListShow = {};
-
   result: any[] = [];
-
   currentFileIndex = 0;
 
   async getFileList() {

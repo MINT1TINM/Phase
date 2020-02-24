@@ -36,8 +36,26 @@
         }}</v-chip>
       </template>
 
+      <template v-slot:item.tracker="{ item }">
+        <v-chip small class="caption font-weight-black">{{
+          item.trackerCache.nickName
+        }}</v-chip>
+      </template>
+
       <template v-slot:item.createdAt="{ item }">
         {{ item.createdAt | format('yyyy-MM-dd hh:mm:ss') }}
+      </template>
+
+      <template v-slot:item.status="{ item }">
+        <div v-if="item.extraInfo.checked">已审核</div>
+        <div
+          v-else-if="
+            !item.extraInfo.checked && item.extraInfo.checkFlowID != ''
+          "
+        >
+          待审核
+        </div>
+        <div v-else>待提交</div>
       </template>
     </v-data-table>
 
@@ -81,6 +99,9 @@ import TrackService from '@/service/trackService';
 export default class ProjectTrack extends Vue {
   headers = [
     { text: '名称', value: 'name' },
+    { text: '跟踪日期', value: 'trackDate' },
+    { text: '跟踪单位', value: 'trackUnit' },
+    { text: '跟踪人', value: 'tracker' },
     { text: '创建人', value: 'userUUID' },
     { text: '创建时间', value: 'createdAt' },
     { text: '状态', value: 'status' }

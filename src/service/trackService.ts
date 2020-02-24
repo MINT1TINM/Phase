@@ -34,6 +34,8 @@ class TrackService {
   }
 
   static async updateTrack(c: Track) {
+    c.trackDate = new Date(c.trackDate).toISOString();
+
     const rsp = await BasicService.putRequest('/track', c);
     if (rsp.msg === 'success') {
       return Promise.resolve(rsp.msg);

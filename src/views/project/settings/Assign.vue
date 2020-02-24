@@ -198,7 +198,7 @@ import { Project, ProjectExtraInfo } from '@/types/project';
 import { FlowLinkTask, Instance } from '@/types/workflow';
 import WorkflowService from '@/service/workflowService';
 import { Authorization, UserInfo } from '@/types/user';
-import SearchSupplier from '@/plugins/search-supplier/Index.vue';
+import SearchSupplier from '@/components/common/search/SearchSupplier.vue';
 import ProjectService from '@/service/projectService';
 import { SupplierMember } from '@/types/company';
 import CompanyService from '../../../service/companyService';

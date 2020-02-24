@@ -10,6 +10,7 @@ class Group {
   createdAt!: string;
   level!: number;
   parent!: string;
+  children!: Group[];
 }
 
 class GroupMember {

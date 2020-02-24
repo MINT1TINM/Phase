@@ -47,8 +47,6 @@ class ProjectExtraInfo {
       member: []
     };
     this.finishInfo = {
-      startDate: new Date().toISOString().slice(0, 10),
-      endDate: new Date().toISOString().slice(0, 10),
       price: 0,
       auditPrice: 0,
       auditDate: '',
@@ -109,14 +107,12 @@ class ProjectExtraInfo {
   tags: { data: string[] };
   industry!: string;
   investment!: number;
-
+  startDate!: string;
+  endDate!: string;
   financeCode!: string;
 
   // 送审信息
   finishInfo!: {
-    startDate: string;
-    endDate: string;
-
     price: number;
     auditPrice: number;
     auditDate: string;
@@ -292,11 +288,15 @@ class Track {
   trackDate!: string;
   tracker!: string;
   description!: string;
-  file!: any;
+  file!: string[];
   liveDescription!: string;
-  liveFile!: any;
+  liveFile!: string[];
   liveComment!: string;
   status!: boolean;
+  extraInfo!: {
+    checkFlowID: number;
+    checked: boolean;
+  };
 }
 
 class Material {
