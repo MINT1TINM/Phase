@@ -1,21 +1,27 @@
 <template>
   <v-container fluid class="pa-2">
     <v-row no-gutters>
-      <v-col cols="6">
+      <v-col cols="4">
         <v-row no-gutters>
           <v-col cols="12">
             <v-card class="ma-2">
               <v-row>
-                <v-col cols="2">
-                  <v-row justify="center" class="body-2 mt-2 font-weight-black">
+                <v-col cols="3">
+                  <v-row
+                    justify="center"
+                    class="caption mt-2 font-weight-black"
+                  >
                     待处理任务
                   </v-row>
                   <v-row justify="center" class="display-1 my-3">
                     {{ 3 }}
                   </v-row>
                 </v-col>
-                <v-col cols="2">
-                  <v-row justify="center" class="body-2 mt-2 font-weight-black">
+                <v-col cols="3">
+                  <v-row
+                    justify="center"
+                    class="caption mt-2 font-weight-black"
+                  >
                     待审批
                   </v-row>
                   <v-row justify="center" class="display-1 my-3">
@@ -30,14 +36,44 @@
               <ProjectInfo :projectInfo="currentProject"></ProjectInfo>
             </v-card>
           </v-col>
+          <v-col cols="12">
+            <v-card class="ma-2">
+              <FinishInfo :extraInfo="currentProject.extraInfo"></FinishInfo>
+            </v-card>
+          </v-col>
         </v-row>
       </v-col>
 
-      <v-col cols="3">
+      <v-col cols="4">
         <v-row no-gutters>
           <v-col cols="12">
             <v-card class="ma-2">
               <Assign :projectInfo="currentProject"></Assign>
+            </v-card>
+          </v-col>
+          <v-col cols="12">
+            <v-card class="ma-2">
+              <Stock :extraInfo="currentProject.extraInfo"></Stock>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-col>
+
+      <v-col cols="4">
+        <v-row no-gutters>
+          <v-col cols="12">
+            <v-card class="ma-2">
+              <Company :extraInfo="currentProject.extraInfo"></Company>
+            </v-card>
+          </v-col>
+          <v-col cols="12">
+            <v-card class="ma-2">
+              <Check :extraInfo="currentProject.extraInfo"></Check>
+            </v-card>
+          </v-col>
+          <v-col cols="12">
+            <v-card class="ma-2">
+              <CheckResult :extraInfo="currentProject.extraInfo"></CheckResult>
             </v-card>
           </v-col>
         </v-row>
@@ -54,13 +90,24 @@ import ProjectInfo from '@/components/project/widget/Info.vue';
 import { namespace } from 'vuex-class';
 import { Project } from '@/types/project';
 
+import Stock from '@/components/project/dashboard/Stock.vue';
+import Company from '@/components/project/dashboard/Company.vue';
+import Check from '@/components/project/dashboard/Check.vue';
+import CheckResult from '@/components/project/dashboard/CheckResult.vue';
+import FinishInfo from '@/components/project/dashboard/FinishInfo.vue';
+
 const projectModule = namespace('project');
 
 @Component({
   components: {
     Progress,
     ProjectInfo,
-    Assign
+    Assign,
+    Stock,
+    Company,
+    Check,
+    CheckResult,
+    FinishInfo
   }
 })
 export default class ProjectDashboard extends Vue {

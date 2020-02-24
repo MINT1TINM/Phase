@@ -60,14 +60,6 @@ export default class ProjectWidgetInfo extends Vue {
         value: this.projectInfo.description
       },
       {
-        name: '审计期间',
-        value: `${this.projectInfo.startDate} ~ ${this.projectInfo.endDate}`
-      },
-      {
-        name: '实施时间',
-        value: `${this.projectInfo.actionDate}`
-      },
-      {
         subheader: '附加信息'
       },
       {

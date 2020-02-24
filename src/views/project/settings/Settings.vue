@@ -446,21 +446,10 @@ export default class Settings extends Vue {
       name: 'description'
     },
     {
-      type: 'date-range',
-      title: '审计期间',
-      nameStart: 'startDate',
-      nameEnd: 'endDate'
-    },
-    {
       type: 'date-picker',
       disabled: true,
       title: '创建时间',
       name: 'createdAt'
-    },
-    {
-      type: 'date-picker',
-      title: '实施时间',
-      name: 'actionDate'
     }
   ];
 
