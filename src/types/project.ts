@@ -363,6 +363,25 @@ class Meeting {
   projectUUID!: string;
 }
 
+class Visa {
+  id!: string;
+  name!: string;
+  createdAt!: string;
+  appCode!: string;
+  appType!: string;
+  amount!: number;
+  checkAmount!: number;
+  description!: string;
+  file!: string[];
+  extraInfo!: {
+    checkFlowID: number;
+  };
+
+  userUUID!: string;
+  userCache!: UserCache;
+  projectUUID!: string;
+}
+
 export {
   Project,
   ProjectMember,
@@ -376,5 +395,6 @@ export {
   Payment,
   Track,
   Material,
-  Meeting
+  Meeting,
+  Visa
 };

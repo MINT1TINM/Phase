@@ -101,11 +101,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Meeting } from '@/types/project';
+import { Meeting, Project } from '@/types/project';
 import MeetingService from '@/service/meetingService';
+import { namespace } from 'vuex-class';
+
+const projectModule = namespace('project');
 
 @Component
 export default class ProjectMeeting extends Vue {
+  @projectModule.Getter('currentProject') currentProject!: Project;
+
   headers = [
     { text: '名称', value: 'name' },
     { text: '日期', value: 'date' },
@@ -131,14 +136,18 @@ export default class ProjectMeeting extends Vue {
   loading = false;
 
   async getMeetingList() {
+    const m = new Meeting();
+    m.projectUUID = this.currentProject.id;
     this.meetingList = await MeetingService.getMeetingList(
       this.options.page,
-      this.options.itemsPerPage
+      this.options.itemsPerPage,
+      m
     );
   }
 
   async createMeeting() {
     if (this.newMeeting.name) {
+      this.newMeeting.projectUUID = this.currentProject.id;
       try {
         await MeetingService.createMeeting(this.newMeeting);
         this.$snack('创建成功');

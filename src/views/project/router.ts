@@ -113,6 +113,15 @@ const router = new Router({
           component: () => import('@/views/project/meeting/Info.vue')
         },
         {
+          path: '/visa',
+          meta: '例会',
+          component: () => import('@/views/project/visa/Visa.vue')
+        },
+        {
+          path: '/visa/:visaID',
+          component: () => import('@/views/project/visa/Info.vue')
+        },
+        {
           path: '/document',
           meta: '项目文件',
           component: () => import('@/views/project/document/Document.vue')

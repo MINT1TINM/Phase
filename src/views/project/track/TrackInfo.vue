@@ -269,9 +269,11 @@ export default class ProjectTrackInfo extends Vue {
   }
 
   async uploadFile(v: any) {
-    const rsp = await FileService.uploadFile(v, '', '');
-    this.track.file.unshift(rsp.path);
-    this.updateTrack();
+    if (v) {
+      const rsp = await FileService.uploadFile(v, '', '');
+      this.track.file.unshift(rsp.path);
+      this.updateTrack();
+    }
   }
 
   async removeFile(v: string) {
@@ -280,13 +282,15 @@ export default class ProjectTrackInfo extends Vue {
   }
 
   async uploadProblemFile(v: any) {
-    const rsp = await FileService.uploadFile(v, '', '');
-    if (!this.track.extraInfo.problemFile) {
-      this.track.extraInfo.problemFile = [];
-    }
+    if (v) {
+      const rsp = await FileService.uploadFile(v, '', '');
+      if (!this.track.extraInfo.problemFile) {
+        this.track.extraInfo.problemFile = [];
+      }
 
-    this.track.extraInfo.problemFile.unshift(rsp.path);
-    this.updateTrack();
+      this.track.extraInfo.problemFile.unshift(rsp.path);
+      this.updateTrack();
+    }
   }
 
   async removeProblemFile(v: string) {
@@ -297,10 +301,12 @@ export default class ProjectTrackInfo extends Vue {
   }
 
   async uploadLiveFile(v: any) {
-    const rsp = await FileService.uploadFile(v, '', '');
+    if (v) {
+      const rsp = await FileService.uploadFile(v, '', '');
 
-    this.track.liveFile.unshift(rsp.path);
-    this.updateTrack();
+      this.track.liveFile.unshift(rsp.path);
+      this.updateTrack();
+    }
   }
 
   async removeLiveFile(v: string) {
