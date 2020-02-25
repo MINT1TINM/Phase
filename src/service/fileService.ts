@@ -50,7 +50,10 @@ class FileService {
 
     const rsp = await basicService.postRequest('/file', fileForm);
     // store.commit("system/updateUploadPercent", 0);
-    return rsp;
+    return rsp as {
+      path: string;
+      msg: string;
+    };
   }
 
   public static async uploadFileLegacy(

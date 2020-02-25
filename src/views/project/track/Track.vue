@@ -42,6 +42,10 @@
         }}</v-chip>
       </template>
 
+      <template v-slot:item.trackDate="{ item }">
+        {{ item.trackDate | format('yyyy-MM-dd') }}
+      </template>
+
       <template v-slot:item.createdAt="{ item }">
         {{ item.createdAt | format('yyyy-MM-dd hh:mm:ss') }}
       </template>
@@ -144,7 +148,7 @@ export default class ProjectTrack extends Vue {
   }
 
   showInfo(v: Track) {
-    this.$router.push({ path: `/track/${v.id}/timeline` });
+    this.$router.push({ path: `/track/${v.id}` });
   }
 
   mounted() {

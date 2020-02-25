@@ -227,7 +227,7 @@ export default class ComponentName extends Vue {
       100
     );
     if (rsp.msg === 'failed') {
-      this.$snack('🤔该服务已下线');
+      this.$snack('🤔工作流服务已下线');
     } else {
       this.instanceList = rsp.instance;
     }

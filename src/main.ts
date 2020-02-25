@@ -17,6 +17,14 @@ import UserChip from '@/plugins/vuetify-plugins/user-chip/Main.vue';
 import DocIcon from '@/plugins/vuetify-plugins/doc-icon/Main.vue';
 import TimeLine from '@/plugins/vuetify-plugins/dim-timeline/Main.vue';
 
+import 'viewerjs/dist/viewer.css';
+import Viewer from 'v-viewer';
+Viewer.setDefaults({
+  toolbar: false,
+  navbar: false
+});
+Vue.use(Viewer);
+
 Vue.component('user-chip', UserChip);
 Vue.component('dim-form', DimForm);
 Vue.component('app-bar', Appbar);

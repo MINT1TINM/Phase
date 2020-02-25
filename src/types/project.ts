@@ -279,6 +279,15 @@ class Payment {
 }
 
 class Track {
+  constructor() {
+    this.extraInfo = {
+      checkFlowID: 0,
+      checked: false,
+      problem: false,
+      problemDesc: '',
+      problemFile: []
+    };
+  }
   id!: string;
   createdAt!: string;
   name!: string;
@@ -287,15 +296,19 @@ class Track {
   userCache!: UserCache;
   trackDate!: string;
   tracker!: string;
-  description!: string;
-  file!: string[];
-  liveDescription!: string;
-  liveFile!: string[];
-  liveComment!: string;
+  description!: string; // 总结
+  file!: string[]; // 现场照片
+  liveDescription!: string; // 现场描述
+  liveFile!: string[]; // 截图
+  liveComment!: string; // 要求文本
   status!: boolean;
   extraInfo!: {
     checkFlowID: number;
     checked: boolean;
+
+    problem: boolean;
+    problemDesc: string;
+    problemFile: string[];
   };
 }
 
