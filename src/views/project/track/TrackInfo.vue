@@ -1,17 +1,24 @@
 <template>
   <div>
     <v-toolbar dense>
-      <v-toolbar-title class="subtitle-1 font-weight-black">{{
-        track.name
-      }}</v-toolbar-title>
+      <v-toolbar-title class="subtitle-1 font-weight-black"
+        >{{ track.name }} 跟踪日志</v-toolbar-title
+      >
       <v-spacer></v-spacer>
+      <v-btn @click="updateTrack" text>
+        <v-icon size="20" class="mr-2">mdi-content-save-outline </v-icon>保存
+      </v-btn>
       <v-btn icon @click="$router.push({ path: `/track` })"
         ><v-icon size="20">mdi-close</v-icon></v-btn
       >
     </v-toolbar>
-    <v-container fluid>
-      <v-row>
-        <v-col cols="4">
+    <v-container
+      fluid
+      style="height:calc(100vh - 96px)"
+      class="overflow-y-auto"
+    >
+      <v-row justify="center">
+        <v-col cols="8">
           <v-card>
             <v-toolbar dense color="transparent" flat>
               <v-toolbar-title class="body-2 font-weight-black">
@@ -20,21 +27,6 @@
             </v-toolbar>
             <v-container fluid>
               <dim-form :target="track" :formContent="infoContent"></dim-form>
-              <v-row no-gutters justify="center">
-                <v-col cols="6">
-                  <v-btn
-                    @click="updateTrack"
-                    rounded
-                    block
-                    depressed
-                    color="primary darken-1"
-                  >
-                    <v-icon size="20" class="mr-2"
-                      >mdi-content-save-outline </v-icon
-                    >保存
-                  </v-btn>
-                </v-col>
-              </v-row>
             </v-container>
           </v-card>
         </v-col>
@@ -136,6 +128,7 @@
                                 ... {{ item.slice(-15) }}
                               </div>
                               <v-spacer></v-spacer>
+
                               <v-btn icon small @click="removeLiveFile(item)"
                                 ><v-icon size="20">mdi-close</v-icon></v-btn
                               >
@@ -172,9 +165,67 @@
                     v-model="track.extraInfo.problemDesc"
                     dense
                   ></v-textarea>
+
+                  <v-col cols="12">
+                    <v-subheader class="pl-0">依据文件</v-subheader>
+                    <v-file-input
+                      outlined
+                      dense
+                      hide-details
+                      label="依据文件"
+                      @change="uploadProblemFile"
+                    ></v-file-input>
+                  </v-col>
+                  <v-list dense>
+                    <v-list-item
+                      v-for="(item, i) in track.extraInfo.problemFile"
+                      :key="`pf-${i}`"
+                    >
+                      <v-list-item-action>
+                        <v-btn icon small @click="downloadFile(item)"
+                          ><v-icon size="20"
+                            >mdi-download-outline</v-icon
+                          ></v-btn
+                        >
+                      </v-list-item-action>
+                      <v-list-item-title>{{ item }}</v-list-item-title>
+
+                      <v-list-item-action>
+                        <v-btn
+                          icon
+                          small
+                          color="error"
+                          @click="removeProblemFile(item)"
+                          ><v-icon>mdi-close</v-icon></v-btn
+                        >
+                      </v-list-item-action>
+                    </v-list-item>
+                  </v-list>
                 </v-col>
               </v-row>
             </v-container>
+          </v-card>
+        </v-col>
+        <v-col cols="8">
+          <v-card>
+            <v-toolbar dense flat color="transparent">
+              <v-toolbar-title class="body-2 font-weight-black"
+                >⚠️危险</v-toolbar-title
+              >
+            </v-toolbar>
+            <v-row justify="center">
+              <v-col cols="6">
+                <v-btn
+                  @click="deleteTrack"
+                  color="error darken-1"
+                  depressed
+                  rounded
+                  block
+                  ><v-icon class="mr-2" size="20">mdi-delete-outline</v-icon
+                  >删除</v-btn
+                >
+              </v-col>
+            </v-row>
           </v-card>
         </v-col>
       </v-row>
@@ -228,8 +279,26 @@ export default class ProjectTrackInfo extends Vue {
     this.updateTrack();
   }
 
+  async uploadProblemFile(v: any) {
+    const rsp = await FileService.uploadFile(v, '', '');
+    if (!this.track.extraInfo.problemFile) {
+      this.track.extraInfo.problemFile = [];
+    }
+
+    this.track.extraInfo.problemFile.unshift(rsp.path);
+    this.updateTrack();
+  }
+
+  async removeProblemFile(v: string) {
+    this.track.extraInfo.problemFile = this.track.extraInfo.problemFile.filter(
+      e => e !== v
+    );
+    this.updateTrack();
+  }
+
   async uploadLiveFile(v: any) {
     const rsp = await FileService.uploadFile(v, '', '');
+
     this.track.liveFile.unshift(rsp.path);
     this.updateTrack();
   }
@@ -237,6 +306,27 @@ export default class ProjectTrackInfo extends Vue {
   async removeLiveFile(v: string) {
     this.track.liveFile = this.track.liveFile.filter(e => e !== v);
     this.updateTrack();
+  }
+
+  async deleteTrack() {
+    const c = await this.$confirm('此操作无法恢复', {
+      title: '确认删除？',
+      buttonTrueColor: 'error',
+      dark: this.$vuetify.theme.dark
+    });
+    if (c) {
+      try {
+        await TrackService.deleteTrack(this.$route.params.trackID);
+        this.$router.push({ path: '/track' });
+        this.$snack('删除成功');
+      } catch (_) {
+        this.$snack('删除失败');
+      }
+    }
+  }
+
+  downloadFile(v: string) {
+    FileService.downloadFileFromFs(v);
   }
 
   get staticURL() {
