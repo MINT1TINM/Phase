@@ -94,6 +94,13 @@ export default class ProjectIndex extends Vue {
         condition: this.currentProject.extraInfo.started
       },
       {
+        icon: 'mdi-account-multiple-outline',
+        name: '例会',
+        route: '/meeting',
+        role: ['r'],
+        condition: this.currentProject.extraInfo.started
+      },
+      {
         icon: 'mdi-cart-outline',
         name: '材料',
         route: '/material',

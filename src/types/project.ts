@@ -337,6 +337,32 @@ class Material {
   companyUUID!: string;
 }
 
+class Meeting {
+  constructor() {
+    this.attend = {
+      data: []
+    };
+  }
+
+  id!: string;
+  createdAt!: string;
+  name!: string;
+  time!: string;
+  file!: string;
+  pic!: string[];
+  description!: string;
+  attend!: {
+    data: any[];
+  };
+  extraInfo!: {
+    checkFlowID: number;
+    checked: boolean;
+  };
+  userUUID!: string;
+  userCache!: UserCache;
+  projectUUID!: string;
+}
+
 export {
   Project,
   ProjectMember,
@@ -349,5 +375,6 @@ export {
   Contract,
   Payment,
   Track,
-  Material
+  Material,
+  Meeting
 };

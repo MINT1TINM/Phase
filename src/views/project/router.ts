@@ -104,6 +104,15 @@ const router = new Router({
           component: () => import('@/views/project/track/TrackInfo.vue')
         },
         {
+          path: '/meeting',
+          meta: '例会',
+          component: () => import('@/views/project/meeting/Meeting.vue')
+        },
+        {
+          path: '/meeting/:meetingID',
+          component: () => import('@/views/project/meeting/Info.vue')
+        },
+        {
           path: '/document',
           meta: '项目文件',
           component: () => import('@/views/project/document/Document.vue')
