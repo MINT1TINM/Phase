@@ -341,7 +341,7 @@ export default class ProjectHome extends Vue {
   templateInfo: ProjectTemplate = new ProjectTemplate();
   currentTemplateID: string = '';
   newProjectName: string = '';
-  tab = null;
+  tab = 'tab-1';
   assignDialog = false;
 
   @projectModule.Getter('projectList') projectList!: Project[];
