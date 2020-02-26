@@ -46,7 +46,7 @@
                   :key="`file-${i}`"
                 >
                   <v-card outlined flat>
-                    <img v-viewer :src="staticURL + item" />
+                    <v-img v-viewer :src="staticURL + item"></v-img>
                     <v-toolbar dense flat color="transparent">
                       <div class="caption pa-2">... {{ item.slice(-15) }}</div>
                       <v-spacer></v-spacer>
