@@ -114,6 +114,12 @@ export default class ProjectVisaInfo extends Vue {
         name: 'appCode'
       },
       {
+        type: 'select',
+        title: '状态',
+        name: 'status',
+        disabled: true
+      },
+      {
         type: 'text-field',
         title: '送审金额',
         name: 'amount',

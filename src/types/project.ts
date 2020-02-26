@@ -373,6 +373,7 @@ class Visa {
   checkAmount!: number;
   description!: string;
   file!: string[];
+  status!: string;
   extraInfo!: {
     checkFlowID: number;
   };

@@ -4,6 +4,40 @@
       <v-toolbar-title class="subtitle-1 font-weight-black"
         >签证变更</v-toolbar-title
       >
+
+      <v-select
+        class="ml-4 body-2"
+        :items="appTypeList"
+        v-model="options.appType"
+        dense
+        label="类型"
+        outlined
+        style="max-width:250px"
+        single-line
+        hide-details
+      ></v-select>
+
+      <v-select
+        class="ml-4 body-2"
+        :items="statusList"
+        v-model="options.status"
+        dense
+        label="状态"
+        outlined
+        style="max-width:250px"
+        single-line
+        hide-details
+      ></v-select>
+
+      <v-btn
+        icon
+        @click="
+          options.appType = '';
+          options.status = '';
+        "
+        ><v-icon size="20">mdi-close</v-icon></v-btn
+      >
+
       <v-spacer></v-spacer>
 
       <v-divider vertical class="mx-2"></v-divider>
@@ -50,24 +84,12 @@
       <template v-slot:item.createdAt="{ item }">
         {{ item.createdAt | format('yyyy-MM-dd hh:mm:ss') }}
       </template>
-
-      <template v-slot:item.status="{ item }">
-        <div v-if="item.extraInfo.checked">已审核</div>
-        <div
-          v-else-if="
-            !item.extraInfo.checked && item.extraInfo.checkFlowID != ''
-          "
-        >
-          待审核
-        </div>
-        <div v-else>待提交</div>
-      </template>
     </v-data-table>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Visa, Project } from '@/types/project';
 import VisaService from '@/service/visaService';
 import { namespace } from 'vuex-class';
@@ -88,15 +110,32 @@ export default class ProjectVisa extends Vue {
   ];
 
   visaList: Visa[] = [];
-  options: { page: number; itemsPerPage: number } = {
+  options: {
+    page: number;
+    itemsPerPage: number;
+    appType: string;
+    status: string;
+  } = {
     page: 1,
-    itemsPerPage: 20
+    itemsPerPage: 20,
+    appType: '',
+    status: ''
   };
   loading = false;
+  appTypeList = ['签证', '变更', '批价', '招标文件'];
+  statusList = [
+    '待提交',
+    '待审计组受理',
+    '待投资审计审核',
+    '待审计组审核',
+    '已审核'
+  ];
 
   async getVisaList() {
     const v = new Visa();
     v.projectUUID = this.currentProject.id;
+    v.appType = this.options.appType;
+    v.status = this.options.status;
     this.visaList = await VisaService.getVisaList(
       this.options.page,
       this.options.itemsPerPage,
@@ -108,6 +147,7 @@ export default class ProjectVisa extends Vue {
     const v = new Visa();
     v.name = '未命名';
     v.appCode = '待填写';
+    v.status = '待提交';
     v.projectUUID = this.currentProject.id;
     try {
       await VisaService.createVisa(v);
@@ -121,6 +161,11 @@ export default class ProjectVisa extends Vue {
 
   showInfo(v: Visa) {
     this.$router.push({ path: `/visa/${v.id}` });
+  }
+
+  @Watch('options', { deep: true })
+  onChanged() {
+    this.getVisaList();
   }
 
   mounted() {

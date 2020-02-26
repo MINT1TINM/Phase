@@ -14,7 +14,9 @@ class VisaService {
     const rsp = await BasicService.getRequest('/visa', {
       page,
       size,
-      projectUUID: c?.projectUUID
+      projectUUID: c?.projectUUID,
+      appType: c?.appType,
+      status: c?.status
     });
     if (rsp.msg === 'success') {
       return Promise.resolve(rsp.visa as Visa[]);
