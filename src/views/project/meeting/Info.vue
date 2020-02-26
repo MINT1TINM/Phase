@@ -39,22 +39,24 @@
               ></v-file-input>
             </v-col>
             <v-container fluid class="pt-0">
-              <v-col
-                cols="4"
-                v-for="(item, i) in meeting.pic"
-                :key="`file-${i}`"
-              >
-                <v-card outlined flat>
-                  <img v-viewer :src="staticURL + item" />
-                  <v-toolbar dense flat color="transparent">
-                    <div class="caption pa-2">... {{ item.slice(-15) }}</div>
-                    <v-spacer></v-spacer>
-                    <v-btn icon small @click="removeFile(item)"
-                      ><v-icon size="20">mdi-close</v-icon></v-btn
-                    >
-                  </v-toolbar>
-                </v-card>
-              </v-col>
+              <v-row dense>
+                <v-col
+                  cols="4"
+                  v-for="(item, i) in meeting.pic"
+                  :key="`file-${i}`"
+                >
+                  <v-card outlined flat>
+                    <img v-viewer :src="staticURL + item" />
+                    <v-toolbar dense flat color="transparent">
+                      <div class="caption pa-2">... {{ item.slice(-15) }}</div>
+                      <v-spacer></v-spacer>
+                      <v-btn icon small @click="removeFile(item)"
+                        ><v-icon size="20">mdi-close</v-icon></v-btn
+                      >
+                    </v-toolbar>
+                  </v-card>
+                </v-col>
+              </v-row>
             </v-container>
           </v-card>
         </v-col>
