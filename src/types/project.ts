@@ -361,6 +361,7 @@ class Meeting {
   userUUID!: string;
   userCache!: UserCache;
   projectUUID!: string;
+  status!: string;
 }
 
 class Visa {

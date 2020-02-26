@@ -16,7 +16,7 @@ class MeetingService {
       page,
       size,
       projectUUID: c?.projectUUID,
-      name: c?.name
+      status: c?.status
     });
     if (rsp.msg === 'success') {
       return Promise.resolve(rsp.meeting as Meeting[]);
