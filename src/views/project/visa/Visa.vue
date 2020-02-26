@@ -77,6 +77,14 @@
         >
       </template>
 
+      <template v-slot:item.amount="{ item }">
+        ¥ {{ item.amount.toFixed(2) }}
+      </template>
+
+      <template v-slot:item.checkAmount="{ item }">
+        ¥ {{ item.checkAmount.toFixed(2) }}
+      </template>
+
       <template v-slot:item.date="{ item }">
         {{ item.date | format('yyyy-MM-dd') }}
       </template>
