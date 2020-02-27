@@ -2,11 +2,18 @@
   <div>
     <v-toolbar dense>
       <v-toolbar-title class="subtitle-1 font-weight-black"
-        >{{ track.name }} 跟踪日志</v-toolbar-title
-      >
+        >{{ track.name }}
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn @click="updateTrack" text>
-        <v-icon size="20" class="mr-2">mdi-content-save-outline </v-icon>保存
+        <v-icon size="20" class="mr-2">mdi-content-save-outline</v-icon>保存
+      </v-btn>
+      <v-btn
+        v-if="workflowInstance.nodeID == '开始' && track.extraInfo.checkFlowID"
+        @click="submitCheck"
+        text
+      >
+        <v-icon size="20" class="mr-2">mdi-check</v-icon>提交审批
       </v-btn>
       <v-btn icon @click="$router.push({ path: `/track` })"
         ><v-icon size="20">mdi-close</v-icon></v-btn
@@ -259,11 +266,24 @@ import TrackService from '@/service/trackService';
 import FileService from '@/service/fileService';
 import CompanyService from '@/service/companyService';
 import { SupplierMember } from '@/types/company';
+import { Instance, FlowLinkTask, Flow } from '@/types/workflow';
+import WorkflowService from '@/service/workflowService';
+import { namespace } from 'vuex-class';
+import { Authorization, UserInfo } from '@/types/user';
+
+const userModule = namespace('user');
 
 @Component
 export default class ProjectTrackInfo extends Vue {
+  @userModule.Getter('authorization')
+  authorization!: Authorization;
+  @userModule.Getter('userInfo')
+  userInfo!: UserInfo;
+
   track: Track = new Track();
   memberList: SupplierMember[] = [];
+  workflowInstance: Instance = new Instance();
+  flowDef: Flow = new Flow();
 
   get infoContent() {
     return [
@@ -363,6 +383,79 @@ export default class ProjectTrackInfo extends Vue {
     FileService.downloadFileFromFs(v);
   }
 
+  async submitCheck() {
+    if (this.track.extraInfo.checkFlowID) {
+      const l = new FlowLinkTask();
+      l.extraInfo = {
+        type: 'track',
+        comment: '提交审核',
+        track: this.track
+      };
+
+      try {
+        await WorkflowService.handleTask(
+          this.workflowInstance.taskID,
+          this.authorization.userID,
+          this.userInfo.nickName,
+          true,
+          this.workflowInstance.id,
+          '提交审核',
+          this.workflowInstance.procDefId,
+          l
+        );
+        this.$snack('提交成功');
+        this.getFlow();
+      } catch (err) {
+        this.$snack('提交失败');
+      }
+    } else {
+      const l = new FlowLinkTask();
+      l.extraInfo = {
+        type: 'track',
+        comment: '提交审核',
+        track: this.track
+      };
+
+      try {
+        const rsp = await WorkflowService.createWorkflowInstance(
+          8,
+          this.authorization.userID,
+          this.userInfo.nickName,
+          '个人',
+          l
+        );
+
+        this.track.extraInfo.checkFlowID = rsp.id;
+        this.track.status = '待审核';
+        await this.updateTrack();
+        this.$snack('提交成功');
+      } catch (_) {
+        this.$snack('提交失败');
+      }
+    }
+  }
+
+  async getFlow() {
+    if (this.track.extraInfo.checkFlowID) {
+      this.workflowInstance = {
+        ...new Instance(),
+        ...(
+          await WorkflowService.getWorkflowInstance(
+            this.track.extraInfo.checkFlowID
+          )
+        ).instance
+      };
+
+      this.flowDef = await WorkflowService.getFlowDef(
+        this.workflowInstance.procDefId
+      );
+
+      console.log(JSON.parse(this.flowDef.resource));
+    } else {
+      this.workflowInstance = new Instance();
+    }
+  }
+
   @Watch('companyID')
   async onCompanyIDChanged() {
     this.memberList = (
@@ -378,8 +471,9 @@ export default class ProjectTrackInfo extends Vue {
     return process.env.VUE_APP_STATIC_URL;
   }
 
-  mounted() {
-    this.getTrack();
+  async mounted() {
+    await this.getTrack();
+    this.getFlow();
   }
 }
 </script>

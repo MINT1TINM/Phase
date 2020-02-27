@@ -3,6 +3,14 @@ import { Instance, Flow, Event, FlowLinkTask } from '@/types/workflow';
 const uuidv1 = require('uuid/v1');
 
 class WorkflowService {
+  static async getFlowDef(id: number) {
+    const rsp = await basicService.getRequest('/workflow/flow/def', {
+      id
+    });
+
+    return rsp.flowdef as Flow;
+  }
+
   static async getWorkflowList(page: number, size: number, name?: string) {
     const rsp = await basicService.getRequest('/workflow/flow/list', {
       page,

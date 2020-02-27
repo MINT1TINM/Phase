@@ -17,6 +17,15 @@
       :comment="linkTask.extraInfo.comment"
       :hasAccess="hasAccess"
     ></AssignAudit>
+
+    <ProjectTrack
+      v-if="linkTask.extraInfo && linkTask.extraInfo.type === 'track'"
+      :instance="instance"
+      @updateTimeline="$emit('updateTimeline')"
+      :track="linkTask.extraInfo.track"
+      :comment="linkTask.extraInfo.comment"
+      :hasAccess="hasAccess"
+    ></ProjectTrack>
   </div>
 </template>
 
@@ -27,12 +36,15 @@ import WorkflowService from '@/service/workflowService';
 
 import ProjectInfo from '@/components/flow/ProjectInfo.vue';
 import AssignAudit from '@/components/flow/AssignAudit.vue';
-import CompanyService from '../../service/companyService';
+import ProjectTrack from '@/components/flow/Track.vue';
+
+import CompanyService from '@/service/companyService';
 
 @Component({
   components: {
     ProjectInfo,
-    AssignAudit
+    AssignAudit,
+    ProjectTrack
   }
 })
 export default class FlowInstaceTaskInfo extends Vue {

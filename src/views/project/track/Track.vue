@@ -66,14 +66,7 @@
       </template>
 
       <template v-slot:item.status="{ item }">
-        <div v-if="item.extraInfo.checked">已审核</div>
-        <div
-          v-else-if="
-            !item.extraInfo.checked && item.extraInfo.checkFlowID != ''
-          "
-        >
-          待审核
-        </div>
+        <div v-if="item.extraInfo.checkFlowID">{{ item.status }}</div>
         <div v-else>待提交</div>
       </template>
     </v-data-table>

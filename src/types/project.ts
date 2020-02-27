@@ -315,7 +315,7 @@ class Track {
   liveDescription!: string; // 现场描述
   liveFile!: string[]; // 截图
   liveComment!: string; // 要求文本
-  status!: boolean;
+  status!: string;
   extraInfo!: {
     checkFlowID: number;
     checked: boolean;
