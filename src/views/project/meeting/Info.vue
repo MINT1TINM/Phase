@@ -8,6 +8,18 @@
       <v-btn @click="updateMeeting" text>
         <v-icon size="20" class="mr-2">mdi-content-save-outline </v-icon>保存
       </v-btn>
+      <v-btn
+        v-if="
+          workflowInstance.nodeID == '开始' && meeting.extraInfo.checkFlowID
+        "
+        @click="submitCheck"
+        text
+      >
+        <v-icon size="20" class="mr-2">mdi-check</v-icon>提交审批
+      </v-btn>
+      <v-btn v-if="!meeting.extraInfo.checkFlowID" @click="submitCheck" text>
+        <v-icon size="20" class="mr-2">mdi-check</v-icon>提交审批
+      </v-btn>
       <v-btn icon @click="$router.push({ path: `/meeting` })"
         ><v-icon size="20">mdi-close</v-icon></v-btn
       >
@@ -93,10 +105,23 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Meeting } from '@/types/project';
 import MeetingService from '@/service/meetingService';
 import FileService from '@/service/fileService';
+import { FlowLinkTask, Instance, Flow } from '@/types/workflow';
+import WorkflowService from '@/service/workflowService';
+import { namespace } from 'vuex-class';
+import { Authorization, UserInfo } from '@/types/user';
+
+const userModule = namespace('user');
 
 @Component
 export default class ProjectMeetingInfo extends Vue {
+  @userModule.Getter('authorization')
+  authorization!: Authorization;
+  @userModule.Getter('userInfo')
+  userInfo!: UserInfo;
+
   meeting: Meeting = new Meeting();
+  workflowInstance: Instance = new Instance();
+  flowDef: Flow = new Flow();
 
   get infoContent() {
     return [
@@ -186,12 +211,87 @@ export default class ProjectMeetingInfo extends Vue {
     this.updateMeeting();
   }
 
+  async getFlow() {
+    if (this.meeting.extraInfo.checkFlowID) {
+      this.workflowInstance = {
+        ...new Instance(),
+        ...(
+          await WorkflowService.getWorkflowInstance(
+            this.meeting.extraInfo.checkFlowID
+          )
+        ).instance
+      };
+
+      this.flowDef = await WorkflowService.getFlowDef(
+        this.workflowInstance.procDefId
+      );
+
+      console.log(JSON.parse(this.flowDef.resource));
+    } else {
+      this.workflowInstance = new Instance();
+    }
+  }
+
+  async submitCheck() {
+    if (this.meeting.extraInfo.checkFlowID) {
+      const l = new FlowLinkTask();
+      l.extraInfo = {
+        type: 'meeting',
+        comment: '提交审核',
+        meeting: this.meeting
+      };
+
+      try {
+        await WorkflowService.handleTask(
+          this.workflowInstance.taskID,
+          this.authorization.userID,
+          this.userInfo.nickName,
+          true,
+          this.workflowInstance.id,
+          '提交审核',
+          this.workflowInstance.procDefId,
+          l
+        );
+        this.$snack('提交成功');
+        await this.getFlow();
+        await this.updateMeeting();
+      } catch (err) {
+        this.$snack('提交失败');
+      }
+    } else {
+      const l = new FlowLinkTask();
+      l.extraInfo = {
+        type: 'meeting',
+        comment: '提交审核',
+        meeting: this.meeting
+      };
+
+      try {
+        const rsp = await WorkflowService.createWorkflowInstance(
+          9,
+          this.authorization.userID,
+          this.userInfo.nickName,
+          '个人',
+          l
+        );
+
+        this.meeting.extraInfo.checkFlowID = rsp.id;
+        this.meeting.status = '待审核';
+        this.updateMeeting();
+        this.$snack('提交成功');
+      } catch (_) {
+        this.$snack('提交失败');
+      }
+    }
+  }
+
   get staticURL() {
     return process.env.VUE_APP_STATIC_URL;
   }
 
-  mounted() {
-    this.getMeeting();
+  async mounted() {
+    await this.getMeeting();
+    this.getFlow();
   }
 }
 </script>

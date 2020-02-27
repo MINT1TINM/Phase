@@ -285,12 +285,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Instance, FlowLinkTask } from '@/types/workflow';
+import { Instance, FlowLinkTask, Flow } from '@/types/workflow';
 import { namespace } from 'vuex-class';
 import { Authorization, UserInfo } from '@/types/user';
 import WorkflowService from '@/service/workflowService';
 import { Track } from '@/types/project';
-import TrackService from '../../service/trackService';
+import TrackService from '@/service/trackService';
 
 const userModule = namespace('user');
 
@@ -307,7 +307,7 @@ export default class FlowTrack extends Vue {
   finishDialog = false;
   commentDialog = false;
   newComment = '';
-  flowDef: any = null;
+  flowDef: Flow = new Flow();
 
   get list() {
     return [
@@ -362,6 +362,7 @@ export default class FlowTrack extends Vue {
       this.$router.push({ path: '/' });
 
       this.track.status = '已审核';
+      this.track.extraInfo.checkFlowID = this.instance.id;
       await TrackService.updateTrack(this.track);
     } catch (err) {}
   }
@@ -389,6 +390,7 @@ export default class FlowTrack extends Vue {
       );
 
       this.track.status = '待提交';
+      this.track.extraInfo.checkFlowID = this.instance.id;
       await TrackService.updateTrack(this.track);
 
       this.$router.push({ path: '/todo' });

@@ -356,6 +356,9 @@ class Meeting {
     this.attend = {
       data: []
     };
+    this.extraInfo = {
+      checkFlowID: 0
+    };
   }
 
   id!: string;
@@ -370,7 +373,6 @@ class Meeting {
   };
   extraInfo!: {
     checkFlowID: number;
-    checked: boolean;
   };
   userUUID!: string;
   userCache!: UserCache;

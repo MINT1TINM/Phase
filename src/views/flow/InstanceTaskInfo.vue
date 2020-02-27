@@ -26,6 +26,15 @@
       :comment="linkTask.extraInfo.comment"
       :hasAccess="hasAccess"
     ></ProjectTrack>
+
+    <ProjectMeeting
+      v-if="linkTask.extraInfo && linkTask.extraInfo.type === 'meeting'"
+      :instance="instance"
+      @updateTimeline="$emit('updateTimeline')"
+      :meeting="linkTask.extraInfo.meeting"
+      :comment="linkTask.extraInfo.comment"
+      :hasAccess="hasAccess"
+    ></ProjectMeeting>
   </div>
 </template>
 
@@ -37,6 +46,7 @@ import WorkflowService from '@/service/workflowService';
 import ProjectInfo from '@/components/flow/ProjectInfo.vue';
 import AssignAudit from '@/components/flow/AssignAudit.vue';
 import ProjectTrack from '@/components/flow/Track.vue';
+import ProjectMeeting from '@/components/flow/Meeting.vue';
 
 import CompanyService from '@/service/companyService';
 
@@ -44,7 +54,8 @@ import CompanyService from '@/service/companyService';
   components: {
     ProjectInfo,
     AssignAudit,
-    ProjectTrack
+    ProjectTrack,
+    ProjectMeeting
   }
 })
 export default class FlowInstaceTaskInfo extends Vue {

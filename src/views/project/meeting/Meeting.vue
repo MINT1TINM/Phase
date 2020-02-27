@@ -75,6 +75,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Meeting, Project } from '@/types/project';
 import MeetingService from '@/service/meetingService';
 import { namespace } from 'vuex-class';
+import WorkflowService from '@/service/workflowService';
 
 const projectModule = namespace('project');
 
