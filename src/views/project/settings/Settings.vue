@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-row>
+    <v-row justify="center">
       <v-col cols="6">
         <v-row no-gutters>
           <v-col cols="12">
@@ -160,7 +160,7 @@
             </v-card>
           </v-col>
 
-          <v-col cols="12" class="mt-6">
+          <v-col cols="12" class="mt-6" v-if="projectType == 0">
             <v-card>
               <v-toolbar dense flat class="transparent">
                 <v-toolbar-title class="body-2 font-weight-black">
@@ -214,7 +214,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="6" v-if="projectType == 0">
         <v-row no-gutters>
           <v-col cols="12" class="mb-6">
             <v-card>
@@ -422,7 +422,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import ProjectService from '@/service/projectService';
 import { Project, ProjectExtraInfo } from '@/types/project';
@@ -512,6 +512,17 @@ export default class Settings extends Vue {
         name: 'address'
       },
       {
+        type: 'multi-select-no-wrap',
+        title: '经费来源',
+        name: 'fundSource',
+        list: ['国拨资金', '学校自筹', '科研经费']
+      },
+      {
+        type: 'text-field',
+        title: '经费账号',
+        name: 'fundAccount'
+      },
+      {
         type: 'text-field',
         title: '审计处立项编号',
         name: 'auditCode'
@@ -524,7 +535,9 @@ export default class Settings extends Vue {
       {
         type: 'text-field',
         title: '投资总额',
-        name: 'investment'
+        name: 'investment',
+        prependIcon: '¥',
+        inputType: 'number'
       },
       {
         type: 'text-field',
@@ -537,14 +550,20 @@ export default class Settings extends Vue {
         name: 'industry'
       },
       {
-        type: 'date-picker',
-        title: '开工日期',
-        name: 'startDate'
-      },
-      {
-        type: 'date-picker',
-        title: '竣工日期',
-        name: 'startDate'
+        type: 'file-input',
+        title: '立项文件',
+        name: 'file',
+        changeFunc: async (v: any) => {
+          if (v) {
+            const rsp = await FileService.uploadFile(v, '', '');
+            this.extraInfo.file = rsp.path;
+            this.updateProjectInfo();
+          }
+        },
+        downFunc: () => {
+          console.log('download');
+          FileService.downloadFileFromFs(this.extraInfo.file);
+        }
       }
     ];
   }
@@ -642,7 +661,9 @@ export default class Settings extends Vue {
             {
               type: 'text-field',
               title: '中标金额',
-              name: 'price'
+              name: 'price',
+              prependIcon: '¥',
+              inputType: 'number'
             },
             {
               type: 'file-input',
@@ -740,7 +761,9 @@ export default class Settings extends Vue {
       {
         type: 'text-field',
         title: '送审金额',
-        name: 'auditPrice'
+        name: 'auditPrice',
+        prependIcon: '¥',
+        inputType: 'number'
       },
       {
         type: 'date-picker',
@@ -826,6 +849,8 @@ export default class Settings extends Vue {
       {
         type: 'text-field',
         title: '审价金额',
+        prependIcon: '¥',
+        inputType: 'number',
         name: 'price'
       },
       {
@@ -841,7 +866,9 @@ export default class Settings extends Vue {
       {
         type: 'text-field',
         title: '乙方审计费',
-        name: 'auditPrice'
+        name: 'auditPrice',
+        prependIcon: '¥',
+        inputType: 'number'
       },
       {
         type: 'file-input',
@@ -896,7 +923,9 @@ export default class Settings extends Vue {
       {
         type: 'text-field',
         title: '审定金额',
-        name: 'price'
+        name: 'price',
+        prependIcon: '¥',
+        inputType: 'number'
       },
       {
         type: 'text-field',
@@ -1030,6 +1059,10 @@ export default class Settings extends Vue {
 
   set extraInfo(v: ProjectExtraInfo) {
     this.extraInfo = v;
+  }
+
+  get projectType() {
+    return this.extraInfo.type;
   }
 
   mounted() {

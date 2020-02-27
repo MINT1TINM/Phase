@@ -97,6 +97,7 @@ class ProjectExtraInfo {
       date: new Date().toISOString().slice(0, 10),
       report: ''
     };
+    this.file = '';
   }
 
   type!: number;
@@ -110,6 +111,10 @@ class ProjectExtraInfo {
   startDate!: string;
   endDate!: string;
   financeCode!: string;
+
+  fundSource!: string[];
+  fundAccount!: any[];
+  file!: string;
 
   // 送审信息
   finishInfo!: {
