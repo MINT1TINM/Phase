@@ -15,16 +15,59 @@
       >
         <v-icon size="20" class="mr-2">mdi-check</v-icon>提交审批
       </v-btn>
+      <v-btn v-if="track.status == ''" @click="submitCheck" text>
+        <v-icon size="20" class="mr-2">mdi-check</v-icon>提交审批
+      </v-btn>
       <v-btn icon @click="$router.push({ path: `/track` })"
         ><v-icon size="20">mdi-close</v-icon></v-btn
       >
     </v-toolbar>
+
     <v-container
       fluid
       style="height:calc(100vh - 96px)"
       class="overflow-y-auto"
     >
       <v-row justify="center">
+        <v-col cols="8">
+          <v-stepper>
+            <v-stepper-header>
+              <v-stepper-step
+                :complete="
+                  workflowInstance.nodeID == '开始' ||
+                    workflowInstance.nodeID == '审计组审批' ||
+                    workflowInstance.nodeID == '结束'
+                "
+                class="body-2"
+                step="1"
+              >
+                完善信息
+              </v-stepper-step>
+
+              <v-divider></v-divider>
+
+              <v-stepper-step
+                :complete="
+                  workflowInstance.nodeID == '审计组审批' ||
+                    workflowInstance.nodeID == '结束'
+                "
+                class="body-2"
+                step="2"
+              >
+                审计处审批中
+              </v-stepper-step>
+
+              <v-divider></v-divider>
+
+              <v-stepper-step
+                step="3"
+                class="body-2"
+                :complete="workflowInstance.nodeID == '结束'"
+                >启动项目</v-stepper-step
+              >
+            </v-stepper-header>
+          </v-stepper>
+        </v-col>
         <v-col cols="8">
           <v-card>
             <v-toolbar dense color="transparent" flat>
