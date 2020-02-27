@@ -201,7 +201,7 @@ import { Authorization, UserInfo } from '@/types/user';
 import SearchSupplier from '@/components/common/search/SearchSupplier.vue';
 import ProjectService from '@/service/projectService';
 import { SupplierMember } from '@/types/company';
-import CompanyService from '../../../service/companyService';
+import CompanyService from '@/service/companyService';
 import FileService from '@/service/fileService';
 
 const projectModule = namespace('project');

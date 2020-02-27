@@ -8,7 +8,7 @@
 
       <v-divider vertical class="mx-2"></v-divider>
 
-      <v-btn outlined color="primary" @click="createTrackDialog = true"
+      <v-btn outlined color="primary" @click="createTrack"
         ><v-icon size="20" class="mr-1">mdi-plus</v-icon>创建</v-btn
       >
     </v-toolbar>
@@ -36,6 +36,12 @@
         }}</v-chip>
       </template>
 
+      <template v-slot:item.trackUnit="{ item }">
+        <v-chip small class="caption font-weight-black">{{
+          item.trackUnit.name
+        }}</v-chip>
+      </template>
+
       <template v-slot:item.tracker="{ item }">
         <v-chip small class="caption font-weight-black">{{
           item.trackerCache.nickName
@@ -50,6 +56,15 @@
         {{ item.createdAt | format('yyyy-MM-dd hh:mm:ss') }}
       </template>
 
+      <template v-slot:item.problem="{ item }">
+        <v-chip
+          :color="item.extraInfo.problem ? 'error' : 'primary darken-1'"
+          small
+          class="caption font-weight-black"
+          >{{ item.extraInfo.problem ? '有' : '无' }}</v-chip
+        >
+      </template>
+
       <template v-slot:item.status="{ item }">
         <div v-if="item.extraInfo.checked">已审核</div>
         <div
@@ -62,35 +77,6 @@
         <div v-else>待提交</div>
       </template>
     </v-data-table>
-
-    <v-dialog v-model="createTrackDialog" width="400" persistent>
-      <v-card>
-        <v-toolbar dense flat class="transparent">
-          <v-toolbar-title class="subtitle-1 font-weight-black">
-            创建跟踪记录
-          </v-toolbar-title>
-        </v-toolbar>
-        <v-container fluid>
-          <dim-form
-            dense
-            :target="newTrack"
-            :formContent="trackFormContent"
-          ></dim-form>
-          <v-layout justify-center>
-            <v-btn
-              depressed
-              rounded
-              color="primary darken-1"
-              @click="createTrack"
-              >创建</v-btn
-            >
-            <v-btn @click="createTrackDialog = false" rounded text class="ml-2"
-              >取消</v-btn
-            >
-          </v-layout>
-        </v-container>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
@@ -108,16 +94,10 @@ export default class ProjectTrack extends Vue {
     { text: '跟踪人', value: 'tracker' },
     { text: '创建人', value: 'userUUID' },
     { text: '创建时间', value: 'createdAt' },
+    { text: '问题', value: 'problem' },
     { text: '状态', value: 'status' }
   ];
-  trackFormContent = [
-    {
-      type: 'text-field',
-      name: 'name',
-      title: '名称'
-    }
-  ];
-  createTrackDialog = false;
+
   newTrack = new Track();
   trackList: Track[] = [];
   options: { page: number; itemsPerPage: number } = {
@@ -134,17 +114,15 @@ export default class ProjectTrack extends Vue {
   }
 
   async createTrack() {
-    if (this.newTrack.name) {
-      try {
-        await TrackService.createTrack(this.newTrack);
-        this.$snack('创建成功');
-      } catch (_) {
-        this.$snack('创建失败');
-      }
-      this.createTrackDialog = false;
-      this.newTrack = new Track();
-      this.getTrackList();
+    try {
+      this.newTrack.name = '未命名';
+      await TrackService.createTrack(this.newTrack);
+      this.$snack('创建成功');
+    } catch (_) {
+      this.$snack('创建失败');
     }
+    this.newTrack = new Track();
+    this.getTrackList();
   }
 
   showInfo(v: Track) {

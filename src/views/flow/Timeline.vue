@@ -96,6 +96,11 @@ export default class FlowTimeline extends Vue {
     ).timeline.reverse();
 
     this.timeline = t;
+    if (!this.$route.params.taskID) {
+      this.$router.push({
+        path: `/todo/${this.$route.params.instanceID}/${this.timeline[0].taskID}`
+      });
+    }
   }
 
   async checkAccess() {

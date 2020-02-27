@@ -26,7 +26,26 @@
               </v-toolbar-title>
             </v-toolbar>
             <v-container fluid>
-              <dim-form :target="track" :formContent="infoContent"></dim-form>
+              <SearchSupplier
+                :id.sync="track.trackUnit.id"
+                :name.sync="track.trackUnit.name"
+              ></SearchSupplier>
+
+              <v-text-field
+                hide-details
+                outlined
+                class="mt-3"
+                dense
+                label="跟踪企业"
+                :value="track.trackUnit.name"
+                readonly
+              ></v-text-field>
+
+              <dim-form
+                dense
+                :target="track"
+                :formContent="infoContent"
+              ></dim-form>
             </v-container>
           </v-card>
         </v-col>
@@ -234,19 +253,28 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Track } from '@/types/project';
 import TrackService from '@/service/trackService';
 import FileService from '@/service/fileService';
+import CompanyService from '@/service/companyService';
+import { SupplierMember } from '@/types/company';
 
 @Component
 export default class ProjectTrackInfo extends Vue {
   track: Track = new Track();
+  memberList: SupplierMember[] = [];
 
   get infoContent() {
     return [
-      { type: 'text-field', title: '跟踪单位', name: 'trackUnit' },
-      { type: 'text-field', title: '跟踪人员', name: 'tracker' },
+      {
+        type: 'select',
+        title: '跟踪人员',
+        name: 'tracker',
+        text: 'nickName',
+        value: 'userID',
+        list: this.memberList
+      },
       { type: 'date-picker', title: '跟踪日期', name: 'trackDate' }
     ];
   }
@@ -333,6 +361,17 @@ export default class ProjectTrackInfo extends Vue {
 
   downloadFile(v: string) {
     FileService.downloadFileFromFs(v);
+  }
+
+  @Watch('companyID')
+  async onCompanyIDChanged() {
+    this.memberList = (
+      await CompanyService.getSupplier(this.companyID)
+    ).member.data;
+  }
+
+  get companyID() {
+    return this.track.trackUnit.id;
   }
 
   get staticURL() {

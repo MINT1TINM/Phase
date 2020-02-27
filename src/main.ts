@@ -16,6 +16,7 @@ import SnackBar from '@/plugins/vuetify-plugins/snackbar';
 import UserChip from '@/plugins/vuetify-plugins/user-chip/Main.vue';
 import DocIcon from '@/plugins/vuetify-plugins/doc-icon/Main.vue';
 import TimeLine from '@/plugins/vuetify-plugins/dim-timeline/Main.vue';
+import SearchSupplier from '@/components/common/search/SearchSupplier.vue';
 
 import 'viewerjs/dist/viewer.css';
 import Viewer from 'v-viewer';
@@ -31,6 +32,7 @@ Vue.component('app-bar', Appbar);
 Vue.component('doc-icon', DocIcon);
 Vue.component('app-common', App);
 Vue.component('dim-timeline', TimeLine);
+Vue.component('SearchSupplier', SearchSupplier);
 Vue.use(ConfirmDialog);
 Vue.use(SnackBar);
 

@@ -287,6 +287,10 @@ class Track {
       problemDesc: '',
       problemFile: []
     };
+    this.trackUnit = {
+      id: '',
+      name: ''
+    };
   }
   id!: string;
   createdAt!: string;
@@ -296,6 +300,11 @@ class Track {
   userCache!: UserCache;
   trackDate!: string;
   tracker!: string;
+  trackUnit!: {
+    id: string;
+    name: string;
+  };
+
   description!: string; // 总结
   file!: string[]; // 现场照片
   liveDescription!: string; // 现场描述
