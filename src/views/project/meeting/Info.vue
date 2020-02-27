@@ -17,7 +17,7 @@
       >
         <v-icon size="20" class="mr-2">mdi-check</v-icon>提交审批
       </v-btn>
-      <v-btn v-if="!meeting.extraInfo.checkFlowID" @click="submitCheck" text>
+      <v-btn v-if="meeting.status == '待提交'" @click="submitCheck" text>
         <v-icon size="20" class="mr-2">mdi-check</v-icon>提交审批
       </v-btn>
       <v-btn icon @click="$router.push({ path: `/meeting` })"
@@ -316,6 +316,7 @@ export default class ProjectMeetingInfo extends Vue {
 
         this.meeting.extraInfo.checkFlowID = rsp.id;
         this.meeting.status = '待审核';
+        this.getFlow();
         this.updateMeeting();
         this.$snack('提交成功');
       } catch (_) {
