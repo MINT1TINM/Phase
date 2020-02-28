@@ -97,7 +97,7 @@
           <v-flex xs8 offset-2>
             <v-toolbar dense flat color="transparent">
               <v-toolbar-title class="subtitle-1 font-weight-black"
-                >近期</v-toolbar-title
+                >待办事项</v-toolbar-title
               >
             </v-toolbar>
 
@@ -115,6 +115,15 @@
               </template>
             </v-data-table>
           </v-flex>
+
+          <v-flex xs8 offset-2>
+            <v-toolbar dense flat color="transparent">
+              <v-toolbar-title class="subtitle-1 font-weight-black"
+                >近期</v-toolbar-title
+              >
+            </v-toolbar>
+            <Statistic></Statistic>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-content>
@@ -123,19 +132,19 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
 import { namespace } from 'vuex-class';
+
 import appBar from '@/components/common/app-bar/AppBar.vue';
+import Statistic from '@/components/home/Statistic.vue';
+
 import BasicService from '@/service/basicService';
 import ProjectService from '@/service/projectService';
+import WorkflowService from '@/service/workflowService';
+import CompanyService from '@/service/companyService';
+
 import { Authorization, UserInfo } from '@/types/user';
 import { App } from '@/types/system';
-
-import RecentFile from '@/components/home/RecentFile.vue';
-import WillExpire from '@/components/home/WillExpire.vue';
-import WorkflowService from '../../service/workflowService';
-import CompanyService from '@/service/companyService';
-import { Instance } from '../../types/workflow';
+import { Instance } from '@/types/workflow';
 
 const systemModule = namespace('system');
 const userModule = namespace('user');
@@ -143,8 +152,7 @@ const userModule = namespace('user');
 @Component({
   components: {
     'app-bar': appBar,
-    RecentFile,
-    WillExpire
+    Statistic
   }
 })
 export default class ComponentName extends Vue {
@@ -229,7 +237,7 @@ export default class ComponentName extends Vue {
     if (rsp.msg === 'failed') {
       this.$snack('🤔工作流服务已下线');
     } else {
-      this.instanceList = rsp.instance;
+      this.instanceList = rsp.instance.slice(0, 5);
     }
   }
 
