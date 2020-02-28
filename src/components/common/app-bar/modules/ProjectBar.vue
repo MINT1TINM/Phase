@@ -31,7 +31,7 @@
           </v-container>
           <v-divider></v-divider>
           <v-subheader class="font-weight-black">切换项目</v-subheader>
-          <v-list dense>
+          <v-list dense max-height="500" class="overflow-y-auto">
             <v-list-item
               v-for="item in projectListShow"
               :key="`project-${item.id}`"

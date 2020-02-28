@@ -26,22 +26,12 @@ class ProjectService {
     }
   }
 
-  static async getProjectList() {
-    if (store.getters['user/projectIDList'].length >= 1) {
-      const rsp = await basicService.getRequest('/project/list', {
-        // use array as params
-        id: store.getters['user/projectIDList']
-      });
-      store.commit('project/updateProjectList', rsp.projectList);
-
-      return rsp;
-    }
-    const rsp = {
-      msg: 'success',
-      projectList: []
-    };
-
-    return rsp;
+  static async getProjectList(userID: string) {
+    const rsp = await basicService.getRequest('/project/list', {
+      // use array as params
+      userID
+    });
+    store.commit('project/updateProjectList', rsp.project);
   }
 
   static async getProjectMember(memberList: ProjectMember[]) {

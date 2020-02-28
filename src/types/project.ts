@@ -104,6 +104,7 @@ class ProjectExtraInfo {
   code!: string;
   address!: string;
   location!: string[];
+  area!: string;
   consultTimeRange!: string[];
   tags: { data: string[] };
   industry!: string;
@@ -115,6 +116,8 @@ class ProjectExtraInfo {
   fundSource!: string[];
   fundAccount!: any[];
   file!: string;
+
+  status!: string;
 
   // 送审信息
   finishInfo!: {

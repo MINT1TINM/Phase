@@ -307,6 +307,7 @@
                       <v-container fluid>
                         <SearchSupplier
                           :id.sync="extraInfo.company.projectCompany.id"
+                          :name.sync="extraInfo.company.projectCompany.name"
                         ></SearchSupplier>
                         <dim-form
                           dense
@@ -327,6 +328,7 @@
                       <v-container fluid>
                         <SearchSupplier
                           :id.sync="extraInfo.company.constructCompany.id"
+                          :name.sync="extraInfo.company.constructCompany.name"
                         ></SearchSupplier>
                         <dim-form
                           dense
@@ -500,6 +502,12 @@ export default class Settings extends Vue {
         type: 'text-field',
         title: '编号',
         name: 'code'
+      },
+      {
+        type: 'select',
+        title: '所在校区',
+        name: 'area',
+        list: ['徐汇', '奉贤', '金山']
       },
       {
         type: 'tags',
@@ -741,7 +749,8 @@ export default class Settings extends Vue {
       {
         type: 'text-field',
         title: '企业名称',
-        name: 'name'
+        name: 'name',
+        readonly: true
       },
       {
         type: 'text-field',
@@ -975,7 +984,7 @@ export default class Settings extends Vue {
 
   async updateProjectFolder(v: any) {
     await ProjectService.updateProjectFolder(v, this.currentProjectID);
-    await ProjectService.getProjectList();
+    await ProjectService.getProjectList(this.authorization.userID);
   }
 
   async getProjectFlow() {

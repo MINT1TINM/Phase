@@ -106,9 +106,13 @@
                             <th class="text-left">编号</th>
                             <th class="text-left">名称</th>
                             <th class="text-left">类型</th>
+                            <th class="text-left">工程管理单位</th>
+                            <th class="text-left">校区</th>
+                            <th class="text-left">状态</th>
                             <th class="text-left">投资审计</th>
                             <th class="text-left">合同金额</th>
                             <th class="text-left">送审金额</th>
+                            <th class="text-left">审定金额</th>
                             <th class="text-left">操作</th>
                           </tr>
                         </thead>
@@ -131,6 +135,17 @@
                               </div>
                             </td>
                             <td>
+                              <div v-if="item.extraInfo.company">
+                                {{ item.extraInfo.company.projectCompany.name }}
+                              </div>
+                            </td>
+                            <td>
+                              {{ item.extraInfo.area }}
+                            </td>
+                            <td>
+                              {{ item.extraInfo.status }}
+                            </td>
+                            <td>
                               {{ (item.extraInfo.investment || 0).toFixed(2) }}
                               万元
                             </td>
@@ -142,18 +157,48 @@
                               万元
                             </td>
                             <td>
-                              <v-btn @click="goToProject(item)" text>
-                                <v-icon size="20" class="mr-2">
-                                  mdi-information-outline
-                                </v-icon>
-                                详情
-                              </v-btn>
-                              <v-btn text @click="goToAssign(item)">
-                                <v-icon size="20" class="mr-2">
-                                  mdi-call-split
-                                </v-icon>
-                                分配</v-btn
-                              >
+                              <div v-if="item.extraInfo.check">
+                                {{
+                                  (item.extraInfo.check.price || 0).toFixed(2)
+                                }}
+                                万元
+                              </div>
+                              <div v-else>
+                                {{ (0).toFixed(2) }}
+                                万元
+                              </div>
+                            </td>
+                            <td>
+                              <v-menu offset-y>
+                                <template v-slot:activator="{ on }">
+                                  <v-btn v-on="on" text>
+                                    <v-icon size="20" class="mr-2">
+                                      mdi-information-outline
+                                    </v-icon>
+                                    操作
+                                  </v-btn>
+                                </template>
+                                <v-list dense>
+                                  <v-list-item @click="goToProject(item)">
+                                    <v-icon size="20">
+                                      mdi-information-outline
+                                    </v-icon>
+
+                                    <v-list-item-action class="body-2">
+                                      详情
+                                    </v-list-item-action>
+                                  </v-list-item>
+                                  <v-list-item @click="goToAssign(item)">
+                                    <v-icon size="20">
+                                      mdi-call-split
+                                    </v-icon>
+
+                                    <v-list-item-action class="body-2">
+                                      分配
+                                    </v-list-item-action>
+                                  </v-list-item>
+                                </v-list>
+                              </v-menu>
                             </td>
                           </tr>
                         </tbody>
@@ -410,7 +455,7 @@ export default class ProjectHome extends Vue {
   }
 
   async getProjectList() {
-    await ProjectService.getProjectList();
+    await ProjectService.getProjectList(this.authorization.userID);
   }
 
   async getTemplateList() {
