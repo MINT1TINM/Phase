@@ -285,7 +285,7 @@ export default class ProjectMemberManagement extends Vue {
     if (res) {
       await ProjectService.removeProjectMember(this.currentProject.id, userID);
       // update redundancy
-      await ProjectService.getProjectList();
+      await ProjectService.getProjectList(this.authorization.userID);
       // update memberlist
       this.getProjectMember();
     }

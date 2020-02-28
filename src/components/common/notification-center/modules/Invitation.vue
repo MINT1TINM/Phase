@@ -51,9 +51,7 @@ const systemModule = namespace('system');
 @Component
 export default class Invitation extends Vue {
   @usermodule.Getter('authorization') authorization: any;
-
   @systemModule.Getter('notificationCenter') notificationCenter: any;
-
   @systemModule.Getter('invitationList') invitationList!: Invitation[];
 
   async updateInvitationStatus(status: number, invitationID: string) {
@@ -62,7 +60,7 @@ export default class Invitation extends Vue {
     await UserService.getUserInfo(this.authorization.userID);
 
     // update projectlist with id list
-    await ProjectService.getProjectList();
+    await ProjectService.getProjectList(this.authorization.userID);
     this.getInvitationList();
   }
 
