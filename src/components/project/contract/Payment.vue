@@ -196,12 +196,14 @@ export default class ProjectContractPayment extends Vue {
     {
       type: 'text-field',
       title: '金额',
-      name: 'applyAmount'
+      name: 'applyAmount',
+      inputType: 'number'
     },
     {
       type: 'text-field',
       title: '已支付',
-      name: 'payAmount'
+      name: 'payAmount',
+      inputType: 'number'
     },
     {
       type: 'date-picker',
@@ -220,6 +222,10 @@ export default class ProjectContractPayment extends Vue {
   async createPayment() {
     this.newPayment.projectUUID = this.currentProjectID;
     this.newPayment.contractUUID = this.$route.params.contractID;
+
+    // fix type
+    this.newPayment.payAmount = Number(this.newPayment.payAmount);
+    this.newPayment.applyAmount = Number(this.newPayment.applyAmount);
     if (this.newPayment.name) {
       try {
         await ContractService.createPayment(this.newPayment);
@@ -235,6 +241,8 @@ export default class ProjectContractPayment extends Vue {
 
   async updatePayment() {
     if (this.currentPayment.name) {
+      this.currentPayment.payAmount = Number(this.currentPayment.payAmount);
+      this.currentPayment.applyAmount = Number(this.currentPayment.applyAmount);
       try {
         await ContractService.updatePayment(this.currentPayment);
         this.$snack('更新成功');
