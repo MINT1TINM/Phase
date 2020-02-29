@@ -510,14 +510,20 @@ export default class Settings extends Vue {
         list: ['徐汇', '奉贤', '金山']
       },
       {
-        type: 'tags',
-        title: '标签',
-        name: 'tags'
+        type: 'select',
+        title: '位置',
+        name: 'areaDetail',
+        list: ['实验一楼', '实验二楼']
       },
       {
         type: 'text-field',
         title: '工程地点',
         name: 'address'
+      },
+      {
+        type: 'tags',
+        title: '标签',
+        name: 'tags'
       },
       {
         type: 'multi-select-no-wrap',
@@ -537,21 +543,12 @@ export default class Settings extends Vue {
       },
       {
         type: 'text-field',
-        title: '财务处立项编号',
-        name: 'financeCode'
-      },
-      {
-        type: 'text-field',
         title: '投资总额',
         name: 'investment',
         prependIcon: '¥',
         inputType: 'number'
       },
-      {
-        type: 'text-field',
-        title: '施工总承包合同价',
-        name: 'price'
-      },
+
       {
         type: 'text-field',
         title: '所属行业',
@@ -601,6 +598,13 @@ export default class Settings extends Vue {
             value: 2
           }
         ]
+      },
+      {
+        type: 'text-field',
+        title: '施工总承包合同价',
+        name: 'contractPrice',
+        prependIcon: '¥',
+        inputType: 'number'
       }
     ];
     let c: any[] = [];
@@ -666,6 +670,7 @@ export default class Settings extends Vue {
               name: 'date'
             },
             { type: 'text-field', title: '招标控制价', name: 'controlPrice' },
+
             {
               type: 'text-field',
               title: '中标金额',

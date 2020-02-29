@@ -172,10 +172,10 @@
                               <v-menu offset-y>
                                 <template v-slot:activator="{ on }">
                                   <v-btn v-on="on" text>
-                                    <v-icon size="20" class="mr-2">
-                                      mdi-information-outline
-                                    </v-icon>
                                     操作
+                                    <v-icon size="20" class="ml-2">
+                                      mdi-chevron-down
+                                    </v-icon>
                                   </v-btn>
                                 </template>
                                 <v-list dense>

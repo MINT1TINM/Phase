@@ -47,7 +47,6 @@ class ProjectExtraInfo {
       member: []
     };
     this.finishInfo = {
-      price: 0,
       auditPrice: 0,
       auditDate: '',
       calFile: '',
@@ -58,6 +57,7 @@ class ProjectExtraInfo {
     };
     this.stock = {
       type: 0,
+      contractPrice: 0,
       achieveCode: '',
       achieveFile: '',
 
@@ -105,13 +105,14 @@ class ProjectExtraInfo {
   address!: string;
   location!: string[];
   area!: string;
+  areaDetail!: string;
+
   consultTimeRange!: string[];
   tags: { data: string[] };
   industry!: string;
   investment!: number;
   startDate!: string;
   endDate!: string;
-  financeCode!: string;
 
   fundSource!: string[];
   fundAccount!: any[];
@@ -121,7 +122,6 @@ class ProjectExtraInfo {
 
   // 送审信息
   finishInfo!: {
-    price: number;
     auditPrice: number;
     auditDate: string;
 
@@ -157,6 +157,7 @@ class ProjectExtraInfo {
     name: string;
     agentCompany: string;
     date: string;
+    contractPrice: number;
     controlPrice: number;
     price: number;
 
