@@ -71,195 +71,132 @@
             我的项目
             <v-spacer></v-spacer>
           </v-card-title>
-          <v-toolbar dense flat color="transparent">
-            <v-tabs v-model="tab">
-              <v-tab href="#tab-1">正在进行</v-tab>
-              <v-tab href="#tab-2">待审批</v-tab>
-            </v-tabs>
+
+          <v-toolbar class="mt-2" dense flat color="transparent">
+            <v-btn
+              icon
+              @click="
+                restoreOptions();
+                filt();
+              "
+              ><v-icon size="20">mdi-close</v-icon></v-btn
+            >
+            <v-select
+              dense
+              outlined
+              hide-details
+              class="body-2"
+              label="状态"
+              style="max-width:150px"
+              :items="statusList"
+              v-model="options.status"
+            ></v-select>
+            <v-select
+              dense
+              outlined
+              hide-details
+              class="body-2 ml-3"
+              label="类型"
+              style="max-width:150px"
+              :items="typeList"
+              item-text="name"
+              item-value="id"
+              v-model="options.type"
+            ></v-select>
+            <v-spacer></v-spacer>
+            <v-btn outlined @click="filt">筛选</v-btn>
           </v-toolbar>
 
-          <div v-if="tab == `tab-1`">
-            <v-toolbar class="mt-2" dense flat color="transparent">
-              <span class="mr-3 caption">筛选</span>
-              <v-text-field
-                dense
-                outlined
-                flat
-                single-line
-                hide-details
-                label="项目名称"
-                style="max-width:200px"
-              ></v-text-field>
-              <v-spacer></v-spacer>
-              <v-btn outlined>
-                <v-icon size="20" class="mr-2">mdi-magnify</v-icon>搜索
-              </v-btn>
-            </v-toolbar>
-            <v-container>
-              <transition appear appear-active-class="fade-up-enter">
-                <v-layout>
-                  <v-col cols="12" class="pa-0">
-                    <v-simple-table class="transparent">
-                      <template v-slot:default>
-                        <thead>
-                          <tr>
-                            <th class="text-left">编号</th>
-                            <th class="text-left">名称</th>
-                            <th class="text-left">类型</th>
-                            <th class="text-left">工程管理单位</th>
-                            <th class="text-left">校区</th>
-                            <th class="text-left">状态</th>
-                            <th class="text-left">投资审计</th>
-                            <th class="text-left">合同金额</th>
-                            <th class="text-left">送审金额</th>
-                            <th class="text-left">审定金额</th>
-                            <th class="text-left">操作</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            v-for="(item, i) in runningProject"
-                            :key="`project-${i}`"
-                          >
-                            <td>{{ item.code }}</td>
-                            <td>{{ item.name }}</td>
-                            <td>
-                              <div v-if="item.extraInfo.type == 0">
-                                竣工结算审计
-                              </div>
-                              <div v-else-if="item.extraInfo.type == 1">
-                                全过程投资审计基建工程
-                              </div>
-                              <div v-else-if="item.extraInfo.type == 2">
-                                全过程投资审计修缮工程
-                              </div>
-                            </td>
-                            <td>
-                              <div v-if="item.extraInfo.company">
-                                {{ item.extraInfo.company.projectCompany.name }}
-                              </div>
-                            </td>
-                            <td>
-                              {{ item.extraInfo.area }}
-                            </td>
-                            <td>
-                              {{ item.extraInfo.status }}
-                            </td>
-                            <td>
-                              {{ (item.extraInfo.investment || 0).toFixed(2) }}
-                              万元
-                            </td>
-                            <td>
-                              {{ (item.extraInfo.price || 0).toFixed(2) }} 万元
-                            </td>
-                            <td>
-                              {{ (item.extraInfo.auditPrice || 0).toFixed(2) }}
-                              万元
-                            </td>
-                            <td>
-                              <div v-if="item.extraInfo.check">
-                                {{
-                                  (item.extraInfo.check.price || 0).toFixed(2)
-                                }}
-                                万元
-                              </div>
-                              <div v-else>
-                                {{ (0).toFixed(2) }}
-                                万元
-                              </div>
-                            </td>
-                            <td>
-                              <v-menu offset-y>
-                                <template v-slot:activator="{ on }">
-                                  <v-btn v-on="on" text>
-                                    操作
-                                    <v-icon size="20" class="ml-2">
-                                      mdi-chevron-down
-                                    </v-icon>
-                                  </v-btn>
-                                </template>
-                                <v-list dense>
-                                  <v-list-item @click="goToProject(item)">
-                                    <v-icon size="20">
-                                      mdi-information-outline
-                                    </v-icon>
+          <v-container>
+            <transition appear appear-active-class="fade-up-enter">
+              <v-layout>
+                <v-col cols="12" class="pa-0">
+                  <v-data-table
+                    class="transparent"
+                    :headers="headers"
+                    :items="projectListShow"
+                  >
+                    <template v-slot:item.type="{ item }">
+                      <div v-if="item.extraInfo.type == 0">
+                        竣工结算审计
+                      </div>
+                      <div v-else-if="item.extraInfo.type == 1">
+                        全过程投资审计基建工程
+                      </div>
+                      <div v-else-if="item.extraInfo.type == 2">
+                        全过程投资审计修缮工程
+                      </div>
+                    </template>
+                    <template v-slot:item.company="{ item }">
+                      <div v-if="item.extraInfo.company">
+                        {{ item.extraInfo.company.projectCompany.name }}
+                      </div>
+                    </template>
+                    <template v-slot:item.area="{ item }">
+                      {{ item.extraInfo.area }}
+                    </template>
+                    <template v-slot:item.status="{ item }">
+                      {{ item.extraInfo.status }}
+                    </template>
+                    <template v-slot:item.investment="{ item }">
+                      ¥ {{ (item.extraInfo.investment || 0).toFixed(2) }}
+                      万元
+                    </template>
+                    <template v-slot:item.price="{ item }">
+                      ¥ {{ (item.extraInfo.price || 0).toFixed(2) }}
+                      万元
+                    </template>
+                    <template v-slot:item.auditPrice="{ item }">
+                      ¥ {{ (item.extraInfo.auditPrice || 0).toFixed(2) }}
+                      万元
+                    </template>
+                    <template v-slot:item.checkPrice="{ item }">
+                      <div v-if="item.extraInfo.check">
+                        ¥ {{ (item.extraInfo.check.price || 0).toFixed(2) }}
+                        万元
+                      </div>
+                      <div v-else>
+                        {{ (0).toFixed(2) }}
+                        万元
+                      </div>
+                    </template>
+                    <template v-slot:item.action="{ item }">
+                      <v-menu offset-y>
+                        <template v-slot:activator="{ on }">
+                          <v-btn v-on="on" text>
+                            操作
+                            <v-icon size="20" class="ml-2">
+                              mdi-chevron-down
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <v-list dense>
+                          <v-list-item @click="goToProject(item)">
+                            <v-icon size="20">
+                              mdi-information-outline
+                            </v-icon>
 
-                                    <v-list-item-action class="body-2">
-                                      详情
-                                    </v-list-item-action>
-                                  </v-list-item>
-                                  <v-list-item @click="goToAssign(item)">
-                                    <v-icon size="20">
-                                      mdi-call-split
-                                    </v-icon>
+                            <v-list-item-action class="body-2">
+                              详情
+                            </v-list-item-action>
+                          </v-list-item>
+                          <v-list-item @click="goToAssign(item)">
+                            <v-icon size="20">
+                              mdi-call-split
+                            </v-icon>
 
-                                    <v-list-item-action class="body-2">
-                                      分配
-                                    </v-list-item-action>
-                                  </v-list-item>
-                                </v-list>
-                              </v-menu>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </template>
-                    </v-simple-table>
-                  </v-col>
-                </v-layout>
-              </transition>
-            </v-container>
-          </div>
-
-          <div v-else-if="tab == `tab-2`">
-            <v-container>
-              <transition appear appear-active-class="fade-up-enter">
-                <v-layout>
-                  <v-col cols="12" class="pa-0">
-                    <v-simple-table class="transparent">
-                      <template v-slot:default>
-                        <thead>
-                          <tr>
-                            <th class="text-left">编号</th>
-                            <th class="text-left">名称</th>
-                            <th class="text-left">类型</th>
-                            <th class="text-left">操作</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            v-for="(item, i) in checkingProject"
-                            :key="`project-${i}`"
-                          >
-                            <td>{{ item.code }}</td>
-                            <td>{{ item.name }}</td>
-                            <td>
-                              <div v-if="item.extraInfo.type == 0">
-                                竣工结算审计
-                              </div>
-                              <div v-else-if="item.extraInfo.type == 1">
-                                全过程投资审计基建工程
-                              </div>
-                              <div v-else-if="item.extraInfo.type == 2">
-                                全过程投资审计修缮工程
-                              </div>
-                            </td>
-                            <td>
-                              <v-btn @click="goToProject(item)" text>
-                                <v-icon size="20" class="mr-2">
-                                  mdi-information-outline
-                                </v-icon>
-                                详情
-                              </v-btn>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </template>
-                    </v-simple-table>
-                  </v-col>
-                </v-layout>
-              </transition>
-            </v-container>
-          </div>
+                            <v-list-item-action class="body-2">
+                              分配
+                            </v-list-item-action>
+                          </v-list-item>
+                        </v-list>
+                      </v-menu>
+                    </template>
+                  </v-data-table>
+                </v-col>
+              </v-layout>
+            </transition>
+          </v-container>
         </v-flex>
       </v-layout>
 
@@ -356,8 +293,8 @@ import appBar from '@/components/common/app-bar/AppBar.vue';
 import UserService from '@/service/userService';
 import { Authorization, UserInfo } from '@/types/user';
 import { ProjectTemplate, Project } from '@/types/project';
-import WorkflowService from '../../service/workflowService';
-import { FlowLinkTask } from '../../types/workflow';
+import WorkflowService from '@/service/workflowService';
+import { FlowLinkTask } from '@/types/workflow';
 
 const projectModule = namespace('project');
 const userModule = namespace('user');
@@ -369,6 +306,27 @@ const systemModule = namespace('system');
   }
 })
 export default class ProjectHome extends Vue {
+  @projectModule.Getter('projectList') projectList!: Project[];
+  @projectModule.Mutation('updateCurrentProjectID')
+  updateCurrentProjectID: any;
+  @projectModule.Mutation('clearCurrentProjectID')
+  clearCurrentProjectID: any;
+
+  @projectModule.State('statusList') statusList!: string[];
+  @projectModule.State('typeList') typeList!: any[];
+  @projectModule.State('options') options!: any;
+
+  @projectModule.Mutation('updateOptions') updateOptions!: any;
+  @projectModule.Mutation('restoreOptions') restoreOptions!: any;
+  @projectModule.Mutation('updateViewMode') updateViewMode!: (
+    v: string
+  ) => void;
+  @userModule.Getter('authorization')
+  authorization!: Authorization;
+  @userModule.Getter('userInfo')
+  userInfo!: UserInfo;
+  @systemModule.Getter('systemName') systemName!: string;
+
   createProjectDialog: boolean = false;
   generateProjectDialog: boolean = false;
   createProjectContent = [
@@ -381,29 +339,14 @@ export default class ProjectHome extends Vue {
   createProjectInfo = {
     name: ''
   };
-  projectListShow = [];
+
   templateList: ProjectTemplate[] = [];
   templateInfo: ProjectTemplate = new ProjectTemplate();
   currentTemplateID: string = '';
   newProjectName: string = '';
   tab = 'tab-1';
   assignDialog = false;
-
-  @projectModule.Getter('projectList') projectList!: Project[];
-  @projectModule.Mutation('updateCurrentProjectID')
-  updateCurrentProjectID: any;
-  @projectModule.Mutation('clearCurrentProjectID')
-  clearCurrentProjectID: any;
-  @projectModule.Mutation('updateViewMode') updateViewMode!: (
-    v: string
-  ) => void;
-
-  @userModule.Getter('authorization')
-  authorization!: Authorization;
-  @userModule.Getter('userInfo')
-  userInfo!: UserInfo;
-
-  @systemModule.Getter('systemName') systemName!: string;
+  projectListShow: Project[] = [];
 
   goToProject(p: Project) {
     this.updateCurrentProjectID(p.id);
@@ -417,6 +360,86 @@ export default class ProjectHome extends Vue {
   goToAssign(p: Project) {
     this.updateCurrentProjectID(p.id);
     this.$router.push({ path: `/assign` });
+  }
+
+  get headers() {
+    return [
+      {
+        text: '编号',
+        value: 'code',
+        sortable: false
+      },
+      {
+        text: '名称',
+        value: 'name',
+        sortable: false
+      },
+      {
+        text: '类型',
+        value: 'type',
+        sortable: false
+      },
+      {
+        text: '工程管理单位',
+        value: 'company',
+        sortable: false
+      },
+      {
+        text: '校区',
+        value: 'area',
+        sortable: false
+      },
+      {
+        text: '状态',
+        value: 'status',
+        sortable: false
+      },
+      {
+        text: '投资审计',
+        value: 'investment',
+        sortable: false
+      },
+      {
+        text: '合同金额',
+        value: 'price',
+        sortable: false
+      },
+      {
+        text: '送审金额',
+        value: 'auditPrice',
+        sortable: false
+      },
+      {
+        text: '审定金额',
+        value: 'checkPrice',
+        sortable: false
+      },
+      {
+        text: '操作',
+        value: 'action',
+        sortable: false
+      }
+    ];
+  }
+
+  get optionsShow() {
+    return this.options;
+  }
+
+  set optionsShow(v) {
+    this.updateOptions(v);
+  }
+
+  filt() {
+    this.projectListShow = this.projectList
+      .filter(e => {
+        if (this.options.type == 0) return true;
+        return e.extraInfo.type == this.options.type;
+      })
+      .filter(e => {
+        if (this.options.status == 0) return true;
+        return e.extraInfo.status == this.options.status;
+      });
   }
 
   async createProject() {
@@ -469,22 +492,12 @@ export default class ProjectHome extends Vue {
     this.templateInfo = rsp.template;
   }
 
-  get runningProject() {
-    return this.projectList.filter(e => {
-      return e.extraInfo.started;
-    });
-  }
-
-  get checkingProject() {
-    return this.projectList.filter(e => {
-      return !e.extraInfo.started;
-    });
-  }
-
-  mounted() {
+  async mounted() {
     this.clearCurrentProjectID();
-    this.getProjectList();
     this.getTemplateList();
+    await this.getProjectList();
+
+    this.filt();
   }
 }
 </script>

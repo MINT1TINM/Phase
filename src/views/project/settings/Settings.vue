@@ -490,9 +490,9 @@ export default class Settings extends Vue {
         },
         name: 'type',
         list: [
-          { name: '竣工结算审计', id: 0 },
-          { name: '全过程投资审计基建工程', id: 1 },
-          { name: '全过程投资审计修缮工程', id: 2 }
+          { name: '竣工结算审计', id: 1 },
+          { name: '全过程投资审计基建工程', id: 2 },
+          { name: '全过程投资审计修缮工程', id: 3 }
         ],
         text: 'name',
         value: 'id'

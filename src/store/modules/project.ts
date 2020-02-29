@@ -4,11 +4,35 @@ import { Task } from '@/types/task';
 interface State {
   currentProjectID: string;
   projectList: Project[];
+  statusList: string[];
+  typeList: any[];
+  options: {
+    type: number;
+    status: string;
+  };
 }
 
 const state: State = {
   currentProjectID: '',
-  projectList: []
+  projectList: [],
+  statusList: [
+    '立项申请',
+    '立项受理',
+    '招标阶段',
+    '施工阶段',
+    '竣工送审',
+    '送审受理',
+    '审价完毕'
+  ],
+  typeList: [
+    { name: '竣工结算审计', id: 1 },
+    { name: '全过程投资审计基建工程', id: 2 },
+    { name: '全过程投资审计修缮工程', id: 3 }
+  ],
+  options: {
+    type: 0,
+    status: ''
+  }
 };
 
 const getters = {
@@ -71,6 +95,15 @@ const mutations = {
   },
   updateProjectList: (s: State, projectList: Project[]) => {
     s.projectList = projectList;
+  },
+  updateOptions: (s: State, o: State['options']) => {
+    s.options = o;
+  },
+  restoreOptions: (s: State) => {
+    s.options = {
+      type: 0,
+      status: ''
+    };
   }
 };
 

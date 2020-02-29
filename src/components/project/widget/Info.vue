@@ -72,10 +72,6 @@ export default class ProjectWidgetInfo extends Vue {
         value: this.projectInfo.extraInfo.address
       },
       {
-        name: '财务处立项编号',
-        value: this.projectInfo.extraInfo.financeCode
-      },
-      {
         name: '投资总额',
         value: this.projectInfo.extraInfo.investment
       },

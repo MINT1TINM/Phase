@@ -48,6 +48,8 @@ const vuexSession: any = new VuexPersistence<any>({
     mutation.type === 'project/updateCurrentProjectID' ||
     mutation.type === 'project/clearCurrentProjectID' ||
     mutation.type === 'project/updateProjectList' ||
+    mutation.type === 'project/updateOptions' ||
+    mutation.type === 'project/restoreOptions' ||
     mutation.type === 'project/updateCurrentProject' ||
     mutation.type === 'process/updateCurrentProcessList' ||
     mutation.type === 'process/updateCurrentProcessTask' ||

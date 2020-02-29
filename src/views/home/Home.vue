@@ -197,7 +197,7 @@ export default class ComponentName extends Vue {
         value: 'nodeID'
       },
       {
-        text: '事件',
+        text: '时间',
         value: 'startTime'
       },
       {

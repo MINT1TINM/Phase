@@ -2,11 +2,11 @@
   <v-app>
     <app-common></app-common>
     <v-layout>
-      <v-flex
-        class="hidden-sm-and-down"
-        md9
-        style="background-color:#000"
-      ></v-flex>
+      <v-flex class="hidden-sm-and-down gradient-background" md9>
+        <v-row no-gutters justify="center" align="center" style="height:100vh">
+          <!-- <div class="display-1">DIMStep</div> -->
+        </v-row>
+      </v-flex>
       <v-flex xs12 md3>
         <v-container fill-height style="padding:20px">
           <v-layout wrap align-center justify-start>
@@ -15,7 +15,7 @@
                 class="display-1 font-weight-black mt-2 mb-4"
                 style="color:#A64ED1"
               >
-                登录
+                登录 DIMStep
               </div>
 
               <v-form ref="loginForm">
@@ -50,7 +50,7 @@
                 >登录</v-btn
               >
               <!-- <v-btn outlined class="mt-3" block color="green" dark @click="wechatLogin()">微信登录</v-btn> -->
-              <v-btn class="mt-3" text color="primary">忘记密码?</v-btn>
+              <!-- <v-btn class="mt-3" text color="primary">忘记密码?</v-btn> -->
               <!-- <v-divider class="my-3"></v-divider>
               <v-btn block text color="primary" :to="'/register'">注册新用户</v-btn>-->
             </v-flex>
@@ -125,4 +125,22 @@ export default class Login extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.gradient-background {
+  background: linear-gradient(-45deg, #e73c7e, #23a6d5);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+</style>
