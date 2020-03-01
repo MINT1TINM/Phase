@@ -171,7 +171,14 @@ export default class ProjectInfo extends Vue {
       const p = new Project();
       p.extraInfo = new ProjectExtraInfo();
       p.extraInfo.started = true;
-      p.extraInfo.status = '立项受理';
+
+      // 全过程
+      if (p.extraInfo.type == 1) {
+        p.extraInfo.status = '送审受理';
+      } else {
+        // 其他
+        p.extraInfo.status = '立项受理';
+      }
 
       await ProjectService.updateProjectInfo({ ...this.projectInfo, ...p });
       this.$snack('操作成功，该工作流结束');

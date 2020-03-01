@@ -336,9 +336,7 @@ export default class ProjectHome extends Vue {
       name: 'name'
     }
   ];
-  createProjectInfo = {
-    name: ''
-  };
+  createProjectInfo = new Project();
 
   templateList: ProjectTemplate[] = [];
   templateInfo: ProjectTemplate = new ProjectTemplate();
@@ -444,9 +442,8 @@ export default class ProjectHome extends Vue {
 
   async createProject() {
     try {
-      const rsp = await ProjectService.createProject(
-        this.createProjectInfo.name
-      );
+      this.createProjectInfo.extraInfo.status = '立项申请';
+      const rsp = await ProjectService.createProject(this.createProjectInfo);
       this.$snack('创建成功');
       await UserService.getUserInfo(this.authorization.userID);
       this.getProjectList();
