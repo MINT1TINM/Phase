@@ -360,7 +360,35 @@
           <!-- 开始了才需要填写 -->
           <v-col cols="12" class="mb-6" v-if="currentProject.extraInfo.started">
             <v-card>
-              <Assign :projectInfo="currentProject"></Assign>
+              <!-- <Assign :projectInfo="currentProject"></Assign> -->
+
+              <v-card-title class="body-2 font-weight-black">
+                投资审计单位
+              </v-card-title>
+              <v-container fluid>
+                <SearchSupplier
+                  :id.sync="extraInfo.investAuditCompany.id"
+                  :name.sync="extraInfo.investAuditCompany.name"
+                ></SearchSupplier>
+                <dim-form
+                  dense
+                  :target="extraInfo.investAuditCompany"
+                  :formContent="investAuditCompanyInfoContent"
+                >
+                </dim-form>
+                <v-layout row justify-center class="pt-10">
+                  <v-flex xs6>
+                    <v-btn
+                      block
+                      rounded
+                      depressed
+                      color="primary darken-1"
+                      @click="updateProjectInfo()"
+                      >保存</v-btn
+                    >
+                  </v-flex>
+                </v-layout>
+              </v-container>
             </v-card>
           </v-col>
           <v-col cols="12" class="mb-6" v-if="currentProject.extraInfo.started">
@@ -439,6 +467,7 @@ import FileService from '@/service/fileService';
 import Assign from '@/components/project/dashboard/Assign.vue';
 import SearchSupplier from '@/components/common/search/SearchSupplier.vue';
 import SearchGroup from '@/components/common/search/SearchGroup.vue';
+import CompanyService from '@/service/companyService';
 
 const systemModule = namespace('system');
 const projectModule = namespace('project');
@@ -455,6 +484,7 @@ export default class Settings extends Vue {
   @systemModule.Getter('lastPage') lastPage: any;
   @projectModule.Getter('currentProject') currentProject!: Project;
   @projectModule.Getter('currentProjectID') currentProjectID!: string;
+  @projectModule.State('assignTypeList') assignTypeList!: any[];
 
   @userModule.Getter('authorization')
   authorization!: Authorization;
@@ -768,6 +798,69 @@ export default class Settings extends Vue {
         type: 'text-field',
         title: '联系人电话',
         name: 'phone'
+      }
+    ];
+  }
+
+  get investAuditCompanyInfoContent() {
+    return [
+      {
+        type: 'text-field',
+        title: '企业名称',
+        name: 'name',
+        readonly: true
+      },
+
+      {
+        type: 'select',
+        title: '分配方式',
+        name: 'assignAuditCompanyType',
+        list: this.assignTypeList,
+        text: 'text',
+        value: 'value'
+      },
+      {
+        type: 'date-picker',
+        title: '分配时间',
+        name: 'assignDate'
+      },
+      {
+        type: 'text-field',
+        title: '审计费（甲方）',
+        name: 'assignPrice',
+        inputType: 'number',
+        prependIcon: '¥'
+      },
+      {
+        type: 'text-field',
+        title: '负责人员',
+        name: 'member',
+        disabled: true
+      },
+      // {
+      //   type: 'multi-select-no-wrap',
+      //   title: '负责人员',
+      //   chip: true,
+      //   text: 'nickName',
+      //   list: this.extraInfo.investAuditCompany.member,
+      //   value: 'id'
+      // },
+      {
+        type: 'file-input',
+        title: '相关文件',
+        name: 'assignFile',
+        changeFunc: async (v: any) => {
+          if (v) {
+            const rsp = await FileService.uploadFile(v, '', '');
+            this.extraInfo.investAuditCompany.assignFile = rsp.path;
+            this.updateProjectInfo();
+          }
+        },
+        downFunc: () => {
+          FileService.downloadFileFromFs(
+            this.extraInfo.investAuditCompany.assignFile
+          );
+        }
       }
     ];
   }

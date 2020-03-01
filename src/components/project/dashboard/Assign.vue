@@ -19,14 +19,20 @@
             </v-chip-group>
           </v-list-item-subtitle>
           <v-list-item-subtitle v-else>{{ item.value }}</v-list-item-subtitle>
+
+          <v-list-item-action v-if="item.type === 'file-input'">
+            <v-btn icon @click="item.downFunc()"
+              ><v-icon size="20">mdi-download-outline</v-icon></v-btn
+            >
+          </v-list-item-action>
         </v-list-item>
       </div>
     </v-list>
-    <v-container fluid>
+    <!-- <v-container fluid>
       <v-btn block text
         >单位信息<v-icon class="ml-2" size="20">mdi-arrow-right</v-icon></v-btn
       >
-    </v-container>
+    </v-container> -->
   </div>
 </template>
 
@@ -34,6 +40,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Project, ProjectMember } from '@/types/project';
 import { namespace, Getter } from 'vuex-class';
+import FileService from '@/service/fileService';
 
 const projectModule = namespace('project');
 
@@ -65,7 +72,7 @@ export default class ProjectDashboardAssign extends Vue {
       {
         name: '分配方式',
         value: this.assignTypeList[
-          this.projectInfo.extraInfo.assignAuditCompanyType
+          this.projectInfo.extraInfo.investAuditCompany.assignAuditCompanyType
         ]?.text
       },
       {
@@ -81,7 +88,18 @@ export default class ProjectDashboardAssign extends Vue {
       },
       {
         name: '甲方审计费',
-        value: `¥ ${this.projectInfo.extraInfo.assignPrice || 0}`
+        value: `¥ ${this.projectInfo.extraInfo.investAuditCompany.assignPrice ||
+          0}`
+      },
+      {
+        type: 'file-input',
+        name: '附件',
+        value: this.projectInfo.extraInfo.investAuditCompany.assignFile,
+        downFunc: () => {
+          FileService.downloadFileFromFs(
+            this.projectInfo.extraInfo.investAuditCompany.assignFile
+          );
+        }
       }
     ];
   }

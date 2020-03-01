@@ -44,7 +44,14 @@ class ProjectExtraInfo {
     this.investAuditCompany = {
       id: '',
       name: '',
-      member: []
+      member: [],
+      // 分配投资审计
+      assigned: false,
+      assignFlowID: 0,
+      assignFile: '',
+      assignDate: '',
+      assignAuditCompanyType: 0, // text: '0 综合分配', text: '1 二次议标', 2 公开招投标',
+      assignPrice: 0
     };
     this.finishInfo = {
       auditPrice: 0,
@@ -135,16 +142,17 @@ class ProjectExtraInfo {
   started!: boolean;
   startFlowID!: number;
 
-  // 分配投资审计
-  assigned!: boolean;
-  assignFlowID!: number;
-  assignFile!: string;
-  assignAuditCompanyType!: number; // text: '0 综合分配', text: '1 二次议标', 2 公开招投标',
-  assignPrice!: number;
   investAuditCompany!: {
     id: string;
     name: string;
     member: string[];
+    // 分配投资审计
+    assignDate: string;
+    assigned: boolean;
+    assignFlowID: number;
+    assignFile: string;
+    assignAuditCompanyType: number; // text: '0 综合分配', text: '1 二次议标', 2 公开招投标',
+    assignPrice: number;
   };
 
   // 采购

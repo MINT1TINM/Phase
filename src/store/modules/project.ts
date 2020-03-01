@@ -10,6 +10,7 @@ interface State {
     type: number;
     status: string;
   };
+  assignTypeList: any[];
 }
 
 const state: State = {
@@ -28,6 +29,20 @@ const state: State = {
     { name: '竣工结算审计', id: 1 },
     { name: '全过程投资审计基建工程', id: 2 },
     { name: '全过程投资审计修缮工程', id: 3 }
+  ],
+  assignTypeList: [
+    {
+      text: '综合分配',
+      value: 0
+    },
+    {
+      text: '二次议标',
+      value: 1
+    },
+    {
+      text: '公开招投标',
+      value: 2
+    }
   ],
   options: {
     type: 0,

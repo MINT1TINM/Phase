@@ -11,7 +11,7 @@
 
               <v-spacer></v-spacer>
               <v-btn
-                :disabled="extraInfo.assigned"
+                :disabled="extraInfo.investAuditCompany.assigned"
                 v-if="
                   workflowInstance.nodeID == '开始' || !extraInfo.assignFlowID
                 "
@@ -23,7 +23,7 @@
               >
               <v-btn
                 text
-                :disabled="extraInfo.assigned"
+                :disabled="extraInfo.investAuditCompany.assigned"
                 v-if="
                   workflowInstance.nodeID == '开始' || !extraInfo.assignFlowID
                 "
@@ -36,7 +36,8 @@
               <v-stepper-header>
                 <v-stepper-step
                   :complete="
-                    extraInfo.assigned || workflowInstance.nodeID == '开始'
+                    extraInfo.investAuditCompany.assigned ||
+                      workflowInstance.nodeID == '开始'
                   "
                   class="body-2"
                   step="1"
@@ -48,7 +49,8 @@
 
                 <v-stepper-step
                   :complete="
-                    extraInfo.assigned || workflowInstance.nodeID == '组长审批'
+                    extraInfo.investAuditCompany.assigned ||
+                      workflowInstance.nodeID == '组长审批'
                   "
                   class="body-2"
                   step="2"
@@ -59,7 +61,7 @@
                 <v-divider></v-divider>
 
                 <v-stepper-step
-                  :complete="extraInfo.assigned"
+                  :complete="extraInfo.investAuditCompany.sassigned"
                   step="3"
                   class="body-2"
                   >处长审批</v-stepper-step
@@ -75,7 +77,7 @@
 
                 <v-container fluid>
                   <SearchSupplier
-                    v-if="!extraInfo.assigned"
+                    v-if="!extraInfo.investAuditCompany.assigned"
                     :id.sync="extraInfo.investAuditCompany.id"
                     :name.sync="extraInfo.investAuditCompany.name"
                   ></SearchSupplier>
@@ -101,7 +103,7 @@
                         style="pointer-events:none"
                         v-for="(item, i) in memberList"
                         :key="`m-${i}`"
-                        :disabled="extraInfo.assigned"
+                        :disabled="extraInfo.investAuditCompany.assigned"
                         :value="item.userID"
                       >
                         <template v-slot:default="{ active, toggle }">
@@ -109,7 +111,7 @@
                             <v-checkbox
                               :input-value="active"
                               :true-value="item.userID"
-                              :disabled="extraInfo.assigned"
+                              :disabled="extraInfo.investAuditCompany.assigned"
                               @click="toggle"
                             ></v-checkbox>
                           </v-list-item-action>
@@ -138,14 +140,14 @@
                     v-model="extraInfo.assignAuditCompanyType"
                     :items="assignTypeList"
                     item-text="text"
-                    :disabled="extraInfo.assigned"
+                    :disabled="extraInfo.investAuditCompany.assigned"
                     item-value="value"
                   ></v-select>
                   <v-text-field
                     dense
                     outlined
                     class="mt-3"
-                    :disabled="extraInfo.assigned"
+                    :disabled="extraInfo.investAuditCompany.assigned"
                     hide-details
                     label="甲方审计费"
                     type="number"
@@ -157,7 +159,7 @@
                     @change="uploadFile"
                     class="body-2 mt-3"
                     :label="`分配附件`"
-                    :disabled="extraInfo.assigned"
+                    :disabled="extraInfo.investAuditCompany.assigned"
                     dense
                     :placeholder="
                       extraInfo.assignFile !== ''
@@ -215,6 +217,7 @@ const userModule = namespace('user');
 export default class ProjectAssign extends Vue {
   @projectModule.Getter('currentProjectID') currentProjectID!: string;
   @projectModule.Getter('currentProject') currentProject!: Project;
+  @projectModule.State('assignTypeList') assignTypeList!: any[];
   @userModule.Getter('authorization')
   authorization!: Authorization;
   @userModule.Getter('userInfo')
@@ -222,20 +225,6 @@ export default class ProjectAssign extends Vue {
 
   workflowInstance: Instance = new Instance();
   memberList: SupplierMember[] = [];
-  assignTypeList = [
-    {
-      text: '综合分配',
-      value: 0
-    },
-    {
-      text: '二次议标',
-      value: 1
-    },
-    {
-      text: '公开招投标',
-      value: 2
-    }
-  ];
 
   async updateProjectInfo() {
     let p = this.currentProject;
@@ -247,7 +236,7 @@ export default class ProjectAssign extends Vue {
 
   async uploadFile(v: any) {
     const rsp = await FileService.uploadFile(v, '', '');
-    this.extraInfo.assignFile = rsp.path;
+    this.extraInfo.investAuditCompany.assignFile = rsp.path;
     this.updateProjectInfo();
   }
 
@@ -264,7 +253,7 @@ export default class ProjectAssign extends Vue {
 
     if (r) {
       // Create instance if no instance
-      if (!this.extraInfo.assignFlowID) {
+      if (!this.extraInfo.investAuditCompany.assignFlowID) {
         const l = new FlowLinkTask();
         l.extraInfo = {
           type: 'assignment',
@@ -280,7 +269,7 @@ export default class ProjectAssign extends Vue {
           l
         );
 
-        this.extraInfo.assignFlowID = rsp.id;
+        this.extraInfo.investAuditCompany.assignFlowID = rsp.id;
         await this.updateProjectInfo();
       } else {
         const l = new FlowLinkTask();
@@ -313,13 +302,13 @@ export default class ProjectAssign extends Vue {
   }
 
   async getFlow() {
-    if (this.extraInfo.assignFlowID) {
-      console.log(this.extraInfo.assignFlowID);
+    if (this.extraInfo.investAuditCompany.assignFlowID) {
+      console.log(this.extraInfo.investAuditCompany.assignFlowID);
       this.workflowInstance = {
         ...new Instance(),
         ...(
           await WorkflowService.getWorkflowInstance(
-            this.currentProject.extraInfo.assignFlowID
+            this.currentProject.extraInfo.investAuditCompany.assignFlowID
           )
         ).instance
       };
@@ -354,11 +343,6 @@ export default class ProjectAssign extends Vue {
       await CompanyService.getSupplier(this.companyID)
     ).member.data;
   }
-
-  // @Watch('assignMember')
-  // onMemberChanged() {
-  //   console.log(this.assignMember);
-  // }
 
   async mounted() {
     this.getFlow();

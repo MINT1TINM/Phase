@@ -267,7 +267,10 @@ export default class AssignAudit extends Vue {
         }
       });
 
-      this.projectInfo.extraInfo.assigned = true;
+      this.projectInfo.extraInfo.investAuditCompany.assigned = true;
+      this.projectInfo.extraInfo.investAuditCompany.assignDate = new Date()
+        .toISOString()
+        .slice(0, 10);
 
       await ProjectService.updateProjectInfo(this.projectInfo);
       this.$snack('操作成功，该工作流结束');

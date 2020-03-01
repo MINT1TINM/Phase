@@ -139,8 +139,10 @@
                       {{ item.extraInfo.status }}
                     </template>
                     <template v-slot:item.investment="{ item }">
-                      ¥ {{ (item.extraInfo.investment || 0).toFixed(2) }}
-                      万元
+                      <div v-if="item.extraInfo.investAuditCompany">
+                        {{ item.extraInfo.investAuditCompany.name }}
+                      </div>
+                      <div v-else></div>
                     </template>
                     <template v-slot:item.price="{ item }">
                       ¥ {{ (item.extraInfo.price || 0).toFixed(2) }}
