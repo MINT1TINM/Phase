@@ -61,7 +61,7 @@
                 <v-divider></v-divider>
 
                 <v-stepper-step
-                  :complete="extraInfo.investAuditCompany.sassigned"
+                  :complete="extraInfo.investAuditCompany.assigned"
                   step="3"
                   class="body-2"
                   >处长审批</v-stepper-step

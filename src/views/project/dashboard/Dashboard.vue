@@ -84,12 +84,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Progress from '@/components/project/dashboard/Progress.vue';
-import Assign from '@/components/project/dashboard/Assign.vue';
-import ProjectInfo from '@/components/project/widget/Info.vue';
+
 import { namespace } from 'vuex-class';
 import { Project } from '@/types/project';
 
+import Progress from '@/components/project/dashboard/Progress.vue';
+import Assign from '@/components/project/dashboard/Assign.vue';
+import ProjectInfo from '@/components/project/widget/Info.vue';
 import Stock from '@/components/project/dashboard/Stock.vue';
 import Company from '@/components/project/dashboard/Company.vue';
 import Check from '@/components/project/dashboard/Check.vue';

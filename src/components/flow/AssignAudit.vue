@@ -78,6 +78,42 @@
       </v-container>
     </v-card>
 
+    <v-card class="mt-2">
+      <v-container fluid>
+        <FinishInfo :extraInfo="projectInfo.extraInfo"></FinishInfo>
+      </v-container>
+    </v-card>
+
+    <v-card class="mt-2">
+      <v-container fluid>
+        <Stock :extraInfo="projectInfo.extraInfo"></Stock>
+      </v-container>
+    </v-card>
+
+    <v-card class="mt-2">
+      <v-container fluid>
+        <Assign :projectInfo="projectInfo"></Assign>
+      </v-container>
+    </v-card>
+
+    <v-card class="mt-2">
+      <v-container fluid>
+        <Company :extraInfo="projectInfo.extraInfo"></Company>
+      </v-container>
+    </v-card>
+
+    <v-card class="mt-2">
+      <v-container fluid>
+        <Check :extraInfo="projectInfo.extraInfo"></Check>
+      </v-container>
+    </v-card>
+
+    <v-card class="mt-2">
+      <v-container fluid>
+        <CheckResult :extraInfo="projectInfo.extraInfo"></CheckResult>
+      </v-container>
+    </v-card>
+
     <v-dialog width="600" v-model="nextCanDialog">
       <v-card>
         <v-container fluid>
@@ -172,12 +208,24 @@ import { Group } from '@/types/company';
 
 import Info from '@/components/project/widget/Info.vue';
 import UserService from '../../service/userService';
+import FinishInfo from '@/components/project/dashboard/FinishInfo.vue';
+import Stock from '@/components/project/dashboard/Stock.vue';
+import Company from '@/components/project/dashboard/Company.vue';
+import Check from '@/components/project/dashboard/Check.vue';
+import CheckResult from '@/components/project/dashboard/CheckResult.vue';
+import Assign from '@/components/project/dashboard/Assign.vue';
 
 const userModule = namespace('user');
 
 @Component({
   components: {
-    Info
+    Info,
+    FinishInfo,
+    Stock,
+    Company,
+    Assign,
+    Check,
+    CheckResult
   }
 })
 export default class AssignAudit extends Vue {
@@ -218,7 +266,7 @@ export default class AssignAudit extends Vue {
       );
 
       this.$emit('updateTimeline');
-      this.$router.push({ path: '/' });
+      this.$router.push({ path: '/todo' });
     } catch (err) {}
   }
 
@@ -274,7 +322,7 @@ export default class AssignAudit extends Vue {
 
       await ProjectService.updateProjectInfo(this.projectInfo);
       this.$snack('操作成功，该工作流结束');
-      this.$router.push({ path: '/' });
+      this.$router.push({ path: '/todo' });
     } catch (err) {}
   }
 

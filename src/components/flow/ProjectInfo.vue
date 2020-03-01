@@ -53,6 +53,7 @@
         <Info :projectInfo="projectInfo" v-if="projectInfo"></Info>
       </v-container>
     </v-card>
+
     <v-card class="mt-2">
       <v-container fluid>
         <FinishInfo :extraInfo="projectInfo.extraInfo"></FinishInfo>
@@ -67,7 +68,25 @@
 
     <v-card class="mt-2">
       <v-container fluid>
+        <Assign :projectInfo="projectInfo"></Assign>
+      </v-container>
+    </v-card>
+
+    <v-card class="mt-2">
+      <v-container fluid>
         <Company :extraInfo="projectInfo.extraInfo"></Company>
+      </v-container>
+    </v-card>
+
+    <v-card class="mt-2">
+      <v-container fluid>
+        <Check :extraInfo="projectInfo.extraInfo"></Check>
+      </v-container>
+    </v-card>
+
+    <v-card class="mt-2">
+      <v-container fluid>
+        <CheckResult :extraInfo="projectInfo.extraInfo"></CheckResult>
       </v-container>
     </v-card>
 
@@ -144,6 +163,9 @@ import Info from '@/components/project/widget/Info.vue';
 import FinishInfo from '@/components/project/dashboard/FinishInfo.vue';
 import Stock from '@/components/project/dashboard/Stock.vue';
 import Company from '@/components/project/dashboard/Company.vue';
+import Assign from '@/components/project/dashboard/Assign.vue';
+import Check from '@/components/project/dashboard/Check.vue';
+import CheckResult from '@/components/project/dashboard/CheckResult.vue';
 
 const userModule = namespace('user');
 
@@ -152,7 +174,10 @@ const userModule = namespace('user');
     Info,
     FinishInfo,
     Stock,
-    Company
+    Company,
+    Assign,
+    Check,
+    CheckResult
   }
 })
 export default class ProjectInfo extends Vue {
@@ -205,7 +230,7 @@ export default class ProjectInfo extends Vue {
 
       await ProjectService.updateProjectInfo({ ...this.projectInfo, ...p });
       this.$snack('操作成功，该工作流结束');
-      this.$router.push({ path: '/' });
+      this.$router.push({ path: '/todo' });
     } catch (err) {}
   }
 
