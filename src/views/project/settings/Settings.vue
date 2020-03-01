@@ -214,7 +214,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="6" v-if="projectType == 0">
+      <v-col cols="6" v-if="projectType == 1">
         <v-row no-gutters>
           <v-col cols="12" class="mb-6">
             <v-card>
@@ -356,12 +356,14 @@
               </v-container>
             </v-card>
           </v-col>
-          <v-col cols="12" class="mb-6">
+
+          <!-- 开始了才需要填写 -->
+          <v-col cols="12" class="mb-6" v-if="currentProject.extraInfo.started">
             <v-card>
               <Assign :projectInfo="currentProject"></Assign>
             </v-card>
           </v-col>
-          <v-col cols="12" class="mb-6">
+          <v-col cols="12" class="mb-6" v-if="currentProject.extraInfo.started">
             <v-card>
               <v-toolbar dense flat class="transparent">
                 <v-toolbar-title class="body-2 font-weight-black">
@@ -389,7 +391,7 @@
               </v-container>
             </v-card>
           </v-col>
-          <v-col cols="12" class="mb-6">
+          <v-col cols="12" class="mb-6" v-if="currentProject.extraInfo.started">
             <v-card>
               <v-toolbar dense flat class="transparent">
                 <v-toolbar-title class="body-2 font-weight-black">

@@ -292,7 +292,7 @@ import appBar from '@/components/common/app-bar/AppBar.vue';
 
 import UserService from '@/service/userService';
 import { Authorization, UserInfo } from '@/types/user';
-import { ProjectTemplate, Project } from '@/types/project';
+import { ProjectTemplate, Project, ProjectExtraInfo } from '@/types/project';
 import WorkflowService from '@/service/workflowService';
 import { FlowLinkTask } from '@/types/workflow';
 
@@ -442,6 +442,7 @@ export default class ProjectHome extends Vue {
 
   async createProject() {
     try {
+      this.createProjectInfo.extraInfo = new ProjectExtraInfo();
       this.createProjectInfo.extraInfo.status = '立项申请';
       const rsp = await ProjectService.createProject(this.createProjectInfo);
       this.$snack('创建成功');
