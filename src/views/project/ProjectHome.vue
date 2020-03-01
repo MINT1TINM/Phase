@@ -114,7 +114,7 @@
                   <v-data-table
                     class="transparent"
                     :headers="headers"
-                    :items="projectList"
+                    :items="projectListShow"
                   >
                     <template v-slot:item.type="{ item }">
                       <div v-if="item.extraInfo.type == 0">
@@ -479,7 +479,6 @@ export default class ProjectHome extends Vue {
 
   async getProjectList() {
     await ProjectService.getProjectList(this.authorization.userID);
-    console.log(this.projectList);
   }
 
   async getTemplateList() {
