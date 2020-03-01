@@ -479,6 +479,7 @@ export default class ProjectHome extends Vue {
 
   async getProjectList() {
     await ProjectService.getProjectList(this.authorization.userID);
+    console.log(this.projectList);
   }
 
   async getTemplateList() {

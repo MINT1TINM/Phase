@@ -31,6 +31,8 @@ class ProjectService {
       // use array as params
       userID
     });
+
+    console.log(rsp.project);
     store.commit('project/updateProjectList', rsp.project);
   }
 

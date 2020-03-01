@@ -48,7 +48,7 @@ module.exports = {
       // terser
       const terserWebpackPlugin = config.optimization.minimizer[0];
       const { terserOptions } = terserWebpackPlugin.options;
-      terserOptions.compress.drop_console = true;
+      // terserOptions.compress.drop_console = true;
       terserWebpackPlugin.cache = true;
       terserWebpackPlugin.parallel = true;
       // gzip
