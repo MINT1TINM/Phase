@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container grid-list-md>
+    <v-container fluid grid-list-md>
       <v-layout row wrap>
         <v-flex xs12>
           <v-card-title class="subtitle-1 font-weight-black">
@@ -15,17 +15,17 @@
               <v-icon size="20" class="ml-1">mdi-arrow-right</v-icon>
             </v-btn>
           </v-card-title>
-          <v-container>
+          <v-container fluid>
             <transition appear appear-active-class="fade-up-enter">
               <v-layout row wrap>
-                <v-flex xs3>
+                <v-flex xs2>
                   <v-hover v-slot:default="{ hover }">
                     <v-card
                       :elevation="hover ? 8 : 0"
                       @click="createProjectDialog = true"
                       outlined
                     >
-                      <v-img height="150">
+                      <v-img height="100">
                         <v-layout fill-height justify-center align-center>
                           <v-icon size="30">mdi-plus</v-icon>
                         </v-layout>
@@ -107,7 +107,7 @@
             <v-btn outlined @click="filt">筛选</v-btn>
           </v-toolbar>
 
-          <v-container>
+          <v-container fluid>
             <transition appear appear-active-class="fade-up-enter">
               <v-layout>
                 <v-col cols="12" class="pa-0">
