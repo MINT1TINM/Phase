@@ -44,7 +44,7 @@ export default class FlowTodo extends Vue {
         value: 'nodeID'
       },
       {
-        text: '事件',
+        text: '时间',
         value: 'startTime'
       },
       {
