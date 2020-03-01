@@ -347,7 +347,6 @@ export default class AssignAudit extends Vue {
         l
       );
       this.$router.push({ path: '/todo' });
-      this.$emit('updateTimeline');
     } catch (err) {}
   }
 
