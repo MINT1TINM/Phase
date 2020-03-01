@@ -214,7 +214,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="6" v-if="projectType == 1">
+      <v-col cols="6" v-if="projectType == 1 || extraInfo.started">
         <v-row no-gutters>
           <v-col cols="12" class="mb-6">
             <v-card>
