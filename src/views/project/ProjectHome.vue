@@ -114,7 +114,7 @@
                   <v-data-table
                     class="transparent"
                     :headers="headers"
-                    :items="projectListShow"
+                    :items="projectList"
                   >
                     <template v-slot:item.type="{ item }">
                       <div v-if="item.extraInfo.type == 0">
