@@ -53,6 +53,23 @@
         <Info :projectInfo="projectInfo" v-if="projectInfo"></Info>
       </v-container>
     </v-card>
+    <v-card class="mt-2">
+      <v-container fluid>
+        <FinishInfo :extraInfo="projectInfo.extraInfo"></FinishInfo>
+      </v-container>
+    </v-card>
+
+    <v-card class="mt-2">
+      <v-container fluid>
+        <Stock :extraInfo="projectInfo.extraInfo"></Stock>
+      </v-container>
+    </v-card>
+
+    <v-card class="mt-2">
+      <v-container fluid>
+        <Company :extraInfo="projectInfo.extraInfo"></Company>
+      </v-container>
+    </v-card>
 
     <v-dialog width="600" v-model="finishDialog">
       <v-card>
@@ -124,12 +141,18 @@ import { Authorization, UserInfo } from '@/types/user';
 import ProjectService from '@/service/projectService';
 
 import Info from '@/components/project/widget/Info.vue';
+import FinishInfo from '@/components/project/dashboard/FinishInfo.vue';
+import Stock from '@/components/project/dashboard/Stock.vue';
+import Company from '@/components/project/dashboard/Company.vue';
 
 const userModule = namespace('user');
 
 @Component({
   components: {
-    Info
+    Info,
+    FinishInfo,
+    Stock,
+    Company
   }
 })
 export default class ProjectInfo extends Vue {
