@@ -42,6 +42,21 @@ class UserService {
     return rsp;
   }
 
+  static async changePassword(
+    id: string,
+    oldPassword: string,
+    newPassword: string
+  ) {
+    const rsp = await basicService.putRequest('/user/password', {
+      id,
+      oldPassword,
+      newPassword
+    });
+
+    if (rsp.msg === 'success') return Promise.resolve();
+    return Promise.reject();
+  }
+
   static async updateUserInfo(userInfo: UserInfo) {
     const rsp = await basicService.putRequest('/user/info', {
       id: store.getters['user/authorization'].userID,

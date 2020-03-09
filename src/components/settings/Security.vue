@@ -55,6 +55,7 @@ const userModule = namespace('user');
 @Component
 export default class SecuritySetting extends Vue {
   @userModule.Getter('authorization') authorization!: Authorization;
+  @userModule.Mutation('clearAuthorization') clearAuthorization: any;
 
   loginHistory: Login[] = [];
 
@@ -62,7 +63,7 @@ export default class SecuritySetting extends Vue {
     {
       type: 'text-field',
       title: '当前密码',
-      name: 'currentPassword',
+      name: 'oldPassword',
       password: true
     },
     {
@@ -79,7 +80,11 @@ export default class SecuritySetting extends Vue {
     }
   ];
 
-  updatePasswordTarget = {};
+  updatePasswordTarget = {
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  };
 
   async getUserLoginHistory() {
     const rsp = await UserService.getUserLoginHistory(
@@ -88,7 +93,27 @@ export default class SecuritySetting extends Vue {
     this.loginHistory = rsp.loginHistory;
   }
 
-  async updatePassword() {}
+  async updatePassword() {
+    try {
+      if (
+        this.updatePasswordTarget.newPassword ===
+        this.updatePasswordTarget.confirmPassword
+      ) {
+        const rsp = await UserService.changePassword(
+          this.authorization.userID,
+          this.updatePasswordTarget.oldPassword,
+          this.updatePasswordTarget.newPassword
+        );
+        this.$snack('修改成功');
+        this.clearAuthorization();
+        window.location.href = '/';
+      } else {
+        this.$snack('两次密码输入不一致');
+      }
+    } catch (_) {
+      this.$snack('修改失败');
+    }
+  }
 
   mounted() {
     this.getUserLoginHistory();
