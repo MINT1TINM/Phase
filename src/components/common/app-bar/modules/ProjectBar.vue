@@ -5,7 +5,7 @@
     </v-toolbar-items>
 
     <!-- project switcher -->
-    <v-toolbar-items v-if="currentProject">
+    <!-- <v-toolbar-items v-if="currentProject">
       <v-menu
         :close-on-content-click="false"
         v-model="projectSwitcher"
@@ -54,10 +54,10 @@
 
     <v-toolbar-items v-if="$route.params.processID">
       <v-icon small>mdi-chevron-right</v-icon>
-    </v-toolbar-items>
+    </v-toolbar-items> -->
 
     <!-- process switcher -->
-    <v-toolbar-items v-if="$route.params.processID">
+    <!-- <v-toolbar-items v-if="$route.params.processID">
       <v-menu
         :close-on-content-click="false"
         v-model="processSwitcher"
@@ -94,9 +94,9 @@
           </v-list>
         </v-card>
       </v-menu>
-    </v-toolbar-items>
+    </v-toolbar-items> -->
 
-    <v-divider v-if="currentProjectID" vertical inset></v-divider>
+    <!-- <v-divider v-if="currentProjectID" vertical inset></v-divider> -->
 
     <!-- exporter -->
     <v-toolbar-items v-if="currentProjectID">
