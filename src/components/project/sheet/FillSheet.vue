@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar flat>
+    <v-toolbar color="transparent" flat>
       <v-text-field
         single-line
         hide-details
@@ -42,7 +42,7 @@
     <v-divider class="mt-4"></v-divider>
     <v-container class="pt-0" fluid v-if="templateInfo.type === `key`">
       <dim-form
-        :formContent="templateInfo.field.data"
+        :formContent="formContent"
         :target="sheetInfoShow.content"
       ></dim-form>
     </v-container>
@@ -51,20 +51,14 @@
       <v-simple-table>
         <thead>
           <tr>
-            <th
-              v-for="(item, i) in templateInfo.field.data"
-              :key="`field-title-${i}`"
-            >
+            <th v-for="(item, i) in formContent" :key="`field-title-${i}`">
               {{ item.title }}
             </th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, i) in sheetInfoShow.content" :key="`c-${i}`">
-            <td
-              v-for="(field, i) in templateInfo.field.data"
-              :key="`field-${i}`"
-            >
+            <td v-for="(field, i) in formContent" :key="`field-${i}`">
               <v-text-field
                 outlined
                 single-line
@@ -99,6 +93,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import SheetService from '@/service/sheetService';
 import { Sheet, Field, Template } from '@/types/sheet';
+import FileService from '@/service/fileService';
 
 const projectModule = namespace('project');
 
@@ -132,6 +127,26 @@ export default class FillSheet extends Vue {
 
   closeDialog() {
     this.$emit('closeDialog');
+  }
+
+  get formContent() {
+    const c = this.templateInfo.field.data;
+    console.log(c);
+    c.forEach((e: any) => {
+      if (e.type == 'file-input') {
+        console.log(e);
+        e.changeFunc = async (v: any) => {
+          if (v) {
+            const rsp = await FileService.uploadFile(v, '', '');
+            this.sheetInfoShow.content[e.name] = rsp.path;
+          }
+        };
+        e.downFunc = () => {
+          FileService.downloadFileFromFs(this.sheetInfoShow.content[e.name]);
+        };
+      }
+    });
+    return c;
   }
 
   get sheetInfoShow() {

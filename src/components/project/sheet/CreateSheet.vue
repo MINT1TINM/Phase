@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-toolbar flat class="transparent">
+    <v-toolbar flat color="transparent">
       <v-layout justify-center>
         <h3>请选择模版</h3>
       </v-layout>
@@ -67,16 +67,12 @@ const projectModule = namespace('project');
 @Component
 export default class CreateSheet extends Vue {
   @Prop({ default: '' }) taskID?: string;
-
   // check draft or sheet
   @Prop({ default: '' }) target?: string;
 
   @projectModule.Getter('currentProjectID') currentProjectID: any;
-
   searchTemplateContent: string = '';
-
   templateList: Template[] = [];
-
   searching: boolean = false;
 
   async searchTemplate() {

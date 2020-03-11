@@ -197,19 +197,13 @@ export default class SheetDesign extends Vue {
   };
 
   @userModule.Getter('authorization') authorization!: Authorization;
-
   @sheetModule.Getter('sheetTemplate') sheetTemplate: any;
-
   @sheetModule.Getter('currentTemplateID') currentTemplateID!: string;
-
   @sheetModule.Mutation('insertNewEmptyField') insertNewEmptyField: any;
-
   @sheetModule.Mutation('updateCurrentTemplateID')
   updateCurrentTemplateID: any;
-
   @sheetModule.Mutation('updateSheetTemplate')
   updateSheetTemplate: any;
-
   @sheetModule.Mutation('restoreSheetTemplate')
   restoreSheetTemplate: any;
 
@@ -218,7 +212,8 @@ export default class SheetDesign extends Vue {
     { label: '文本框', value: 'text-area' },
     { label: '选择', value: 'select' },
     { label: '多项选择', value: 'multi-select' },
-    { label: '日期', value: 'date-picker' }
+    { label: '日期', value: 'date-picker' },
+    { label: '文件', value: 'file-input' }
   ];
 
   insertField() {
@@ -299,7 +294,7 @@ export default class SheetDesign extends Vue {
   }
 
   async mounted() {
-    if (this.currentTemplateID) {
+    if (this.currentTemplateID != '') {
       const rsp = await SheetService.getSheetTemplate(this.currentTemplateID);
       this.updateSheetTemplate(rsp.template);
     }
