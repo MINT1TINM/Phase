@@ -80,7 +80,7 @@ class FileService {
     fileForm.append('file', file);
     fileForm.append('projectID', projectID);
 
-    const rsp = await basicService.postRequest('/file', fileForm);
+    const rsp = await basicService.postRequest('/file/fs', fileForm);
     // store.commit("system/updateUploadPercent", 0);
     return rsp as {
       path: string;
