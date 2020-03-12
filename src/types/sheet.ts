@@ -8,6 +8,11 @@ class Field {
 }
 
 class Template {
+  constructor() {
+    this.field = {
+      data: []
+    };
+  }
   name!: string;
   field!: { data: Field[] };
   type!: string;

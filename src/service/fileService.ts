@@ -72,6 +72,24 @@ class FileService {
     }
     return rsp;
   }
+
+  static async uploadFileToFs(file: any, path: any, projectID: string) {
+    // store.ommit("system/updateUploadPercent", 0);
+    const fileForm = new FormData();
+    fileForm.append('path', path.toString());
+    fileForm.append('file', file);
+    fileForm.append('projectID', projectID);
+
+    const rsp = await basicService.postRequest('/file', fileForm);
+    // store.commit("system/updateUploadPercent", 0);
+    return rsp as {
+      path: string;
+      msg: string;
+    };
+  }
+  static async downloadFileFromFs(path: string) {
+    window.open(`http://172.20.5.223:9088/image?path=${path}`, '_blank');
+  }
 }
 
 export default FileService;

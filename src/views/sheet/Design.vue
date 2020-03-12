@@ -218,7 +218,8 @@ export default class SheetDesign extends Vue {
     { label: '文本框', value: 'text-area' },
     { label: '选择', value: 'select' },
     { label: '多项选择', value: 'multi-select' },
-    { label: '日期', value: 'date-picker' }
+    { label: '日期', value: 'date-picker' },
+    { label: '文件', value: 'file-input' }
   ];
 
   private insertField() {
