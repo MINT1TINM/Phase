@@ -1,6 +1,6 @@
 <template>
   <div style="display:flex;height:100%">
-    <v-toolbar-items v-if="currentProject">
+    <v-toolbar-items v-if="currentProjectID">
       <v-icon small>mdi-chevron-right</v-icon>
     </v-toolbar-items>
 
