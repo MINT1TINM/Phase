@@ -88,11 +88,12 @@ export default class FlowTimeline extends Vue {
     this.instance = (
       await WorkflowService.getWorkflowInstance(Number(this.instanceID))
     ).instance;
+    // console.log("instance:", this.instance);
   }
 
   async getTimeline() {
     const t = (
-      await WorkflowService.getTimeline(Number(this.instance.id))
+      await WorkflowService.getTimeline(Number(this.instanceID))
     ).timeline.reverse();
 
     this.timeline = t;

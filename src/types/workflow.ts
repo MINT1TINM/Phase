@@ -1,3 +1,14 @@
+class NodeInfo {
+  actType!: string;
+  allowTaskRedirect!: boolean;
+  approver!: string;
+  aproverType!: string;
+  memberCount!: 0;
+  nodeId!: string;
+  redirectRange: any;
+  type!: string;
+}
+
 class Instance {
   id!: number;
   candidate!: string;
@@ -7,6 +18,7 @@ class Instance {
   endTime!: string;
   isFinished!: false;
   nodeID!: string;
+  node_infos!: NodeInfo[];
   procDefId!: number;
   procDefName!: string;
   startTime!: string;
