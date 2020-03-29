@@ -50,22 +50,28 @@
 
     <v-bottom-sheet inset v-model="editSubTaskDialog" persistent>
       <v-sheet class="text-center" height="800" style="overflow:auto">
-        <v-toolbar flat>
-          <v-text-field
-            single-line
-            hide-details
-            class="subtitle-1 font-weight-black"
-            v-model="currentSubTask.name"
-          ></v-text-field>
-          <v-spacer></v-spacer>
-          <v-btn rounded text @click="editSubTaskDialog = false">
-            <v-icon size="20">mdi-close</v-icon>&nbsp;取消
-          </v-btn>
-          <v-btn rounded text @click="updateSubTask">
-            <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
-          </v-btn>
-        </v-toolbar>
-        <v-container fluid>
+        <v-card flat>
+          <v-toolbar flat>
+            <span class="headline">{{ currentSubTask.name }}</span>
+
+            <v-spacer></v-spacer>
+            <v-btn rounded text @click="editSubTaskDialog = false">
+              <v-icon size="20">mdi-close</v-icon>&nbsp;取消
+            </v-btn>
+            <v-btn rounded text @click="updateSubTask">
+              <v-icon size="20">mdi-content-save-outline</v-icon>&nbsp;保存
+            </v-btn>
+          </v-toolbar>
+          <v-card-text>
+            <v-form ref="subTaskInfoForm">
+              <dim-form
+                :formContent="subTaskInfoContent"
+                :target="currentSubTask"
+              ></dim-form>
+            </v-form>
+          </v-card-text>
+        </v-card>
+        <!-- <v-container fluid>
           <v-layout wrap>
             <v-flex xs12>
               <v-card outlined width="100%">
@@ -115,7 +121,7 @@
               </v-card>
             </v-flex>
           </v-layout>
-        </v-container>
+        </v-container>-->
       </v-sheet>
     </v-bottom-sheet>
 
@@ -186,7 +192,9 @@ export default class SubTaskList extends Vue {
     name: '',
     createdAt: '',
     status: 0,
-    file: [],
+    color: '',
+    startDate: '',
+    endDate: '',
     content: [],
     certificate: []
   };
@@ -199,8 +207,20 @@ export default class SubTaskList extends Vue {
       sortable: false
     },
     {
+      text: '等级',
+      value: 'color',
+      align: 'center',
+      sortable: false
+    },
+    {
       text: '名称',
       value: 'name',
+      align: 'center',
+      sortable: false
+    },
+    {
+      text: '时间',
+      value: 'date',
       align: 'center',
       sortable: false
     },
@@ -210,6 +230,52 @@ export default class SubTaskList extends Vue {
       align: 'center',
       sortable: false
     }
+  ];
+
+  subTaskInfoContent = [
+    {
+      type: 'text-field',
+      title: '任务名称',
+      name: 'name'
+    },
+    {
+      type: 'date-range',
+      title: '计划时间',
+      nameStart: 'startDate',
+      nameEnd: 'endDate'
+    },
+    {
+      type: 'select',
+      title: '任务等级',
+      name: 'color',
+      text: 'name',
+      value: 'color',
+      list: [
+        {
+          name: '非常紧急',
+          color: '#E53935'
+        },
+        {
+          name: '非常重要',
+          color: '#FB8C00'
+        },
+        {
+          name: '紧急',
+          color: '#FFD708'
+        },
+        {
+          name: '重要',
+          color: '#29B6F6'
+        },
+        {
+          name: '一般',
+          color: '#76CC49'
+        }
+      ]
+    }
+    // {
+    //   divider: true
+    // }
   ];
 
   async createSubTask() {
@@ -236,7 +302,9 @@ export default class SubTaskList extends Vue {
       this.currentSubTask.id!,
       this.currentSubTask.name!,
       this.currentSubTask.content!,
-      this.currentSubTask.file!,
+      this.currentSubTask.color!,
+      this.currentSubTask.startDate!,
+      this.currentSubTask.endDate!,
       this.currentSubTask.certificate!
     );
     await TaskService.getTaskInfo(this.$route.params.taskID);

@@ -79,8 +79,9 @@
                 restoreOptions();
                 filt();
               "
-              ><v-icon size="20">mdi-close</v-icon></v-btn
             >
+              <v-icon size="20">mdi-close</v-icon>
+            </v-btn>
             <v-select
               dense
               outlined
@@ -106,42 +107,23 @@
             <v-spacer></v-spacer>
             <v-btn outlined @click="filt">筛选</v-btn>
           </v-toolbar>
-
-          <v-container fluid>
+          <!-- <v-container fluid>
             <transition appear appear-active-class="fade-up-enter">
               <v-layout>
                 <v-col cols="12" class="pa-0">
-                  <v-data-table
-                    class="transparent"
-                    :headers="headers"
-                    :items="projectListShow"
-                  >
+                  <v-data-table class="transparent" :headers="headers" :items="projectListShow">
                     <template v-slot:item.type="{ item }">
-                      <div v-if="item.extraInfo.type == 0">
-                        竣工结算审计
-                      </div>
-                      <div v-else-if="item.extraInfo.type == 1">
-                        全过程投资审计基建工程
-                      </div>
-                      <div v-else-if="item.extraInfo.type == 2">
-                        全过程投资审计修缮工程
-                      </div>
-                    </template>
+                      <div v-if="item.extraInfo.type == 0">竣工结算审计</div>
+                      <div v-else-if="item.extraInfo.type == 1">全过程投资审计基建工程</div>
+                      <div v-else-if="item.extraInfo.type == 2">全过程投资审计修缮工程</div>
+                    </template>s
                     <template v-slot:item.company="{ item }">
-                      <div v-if="item.extraInfo.company">
-                        {{ item.extraInfo.company.projectCompany.name }}
-                      </div>
+                      <div v-if="item.extraInfo.company">{{ item.extraInfo.company.projectCompany.name }}</div>
                     </template>
-                    <template v-slot:item.area="{ item }">
-                      {{ item.extraInfo.area }}
-                    </template>
-                    <template v-slot:item.status="{ item }">
-                      {{ item.extraInfo.status }}
-                    </template>
+                    <template v-slot:item.area="{ item }">{{ item.extraInfo.area }}</template>
+                    <template v-slot:item.status="{ item }">{{ item.extraInfo.status }}</template>
                     <template v-slot:item.investment="{ item }">
-                      <div v-if="item.extraInfo.investAuditCompany">
-                        {{ item.extraInfo.investAuditCompany.name }}
-                      </div>
+                      <div v-if="item.extraInfo.investAuditCompany">{{ item.extraInfo.investAuditCompany.name }}</div>
                       <div v-else></div>
                     </template>
                     <template v-slot:item.price="{ item }">
@@ -167,35 +149,73 @@
                         <template v-slot:activator="{ on }">
                           <v-btn v-on="on" text>
                             操作
-                            <v-icon size="20" class="ml-2">
-                              mdi-chevron-down
-                            </v-icon>
+                            <v-icon size="20" class="ml-2">mdi-chevron-down</v-icon>
                           </v-btn>
                         </template>
                         <v-list dense>
                           <v-list-item @click="goToProject(item)">
-                            <v-icon size="20">
-                              mdi-information-outline
-                            </v-icon>
+                            <v-icon size="20">mdi-information-outline</v-icon>
 
-                            <v-list-item-action class="body-2">
-                              详情
-                            </v-list-item-action>
+                            <v-list-item-action class="body-2">详情</v-list-item-action>
                           </v-list-item>
                           <v-list-item @click="goToAssign(item)">
-                            <v-icon size="20">
-                              mdi-call-split
-                            </v-icon>
+                            <v-icon size="20">mdi-call-split</v-icon>
 
-                            <v-list-item-action class="body-2">
-                              分配
-                            </v-list-item-action>
+                            <v-list-item-action class="body-2">分配</v-list-item-action>
                           </v-list-item>
                         </v-list>
                       </v-menu>
                     </template>
                   </v-data-table>
                 </v-col>
+              </v-layout>
+            </transition>
+          </v-container> -->
+
+          <v-container fluid>
+            <transition appear appear-active-class="fade-up-enter">
+              <v-layout row wrap>
+                <v-flex
+                  xs3
+                  v-for="(item, i) in projectListShow"
+                  :key="`project-${i}`"
+                >
+                  <v-hover v-slot:default="{ hover }">
+                    <v-card
+                      :elevation="hover ? 8 : 0"
+                      outlined
+                      @click="goToProject(item)"
+                    >
+                      <v-img
+                        v-if="item.folderURL"
+                        height="150"
+                        :src="`/api/file/download?sName=${item.folderURL}`"
+                      ></v-img>
+                      <v-img
+                        v-else
+                        class="white--text"
+                        height="150"
+                        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                      ></v-img>
+                      <v-card-title class="body-2 font-weight-black pb-0">
+                        {{ item.name | cut }}
+                        <v-spacer></v-spacer>
+                        <v-avatar size="26">
+                          <v-img :src="item.headImgURL"></v-img>
+                        </v-avatar>
+                        <span class="ml-2 font-weight-black caption">
+                          {{ item.nickName }}
+                        </span>
+                      </v-card-title>
+
+                      <v-card-text class="caption">
+                        <span class="grey--text font-weight-regular">
+                          {{ item.extraInfo.status }}
+                        </span>
+                      </v-card-text>
+                    </v-card>
+                  </v-hover>
+                </v-flex>
               </v-layout>
             </transition>
           </v-container>
@@ -496,6 +516,7 @@ export default class ProjectHome extends Vue {
     this.clearCurrentProjectID();
     this.getTemplateList();
     await this.getProjectList();
+    console.log('projectList:', this.projectList);
 
     this.filt();
   }

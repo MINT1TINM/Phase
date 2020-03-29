@@ -41,7 +41,10 @@ class SubTask {
   name!: string;
   createdAt!: string;
   status!: number;
-  file!: [];
+  color!: string;
+  startDate!: string;
+  endDate!: string;
+  // file!: [];
   content!: SubTaskContent[];
   certificate!: SubTaskCertificate[];
 }

@@ -143,30 +143,30 @@ export default class TaskDetail extends Vue {
     },
     {
       type: 'select',
-      title: '颜色',
+      title: '任务等级',
       name: 'color',
       text: 'name',
       value: 'color',
       list: [
         {
-          name: '红色',
+          name: '非常紧急',
           color: '#E53935'
         },
         {
-          name: '橙色',
+          name: '非常重要',
           color: '#FB8C00'
         },
         {
-          name: '蓝色',
+          name: '紧急',
+          color: '#FFD708'
+        },
+        {
+          name: '重要',
           color: '#29B6F6'
         },
         {
-          name: '绿色',
-          color: '#43A047'
-        },
-        {
-          name: '紫色',
-          color: '#a64ed1'
+          name: '一般',
+          color: '#76CC49'
         }
       ]
     },

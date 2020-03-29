@@ -1,22 +1,19 @@
-import Vue from 'vue';
-
 import basicService from '@/service/basicService';
 import store from '@/store/store';
 import {
+  SubTask,
+  SubTaskCertificate,
   SubTaskContent,
   Task,
-  TaskMember,
-  SubTaskCertificate,
-  SubTask
+  TaskMember
 } from '@/types/task';
+import Vue from 'vue';
 
 const vue = new Vue();
 
 class TaskService {
   static async getTaskList(processID: string) {
-    const rsp = await basicService.getRequest('/task/list', {
-      processID
-    });
+    const rsp = await basicService.getRequest('/task/list', { processID });
     store.commit('process/updateCurrentProcessTask', {
       processID,
       taskList: await rsp.taskList
@@ -33,18 +30,13 @@ class TaskService {
   }
 
   static async createTask(processID: string, name: string) {
-    const rsp = await basicService.postRequest('/task', {
-      processID,
-      name
-    });
+    const rsp = await basicService.postRequest('/task', { processID, name });
 
     return rsp;
   }
 
   static async getTaskInfo(taskID: string) {
-    const rsp = await basicService.getRequest('/task/info', {
-      taskID
-    });
+    const rsp = await basicService.getRequest('/task/info', { taskID });
     store.commit('task/updateCurrentTask', rsp.task);
     return rsp;
   }
@@ -69,10 +61,7 @@ class TaskService {
   }
 
   static async insertTaskFile(taskID: string, file: any) {
-    const rsp = await basicService.postRequest('/task/file', {
-      taskID,
-      file
-    });
+    const rsp = await basicService.postRequest('/task/file', { taskID, file });
     if (rsp.msg === 'success') {
       vue.$snack('链接成功');
     }
@@ -91,9 +80,7 @@ class TaskService {
   }
 
   static async deleteTask(taskID: string) {
-    const rsp = await basicService.deleteRequest('/task', {
-      taskID
-    });
+    const rsp = await basicService.deleteRequest('/task', { taskID });
     return rsp;
   }
 
@@ -134,7 +121,9 @@ class TaskService {
     subTaskID: string,
     name: string,
     content: SubTaskContent[],
-    file: any[],
+    color: string,
+    startDate: string,
+    endDate: string,
     certificate: SubTaskCertificate[]
   ) {
     const rsp = await basicService.putRequest('/task/subtask', {
@@ -142,7 +131,9 @@ class TaskService {
       subTaskID,
       name,
       content,
-      file,
+      color,
+      startDate,
+      endDate,
       certificate
     });
     if (rsp.msg === 'success') {

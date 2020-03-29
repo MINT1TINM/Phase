@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="pa-2">
     <v-row no-gutters>
-      <v-col cols="4">
+      <v-col cols="6">
         <v-row no-gutters>
           <v-col cols="12">
             <v-card class="ma-2">
@@ -44,7 +44,7 @@
         </v-row>
       </v-col>
 
-      <v-col cols="4">
+      <v-col cols="6">
         <v-row no-gutters>
           <v-col cols="12">
             <v-card class="ma-2">
@@ -57,9 +57,7 @@
             </v-card>
           </v-col>
         </v-row>
-      </v-col>
 
-      <v-col cols="4">
         <v-row no-gutters>
           <v-col cols="12">
             <v-card class="ma-2">
