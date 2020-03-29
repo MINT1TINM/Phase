@@ -146,7 +146,7 @@ export default class TaskDetail extends Vue {
       title: '任务等级',
       name: 'color',
       text: 'name',
-      value: 'color',
+      value: 'name',
       list: [
         {
           name: '非常紧急',
@@ -158,7 +158,7 @@ export default class TaskDetail extends Vue {
         },
         {
           name: '紧急',
-          color: '#FFD708'
+          color: '#F8CF5E'
         },
         {
           name: '重要',

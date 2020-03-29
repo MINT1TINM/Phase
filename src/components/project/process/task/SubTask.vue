@@ -19,6 +19,20 @@
           >
           <v-icon v-else color="grey">mdi-help-circle-outline</v-icon>
         </template>
+        <template v-slot:item.date="props">
+          <span v-if="props.item.startDate && props.item.endDate"
+            >{{ props.item.startDate | format('MM.dd') }} ~
+            {{ props.item.endDate | format('MM.dd') }}</span
+          >
+        </template>
+        <template v-slot:item.color="props">
+          <v-btn
+            v-if="props.item.color"
+            outlined
+            :color="taskColor[props.item.color]"
+            >{{ props.item.color }}</v-btn
+          >
+        </template>
 
         <template v-slot:item.actions="{ item }">
           <v-btn
@@ -231,7 +245,13 @@ export default class SubTaskList extends Vue {
       sortable: false
     }
   ];
-
+  taskColor = {
+    非常紧急: '#E53935',
+    非常重要: '#FB8C00',
+    紧急: '#FFD708',
+    重要: '#29B6F6',
+    一般: '#76CC49'
+  };
   subTaskInfoContent = [
     {
       type: 'text-field',
@@ -249,7 +269,7 @@ export default class SubTaskList extends Vue {
       title: '任务等级',
       name: 'color',
       text: 'name',
-      value: 'color',
+      value: 'name',
       list: [
         {
           name: '非常紧急',
@@ -261,7 +281,7 @@ export default class SubTaskList extends Vue {
         },
         {
           name: '紧急',
-          color: '#FFD708'
+          color: '#F8CF5E'
         },
         {
           name: '重要',
@@ -280,8 +300,12 @@ export default class SubTaskList extends Vue {
 
   async createSubTask() {
     const newSubTask = new SubTask();
+    const d = new Date();
     newSubTask.name = '未命名子任务';
     newSubTask.content = [];
+    newSubTask.startDate = `${d.getFullYear()}-${d.getMonth() +
+      1}-${d.getDate()}`;
+    newSubTask.color = '一般';
 
     await TaskService.createSubTask(this.$route.params.taskID, newSubTask);
     await TaskService.getTaskInfo(this.$route.params.taskID);
@@ -291,6 +315,11 @@ export default class SubTaskList extends Vue {
     const newSubTask = new SubTask();
     newSubTask.name = originalSubTask.name;
     newSubTask.content = originalSubTask.content;
+    newSubTask.color = originalSubTask.color;
+    newSubTask.startDate = originalSubTask.startDate;
+    newSubTask.endDate = originalSubTask.endDate;
+    console.log('originalSubTask:', originalSubTask);
+    console.log('newSubTask:', newSubTask);
 
     await TaskService.createSubTask(this.$route.params.taskID, newSubTask);
     await TaskService.getTaskInfo(this.$route.params.taskID);
@@ -356,16 +385,16 @@ export default class SubTaskList extends Vue {
   }
 
   linkFile(v: any) {
-    if (!this.currentSubTask.file) {
-      (this.currentSubTask.file as any) = [];
-    }
-    (this.currentSubTask.file as any).push(v);
-    // remove duplicated
-    (this.currentSubTask.file as any) = Array.from(
-      new Set(this.currentSubTask.file)
-    );
-    console.log(this.currentSubTask.file);
-    this.fileDialog = false;
+    // if (!this.currentSubTask.file) {
+    //   (this.currentSubTask.file as any) = [];
+    // }
+    // (this.currentSubTask.file as any).push(v);
+    // // remove duplicated
+    // (this.currentSubTask.file as any) = Array.from(
+    //   new Set(this.currentSubTask.file)
+    // );
+    // console.log(this.currentSubTask.file);
+    // this.fileDialog = false;
   }
 
   async downloadFile(item: any) {

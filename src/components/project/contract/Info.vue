@@ -135,9 +135,9 @@ export default class ProjectContractInfo extends Vue {
   }
 
   async removeFile(item: any) {
-    const index = this.contract.file.indexOf(item);
-    this.contract.file.splice(index, 1);
-    await ContractService.updateContract(this.contract);
+    // const index = this.contract.file.indexOf(item);
+    // this.contract.file.splice(index, 1);
+    // await ContractService.updateContract(this.contract);
   }
 
   get contractShow() {
