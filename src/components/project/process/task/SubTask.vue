@@ -404,10 +404,10 @@ export default class SubTaskList extends Vue {
 
   //  showFile(item: any) {}
 
-  removeFile(item: any) {
-    const index = (this.currentSubTask.file as any).indexOf(item);
-    (this.currentSubTask.file as any).splice(index, 1);
-  }
+  // removeFile(item: any) {
+  //   const index = (this.currentSubTask.file as any).indexOf(item);
+  //   (this.currentSubTask.file as any).splice(index, 1);
+  // }
 
   get subTaskShow() {
     const { subTask } = this;
