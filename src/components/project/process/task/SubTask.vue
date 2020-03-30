@@ -1,7 +1,7 @@
 <template>
   <div>
     <b>subTaskMember:</b>
-    {{ subTaskMember }}
+    {{ subTaskMember }}<br />
     <b>currentSubTask:</b>
     {{ currentSubTask }}
     <v-card outlined>
@@ -298,18 +298,18 @@ export default class SubTaskList extends Vue {
       chips: true,
       text: 'nickName',
       value: 'userID',
-      list: [] //this.subTaskMember
+      list: this.subTaskMember
     }
   ];
   taskMember: any[] = [];
   get subTaskMember() {
     // console.log(
-    //   'subTaskMember:',
-    //   this.currentTask.member.data.map(e => this.projectMemberCache(e))
+    //   'currentSubTask:',
+    //   this.currentSubTask.member.data.map(e => this.projectMemberCache(e))
     // );
-    console.log('this.currentTask:', this.currentTask);
+    console.log('this.currentSubTask:', this.currentSubTask);
 
-    return (this.currentTask.member.data || []).map(e =>
+    return (this.currentSubTask.member.data || []).map(e =>
       this.projectMemberCache(e)
     );
   }
