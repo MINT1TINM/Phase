@@ -1,9 +1,10 @@
 <template>
   <div>
-    <b>subTaskMember:</b>
-    {{ subTaskMember }}<br />
-    <b>currentSubTask:</b>
-    {{ currentSubTask }}
+    <!-- <b>taskMember:</b>
+    {{ taskMember }}
+    <br>-->
+    <!-- <b>currentSubTask:</b>
+    {{ currentSubTask }}-->
     <v-card outlined>
       <v-card-title class="font-weight-black subtitle-1">
         子任务
@@ -30,19 +31,22 @@
           </span>
         </template>
         <template v-slot:item.detail="props">
-          <span v-if="props.item.startDate && props.item.startDate">
+          <span v-if="props.item.startDate && props.item.endDate">
             {{ props.item.startDate | format('MM.dd') }} ~
             {{ props.item.endDate | format('MM.dd') }} 共{{
-              Math.floor(
-                (new Date(props.item.endDate).getTime() -
-                  new Date(props.item.startDate).getTime()) /
-                  (24 * 3600 * 1000)
+              Math.abs(
+                Math.floor(
+                  (new Date(props.item.endDate).getTime() -
+                    new Date(props.item.startDate).getTime()) /
+                    (24 * 3600 * 1000)
+                )
               )
             }}天
           </span>
-          <span v-if="props.item.member"
-            >{{ props.item.member.length }}名成员</span
-          >
+          <span v-if="props.item.member.data.length">
+            {{ props.item.member.data.length }}名成员
+            <span v-if="memberOverflowAlert(props.item.member.data)">⚠️</span>
+          </span>
         </template>
         <template v-slot:item.color="props">
           <v-btn
@@ -54,15 +58,7 @@
         </template>
 
         <template v-slot:item.actions="{ item }">
-          <v-btn
-            icon
-            small
-            color="primary"
-            @click="
-              editSubTaskDialog = true;
-              currentSubTask = item;
-            "
-          >
+          <v-btn icon small color="primary" @click="openSubTaskDialog(item)">
             <v-icon>mdi-pencil-outline</v-icon>
           </v-btn>
           <v-btn class="ml-1" icon small @click="copySubTask(item)">
@@ -87,7 +83,7 @@
             <span class="headline">{{ currentSubTask.name }}</span>
 
             <v-spacer></v-spacer>
-            <v-btn rounded text @click="editSubTaskDialog = false">
+            <v-btn rounded text @click="closeSubTaskDialog">
               <v-icon size="20">mdi-close</v-icon>&nbsp;取消
             </v-btn>
             <v-btn rounded text @click="updateSubTask">
@@ -147,9 +143,6 @@ import { Task, SubTask, SubTaskCertificate } from '@/types/task';
 import document from '@/views/project/document/Document.vue';
 import searchCertificate from '@/components/finance/certificate/SearchCertificate.vue';
 import previewCertificate from '@/components/finance/certificate/PreviewCertificate.vue';
-import { namespace } from 'vuex-class';
-const taskModule = namespace('task');
-const projectModule = namespace('project');
 
 @Component({
   components: {
@@ -162,8 +155,7 @@ export default class SubTaskList extends Vue {
   @Prop({ default: () => ({ data: [] }) }) subTask!: {
     data: any[];
   };
-  @taskModule.Getter('currentTask') currentTask!: Task;
-  @projectModule.Getter('projectMemberCache') projectMemberCache: any;
+  @Prop({ default: () => [] }) taskMember!: any[];
 
   editSubTaskDialog: boolean = false;
 
@@ -172,8 +164,7 @@ export default class SubTaskList extends Vue {
   fileDialog: boolean = false;
 
   currentCertificate: SubTaskCertificate = { uniNo: '', ord: '' };
-
-  currentSubTask: SubTask = {
+  blankCurrentSubTask: SubTask = {
     id: '',
     status: '',
     name: '',
@@ -185,6 +176,7 @@ export default class SubTaskList extends Vue {
     content: [],
     certificate: []
   };
+  currentSubTask: SubTask = Object.assign({}, this.blankCurrentSubTask);
 
   headers = [
     {
@@ -298,21 +290,45 @@ export default class SubTaskList extends Vue {
       chips: true,
       text: 'nickName',
       value: 'userID',
-      list: this.subTaskMember
+      list: []
     }
   ];
-  taskMember: any[] = [];
-  get subTaskMember() {
-    // console.log(
-    //   'currentSubTask:',
-    //   this.currentSubTask.member.data.map(e => this.projectMemberCache(e))
-    // );
-    console.log('this.currentSubTask:', this.currentSubTask);
-
-    return (this.currentSubTask.member.data || []).map(e =>
-      this.projectMemberCache(e)
-    );
+  @Watch('taskMember', { immediate: true, deep: true })
+  onTaskMemberChanged(newVal: any, oldVal: any) {
+    this.subTaskInfoContent[4].list = this.taskMember as any;
+    // console.log('this.taskMember:', this.taskMember);
+    // console.log('member:', this.currentSubTask.member);
   }
+  openSubTaskDialog(subTask: any) {
+    this.editSubTaskDialog = true;
+    this.currentSubTask = subTask;
+    const taskMember = this.taskMember;
+    let member = this.currentSubTask.member.data;
+    console.log('currentMember:', member);
+    console.log('taskMember:', taskMember);
+    member = member.filter(function(v) {
+      for (let i = 0; i < taskMember.length; i++)
+        if (taskMember[i].userID == v) return true;
+      return false;
+    });
+    this.currentSubTask.member.data = member;
+  }
+
+  memberOverflowAlert(member: string[]) {
+    const taskMemberList = this.taskMember.map(v => {
+      return v.userID;
+    });
+    const result = member.filter(v => {
+      return taskMemberList.indexOf(v) == -1;
+    });
+    return result.length > 0;
+  }
+
+  closeSubTaskDialog() {
+    this.editSubTaskDialog = false;
+    // this.currentSubTask = Object.assign({}, this.blankCurrentSubTask);
+  }
+
   async createSubTask() {
     const newSubTask = new SubTask();
     newSubTask.name = '未命名子任务';
@@ -322,6 +338,7 @@ export default class SubTaskList extends Vue {
     // newSubTask.startDate = `${d.getFullYear()}-${d.getMonth() +
     //   1}-${d.getDate()}`;
     newSubTask.color = '一般';
+    console.log('newSubTask:', newSubTask);
 
     await TaskService.createSubTask(this.$route.params.taskID, newSubTask);
     await TaskService.getTaskInfo(this.$route.params.taskID);
@@ -344,12 +361,14 @@ export default class SubTaskList extends Vue {
   }
 
   async updateSubTask() {
-    // console.log('currentSubTask:', this.currentSubTask);
+    console.log('updateSubTask:', this.currentSubTask);
+    // this.currentSubTask.member = { data: [] };
     await TaskService.updateSubTask(
       this.$route.params.taskID,
       this.currentSubTask
     );
     await TaskService.getTaskInfo(this.$route.params.taskID);
+    // this.currentSubTask = Object.assign({}, this.blankCurrentSubTask);
     this.editSubTaskDialog = false;
   }
 
@@ -426,24 +445,28 @@ export default class SubTaskList extends Vue {
     const { subTask } = this;
     // console.log('subTask', subTask);
     if (subTask.data) {
-      // for (let i = 0; i < subTask.data.length; i += 1) {
-      //   let item = subTask.data[i] as any;
-      //   // // item.status = 1;
-      //   // for (let j = 0; j < item.content.length; j += 1) {
-      //   //   const contentItem = item.content[j];
-      //   //   // if any of subtask_content's status is 2,
-      //   //   // this subtask's status will be false
-      //   //   if (!contentItem.status) {
-      //   //     // item.status = 2;
-      //   //     break;
-      //   //   }
-      //   // }
-      //   item.member = item.member || { data: [] };
-      // }
+      for (let i = 0; i < subTask.data.length; i += 1) {
+        let item = subTask.data[i] as any;
+        // // item.status = 1;
+        // for (let j = 0; j < item.content.length; j += 1) {
+        //   const contentItem = item.content[j];
+        //   // if any of subtask_content's status is 2,
+        //   // this subtask's status will be false
+        //   if (!contentItem.status) {
+        //     // item.status = 2;
+        //     break;
+        //   }
+        // }
+        item.member.data = item.member.data || [];
+      }
 
       return subTask;
     }
     return [];
+  }
+
+  mounted() {
+    // this.subTaskInfoContent[4].list = this.taskMember;
   }
 }
 </script>

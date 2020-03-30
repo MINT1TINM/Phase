@@ -118,11 +118,11 @@ class TaskService {
   }
 
   static async updateSubTask(taskID: string, subTask: any) {
-    // console.log('status:', status);
+    // console.log('subTask:', subTask);
 
     const rsp = await basicService.putRequest('/task/subtask', {
       taskID,
-      subTaskID: subTask.subTaskID,
+      subTaskID: subTask.id,
       status: subTask.status,
       name: subTask.name,
       content: subTask.content,

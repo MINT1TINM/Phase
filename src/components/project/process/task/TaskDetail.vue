@@ -29,7 +29,7 @@
             ></dim-form>
           </v-form>
         </v-container>
-        {{ taskInfoContent }}
+        <!-- {{ taskInfoContent }} -->
       </v-flex>
     </transition>
 
@@ -40,7 +40,10 @@
     >
       <transition appear appear-active-class="fade-up-enter">
         <v-container fluid>
-          <sub-task :subTask="currentTask.subTask || { data: [] }"></sub-task>
+          <sub-task
+            :subTask="currentTask.subTask || { data: [] }"
+            :taskMember="taskSelectedMember"
+          ></sub-task>
           <related-sheet
             :sheetIDList="currentTask.sheet.data"
             class="mt-3"
@@ -194,7 +197,7 @@ export default class TaskDetail extends Vue {
       },
       {
         type: 'text-area',
-        title: '审计方案',
+        title: '任务内容',
         name: 'description'
       }
     ];
@@ -202,6 +205,14 @@ export default class TaskDetail extends Vue {
 
   get taskMember() {
     return this.processMember.map(e => this.projectMemberCache(e));
+  }
+
+  get taskSelectedMember() {
+    // console.log('taskSelectedMember:', this.currentTask.member.data);
+
+    return (this.currentTask.member.data || []).map(e =>
+      this.projectMemberCache(e)
+    );
   }
 
   async getTaskInfo() {
