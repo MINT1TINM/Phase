@@ -40,7 +40,7 @@ class SubTask {
   id!: string;
   name!: string;
   createdAt!: string;
-  status!: number;
+  status!: string;
   color!: string;
   startDate!: string;
   endDate!: string;

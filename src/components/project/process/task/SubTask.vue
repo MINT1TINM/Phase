@@ -11,16 +11,22 @@
 
       <v-data-table class="mt-4" :headers="headers" :items="subTaskShow.data">
         <template v-slot:item.status="props">
-          <v-icon v-if="props.item.status === 1" color="green"
-            >mdi-check-circle-outline</v-icon
-          >
-          <v-icon v-else-if="props.item.status === 2" color="warning darken-1"
-            >mdi-alert-circle-outline</v-icon
-          >
-          <v-icon v-else color="grey">mdi-help-circle-outline</v-icon>
+          <!-- {{props.item.status}} -->
+          <span v-if="props.item.status == '未开始'">
+            {{ props.item.status }}
+            <v-icon color="#3A80E7">mdi-alert-circle-outline</v-icon>
+          </span>
+          <span v-if="props.item.status == '处理中'">
+            {{ props.item.status }}
+            <v-icon color="#EB8329">mdi-alert-circle-outline</v-icon>
+          </span>
+          <span v-if="props.item.status == '已完成'">
+            {{ props.item.status }}
+            <v-icon color="#7AC09E">mdi-alert-circle-outline</v-icon>
+          </span>
         </template>
         <template v-slot:item.date="props">
-          <span v-if="props.item.startDate && props.item.endDate"
+          <span v-if="props.item.startDate && props.item.startDate"
             >{{ props.item.startDate | format('MM.dd') }} ~
             {{ props.item.endDate | format('MM.dd') }}</span
           >
@@ -85,57 +91,6 @@
             </v-form>
           </v-card-text>
         </v-card>
-        <!-- <v-container fluid>
-          <v-layout wrap>
-            <v-flex xs12>
-              <v-card outlined width="100%">
-                <v-card-title class="subtitle-1 font-weight-black"
-                  >相关文件</v-card-title
-                >
-                <v-container fluid>
-                  <v-simple-table>
-                    <thead>
-                      <tr>
-                        <th class="text-center">名称</th>
-                        <th class="text-center">创建时间</th>
-                        <th class="text-center">操作</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        class="my-2"
-                        v-for="(item, i) in currentSubTask.file"
-                        :key="`f-${i}`"
-                      >
-                        <td class="pl-3 pr-2">{{ item.name }}</td>
-                        <td class="pl-3 pr-2">
-                          {{ item.createdAt | format('yyyy-MM-dd hh:mm') }}
-                        </td>
-                        <td class="pl-3 pr-2">
-                          <v-btn icon @click="downloadFile(item)">
-                            <v-icon size="20">mdi-download-outline</v-icon>
-                          </v-btn>
-                          <v-btn icon @click="removeFile(item)" color="error">
-                            <v-icon size="20">mdi-close</v-icon>
-                          </v-btn>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </v-simple-table>
-                  <v-btn
-                    class="mt-3"
-                    rounded
-                    color="primary"
-                    outlined
-                    @click="fileDialog = true"
-                  >
-                    <v-icon size="20">mdi-plus</v-icon>&nbsp;链接文件
-                  </v-btn>
-                </v-container>
-              </v-card>
-            </v-flex>
-          </v-layout>
-        </v-container>-->
       </v-sheet>
     </v-bottom-sheet>
 
@@ -203,9 +158,9 @@ export default class SubTaskList extends Vue {
 
   currentSubTask: SubTask = {
     id: '',
+    status: '',
     name: '',
     createdAt: '',
-    status: 0,
     color: '',
     startDate: '',
     endDate: '',
@@ -252,7 +207,32 @@ export default class SubTaskList extends Vue {
     重要: '#29B6F6',
     一般: '#76CC49'
   };
+  taskStatus = {};
   subTaskInfoContent = [
+    {
+      type: 'select',
+      title: '状态',
+      name: 'status',
+      text: 'name',
+      value: 'name',
+      list: [
+        {
+          name: '未开始',
+          status: 0,
+          color: '#3A80E7'
+        },
+        {
+          name: '处理中',
+          status: 1,
+          color: '#EB8329'
+        },
+        {
+          name: '已完成',
+          status: 2,
+          color: '#7AC09E'
+        }
+      ]
+    },
     {
       type: 'text-field',
       title: '任务名称',
@@ -300,11 +280,12 @@ export default class SubTaskList extends Vue {
 
   async createSubTask() {
     const newSubTask = new SubTask();
-    const d = new Date();
     newSubTask.name = '未命名子任务';
+    newSubTask.status = '未开始';
     newSubTask.content = [];
-    newSubTask.startDate = `${d.getFullYear()}-${d.getMonth() +
-      1}-${d.getDate()}`;
+    // const d = new Date();
+    // newSubTask.startDate = `${d.getFullYear()}-${d.getMonth() +
+    //   1}-${d.getDate()}`;
     newSubTask.color = '一般';
 
     await TaskService.createSubTask(this.$route.params.taskID, newSubTask);
@@ -314,6 +295,7 @@ export default class SubTaskList extends Vue {
   async copySubTask(originalSubTask: SubTask) {
     const newSubTask = new SubTask();
     newSubTask.name = originalSubTask.name;
+    newSubTask.status = originalSubTask.status;
     newSubTask.content = originalSubTask.content;
     newSubTask.color = originalSubTask.color;
     newSubTask.startDate = originalSubTask.startDate;
@@ -326,9 +308,12 @@ export default class SubTaskList extends Vue {
   }
 
   async updateSubTask() {
+    // console.log('currentSubTask:', this.currentSubTask);
+
     await TaskService.updateSubTask(
       this.$route.params.taskID,
       this.currentSubTask.id!,
+      this.currentSubTask.status!,
       this.currentSubTask.name!,
       this.currentSubTask.content!,
       this.currentSubTask.color!,
@@ -412,19 +397,19 @@ export default class SubTaskList extends Vue {
   get subTaskShow() {
     const { subTask } = this;
     if (subTask.data) {
-      for (let i = 0; i < subTask.data.length; i += 1) {
-        const item = subTask.data[i] as any;
-        item.status = 1;
-        for (let j = 0; j < item.content.length; j += 1) {
-          const contentItem = item.content[j];
-          // if any of subtask_content's status is 2,
-          // this subtask's status will be false
-          if (!contentItem.status) {
-            item.status = 2;
-            break;
-          }
-        }
-      }
+      // for (let i = 0; i < subTask.data.length; i += 1) {
+      //   const item = subTask.data[i] as any;
+      //   // item.status = 1;
+      //   for (let j = 0; j < item.content.length; j += 1) {
+      //     const contentItem = item.content[j];
+      //     // if any of subtask_content's status is 2,
+      //     // this subtask's status will be false
+      //     if (!contentItem.status) {
+      //       // item.status = 2;
+      //       break;
+      //     }
+      //   }
+      // }
 
       return subTask;
     }

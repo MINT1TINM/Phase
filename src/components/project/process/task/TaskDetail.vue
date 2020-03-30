@@ -29,6 +29,7 @@
             ></dim-form>
           </v-form>
         </v-container>
+        {{ taskInfoContent }}
       </v-flex>
     </transition>
 
@@ -202,6 +203,7 @@ export default class TaskDetail extends Vue {
 
     const memberList = this.currentProcess(this.$route.params.processID).member
       .data;
+    console.log('memberList:', memberList);
 
     for (const item of memberList) {
       (this.taskMember as any).push(this.projectMemberCache(item));

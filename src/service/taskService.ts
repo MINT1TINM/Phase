@@ -36,7 +36,8 @@ class TaskService {
   }
 
   static async getTaskInfo(taskID: string) {
-    const rsp = await basicService.getRequest('/task/info', { taskID });
+    let date = new Date().getTime();
+    const rsp = await basicService.getRequest('/task/info', { taskID, date });
     store.commit('task/updateCurrentTask', rsp.task);
     return rsp;
   }
@@ -119,6 +120,7 @@ class TaskService {
   static async updateSubTask(
     taskID: string,
     subTaskID: string,
+    status: string,
     name: string,
     content: SubTaskContent[],
     color: string,
@@ -126,9 +128,12 @@ class TaskService {
     endDate: string,
     certificate: SubTaskCertificate[]
   ) {
+    // console.log('status:', status);
+
     const rsp = await basicService.putRequest('/task/subtask', {
       taskID,
       subTaskID,
+      status,
       name,
       content,
       color,
