@@ -11,18 +11,10 @@ class Task {
   color!: string;
   status!: boolean;
   tags!: Tags;
-  member!: {
-    data: [];
-  };
-  sheet!: {
-    data: [];
-  };
-  file?: {
-    data: [];
-  };
-  subTask!: {
-    data: SubTask[];
-  };
+  member!: { data: [] };
+  sheet!: { data: [] };
+  file?: { data: [] };
+  subTask!: { data: SubTask[] };
   userID!: string;
   executorID!: string;
   processID!: string;
@@ -37,6 +29,9 @@ class TaskMember {
 }
 
 class SubTask {
+  constructor() {
+    this.member = { data: [] };
+  }
   id!: string;
   name!: string;
   createdAt!: string;
@@ -44,6 +39,7 @@ class SubTask {
   color!: string;
   startDate!: string;
   endDate!: string;
+  member!: { data: string[] };
   // file!: [];
   content!: SubTaskContent[];
   certificate!: SubTaskCertificate[];

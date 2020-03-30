@@ -117,29 +117,20 @@ class TaskService {
     return rsp;
   }
 
-  static async updateSubTask(
-    taskID: string,
-    subTaskID: string,
-    status: string,
-    name: string,
-    content: SubTaskContent[],
-    color: string,
-    startDate: string,
-    endDate: string,
-    certificate: SubTaskCertificate[]
-  ) {
+  static async updateSubTask(taskID: string, subTask: any) {
     // console.log('status:', status);
 
     const rsp = await basicService.putRequest('/task/subtask', {
       taskID,
-      subTaskID,
-      status,
-      name,
-      content,
-      color,
-      startDate,
-      endDate,
-      certificate
+      subTaskID: subTask.subTaskID,
+      status: subTask.status,
+      name: subTask.name,
+      content: subTask.content,
+      color: subTask.color,
+      startDate: subTask.startDate,
+      endDate: subTask.endDate,
+      member: subTask.member,
+      certificat: subTask.certificate
     });
     if (rsp.msg === 'success') {
       vue.$snack('修改成功');

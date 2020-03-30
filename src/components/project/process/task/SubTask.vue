@@ -1,5 +1,9 @@
 <template>
   <div>
+    <b>subTaskMember:</b>
+    {{ subTaskMember }}
+    <b>currentSubTask:</b>
+    {{ currentSubTask }}
     <v-card outlined>
       <v-card-title class="font-weight-black subtitle-1">
         子任务
@@ -25,10 +29,19 @@
             <v-icon color="#7AC09E">mdi-alert-circle-outline</v-icon>
           </span>
         </template>
-        <template v-slot:item.date="props">
-          <span v-if="props.item.startDate && props.item.startDate"
-            >{{ props.item.startDate | format('MM.dd') }} ~
-            {{ props.item.endDate | format('MM.dd') }}</span
+        <template v-slot:item.detail="props">
+          <span v-if="props.item.startDate && props.item.startDate">
+            {{ props.item.startDate | format('MM.dd') }} ~
+            {{ props.item.endDate | format('MM.dd') }} 共{{
+              Math.floor(
+                (new Date(props.item.endDate).getTime() -
+                  new Date(props.item.startDate).getTime()) /
+                  (24 * 3600 * 1000)
+              )
+            }}天
+          </span>
+          <span v-if="props.item.member"
+            >{{ props.item.member.length }}名成员</span
           >
         </template>
         <template v-slot:item.color="props">
@@ -67,7 +80,6 @@
         </template>
       </v-data-table>
     </v-card>
-
     <v-bottom-sheet inset v-model="editSubTaskDialog" persistent>
       <v-sheet class="text-center" height="800" style="overflow:auto">
         <v-card flat>
@@ -131,10 +143,13 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import TaskService from '@/service/taskService';
-import { SubTask, SubTaskCertificate } from '@/types/task';
+import { Task, SubTask, SubTaskCertificate } from '@/types/task';
 import document from '@/views/project/document/Document.vue';
 import searchCertificate from '@/components/finance/certificate/SearchCertificate.vue';
 import previewCertificate from '@/components/finance/certificate/PreviewCertificate.vue';
+import { namespace } from 'vuex-class';
+const taskModule = namespace('task');
+const projectModule = namespace('project');
 
 @Component({
   components: {
@@ -145,8 +160,10 @@ import previewCertificate from '@/components/finance/certificate/PreviewCertific
 })
 export default class SubTaskList extends Vue {
   @Prop({ default: () => ({ data: [] }) }) subTask!: {
-    data: [];
+    data: any[];
   };
+  @taskModule.Getter('currentTask') currentTask!: Task;
+  @projectModule.Getter('projectMemberCache') projectMemberCache: any;
 
   editSubTaskDialog: boolean = false;
 
@@ -164,6 +181,7 @@ export default class SubTaskList extends Vue {
     color: '',
     startDate: '',
     endDate: '',
+    member: { data: [] },
     content: [],
     certificate: []
   };
@@ -188,8 +206,8 @@ export default class SubTaskList extends Vue {
       sortable: false
     },
     {
-      text: '时间',
-      value: 'date',
+      text: '详情',
+      value: 'detail',
       align: 'center',
       sortable: false
     },
@@ -272,12 +290,29 @@ export default class SubTaskList extends Vue {
           color: '#76CC49'
         }
       ]
+    },
+    {
+      type: 'multi-select',
+      title: '成员',
+      name: 'member',
+      chips: true,
+      text: 'nickName',
+      value: 'userID',
+      list: [] //this.subTaskMember
     }
-    // {
-    //   divider: true
-    // }
   ];
+  taskMember: any[] = [];
+  get subTaskMember() {
+    // console.log(
+    //   'subTaskMember:',
+    //   this.currentTask.member.data.map(e => this.projectMemberCache(e))
+    // );
+    console.log('this.currentTask:', this.currentTask);
 
+    return (this.currentTask.member.data || []).map(e =>
+      this.projectMemberCache(e)
+    );
+  }
   async createSubTask() {
     const newSubTask = new SubTask();
     newSubTask.name = '未命名子任务';
@@ -300,6 +335,7 @@ export default class SubTaskList extends Vue {
     newSubTask.color = originalSubTask.color;
     newSubTask.startDate = originalSubTask.startDate;
     newSubTask.endDate = originalSubTask.endDate;
+    newSubTask.member = originalSubTask.member;
     console.log('originalSubTask:', originalSubTask);
     console.log('newSubTask:', newSubTask);
 
@@ -309,17 +345,9 @@ export default class SubTaskList extends Vue {
 
   async updateSubTask() {
     // console.log('currentSubTask:', this.currentSubTask);
-
     await TaskService.updateSubTask(
       this.$route.params.taskID,
-      this.currentSubTask.id!,
-      this.currentSubTask.status!,
-      this.currentSubTask.name!,
-      this.currentSubTask.content!,
-      this.currentSubTask.color!,
-      this.currentSubTask.startDate!,
-      this.currentSubTask.endDate!,
-      this.currentSubTask.certificate!
+      this.currentSubTask
     );
     await TaskService.getTaskInfo(this.$route.params.taskID);
     this.editSubTaskDialog = false;
@@ -396,19 +424,21 @@ export default class SubTaskList extends Vue {
 
   get subTaskShow() {
     const { subTask } = this;
+    // console.log('subTask', subTask);
     if (subTask.data) {
       // for (let i = 0; i < subTask.data.length; i += 1) {
-      //   const item = subTask.data[i] as any;
-      //   // item.status = 1;
-      //   for (let j = 0; j < item.content.length; j += 1) {
-      //     const contentItem = item.content[j];
-      //     // if any of subtask_content's status is 2,
-      //     // this subtask's status will be false
-      //     if (!contentItem.status) {
-      //       // item.status = 2;
-      //       break;
-      //     }
-      //   }
+      //   let item = subTask.data[i] as any;
+      //   // // item.status = 1;
+      //   // for (let j = 0; j < item.content.length; j += 1) {
+      //   //   const contentItem = item.content[j];
+      //   //   // if any of subtask_content's status is 2,
+      //   //   // this subtask's status will be false
+      //   //   if (!contentItem.status) {
+      //   //     // item.status = 2;
+      //   //     break;
+      //   //   }
+      //   // }
+      //   item.member = item.member || { data: [] };
       // }
 
       return subTask;
