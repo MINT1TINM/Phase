@@ -94,7 +94,7 @@ export default class TaskDetail extends Vue {
   @projectModule.Getter('projectMemberCache') projectMemberCache: any;
   @taskModule.Getter('currentTask') currentTask!: Task;
 
-  taskMember = [];
+  processMember: any[] = [];
   statusList = [
     {
       text: '已完成',
@@ -112,105 +112,102 @@ export default class TaskDetail extends Vue {
       color: 'red'
     }
   ];
-  taskInfoContent = [
-    {
-      type: 'text-field',
-      title: '任务名称',
-      name: 'name'
-    },
-    {
-      type: 'date-picker',
-      title: '创建时间',
-      name: 'createdAt',
-      disabled: true
-    },
-    {
-      type: 'select',
-      title: '执行者',
-      name: 'userID',
-      chips: true,
-      text: 'nickName',
-      value: 'userID',
-      list: []
-    },
-    {
-      type: 'multi-select',
-      title: '参与人员',
-      name: 'member',
-      chips: true,
-      text: 'nickName',
-      value: 'userID',
-      list: []
-    },
-    {
-      type: 'select',
-      title: '任务等级',
-      name: 'color',
-      text: 'name',
-      value: 'name',
-      list: [
-        {
-          name: '非常紧急',
-          color: '#E53935'
-        },
-        {
-          name: '非常重要',
-          color: '#FB8C00'
-        },
-        {
-          name: '紧急',
-          color: '#F8CF5E'
-        },
-        {
-          name: '重要',
-          color: '#29B6F6'
-        },
-        {
-          name: '一般',
-          color: '#76CC49'
-        }
-      ]
-    },
-    {
-      type: 'tags',
-      title: '标签',
-      name: 'tags'
-    },
-    {
-      divider: true
-    },
-    {
-      type: 'date-range',
-      title: '计划',
-      nameStart: 'startDate',
-      nameEnd: 'endDate'
-    },
-    {
-      type: 'date-range',
-      title: '执行',
-      nameStart: 'actionStartDate',
-      nameEnd: 'actionEndDate'
-    },
-    {
-      type: 'text-area',
-      title: '审计方案',
-      name: 'description'
-    }
-  ];
+  get taskInfoContent() {
+    return [
+      {
+        type: 'text-field',
+        title: '任务名称',
+        name: 'name'
+      },
+      {
+        type: 'date-picker',
+        title: '创建时间',
+        name: 'createdAt',
+        disabled: true
+      },
+      {
+        type: 'select',
+        title: '执行者',
+        name: 'userID',
+        chips: true,
+        text: 'nickName',
+        value: 'userID',
+        list: this.taskMember
+      },
+      {
+        type: 'multi-select',
+        title: '参与人员',
+        name: 'member',
+        chips: true,
+        text: 'nickName',
+        value: 'userID',
+        list: this.taskMember
+      },
+      {
+        type: 'select',
+        title: '任务等级',
+        name: 'color',
+        text: 'name',
+        value: 'name',
+        list: [
+          {
+            name: '非常紧急',
+            color: '#E53935'
+          },
+          {
+            name: '非常重要',
+            color: '#FB8C00'
+          },
+          {
+            name: '紧急',
+            color: '#F8CF5E'
+          },
+          {
+            name: '重要',
+            color: '#29B6F6'
+          },
+          {
+            name: '一般',
+            color: '#76CC49'
+          }
+        ]
+      },
+      {
+        type: 'tags',
+        title: '标签',
+        name: 'tags'
+      },
+      {
+        divider: true
+      },
+      {
+        type: 'date-range',
+        title: '计划',
+        nameStart: 'startDate',
+        nameEnd: 'endDate'
+      },
+      {
+        type: 'date-range',
+        title: '执行',
+        nameStart: 'actionStartDate',
+        nameEnd: 'actionEndDate'
+      },
+      {
+        type: 'text-area',
+        title: '审计方案',
+        name: 'description'
+      }
+    ];
+  }
+
+  get taskMember() {
+    return this.processMember.map(e => this.projectMemberCache(e));
+  }
 
   async getTaskInfo() {
-    const rsp = await TaskService.getTaskInfo(this.$route.params.taskID);
-
-    const memberList = this.currentProcess(this.$route.params.processID).member
-      .data;
-    console.log('memberList:', memberList);
-
-    for (const item of memberList) {
-      (this.taskMember as any).push(this.projectMemberCache(item));
-    }
-
-    this.taskInfoContent[2].list = this.taskMember as any;
-    this.taskInfoContent[3].list = this.taskMember as any;
+    await TaskService.getTaskInfo(this.$route.params.taskID);
+    this.processMember =
+      this.currentProcess(this.$route.params.processID).member.data || [];
   }
 
   async updateTaskInfo() {
