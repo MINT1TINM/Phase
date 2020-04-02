@@ -16,24 +16,21 @@
 
       <v-data-table class="mt-4" :headers="headers" :items="subTaskShow.data">
         <template v-slot:item.status="props">
-          <!-- {{props.item.status}} -->
-          <span v-if="props.item.status == '未开始'">
-            {{ props.item.status }}
-            <v-icon color="#3A80E7">mdi-alert-circle-outline</v-icon>
-          </span>
-          <span v-if="props.item.status == '处理中'">
-            {{ props.item.status }}
-            <v-icon color="#EB8329">mdi-alert-circle-outline</v-icon>
-          </span>
-          <span v-if="props.item.status == '已完成'">
-            {{ props.item.status }}
-            <v-icon color="#7AC09E">mdi-alert-circle-outline</v-icon>
-          </span>
+          <v-icon v-if="props.item.status == '未开始'" color="#3A80E7"
+            >mdi-alarm</v-icon
+          >
+          <v-icon v-if="props.item.status == '处理中'" color="#EB8329"
+            >mdi-alarm-note</v-icon
+          >
+          <v-icon v-if="props.item.status == '已完成'" color="#7AC09E"
+            >mdi-alarm-check</v-icon
+          >
+          {{ props.item.status }}
         </template>
         <template v-slot:item.detail="props">
           <span v-if="props.item.startDate && props.item.endDate">
-            {{ props.item.startDate | format('MM.dd') }} ~
-            {{ props.item.endDate | format('MM.dd') }} 共{{
+            {{ props.item.startDate | format('M.d') }} ~
+            {{ props.item.endDate | format('M.d') }} 共{{
               Math.abs(
                 Math.floor(
                   (new Date(props.item.endDate).getTime() -
@@ -43,15 +40,20 @@
               )
             }}天
           </span>
-          <span v-if="props.item.member.data.length">
-            {{ props.item.member.data.length }}名成员
-            <span v-if="memberOverflowAlert(props.item.member.data)">⚠️</span>
+          <span v-if="props.item.member">
+            <span v-for="(u, i) in props.item.member" :key="i">
+              <v-avatar tile color="blue" size="25">
+                <v-icon dark>mdi-alarm</v-icon> </v-avatar
+              >&nbsp;
+            </span>
+            {{ props.item.member.length }}名成员
+            <span v-if="memberOverflowAlert(props.item.member)">⚠️</span>
           </span>
         </template>
         <template v-slot:item.color="props">
           <v-btn
             v-if="props.item.color"
-            outlined
+            text
             :color="taskColor[props.item.color]"
             >{{ props.item.color }}</v-btn
           >
@@ -172,7 +174,7 @@ export default class SubTaskList extends Vue {
     color: '',
     startDate: '',
     endDate: '',
-    member: { data: [] },
+    member: [],
     content: [],
     certificate: []
   };
@@ -284,7 +286,7 @@ export default class SubTaskList extends Vue {
       ]
     },
     {
-      type: 'multi-select',
+      type: 'multi-select-no-data',
       title: '成员',
       name: 'member',
       chips: true,
@@ -303,15 +305,15 @@ export default class SubTaskList extends Vue {
     this.editSubTaskDialog = true;
     this.currentSubTask = subTask;
     const taskMember = this.taskMember;
-    let member = this.currentSubTask.member.data;
-    console.log('currentMember:', member);
-    console.log('taskMember:', taskMember);
-    member = member.filter(function(v) {
+    let member = this.currentSubTask.member;
+    // console.log('currentMember:', member);
+    // console.log('taskMember:', taskMember);
+    member = member.filter(v => {
       for (let i = 0; i < taskMember.length; i++)
         if (taskMember[i].userID == v) return true;
       return false;
     });
-    this.currentSubTask.member.data = member;
+    this.currentSubTask.member = member;
   }
 
   memberOverflowAlert(member: string[]) {
@@ -445,20 +447,20 @@ export default class SubTaskList extends Vue {
     const { subTask } = this;
     // console.log('subTask', subTask);
     if (subTask.data) {
-      for (let i = 0; i < subTask.data.length; i += 1) {
-        let item = subTask.data[i] as any;
-        // // item.status = 1;
-        // for (let j = 0; j < item.content.length; j += 1) {
-        //   const contentItem = item.content[j];
-        //   // if any of subtask_content's status is 2,
-        //   // this subtask's status will be false
-        //   if (!contentItem.status) {
-        //     // item.status = 2;
-        //     break;
-        //   }
-        // }
-        item.member.data = item.member.data || [];
-      }
+      // for (let i = 0; i < subTask.data.length; i += 1) {
+      //   let item = subTask.data[i] as any;
+      //   // // item.status = 1;
+      //   // for (let j = 0; j < item.content.length; j += 1) {
+      //   //   const contentItem = item.content[j];
+      //   //   // if any of subtask_content's status is 2,
+      //   //   // this subtask's status will be false
+      //   //   if (!contentItem.status) {
+      //   //     // item.status = 2;
+      //   //     break;
+      //   //   }
+      //   // }
+      //   item.member.data = item.member.data || [];
+      // }
 
       return subTask;
     }

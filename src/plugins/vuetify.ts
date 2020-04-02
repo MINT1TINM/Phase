@@ -1,9 +1,9 @@
+import store from '@/store/store';
+import { App } from '@/types/system';
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
 import colors from 'vuetify/lib/util/colors';
 import zhHans from 'vuetify/src/locale/zh-Hans';
-import store from '@/store/store';
-import { App } from '@/types/system';
 
 Vue.use(Vuetify);
 
@@ -21,9 +21,7 @@ if (currentApp.themeColor) {
 
 export default new Vuetify({
   theme: {
-    options: {
-      customProperties: true
-    },
+    options: { customProperties: true },
     themes: {
       dark: {
         primary: themeColorDark,
@@ -45,11 +43,6 @@ export default new Vuetify({
       }
     }
   },
-  lang: {
-    locales: { zhHans },
-    current: 'zhHans'
-  },
-  icons: {
-    iconfont: 'mdi'
-  }
+  lang: { locales: { zhHans }, current: 'zhHans' },
+  icons: { iconfont: 'mdi' }
 });

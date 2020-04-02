@@ -30,7 +30,7 @@ class TaskMember {
 
 class SubTask {
   constructor() {
-    this.member = { data: [] };
+    this.member = [];
   }
   id!: string;
   name!: string;
@@ -39,7 +39,7 @@ class SubTask {
   color!: string;
   startDate!: string;
   endDate!: string;
-  member!: { data: string[] };
+  member!: string[];
   // file!: [];
   content!: SubTaskContent[];
   certificate!: SubTaskCertificate[];

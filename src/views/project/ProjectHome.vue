@@ -170,7 +170,7 @@
                 </v-col>
               </v-layout>
             </transition>
-          </v-container> -->
+          </v-container>-->
 
           <v-container fluid>
             <transition appear appear-active-class="fade-up-enter">
@@ -198,20 +198,20 @@
                         src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
                       ></v-img>
                       <v-card-title class="body-2 font-weight-black pb-0">
-                        {{ item.name | cut }}
+                        {{ item.name | cut(14) }}
                         <v-spacer></v-spacer>
                         <v-avatar size="26">
                           <v-img :src="item.headImgURL"></v-img>
                         </v-avatar>
-                        <span class="ml-2 font-weight-black caption">
-                          {{ item.nickName }}
-                        </span>
+                        <span class="ml-2 font-weight-black caption">{{
+                          item.nickName
+                        }}</span>
                       </v-card-title>
 
                       <v-card-text class="caption">
-                        <span class="grey--text font-weight-regular">
-                          {{ item.extraInfo.status }}
-                        </span>
+                        <span class="grey--text font-weight-regular">{{
+                          item.extraInfo.status
+                        }}</span>
                       </v-card-text>
                     </v-card>
                   </v-hover>
@@ -463,19 +463,20 @@ export default class ProjectHome extends Vue {
   }
 
   async createProject() {
+    let rsp: any;
     try {
       this.createProjectInfo.extraInfo = new ProjectExtraInfo();
       this.createProjectInfo.extraInfo.status = '立项申请';
-      const rsp = await ProjectService.createProject(this.createProjectInfo);
+      rsp = await ProjectService.createProject(this.createProjectInfo);
       this.$snack('创建成功');
       await UserService.getUserInfo(this.authorization.userID);
       this.getProjectList();
-
-      this.goToProject(rsp.project);
     } catch (err) {
       console.log(err);
       this.$snack('创建失败');
+      return;
     }
+    this.goToProject(rsp.project);
     this.createProjectDialog = false;
   }
 

@@ -1,8 +1,7 @@
-import Vue from 'vue';
-
 import basicService from '@/service/basicService';
 import store from '@/store/store';
 import { Project, ProjectMember, ProjectTemplate } from '@/types/project';
+import Vue from 'vue';
 
 const vue = new Vue();
 
@@ -32,6 +31,12 @@ class ProjectService {
 
     console.log(rsp.project);
     store.commit('project/updateProjectList', rsp.project);
+  }
+
+  static async getPPTList(userID: string) {
+    const rsp = await basicService.getRequest('/project/ppt', { userID });
+    console.log('ppt:', rsp.project);
+    return rsp.project;
   }
 
   static async getProjectMember(memberList: ProjectMember[]) {
@@ -189,9 +194,7 @@ class ProjectService {
   }
 
   static async deleteProject(projectID: string) {
-    const rsp = await basicService.deleteRequest('/project', {
-      projectID
-    });
+    const rsp = await basicService.deleteRequest('/project', { projectID });
     return rsp;
   }
 }

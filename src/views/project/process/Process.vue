@@ -123,6 +123,7 @@ export default class ProcessList extends Vue {
   }
 
   async getProcessList() {
+    console.log('getProcessList');
     const rsp = await ProcessService.getProcessList(this.currentProjectID);
     this.processList = rsp.process;
     this.processListShow = rsp.process;

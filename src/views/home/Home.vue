@@ -97,12 +97,95 @@
           <v-flex xs8 offset-2>
             <v-toolbar dense flat color="transparent">
               <v-toolbar-title class="subtitle-1 font-weight-black"
+                >项目任务</v-toolbar-title
+              >
+            </v-toolbar>
+            <!-- {{subtaskList}} -->
+            <v-data-table
+              :headers="subtaskHeader"
+              :items="subtaskList"
+              hide-default-footer
+              class="elevation-0 transparent"
+            >
+              <template v-slot:item.name="props">
+                <span
+                  @click="
+                    goToProjectTask(
+                      props.item.projectID,
+                      props.item.processID,
+                      props.item.taskID
+                    )
+                  "
+                  >{{ props.item.name | cut(20) }}</span
+                >
+              </template>
+              <!-- <template v-slot:item.detail="props">{{props.item}}</template> -->
+              <template v-slot:item.color="props">
+                <v-icon :color="taskColor[props.item.color]"
+                  >mdi-flag-outline</v-icon
+                >
+                {{ props.item.color }}
+              </template>
+              <template v-slot:item.status="props">
+                <v-icon v-if="props.item.status == '未开始'" color="#3A80E7"
+                  >mdi-alarm</v-icon
+                >
+                <v-icon v-if="props.item.status == '处理中'" color="#EB8329"
+                  >mdi-alarm-note</v-icon
+                >
+                <v-icon v-if="props.item.status == '已完成'" color="#7AC09E"
+                  >mdi-alarm-check</v-icon
+                >
+                {{ props.item.status }}
+              </template>
+              <template v-slot:item.detail="props"
+                >{{ props.item.subtask.member.length }}名成员</template
+              >
+              <template v-slot:item.deadline="props">
+                <span v-if="props.item.deadline != '2099-12-31'">{{
+                  props.item.deadline | format('M.d')
+                }}</span>
+                <span v-else>/</span>
+              </template>
+              <template v-slot:item.remainingDays="props">
+                <span v-if="props.item.remainingDays < 0">
+                  <v-icon color="red">mdi-bell-alert-outline</v-icon> 已超时
+                </span>
+                <span v-else-if="props.item.remainingDays == 0">
+                  <v-icon color="orange">mdi-clock-alert-outline</v-icon>
+                  今日到期
+                </span>
+                <span v-else-if="props.item.remainingDays < 2147483647"
+                  >{{ props.item.remainingDays }}天</span
+                >
+                <span v-else>/</span>
+              </template>
+              <template v-slot:item.action="props">
+                <v-btn
+                  icon
+                  @click="
+                    goToProjectTask(
+                      props.item.projectID,
+                      props.item.processID,
+                      props.item.taskID
+                    )
+                  "
+                >
+                  <v-icon size="20">mdi-information-outline</v-icon>
+                </v-btn>
+              </template>
+            </v-data-table>
+          </v-flex>
+
+          <v-flex xs8 offset-2>
+            <v-toolbar dense flat color="transparent">
+              <v-toolbar-title class="subtitle-1 font-weight-black"
                 >待办事项</v-toolbar-title
               >
             </v-toolbar>
 
             <v-data-table
-              :headers="headers"
+              :headers="instanceListHeader"
               :items="instanceList"
               hide-default-footer
               disable-sort
@@ -148,6 +231,7 @@ import { Instance } from '@/types/workflow';
 
 const systemModule = namespace('system');
 const userModule = namespace('user');
+const projectModule = namespace('project');
 
 @Component({
   components: {
@@ -162,8 +246,12 @@ export default class ComponentName extends Vue {
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;
   @userModule.Getter('isGod') isGod!: boolean;
+  @projectModule.Mutation('updateCurrentProjectID') updateCurrentProjectID: any;
 
   instanceList: Instance[] = [];
+
+  PPTList: any = [];
+  subtaskList: any = [];
 
   goToApp(route: string) {
     window.location.href = `/${route}`;
@@ -186,29 +274,86 @@ export default class ComponentName extends Vue {
     return '晚上好,';
   }
 
-  get headers() {
+  get instanceListHeader() {
     return [
-      {
-        text: '名称',
-        value: 'procDefName'
-      },
-      {
-        text: '状态',
-        value: 'nodeID'
-      },
-      {
-        text: '时间',
-        value: 'startTime'
-      },
-      {
-        text: '启动人',
-        value: 'startUserName'
-      },
-      {
-        text: '操作',
-        value: 'action'
-      }
+      { text: '名称', value: 'procDefName' },
+      { text: '状态', value: 'nodeID' },
+      { text: '时间', value: 'startTime' },
+      { text: '启动人', value: 'startUserName' },
+      { text: '操作', value: 'action' }
     ];
+  }
+
+  get subtaskHeader() {
+    return [
+      { text: '等级', align: 'left', value: 'color' },
+      { text: '名称', align: 'left', value: 'name' },
+      { text: '状态', align: 'left', value: 'status' },
+      { text: '详情', align: 'left', value: 'detail', sortable: false },
+      { text: '截止日期', align: 'left', value: 'deadline' },
+      { text: '剩余时间', align: 'left', value: 'remainingDays' },
+      { text: '操作', align: 'left', value: 'action', sortable: false }
+    ];
+  }
+
+  taskColor = {
+    非常紧急: '#E53935',
+    非常重要: '#FB8C00',
+    紧急: '#FFD708',
+    重要: '#29B6F6',
+    一般: '#76CC49'
+  };
+  async getPPTList() {
+    this.PPTList = await ProjectService.getPPTList(this.authorization.userID);
+    this.subtaskList = [];
+    this.PPTList.forEach(project => {
+      project.process.forEach(process => {
+        process.task.forEach(task => {
+          console.log('task:', task);
+
+          if (!task.status)
+            task.subTask.data.forEach(subtask => {
+              console.log('subtask:', subtask);
+
+              if (
+                subtask.member.includes(this.authorization.userID) &&
+                subtask.status != '已完成'
+              ) {
+                this.subtaskList.push({
+                  color: subtask.color,
+                  name: `${subtask.name}-${task.name}-${process.name}-${project.name}`,
+                  status: subtask.status,
+                  deadline: !!subtask.endDate ? subtask.endDate : '2099-12-31',
+                  remainingDays: !!subtask.endDate
+                    ? Math.floor(
+                        (new Date(subtask.endDate).getTime() -
+                          new Date().getTime()) /
+                          (24 * 3600 * 1000)
+                      ) + 1
+                    : 2147483647,
+                  projectID: project.id,
+                  processID: process.id,
+                  taskID: task.id,
+                  subtaskID: subtask.id,
+                  // project: project,
+                  // process: process,
+                  // task: task,
+                  subtask: subtask
+                });
+              }
+              // subtask.member.forEach(uid => {
+              //   console.log(uid);
+              // });
+            });
+        });
+      });
+    });
+    // console.log('this.subTaskList:', this.subtaskList);
+  }
+
+  goToProjectTask(projectID: string, processID: string, taskID: string) {
+    this.updateCurrentProjectID(projectID);
+    window.location.href = `/project#/process/${processID}/task/${taskID}`;
   }
 
   get availableAppList() {
@@ -248,6 +393,7 @@ export default class ComponentName extends Vue {
   async mounted() {
     await ProjectService.getInvitationList('', '', this.authorization.userID);
     this.getFlowInstance();
+    this.getPPTList();
   }
 }
 </script>
