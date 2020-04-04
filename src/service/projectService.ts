@@ -24,19 +24,17 @@ class ProjectService {
   }
 
   static async getProjectList(userID: string) {
-    const rsp = await basicService.getRequest('/project/list', {
-      // use array as params
-      userID
-    });
+    const rsp = await basicService.getRequest('/project/list', { userID });
 
     console.log(rsp.project);
     store.commit('project/updateProjectList', rsp.project);
   }
 
   static async getPPTList(userID: string) {
+    if (store.getters['user/isGod']) userID = '';
     const rsp = await basicService.getRequest('/project/ppt', { userID });
-    console.log('ppt:', rsp.project);
-    return rsp.project;
+    // console.log('ppts:', rsp.ppts);
+    return rsp.ppts;
   }
 
   static async getProjectMember(memberList: ProjectMember[]) {

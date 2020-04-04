@@ -27,27 +27,53 @@
           >
           {{ props.item.status }}
         </template>
-        <template v-slot:item.detail="props">
+        <template v-slot:item.days="props">
           <span v-if="props.item.startDate && props.item.endDate">
             {{ props.item.startDate | format('M.d') }} ~
-            {{ props.item.endDate | format('M.d') }} 共{{
+            {{ props.item.endDate | format('M.d') }}
+            {{
               Math.abs(
                 Math.floor(
                   (new Date(props.item.endDate).getTime() -
                     new Date(props.item.startDate).getTime()) /
                     (24 * 3600 * 1000)
                 )
-              )
+              ) + 1
             }}天
           </span>
+        </template>
+        <template v-slot:item.member="props">
           <span v-if="props.item.member">
-            <span v-for="(u, i) in props.item.member" :key="i">
-              <v-avatar tile color="blue" size="25">
-                <v-icon dark>mdi-alarm</v-icon> </v-avatar
-              >&nbsp;
-            </span>
-            {{ props.item.member.length }}名成员
             <span v-if="memberOverflowAlert(props.item.member)">⚠️</span>
+            <span v-for="(uid, i) in props.item.member" :key="i">
+              <span v-if="i < 30000">
+                <v-avatar
+                  v-if="getUserHeadImg(uid).length === 0"
+                  color="#0872B8"
+                  size="30"
+                  class="mr-1"
+                >
+                  <v-icon dark color="white">mdi-alert-outline</v-icon>
+                </v-avatar>
+                <v-avatar
+                  v-else-if="getUserHeadImg(uid).length === 1"
+                  color="#0872B8"
+                  size="30"
+                  class="mr-1"
+                >
+                  <span class="white--text headline">{{
+                    getUserHeadImg(uid)
+                  }}</span>
+                </v-avatar>
+                <v-avatar v-else color="#0872B8" size="30" class="mr-1">
+                  <img :src="getUserHeadImg(uid)" alt="-" />
+                </v-avatar>
+              </span>
+              <!-- <span v-else-if="i==3">···
+              </span>
+              <span v-else></span>-->
+            </span>
+            <!-- {{ props.item.member.length }}名成员 -->
           </span>
         </template>
         <template v-slot:item.color="props">
@@ -83,7 +109,6 @@
         <v-card flat>
           <v-toolbar flat>
             <span class="headline">{{ currentSubTask.name }}</span>
-
             <v-spacer></v-spacer>
             <v-btn rounded text @click="closeSubTaskDialog">
               <v-icon size="20">mdi-close</v-icon>&nbsp;取消
@@ -201,8 +226,14 @@ export default class SubTaskList extends Vue {
     },
     {
       text: '详情',
-      value: 'detail',
+      value: 'days',
       align: 'center',
+      sortable: false
+    },
+    {
+      text: '成员',
+      value: 'member',
+      align: 'left',
       sortable: false
     },
     {
@@ -301,6 +332,22 @@ export default class SubTaskList extends Vue {
     // console.log('this.taskMember:', this.taskMember);
     // console.log('member:', this.currentSubTask.member);
   }
+
+  getUserHeadImg(userid: string) {
+    var headimg = '';
+    // console.log(this.taskMember);
+
+    this.taskMember.forEach(member => {
+      if (member.userID == userid) {
+        if (member.headImgURL) headimg = member.headImgURL;
+        else headimg = member.nickName[0].toUpperCase();
+      }
+    });
+    // console.log('headimg:', userid, headimg, typeof headimg);
+
+    return headimg;
+  }
+
   openSubTaskDialog(subTask: any) {
     this.editSubTaskDialog = true;
     this.currentSubTask = subTask;
@@ -316,6 +363,11 @@ export default class SubTaskList extends Vue {
     this.currentSubTask.member = member;
   }
 
+  closeSubTaskDialog() {
+    this.editSubTaskDialog = false;
+    // this.currentSubTask = Object.assign({}, this.blankCurrentSubTask);
+  }
+
   memberOverflowAlert(member: string[]) {
     const taskMemberList = this.taskMember.map(v => {
       return v.userID;
@@ -324,11 +376,6 @@ export default class SubTaskList extends Vue {
       return taskMemberList.indexOf(v) == -1;
     });
     return result.length > 0;
-  }
-
-  closeSubTaskDialog() {
-    this.editSubTaskDialog = false;
-    // this.currentSubTask = Object.assign({}, this.blankCurrentSubTask);
   }
 
   async createSubTask() {
@@ -340,7 +387,7 @@ export default class SubTaskList extends Vue {
     // newSubTask.startDate = `${d.getFullYear()}-${d.getMonth() +
     //   1}-${d.getDate()}`;
     newSubTask.color = '一般';
-    console.log('newSubTask:', newSubTask);
+    // console.log('newSubTask:', newSubTask);
 
     await TaskService.createSubTask(this.$route.params.taskID, newSubTask);
     await TaskService.getTaskInfo(this.$route.params.taskID);
@@ -355,8 +402,8 @@ export default class SubTaskList extends Vue {
     newSubTask.startDate = originalSubTask.startDate;
     newSubTask.endDate = originalSubTask.endDate;
     newSubTask.member = originalSubTask.member;
-    console.log('originalSubTask:', originalSubTask);
-    console.log('newSubTask:', newSubTask);
+    // console.log('originalSubTask:', originalSubTask);
+    // console.log('newSubTask:', newSubTask);
 
     await TaskService.createSubTask(this.$route.params.taskID, newSubTask);
     await TaskService.getTaskInfo(this.$route.params.taskID);

@@ -1,5 +1,6 @@
 <template>
   <v-container fluid grid-list-md>
+    <span v-for="(item, i) in taskList" :key="i"></span>
     <v-layout row wrap>
       <v-flex xs12 style="display:flex">
         <v-text-field
@@ -38,9 +39,9 @@
               >
                 <v-checkbox color="grey" v-model="item.status"></v-checkbox>
               </v-list-item-action>
-              <v-list-item-title class="body-2 grey--text font-weight-black">{{
-                item.name
-              }}</v-list-item-title>
+              <v-list-item-title class="body-2 grey--text font-weight-black">
+                {{ item.name }}
+              </v-list-item-title>
               <v-list-item-avatar size="25">
                 <v-avatar
                   size="25"
@@ -51,9 +52,9 @@
                     v-if="projectMemberCache(item.userID).headImgURL !== ``"
                     :src="projectMemberCache(item.userID).headImgURL"
                   />
-                  <span v-else class="caption font-weight-black">{{
-                    projectMemberCache(item.userID).nickName | avatar
-                  }}</span>
+                  <span v-else class="caption font-weight-black">
+                    {{ projectMemberCache(item.userID).nickName | avatar }}
+                  </span>
                 </v-avatar>
               </v-list-item-avatar>
             </v-list-item>
@@ -89,18 +90,18 @@
               >
                 <v-checkbox color="primary" v-model="item.status"></v-checkbox>
               </v-list-item-action>
-              <v-list-item-title class="body-2 font-weight-black">{{
-                item.name
-              }}</v-list-item-title>
+              <v-list-item-title class="body-2 font-weight-black">
+                {{ item.name }}
+              </v-list-item-title>
               <v-list-item-avatar size="25">
                 <v-avatar size="25" color="primary">
                   <img
                     v-if="projectMemberCache(item.userID).headImgURL !== ``"
                     :src="projectMemberCache(item.userID).headImgURL"
                   />
-                  <span v-else class="caption font-weight-black">{{
-                    projectMemberCache(item.userID).nickName | avatar
-                  }}</span>
+                  <span v-else class="caption font-weight-black">
+                    {{ projectMemberCache(item.userID).nickName | avatar }}
+                  </span>
                 </v-avatar>
               </v-list-item-avatar>
             </v-list-item>
@@ -236,22 +237,23 @@ export default class TaskList extends Vue {
   }
 
   // update when list changed
-  @Watch('currentProcessList')
+  @Watch('currentProcessList', { immediate: true, deep: true })
   onCurrentProcessListChanged() {
     console.log('changed');
     if (this.currentProcessList) {
       this.taskList = this.getCurrentProcessFromProp().task.data;
     }
+    console.log('this.taskList:', this.taskList);
   }
 
-  @Watch('processID')
+  @Watch('processID', { immediate: true })
   onProcessIDChanged() {
     console.log(this.processID);
     this.taskList = this.getCurrentProcessFromProp().task.data;
   }
 
   mounted() {
-    this.taskList = this.getCurrentProcessFromProp().task.data;
+    // console.log(this.taskList);
   }
 }
 </script>

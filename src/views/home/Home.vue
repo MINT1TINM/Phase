@@ -116,7 +116,7 @@
                       props.item.taskID
                     )
                   "
-                  >{{ props.item.name | cut(20) }}</span
+                  >{{ props.item.name | cut(30) }}</span
                 >
               </template>
               <!-- <template v-slot:item.detail="props">{{props.item}}</template> -->
@@ -149,11 +149,11 @@
               </template>
               <template v-slot:item.remainingDays="props">
                 <span v-if="props.item.remainingDays < 0">
-                  <v-icon color="red">mdi-bell-alert-outline</v-icon> 已超时
+                  <v-icon color="red">mdi-bell-alert-outline</v-icon>已超时
                 </span>
                 <span v-else-if="props.item.remainingDays == 0">
-                  <v-icon color="orange">mdi-clock-alert-outline</v-icon>
-                  今日到期
+                  <v-icon color="orange">mdi-clock-alert-outline</v-icon
+                  >今日到期
                 </span>
                 <span v-else-if="props.item.remainingDays < 2147483647"
                   >{{ props.item.remainingDays }}天</span
@@ -306,48 +306,81 @@ export default class ComponentName extends Vue {
   async getPPTList() {
     this.PPTList = await ProjectService.getPPTList(this.authorization.userID);
     this.subtaskList = [];
-    this.PPTList.forEach(project => {
-      project.process.forEach(process => {
-        process.task.forEach(task => {
-          console.log('task:', task);
+    console.log('this.PPTList:', this.PPTList);
 
-          if (!task.status)
-            task.subTask.data.forEach(subtask => {
-              console.log('subtask:', subtask);
+    this.PPTList.forEach(task => {
+      // console.log('task:', task);
 
-              if (
-                subtask.member.includes(this.authorization.userID) &&
-                subtask.status != '已完成'
-              ) {
-                this.subtaskList.push({
-                  color: subtask.color,
-                  name: `${subtask.name}-${task.name}-${process.name}-${project.name}`,
-                  status: subtask.status,
-                  deadline: !!subtask.endDate ? subtask.endDate : '2099-12-31',
-                  remainingDays: !!subtask.endDate
-                    ? Math.floor(
-                        (new Date(subtask.endDate).getTime() -
-                          new Date().getTime()) /
-                          (24 * 3600 * 1000)
-                      ) + 1
-                    : 2147483647,
-                  projectID: project.id,
-                  processID: process.id,
-                  taskID: task.id,
-                  subtaskID: subtask.id,
-                  // project: project,
-                  // process: process,
-                  // task: task,
-                  subtask: subtask
-                });
-              }
-              // subtask.member.forEach(uid => {
-              //   console.log(uid);
-              // });
-            });
-        });
+      task.subtask.forEach(subtask => {
+        if (
+          subtask.member &&
+          subtask.member.includes(this.authorization.userID) &&
+          subtask.status != '已完成'
+        ) {
+          this.subtaskList.push({
+            color: subtask.color,
+            name: `${subtask.name}-${task.task_name}-${task.process_name}-${task.project_name}`,
+            status: subtask.status,
+            deadline: !!subtask.endDate ? subtask.endDate : '2099-12-31',
+            remainingDays: !!subtask.endDate
+              ? Math.floor(
+                  (new Date(subtask.endDate).getTime() - new Date().getTime()) /
+                    (24 * 3600 * 1000)
+                ) + 1
+              : 2147483647,
+            projectID: task.project_id,
+            processID: task.process_id,
+            taskID: task.task_id,
+            subtaskID: subtask.id,
+            subtask: subtask,
+            members: subtask.member
+          });
+        }
       });
     });
+
+    // this.PPTList.forEach(project => {
+    //   project.process.forEach(process => {
+    //     process.task.forEach(task => {
+    //       console.log('task:', task);
+
+    //       if (!task.status)
+    //         task.subTask.data.forEach(subtask => {
+    //           console.log('subtask:', subtask);
+
+    //           if (
+    //             subtask.member.includes(this.authorization.userID) &&
+    //             subtask.status != '已完成'
+    //           ) {
+    //             this.subtaskList.push({
+    //               color: subtask.color,
+    //               name: `${subtask.name}-${task.name}-${process.name}-${project.name}`,
+    //               status: subtask.status,
+    //               deadline: !!subtask.endDate ? subtask.endDate : '2099-12-31',
+    //               remainingDays: !!subtask.endDate
+    //                 ? Math.floor(
+    //                     (new Date(subtask.endDate).getTime() -
+    //                       new Date().getTime()) /
+    //                       (24 * 3600 * 1000)
+    //                   ) + 1
+    //                 : 2147483647,
+    //               projectID: project.id,
+    //               processID: process.id,
+    //               taskID: task.id,
+    //               subtaskID: subtask.id,
+    //               // project: project,
+    //               // process: process,
+    //               // task: task,
+    //               subtask: subtask
+    //             });
+    //           }
+    //           // subtask.member.forEach(uid => {
+    //           //   console.log(uid);
+    //           // });
+    //         });
+    //     });
+    //   });
+    // });
     // console.log('this.subTaskList:', this.subtaskList);
   }
 

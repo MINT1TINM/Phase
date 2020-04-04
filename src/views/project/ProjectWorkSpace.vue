@@ -21,9 +21,9 @@
               <v-list-item-icon style="margin-right:0">
                 <v-icon>{{ item.icon }}</v-icon>
               </v-list-item-icon>
-              <v-list-item-title style="margin-left:20px">{{
-                item.name
-              }}</v-list-item-title>
+              <v-list-item-title style="margin-left:20px">
+                {{ item.name }}
+              </v-list-item-title>
             </template>
           </v-list-item>
         </div>
@@ -42,6 +42,7 @@ import { Authorization } from '@/types/user';
 import { Project } from '@/types/project';
 import WorkflowService from '@/service/workflowService';
 import { Instance } from '@/types/workflow';
+import ProjectService from '@/service/projectService';
 
 const userModule = namespace('user');
 const projectModule = namespace('project');
@@ -136,6 +137,10 @@ export default class ProjectIndex extends Vue {
         condition: true
       }
     ];
+  }
+
+  async mounted() {
+    await ProjectService.getProjectList(this.authorization.userID);
   }
 }
 </script>
