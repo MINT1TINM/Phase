@@ -102,7 +102,17 @@ export default class Login extends Vue {
         await ProjectService.getInvitationList('', '', authorization.userID!);
 
         this.toggleFullScreenLoading(false);
-        this.wechatLogin();
+
+        const rsp = this.$confirm('微信登录？', {
+          buttonTrueColor: 'success',
+          dark: this.$vuetify.theme.dark
+        });
+        if (rsp) {
+          this.wechatLogin();
+        } else {
+          window.location.href = '/home';
+        }
+
         // window.location.href = '/home';
       } catch (err) {
         this.toggleFullScreenLoading(false);

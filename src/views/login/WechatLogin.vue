@@ -29,10 +29,10 @@ export default class WechatLogin extends Vue {
       );
       await UserService.getUserInfo(await authorization.userID!);
       this.toggleFullScreenLoading(false);
-      this.$router.push({ path: '/home' });
+      window.location.href = '/home';
     } catch (err) {
       this.toggleFullScreenLoading(false);
-      this.$router.push({ path: '/login' });
+      window.location.href = '/';
     }
   }
 
