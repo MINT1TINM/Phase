@@ -85,9 +85,7 @@ export default class Login extends Vue {
 
   @systemModule.Mutation('toggleFullScreenLoading')
   toggleFullScreenLoading!: (v: boolean) => void;
-
   @userModule.Getter('authorization') authorization!: Authorization;
-
   @userModule.Mutation('clearAuthorization') clearAuthorization: any;
 
   // login through username & password
@@ -104,7 +102,8 @@ export default class Login extends Vue {
         await ProjectService.getInvitationList('', '', authorization.userID!);
 
         this.toggleFullScreenLoading(false);
-        window.location.href = '/home';
+        this.wechatLogin();
+        // window.location.href = '/home';
       } catch (err) {
         this.toggleFullScreenLoading(false);
       }

@@ -22,7 +22,7 @@ class AuthService {
     return [position.coords.latitude, position.coords.longitude];
   }
 
-  static async wechatLogin(code: string) {
+  static async wechatLogin(code: string, userID: string) {
     let position = [];
     if ('geolocation' in navigator) {
       try {
@@ -33,7 +33,8 @@ class AuthService {
     }
     const rsp = await basicService.postRequest('/wechat/login', {
       code,
-      position
+      position,
+      userID
     });
     if (rsp.msg === 'success') {
       store.commit('user/updateUserAuth', rsp.authorization);
