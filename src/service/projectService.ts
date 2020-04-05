@@ -31,7 +31,7 @@ class ProjectService {
   }
 
   static async getPPTList(userID: string) {
-    if (store.getters['user/isGod']) userID = '';
+    // if (store.getters['user/isGod']) userID = '';
     const rsp = await basicService.getRequest('/project/ppt', { userID });
     // console.log('ppts:', rsp.ppts);
     return rsp.ppts;
