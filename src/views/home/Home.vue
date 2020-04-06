@@ -167,9 +167,9 @@
                 </span>
               </template>
               <template v-slot:item.deadline="props">
-                <span v-if="props.item.deadline != '2099-12-31'">{{
-                  props.item.deadline | format('M.d')
-                }}</span>
+                <span v-if="props.item.deadline != '2099-12-31'">
+                  {{ props.item.deadline | format('M.d') }}
+                </span>
                 <span v-else>/</span>
               </template>
               <template v-slot:item.remainingDays="props">
@@ -280,9 +280,9 @@
                 </span>
               </template>
               <template v-slot:item.deadline="props">
-                <span v-if="props.item.deadline != '2099-12-31'">{{
-                  props.item.deadline | format('M.d')
-                }}</span>
+                <span v-if="props.item.deadline != '2099-12-31'">
+                  {{ props.item.deadline | format('M.d') }}
+                </span>
                 <span v-else>/</span>
               </template>
               <template v-slot:item.remainingDays="props">
@@ -455,7 +455,7 @@ export default class ComponentName extends Vue {
 
   hover: boolean[][] = [];
 
-  updateSubtaskList(PPTList: any) {
+  updateSubtaskList(PPTList: any[]) {
     this.subtaskList = [];
     console.log('updateSubtaskList:', PPTList);
 
@@ -463,7 +463,7 @@ export default class ComponentName extends Vue {
     PPTList.forEach(task => {
       console.log('task:', task);
 
-      task.subtask.forEach(subtask => {
+      task.subtask.forEach((subtask: any) => {
         if (
           subtask.member &&
           subtask.member.includes(this.authorization.userID) &&
@@ -501,7 +501,7 @@ export default class ComponentName extends Vue {
     console.log('subtaskList:', this.subtaskList);
   }
 
-  updateTaskList(PPTList: any) {
+  updateTaskList(PPTList: any[]) {
     this.taskList = [];
     console.log('updateTaskList:', PPTList);
 
@@ -512,7 +512,7 @@ export default class ComponentName extends Vue {
       let unfinish_subtask_count = 0;
 
       if (task.subtask)
-        task.subtask.forEach(subtask => {
+        task.subtask.forEach((subtask: any) => {
           subtask.status != '已完成' ? unfinish_subtask_count++ : '';
         });
 
