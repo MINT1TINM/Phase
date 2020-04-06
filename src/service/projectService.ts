@@ -34,7 +34,7 @@ class ProjectService {
     // if (store.getters['user/isGod']) userID = '';
     const rsp = await basicService.getRequest('/project/ppt', { userID });
     // console.log('ppts:', rsp.ppts);
-    return rsp.ppts;
+    return { person_ppts: rsp.person_ppts, leader_ppts: rsp.leader_ppts };
   }
 
   static async getProjectMember(memberList: ProjectMember[]) {
