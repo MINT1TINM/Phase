@@ -103,7 +103,7 @@ export default class Login extends Vue {
 
         this.toggleFullScreenLoading(false);
 
-        const rsp = this.$confirm('微信登录？', {
+        const rsp = await this.$confirm('微信登录？', {
           buttonTrueColor: 'success',
           dark: this.$vuetify.theme.dark
         });
