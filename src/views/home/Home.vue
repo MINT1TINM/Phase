@@ -91,21 +91,20 @@
           </v-flex>
         </v-layout>
       </v-container>
-      <!-- {{hover}} -->
+      <!-- {{子任务}} -->
       <v-container grid-list-md fluid>
         <v-layout row wrap>
           <v-flex xs8 offset-2>
             <v-toolbar dense flat color="transparent">
               <v-toolbar-title class="subtitle-1 font-weight-black"
-                >项目任务</v-toolbar-title
+                >未完成子任务</v-toolbar-title
               >
             </v-toolbar>
-            <!-- {{subtaskList}} -->
             <v-data-table
               :headers="subtaskHeader"
               :items="subtaskList"
               class="elevation-0 transparent"
-              items-per-page="-1"
+              :items-per-page="99999"
               hide-default-footer
             >
               <template v-slot:item.color="props">
@@ -146,7 +145,98 @@
                 {{ props.item.status }}
               </template>
               <template v-slot:item.detail="props">
-                <span v-if="props.item.mode == 'god'">
+                <span>
+                  <v-badge
+                    :value="hover[props.item.index][0]"
+                    color="warning"
+                    :content="props.item.member_count + '名成员'"
+                    transition="slide-x-transition"
+                  >
+                    <v-hover v-model="hover[props.item.index][0]">
+                      <v-badge
+                        color="primary"
+                        overlap
+                        :content="String(props.item.member_count)"
+                      >
+                        <v-icon color="grey lighten-1" large
+                          >mdi-account-circle</v-icon
+                        >
+                      </v-badge>
+                    </v-hover>
+                  </v-badge>
+                </span>
+              </template>
+              <template v-slot:item.deadline="props">
+                <span v-if="props.item.deadline != '2099-12-31'">{{
+                  props.item.deadline | format('M.d')
+                }}</span>
+                <span v-else>/</span>
+              </template>
+              <template v-slot:item.remainingDays="props">
+                <span v-if="props.item.remainingDays < 0">
+                  <v-icon color="red">mdi-bell-alert-outline</v-icon>已超时
+                </span>
+                <span v-else-if="props.item.remainingDays == 0">
+                  <v-icon color="orange">mdi-clock-alert-outline</v-icon
+                  >今日到期
+                </span>
+                <span v-else-if="props.item.remainingDays < 2147483647"
+                  >{{ props.item.remainingDays }}天</span
+                >
+                <span v-else>/</span>
+              </template>
+              <template v-slot:item.action="props">
+                <v-btn
+                  icon
+                  @click="
+                    goToProjectTask(
+                      props.item.projectID,
+                      props.item.processID,
+                      props.item.taskID
+                    )
+                  "
+                >
+                  <v-icon size="20">mdi-information-outline</v-icon>
+                </v-btn>
+              </template>
+            </v-data-table>
+          </v-flex>
+          <!-- {{hover}} -->
+          <v-flex xs8 offset-2 v-if="taskList.length > 0">
+            <v-toolbar dense flat color="transparent">
+              <v-toolbar-title class="subtitle-1 font-weight-black"
+                >未完成任务</v-toolbar-title
+              >
+            </v-toolbar>
+            <!-- {{subtaskList}} -->
+            <v-data-table
+              :headers="taskHeader"
+              :items="taskList"
+              class="elevation-0 transparent"
+              :items-per-page="99999"
+              hide-default-footer
+            >
+              <template v-slot:item.color="props">
+                <v-icon :color="taskColor[props.item.color]"
+                  >mdi-flag-outline</v-icon
+                >
+                <!-- color:{{ props.item.color }} -->
+              </template>
+              <template v-slot:item.name="props">
+                <span
+                  @click="
+                    goToProjectTask(
+                      props.item.projectID,
+                      props.item.processID,
+                      props.item.taskID
+                    )
+                  "
+                  >{{ props.item.name | cut(30) }}</span
+                >
+              </template>
+              <!-- <template v-slot:item.detail="props">{{props.item}}</template> -->
+              <template v-slot:item.detail="props">
+                <span>
                   <v-badge
                     :value="hover[props.item.index][0]"
                     color="warning"
@@ -188,31 +278,11 @@
                     </v-hover>
                   </v-badge>
                 </span>
-                <span v-else>
-                  <v-badge
-                    :value="hover[props.item.index][0]"
-                    color="warning"
-                    :content="props.item.member_count + '名成员'"
-                    transition="slide-x-transition"
-                  >
-                    <v-hover v-model="hover[props.item.index][0]">
-                      <v-badge
-                        color="primary"
-                        overlap
-                        :content="String(props.item.member_count)"
-                      >
-                        <v-icon color="grey lighten-1" large
-                          >mdi-account-circle</v-icon
-                        >
-                      </v-badge>
-                    </v-hover>
-                  </v-badge>
-                </span>
               </template>
               <template v-slot:item.deadline="props">
-                <span v-if="props.item.deadline != '2099-12-31'">
-                  {{ props.item.deadline | format('M.d') }}
-                </span>
+                <span v-if="props.item.deadline != '2099-12-31'">{{
+                  props.item.deadline | format('M.d')
+                }}</span>
                 <span v-else>/</span>
               </template>
               <template v-slot:item.remainingDays="props">
@@ -318,8 +388,8 @@ export default class ComponentName extends Vue {
 
   instanceList: Instance[] = [];
 
-  PPTList: any = [];
   subtaskList: any = [];
+  taskList: any = [];
 
   goToApp(route: string) {
     window.location.href = `/${route}`;
@@ -364,6 +434,17 @@ export default class ComponentName extends Vue {
     ];
   }
 
+  get taskHeader() {
+    return [
+      { text: '等级', align: 'left', value: 'color' },
+      { text: '名称', align: 'left', value: 'name' },
+      { text: '详情', align: 'left', value: 'detail', sortable: false },
+      { text: '截止日期', align: 'left', value: 'deadline' },
+      { text: '剩余时间', align: 'left', value: 'remainingDays' },
+      { text: '操作', align: 'left', value: 'action', sortable: false }
+    ];
+  }
+
   taskColor = {
     非常紧急: '#E53935',
     非常重要: '#FB8C00',
@@ -374,16 +455,13 @@ export default class ComponentName extends Vue {
 
   hover: boolean[][] = [];
 
-  async getPPTList() {
-    console.log('USER MODE');
-
-    this.PPTList = await ProjectService.getPPTList(this.authorization.userID);
+  updateSubtaskList(PPTList: any) {
     this.subtaskList = [];
-    console.log('this.PPTList:', this.PPTList);
+    console.log('updateSubtaskList:', PPTList);
 
     let index = 0;
-    this.PPTList.forEach(task => {
-      // console.log('task:', task);
+    PPTList.forEach(task => {
+      console.log('task:', task);
 
       task.subtask.forEach(subtask => {
         if (
@@ -392,7 +470,6 @@ export default class ComponentName extends Vue {
           subtask.status != '已完成'
         ) {
           this.subtaskList.push({
-            mode: 'user',
             index: index++,
             color: subtask.color, // ? subtask.color : '一般',
             name: `${subtask.name}-${task.task_name}-${task.process_name}-${task.project_name}`,
@@ -412,32 +489,36 @@ export default class ComponentName extends Vue {
             member_count: subtask.member ? subtask.member.length : 0
           });
         }
+        console.log(index);
       });
     });
-    this.hover = Array.from({ length: index }, () => [false, false]);
-  }
-  async getPPTListByGod() {
-    console.log('GOD MODE');
 
-    this.PPTList = await ProjectService.getPPTList('');
-    this.subtaskList = [];
-    console.log('this.PPTList:', this.PPTList);
+    // this.hover = Array.from(
+    //   { length: Math.max(index, this.hover.length) },
+    //   () => [false, false]
+    // );
+    this.updateHover(index);
+    console.log('subtaskList:', this.subtaskList);
+  }
+
+  updateTaskList(PPTList: any) {
+    this.taskList = [];
+    console.log('updateTaskList:', PPTList);
 
     let index = 0;
-    this.PPTList.forEach(task => {
+    PPTList.forEach(task => {
+      // console.log(index);
       // console.log('task:', task);
       let unfinish_subtask_count = 0;
-      console.log(task);
+
       if (task.subtask)
         task.subtask.forEach(subtask => {
           subtask.status != '已完成' ? unfinish_subtask_count++ : '';
         });
 
-      console.log(this.subtaskList);
-      console.log(task.task_name, 'color:', task.task_color);
-
-      this.subtaskList.push({
-        mode: 'god',
+      // console.log(this.subtaskList);
+      // console.log(task.task_name, 'color:', task.task_color);
+      this.taskList.push({
         index: index++,
         color: task.task_color, // ? task.task_color : '一般般',
         name: `${task.task_name}-${task.process_name}-${task.project_name}`,
@@ -456,59 +537,33 @@ export default class ComponentName extends Vue {
         member_count: task.task_members ? task.task_members.length : 0,
         unfinish_subtask_count: unfinish_subtask_count
       });
-      console.log(
-        task.task_name,
-        'task_color:',
-        this.subtaskList[this.subtaskList.length - 1].color
-      );
     });
-    this.hover = Array.from({ length: index }, () => [false, false]);
-    console.log(index, this.subtaskList);
+
+    this.updateHover(index);
   }
 
-  // this.PPTList.forEach(project => {
-  //   project.process.forEach(process => {
-  //     process.task.forEach(task => {
-  //       console.log('task:', task);
+  updateHover(len: number) {
+    console.log('updateHover:', len);
+    this.hover = Array.from(
+      { length: Math.max(len, this.hover.length) },
+      () => [false, false]
+    );
+  }
 
-  //       if (!task.status)
-  //         task.subTask.data.forEach(subtask => {
-  //           console.log('subtask:', subtask);
+  async getPersonList() {
+    console.log('PERSON MODE');
+    const PPTList = await ProjectService.getPPTList(this.authorization.userID);
+    console.log(PPTList);
 
-  //           if (
-  //             subtask.member.includes(this.authorization.userID) &&
-  //             subtask.status != '已完成'
-  //           ) {
-  //             this.subtaskList.push({
-  //               color: subtask.color,
-  //               name: `${subtask.name}-${task.name}-${process.name}-${project.name}`,
-  //               status: subtask.status,
-  //               deadline: !!subtask.endDate ? subtask.endDate : '2099-12-31',
-  //               remainingDays: !!subtask.endDate
-  //                 ? Math.floor(
-  //                     (new Date(subtask.endDate).getTime() -
-  //                       new Date().getTime()) /
-  //                       (24 * 3600 * 1000)
-  //                   ) + 1
-  //                 : 2147483647,
-  //               projectID: project.id,
-  //               processID: process.id,
-  //               taskID: task.id,
-  //               subtaskID: subtask.id,
-  //               // project: project,
-  //               // process: process,
-  //               // task: task,
-  //               subtask: subtask
-  //             });
-  //           }
-  //           // subtask.member.forEach(uid => {
-  //           //   console.log(uid);
-  //           // });
-  //         });
-  //     });
-  //   });
-  // });
-  // console.log('this.subTaskList:', this.subtaskList);
+    this.updateSubtaskList(PPTList.person_ppts);
+    this.updateTaskList(PPTList.leader_ppts);
+  }
+
+  async getGodList() {
+    console.log('GOD MODE');
+    const PPTList = await ProjectService.getPPTList('');
+    this.updateTaskList(PPTList.person_ppts);
+  }
 
   goToProjectTask(projectID: string, processID: string, taskID: string) {
     this.updateCurrentProjectID(projectID);
@@ -552,9 +607,10 @@ export default class ComponentName extends Vue {
   async mounted() {
     await ProjectService.getInvitationList('', '', this.authorization.userID);
     this.getFlowInstance();
-    if (this.$store.getters['user/isGod']) {
-      this.getPPTListByGod();
-    } else this.getPPTList();
+    console.info('GOD:', this.$store.getters['user/isGod']);
+
+    if (this.$store.getters['user/isGod']) this.getGodList();
+    else this.getPersonList();
   }
 }
 </script>
