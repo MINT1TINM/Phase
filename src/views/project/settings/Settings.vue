@@ -84,35 +84,6 @@
                   :target="currentProject"
                 ></dim-form>
 
-                <v-layout>
-                  <v-flex xs3>
-                    <v-subheader class="body-2 px-1" style="height:36px">
-                      封面
-                    </v-subheader>
-                  </v-flex>
-                  <v-flex xs9>
-                    <v-img
-                      max-width="200"
-                      v-if="currentProject.folderURL"
-                      :src="
-                        `/api/file/download?sName=${currentProject.folderURL}`
-                      "
-                    ></v-img>
-                    <v-file-input
-                      dense
-                      class="mt-3"
-                      accept="image/png, image/jpeg, image/bmp"
-                      placeholder="上传封面"
-                      prepend-inner-icon="mdi-camera-outline"
-                      prepend-icon=""
-                      single-line
-                      @change="updateProjectFolder"
-                      hide-details
-                      outlined
-                    ></v-file-input>
-                  </v-flex>
-                </v-layout>
-
                 <v-layout row justify-center class="pt-10">
                   <v-flex xs6>
                     <v-btn
@@ -509,6 +480,21 @@ export default class Settings extends Vue {
       disabled: true,
       title: '创建时间',
       name: 'createdAt'
+    },
+    {
+      type: 'file-input',
+      title: '封面',
+      name: 'folderURL',
+      changeFunc: async (v: any) => {
+        if (v) {
+          const rsp = await FileService.uploadFile(v, '', '');
+          this.project.folderURL = rsp.path;
+          this.updateProjectInfo();
+        }
+      },
+      downFunc: () => {
+        FileService.downloadFileFromFs(this.project.folderURL);
+      }
     }
   ];
 
