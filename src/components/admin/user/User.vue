@@ -141,8 +141,7 @@ export default class AdminUser extends Vue {
   newPassword = '';
 
   async getUserList() {
-    const rsp = await UserService.getUserList();
-    this.userList = rsp.user;
+    this.userList = await UserService.getUserList();
   }
 
   async createUser() {

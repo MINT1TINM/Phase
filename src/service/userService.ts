@@ -39,7 +39,7 @@ class UserService {
 
   static async getUserList() {
     const rsp = await basicService.getRequest('/user/list', {});
-    return rsp;
+    return rsp.user;
   }
 
   static async changePassword(

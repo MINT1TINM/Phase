@@ -23,16 +23,16 @@
                       v-if="item.headImgURL"
                       :src="item.headImgURL | httpsfy"
                     />
-                    <span v-else class="body-2 font-weight-black white--text">{{
-                      item.nickName | avatar
-                    }}</span>
+                    <span v-else class="body-2 font-weight-black white--text">
+                      {{ item.nickName | avatar }}
+                    </span>
                   </v-avatar>
                 </v-list-item-avatar>
                 <v-list-item-content>
                   <v-list-item-title>{{ item.nickName }}</v-list-item-title>
-                  <v-list-item-subtitle class="caption grey--text">{{
-                    item.phone
-                  }}</v-list-item-subtitle>
+                  <v-list-item-subtitle class="caption grey--text">
+                    {{ item.phone }}
+                  </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
               <v-divider class="my-1"></v-divider>
@@ -129,8 +129,7 @@ export default class ContactList extends Vue {
   newPassword = '';
 
   async getUserList() {
-    const rsp = await UserService.getUserList();
-    this.userList = rsp.user;
+    this.userList = await UserService.getUserList();
   }
 
   async createUser() {

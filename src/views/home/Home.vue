@@ -167,9 +167,9 @@
                 </span>
               </template>
               <template v-slot:item.deadline="props">
-                <span v-if="props.item.deadline != '2099-12-31'">
-                  {{ props.item.deadline | format('M.d') }}
-                </span>
+                <span v-if="props.item.deadline != '2099-12-31'">{{
+                  props.item.deadline | format('M.d')
+                }}</span>
                 <span v-else>/</span>
               </template>
               <template v-slot:item.remainingDays="props">
@@ -234,7 +234,19 @@
                   >{{ props.item.name | cut(30) }}</span
                 >
               </template>
-              <!-- <template v-slot:item.detail="props">{{props.item}}</template> -->
+              <template v-slot:item.username="props">
+                <v-avatar color="primary" size="30" class="mr-1">
+                  <img
+                    v-if="props.item.head_img.length > 0"
+                    :src="props.item.head_img"
+                    alt="-"
+                  />
+                  <span v-else class="white--text headline">{{
+                    props.item.username[0].toUpperCase()
+                  }}</span>
+                </v-avatar>
+                {{ props.item.username }}
+              </template>
               <template v-slot:item.detail="props">
                 <span>
                   <v-badge
@@ -280,9 +292,9 @@
                 </span>
               </template>
               <template v-slot:item.deadline="props">
-                <span v-if="props.item.deadline != '2099-12-31'">
-                  {{ props.item.deadline | format('M.d') }}
-                </span>
+                <span v-if="props.item.deadline != '2099-12-31'">{{
+                  props.item.deadline | format('M.d')
+                }}</span>
                 <span v-else>/</span>
               </template>
               <template v-slot:item.remainingDays="props">
@@ -313,6 +325,15 @@
                 </v-btn>
               </template>
             </v-data-table>
+          </v-flex>
+
+          <v-flex xs8 offset-2 v-if="taskList.length > 0">
+            <v-toolbar dense flat color="transparent">
+              <v-toolbar-title class="subtitle-1 font-weight-black"
+                >任务日历</v-toolbar-title
+              >
+            </v-toolbar>
+            <Calendar :taskList="taskList" :goToProjectTask="goToProjectTask" />
           </v-flex>
 
           <v-flex xs8 offset-2>
@@ -357,8 +378,10 @@ import { namespace } from 'vuex-class';
 
 import appBar from '@/components/common/app-bar/AppBar.vue';
 import Statistic from '@/components/home/Statistic.vue';
+import Calendar from '@/components/home/Calendar.vue';
 
 import BasicService from '@/service/basicService';
+import UserService from '@/service/userService';
 import ProjectService from '@/service/projectService';
 import WorkflowService from '@/service/workflowService';
 import CompanyService from '@/service/companyService';
@@ -374,6 +397,7 @@ const projectModule = namespace('project');
 @Component({
   components: {
     'app-bar': appBar,
+    Calendar,
     Statistic
   }
 })
@@ -388,8 +412,9 @@ export default class ComponentName extends Vue {
 
   instanceList: Instance[] = [];
 
-  subtaskList: any = [];
-  taskList: any = [];
+  subtaskList: any[] = [];
+  taskList: any[] = [];
+  userList: any[] = [];
 
   goToApp(route: string) {
     window.location.href = `/${route}`;
@@ -438,6 +463,7 @@ export default class ComponentName extends Vue {
     return [
       { text: '等级', align: 'left', value: 'color' },
       { text: '名称', align: 'left', value: 'name' },
+      { text: '负责人', align: 'left', value: 'username' },
       { text: '详情', align: 'left', value: 'detail', sortable: false },
       { text: '截止日期', align: 'left', value: 'deadline' },
       { text: '剩余时间', align: 'left', value: 'remainingDays' },
@@ -489,7 +515,6 @@ export default class ComponentName extends Vue {
             member_count: subtask.member ? subtask.member.length : 0
           });
         }
-        console.log(index);
       });
     });
 
@@ -507,8 +532,6 @@ export default class ComponentName extends Vue {
 
     let index = 0;
     PPTList.forEach(task => {
-      // console.log(index);
-      // console.log('task:', task);
       let unfinish_subtask_count = 0;
 
       if (task.subtask)
@@ -522,6 +545,9 @@ export default class ComponentName extends Vue {
         index: index++,
         color: task.task_color, // ? task.task_color : '一般般',
         name: `${task.task_name}-${task.process_name}-${task.project_name}`,
+        task_name: task.task_name,
+        process_name: task.process_name,
+        project_name: task.project_name,
         status: task.task_status ? '已完成' : '未完成',
         deadline: !!task.task_end_date ? task.task_end_date : '2099-12-31',
         remainingDays: !!task.task_end_date
@@ -535,7 +561,11 @@ export default class ComponentName extends Vue {
         taskID: task.task_id,
         member: task.task_members,
         member_count: task.task_members ? task.task_members.length : 0,
-        unfinish_subtask_count: unfinish_subtask_count
+        unfinish_subtask_count: unfinish_subtask_count,
+        username: this.getUserName(task.task_executor_uid),
+        head_img: this.getHeadImg(task.task_executor_uid),
+        startDate: task.task_start_date,
+        endDate: task.task_end_date
       });
     });
 
@@ -580,6 +610,20 @@ export default class ComponentName extends Vue {
     return availableAppList;
   }
 
+  getUserName(uid: string) {
+    const users = this.userList.filter((u: any) => {
+      return u.id == uid;
+    });
+    return users.length == 0 ? 'name not fount' : users[0].nickName;
+  }
+
+  getHeadImg(uid: string) {
+    const users = this.userList.filter((u: any) => {
+      return u.id == uid;
+    });
+    return users.length == 0 ? 'name not fount' : users[0].headImgURL;
+  }
+
   async getFlowInstance() {
     // get user group
     const groupUUIDList = (
@@ -607,10 +651,12 @@ export default class ComponentName extends Vue {
   async mounted() {
     await ProjectService.getInvitationList('', '', this.authorization.userID);
     this.getFlowInstance();
-    console.info('GOD:', this.$store.getters['user/isGod']);
+    console.info('GOD:', this.isGod);
 
-    if (this.$store.getters['user/isGod']) this.getGodList();
+    this.userList = await UserService.getUserList();
+    if (this.isGod) this.getGodList();
     else this.getPersonList();
+    console.log('userList:', this.userList);
   }
 }
 </script>

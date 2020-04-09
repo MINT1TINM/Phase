@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="pa-2">
     <v-row no-gutters>
-      <v-col cols="6">
+      <v-col cols="4">
         <v-row no-gutters>
           <v-col cols="12">
             <v-card class="ma-2">
@@ -36,16 +36,16 @@
               <ProjectInfo :projectInfo="currentProject"></ProjectInfo>
             </v-card>
           </v-col>
-          <v-col cols="12">
+          <!-- <v-col cols="12">
             <v-card class="ma-2">
               <FinishInfo :extraInfo="currentProject.extraInfo"></FinishInfo>
             </v-card>
-          </v-col>
+          </v-col> -->
         </v-row>
       </v-col>
 
-      <v-col cols="6">
-        <v-row no-gutters>
+      <v-col cols="4">
+        <!-- <v-row no-gutters>
           <v-col cols="12">
             <v-card class="ma-2">
               <Assign :projectInfo="currentProject"></Assign>
@@ -56,14 +56,14 @@
               <Stock :extraInfo="currentProject.extraInfo"></Stock>
             </v-card>
           </v-col>
-        </v-row>
+        </v-row> -->
 
         <v-row no-gutters>
-          <v-col cols="12">
+          <!-- <v-col cols="12">
             <v-card class="ma-2">
               <Company :extraInfo="currentProject.extraInfo"></Company>
             </v-card>
-          </v-col>
+          </v-col> -->
           <v-col cols="12">
             <v-card class="ma-2">
               <Check :extraInfo="currentProject.extraInfo"></Check>
