@@ -68,6 +68,27 @@ class AuthService {
       return Promise.reject('error');
     }
   }
+
+  static async getCode(phoneNumber: string) {
+    const rsp = await basicService.getRequest('/sms/code', {
+      phoneNumber
+    });
+    if (rsp.msg === 'success') return Promise.resolve(rsp.code as string);
+    else if (rsp.error === 'overflow') return Promise.reject('overflow');
+    return Promise.reject(rsp);
+  }
+
+  static async loginWithCode(phoneNumber: string, code: string) {
+    const rsp = await basicService.postRequest('/sms/login', {
+      phoneNumber,
+      code
+    });
+    if (rsp.msg === 'success') {
+      store.commit('user/updateUserAuth', rsp.authorization);
+      return Promise.resolve(rsp.authorization as Authorization);
+    }
+    return Promise.reject(rsp);
+  }
 }
 
 export default AuthService;

@@ -49,8 +49,15 @@
                 @click="standardLogin()"
                 >登录</v-btn
               >
-              <!-- <v-btn outlined class="mt-3" block color="green" dark @click="wechatLogin()">微信登录</v-btn> -->
-              <!-- <v-btn class="mt-3" text color="primary">忘记密码?</v-btn> -->
+
+              <v-btn
+                @click="loginWithPhoneDialog = true"
+                class="mt-3"
+                block
+                text
+                color="white"
+                >手机验证码登录</v-btn
+              >
               <!-- <v-divider class="my-3"></v-divider>
               <v-btn block text color="primary" :to="'/register'">注册新用户</v-btn>-->
             </v-flex>
@@ -58,6 +65,59 @@
         </v-container>
       </v-flex>
     </v-layout>
+
+    <v-dialog v-model="loginWithPhoneDialog" width="500" persistent>
+      <v-card>
+        <v-toolbar dense color="transparent" flat>
+          <v-toolbar-title class="subtitle-1">手机验证码登录</v-toolbar-title>
+        </v-toolbar>
+        <v-container fluid>
+          <v-text-field
+            dense
+            class="mb-3 body-2"
+            hide-details
+            outlined
+            single-line
+            label="手机号码"
+            type="number"
+            v-model="phoneNumber"
+          ></v-text-field>
+
+          <v-text-field
+            dense
+            class="mb-3 body-2"
+            hide-details
+            outlined
+            single-line
+            type="number"
+            label="验证码"
+            v-if="phoneNumber.length == 11"
+            v-model="code"
+          ></v-text-field>
+
+          <v-btn
+            outlined
+            class="mt-3"
+            block
+            color="green"
+            v-if="phoneNumber.length == 11"
+            dark
+            @click="getCode()"
+            >获取验证码</v-btn
+          >
+          <v-btn
+            outlined
+            class="mt-3"
+            block
+            color="green"
+            v-if="phoneNumber.length == 11 && hasCode && code.length >= 5"
+            dark
+            @click="loginWithCode()"
+            >登录</v-btn
+          >
+        </v-container>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -82,6 +142,11 @@ export default class Login extends Vue {
     username: '',
     password: ''
   };
+
+  loginWithPhoneDialog = false;
+  phoneNumber = '';
+  code = '';
+  hasCode = false;
 
   @systemModule.Mutation('toggleFullScreenLoading')
   toggleFullScreenLoading!: (v: boolean) => void;
@@ -130,6 +195,28 @@ export default class Login extends Vue {
     window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${appid}&redirect_uri=${encodeURIComponent(
       redirectUri
     )}&response_type=${responseType}&scope=${scope}&state=${state}#wechat_redirect`;
+  }
+
+  async getCode() {
+    try {
+      await AuthService.getCode(this.phoneNumber);
+      this.hasCode = true;
+      this.$snack('请求成功', { color: 'success' });
+    } catch (err) {
+      console.log(err);
+      this.$snack('操作过于频繁，或无此用户', { color: 'error' });
+    }
+  }
+
+  async loginWithCode() {
+    try {
+      await AuthService.loginWithCode(this.phoneNumber, this.code);
+      this.$snack('请求成功', { color: 'success' });
+      window.location.href = '/home';
+    } catch (err) {
+      console.log(err);
+      this.$snack('请求失败', { color: 'error' });
+    }
   }
 }
 </script>
