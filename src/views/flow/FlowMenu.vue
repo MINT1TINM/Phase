@@ -38,6 +38,11 @@ export default class FlowMenu extends Vue {
         icon: 'mdi-link',
         name: '事件绑定',
         route: '/bind'
+      },
+      {
+        icon: 'mdi-link',
+        name: 'Action',
+        route: '/action'
       }
     ];
   }

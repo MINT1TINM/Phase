@@ -9,10 +9,7 @@ const router = new Router({
       path: '/',
       component: () => import('@/views/flow/FlowMenu.vue'),
       children: [
-        {
-          path: '/todo',
-          component: () => import('@/views/flow/Todo.vue')
-        },
+        { path: '/todo', component: () => import('@/views/flow/Todo.vue') },
         {
           path: '/todo/:instanceID',
           component: () => import('@/views/flow/Timeline.vue'),
@@ -23,10 +20,8 @@ const router = new Router({
             }
           ]
         },
-        {
-          path: '/bind',
-          component: () => import('@/views/flow/Bind.vue')
-        }
+        { path: '/bind', component: () => import('@/views/flow/Bind.vue') },
+        { path: '/action', component: () => import('@/views/flow/Action.vue') }
       ]
     }
   ]

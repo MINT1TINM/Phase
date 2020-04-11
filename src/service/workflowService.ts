@@ -1,12 +1,11 @@
 import basicService from '@/service/basicService';
-import { Instance, Flow, Event, FlowLinkTask } from '@/types/workflow';
+import { Event, Flow, FlowLinkTask, Instance } from '@/types/workflow';
+
 const uuidv1 = require('uuid/v1');
 
 class WorkflowService {
   static async getFlowDef(id: number) {
-    const rsp = await basicService.getRequest('/workflow/flow/def', {
-      id
-    });
+    const rsp = await basicService.getRequest('/workflow/flow/def', { id });
 
     return rsp.flowdef as Flow;
   }
@@ -26,19 +25,13 @@ class WorkflowService {
   }
 
   static async getWorkflow(id: number) {
-    const rsp = await basicService.getRequest('/workflow/flow', {
-      id
-    });
+    const rsp = await basicService.getRequest('/workflow/flow', { id });
 
     const linkRsp = await basicService.getRequest('workflow/link/flow', {
       flowID: id
     });
 
-    return {
-      flow: rsp.flow,
-      count: rsp.count,
-      flowLink: linkRsp
-    } as {
+    return { flow: rsp.flow, count: rsp.count, flowLink: linkRsp } as {
       flow: Flow;
       flowLink: any;
       count: number;
@@ -79,9 +72,7 @@ class WorkflowService {
   }
 
   static async getWorkflowInstance(id: number) {
-    const rsp = await basicService.getRequest('/workflow/instance', {
-      id
-    });
+    const rsp = await basicService.getRequest('/workflow/instance', { id });
 
     return rsp as {
       msg: string;
@@ -167,6 +158,21 @@ class WorkflowService {
       msg: string;
       linkTask: FlowLinkTask;
     };
+  }
+
+  static async putActionDefine() {
+    const rsp = await basicService.putRequest('/workflow/action/define', {});
+    return rsp.actionDefine;
+  }
+
+  static async getActionDefineList() {
+    const rsp = await basicService.getRequest('/workflow/action/all', {});
+    return rsp.actionDefineList;
+  }
+
+  static async getActionInstanceList() {
+    const rsp = await basicService.getRequest('/workflow/action/instance', {});
+    return rsp.actionInstanceList;
   }
 }
 

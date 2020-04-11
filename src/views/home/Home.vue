@@ -147,12 +147,12 @@
               <template v-slot:item.detail="props">
                 <span>
                   <v-badge
-                    :value="hover[props.item.index][0]"
+                    :value="subtaskHover[props.item.index][0]"
                     color="warning"
                     :content="props.item.member_count + '名成员'"
                     transition="slide-x-transition"
                   >
-                    <v-hover v-model="hover[props.item.index][0]">
+                    <v-hover v-model="subtaskHover[props.item.index][0]">
                       <v-badge
                         color="primary"
                         overlap
@@ -167,9 +167,9 @@
                 </span>
               </template>
               <template v-slot:item.deadline="props">
-                <span v-if="props.item.deadline != '2099-12-31'">{{
-                  props.item.deadline | format('M.d')
-                }}</span>
+                <span v-if="props.item.deadline != '2099-12-31'">
+                  {{ props.item.deadline | format('M.d') }}
+                </span>
                 <span v-else>/</span>
               </template>
               <template v-slot:item.remainingDays="props">
@@ -241,16 +241,16 @@
                     :src="props.item.head_img"
                     alt="-"
                   />
-                  <span v-else class="white--text headline">{{
-                    props.item.username[0].toUpperCase()
-                  }}</span>
+                  <span v-else class="white--text headline">
+                    {{ props.item.username[0].toUpperCase() }}
+                  </span>
                 </v-avatar>
                 {{ props.item.username }}
               </template>
               <template v-slot:item.detail="props">
                 <span>
                   <v-badge
-                    :value="hover[props.item.index][0]"
+                    :value="taskHover[props.item.index][0]"
                     color="warning"
                     :content="
                       props.item.unfinish_subtask_count + '个未完成子任务'
@@ -258,7 +258,7 @@
                     transition="slide-x-transition"
                     class="mr-4"
                   >
-                    <v-hover v-model="hover[props.item.index][0]">
+                    <v-hover v-model="taskHover[props.item.index][0]">
                       <v-badge
                         color="primary"
                         overlap
@@ -272,12 +272,12 @@
                   </v-badge>
 
                   <v-badge
-                    :value="hover[props.item.index][1]"
+                    :value="taskHover[props.item.index][1]"
                     color="warning"
                     :content="props.item.member_count + '名成员'"
                     transition="slide-x-transition"
                   >
-                    <v-hover v-model="hover[props.item.index][1]">
+                    <v-hover v-model="taskHover[props.item.index][1]">
                       <v-badge
                         color="primary"
                         overlap
@@ -292,9 +292,9 @@
                 </span>
               </template>
               <template v-slot:item.deadline="props">
-                <span v-if="props.item.deadline != '2099-12-31'">{{
-                  props.item.deadline | format('M.d')
-                }}</span>
+                <span v-if="props.item.deadline != '2099-12-31'">
+                  {{ props.item.deadline | format('M.d') }}
+                </span>
                 <span v-else>/</span>
               </template>
               <template v-slot:item.remainingDays="props">
@@ -479,7 +479,8 @@ export default class ComponentName extends Vue {
     一般: '#76CC49'
   };
 
-  hover: boolean[][] = [];
+  taskHover: boolean[][] = [];
+  subtaskHover: boolean[][] = [];
 
   updateSubtaskList(PPTList: any[]) {
     this.subtaskList = [];
@@ -574,8 +575,12 @@ export default class ComponentName extends Vue {
 
   updateHover(len: number) {
     console.log('updateHover:', len);
-    this.hover = Array.from(
-      { length: Math.max(len, this.hover.length) },
+    this.taskHover = Array.from(
+      { length: Math.max(len, this.taskHover.length) },
+      () => [false, false]
+    );
+    this.subtaskHover = Array.from(
+      { length: Math.max(len, this.subtaskHover.length) },
       () => [false, false]
     );
   }
