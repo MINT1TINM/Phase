@@ -23,6 +23,10 @@ const router = new Router({
         { path: '/bind', component: () => import('@/views/flow/Bind.vue') },
         { path: '/action', component: () => import('@/views/flow/Action.vue') }
       ]
+    },
+    {
+      path: '/instance',
+      component: () => import('@/views/flow/ActionInstance.vue')
     }
   ]
 });

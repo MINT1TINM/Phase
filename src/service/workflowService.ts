@@ -1,5 +1,12 @@
 import basicService from '@/service/basicService';
-import { Event, Flow, FlowLinkTask, Instance } from '@/types/workflow';
+import {
+  ActionDefine,
+  ActionInstance,
+  Event,
+  Flow,
+  FlowLinkTask,
+  Instance
+} from '@/types/workflow';
 
 const uuidv1 = require('uuid/v1');
 
@@ -160,19 +167,36 @@ class WorkflowService {
     };
   }
 
-  static async putActionDefine() {
-    const rsp = await basicService.putRequest('/workflow/action/define', {});
-    return rsp.actionDefine;
+  static async updateActionDefine(ad: ActionDefine) {
+    const rsp = await basicService.putRequest('/workflow/action/define', ad);
+    return rsp;
   }
 
   static async getActionDefineList() {
-    const rsp = await basicService.getRequest('/workflow/action/all', {});
-    return rsp.actionDefineList;
+    const rsp = await basicService.getRequest('/workflow/action/list', {});
+    return rsp;
+  }
+  static async getActionDefine(id: string) {
+    const rsp = await basicService.getRequest('/workflow/action', { id });
+    return rsp;
   }
 
   static async getActionInstanceList() {
-    const rsp = await basicService.getRequest('/workflow/action/instance', {});
-    return rsp.actionInstanceList;
+    const rsp = await basicService.getRequest(
+      '/workflow/action/instance/list',
+      {}
+    );
+    return rsp;
+  }
+  static async getActionInstance(id: string) {
+    const rsp = await basicService.getRequest('/workflow/action/instance', {
+      id
+    });
+    return rsp;
+  }
+  static async updateActionInstance(ai: ActionInstance) {
+    const rsp = await basicService.putRequest('/workflow/action/instance', ai);
+    return rsp;
   }
 }
 

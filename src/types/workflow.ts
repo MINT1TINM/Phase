@@ -55,4 +55,50 @@ class Event {
   taskID!: number;
 }
 
-export { Instance, Flow, Event, FlowLinkTask };
+class ActionDefine {
+  constructor(
+    flowID: string,
+    sheetTemplateID: string,
+    userID: string,
+    groupList: any[],
+    extraInfo: any
+  ) {
+    this.flowID = flowID;
+    this.sheetTemplateID = sheetTemplateID;
+    this.userID = userID;
+    this.groupList = groupList;
+    this.extraInfo = extraInfo;
+  }
+  id!: string;
+  flowID!: string;
+  sheetTemplateID!: string;
+  groupList!: any[];
+  userID!: string;
+  extraInfo!: any;
+}
+
+class ActionInstance {
+  constructor(
+    userID: string = '',
+    sheetDataID: string = '',
+    actionDefineID: string = '',
+    status: string = '未提交'
+  ) {
+    this.userID = userID;
+    this.sheetDataID = sheetDataID;
+    this.actionDefineID = actionDefineID;
+    this.status = status;
+  }
+  id!: string;
+  status!: string;
+  userID!: string;
+  sheetDataID!: string;
+  sheetData!: string;
+  flowInstanceID!: string;
+  actionDefineID!: string;
+  createdAt!: string;
+  updatedAt!: string;
+  deletedAt!: string;
+}
+
+export { Instance, Flow, Event, FlowLinkTask, ActionDefine, ActionInstance };
