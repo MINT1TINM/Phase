@@ -96,6 +96,10 @@ export default class ComponentName extends Vue {
       this.authorization.userID,
       toUserID
     );
+    const inv = rsp.invitation as Invitation;
+
+    // immediately add user
+    await ProjectService.updateInvitationStatus(inv.id, 1);
   }
 
   hasSentInvitation() {}
