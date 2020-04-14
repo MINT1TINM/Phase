@@ -210,7 +210,10 @@ export default class Login extends Vue {
 
   async loginWithCode() {
     try {
-      await AuthService.loginWithCode(this.phoneNumber, this.code);
+      const auth = await AuthService.loginWithCode(this.phoneNumber, this.code);
+      await UserService.getUserInfo(auth.userID!);
+      await ProjectService.getInvitationList('', '', auth.userID!);
+
       this.$snack('请求成功', { color: 'success' });
       window.location.href = '/home';
     } catch (err) {
