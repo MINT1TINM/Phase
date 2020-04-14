@@ -25,8 +25,8 @@ const userModule = namespace('user');
   }
 })
 export default class ActionView extends Vue {
-  @userModule.Getter('authorization') authorization: Authorization;
-  @userModule.Getter('userInfo') userInfo: UserInfo;
+  @userModule.Getter('authorization') authorization!: Authorization;
+  @userModule.Getter('userInfo') userInfo!: UserInfo;
 
   workflowDefineID: string = '';
   sheetTemplateID: string = '';
