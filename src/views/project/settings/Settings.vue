@@ -5,70 +5,9 @@
         <v-row no-gutters>
           <v-col cols="12">
             <v-card v-if="!extraInfo.started">
-              <v-btn :to="`/`" class="my-2 ml-1" v-if="!extraInfo.started" text>
+              <v-btn :to="`/`" class="my-2 ml-1" text>
                 <v-icon class="mr-2" size="20">mdi-arrow-left</v-icon>返回首页
               </v-btn>
-
-              <v-toolbar dense flat class="transparent">
-                <v-toolbar-title class="subtitle-1 font-weight-black">
-                  进程
-                </v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn
-                  v-if="
-                    workflowInstance.nodeID == '开始' || !extraInfo.startFlowID
-                  "
-                  text
-                  @click="updateProjectInfo()"
-                >
-                  <v-icon size="20" class="mr-2"
-                    >mdi-content-save-outline</v-icon
-                  >保存修改</v-btn
-                >
-                <v-btn
-                  text
-                  @click="submitForReview"
-                  v-if="
-                    workflowInstance.nodeID == '开始' || !extraInfo.startFlowID
-                  "
-                >
-                  <v-icon size="20" class="mr-2">mdi-check</v-icon>提交审批
-                </v-btn>
-              </v-toolbar>
-              <v-stepper>
-                <v-stepper-header>
-                  <v-stepper-step
-                    :complete="
-                      workflowInstance.nodeID == '开始' || extraInfo.started
-                    "
-                    class="body-2"
-                    step="1"
-                  >
-                    完善信息
-                  </v-stepper-step>
-
-                  <v-divider></v-divider>
-
-                  <v-stepper-step
-                    :complete="
-                      workflowInstance.nodeID == '审批' || extraInfo.started
-                    "
-                    class="body-2"
-                    step="2"
-                  >
-                    审计处审批中
-                  </v-stepper-step>
-
-                  <v-divider></v-divider>
-
-                  <v-stepper-step
-                    :complete="extraInfo.started"
-                    step="3"
-                    class="body-2"
-                    >启动项目</v-stepper-step
-                  >
-                </v-stepper-header>
-              </v-stepper>
             </v-card>
           </v-col>
           <v-col cols="12">

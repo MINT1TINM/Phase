@@ -5,7 +5,6 @@
       mini-variant-width="62"
       app
       clipped
-      v-if="currentProject.extraInfo.started"
       permanent
       fixed
     >
@@ -64,70 +63,70 @@ export default class ProjectIndex extends Vue {
         name: '仪表板',
         route: '/dashboard',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition: true
       },
       {
         icon: 'mdi-view-agenda',
         name: '过程',
         route: '/process',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition: true
       },
       {
         icon: 'mdi-account-box-outline',
         name: '成员',
         route: '/member',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition: true
       },
       {
         icon: 'mdi-file-document-edit-outline',
         name: '合同',
         route: '/contract',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition: true
       },
       {
         icon: 'mdi-checkbox-marked-circle-outline',
         name: '跟踪',
         route: '/track',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition: true
       },
       {
         icon: 'mdi-account-multiple-outline',
         name: '例会',
         route: '/meeting',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition: true
       },
       {
         icon: 'mdi-passport',
         name: '签证变更',
         route: '/visa',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition: true
       },
       {
         icon: 'mdi-cart-outline',
         name: '材料',
         route: '/material',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition: true
       },
       {
         icon: 'mdi-folder-outline',
         name: '文件',
         route: '/document',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition: true
       },
       {
         icon: 'mdi-file-table-outline',
         name: '表单',
         route: '/sheet',
         role: ['r'],
-        condition: this.currentProject.extraInfo.started
+        condition: true
       },
       {
         icon: 'mdi-tune',

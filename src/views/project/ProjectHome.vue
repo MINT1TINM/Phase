@@ -370,11 +370,8 @@ export default class ProjectHome extends Vue {
 
   goToProject(p: Project) {
     this.updateCurrentProjectID(p.id);
-    if (p.extraInfo.started) {
-      this.$router.push({ path: '/dashboard' });
-    } else {
-      this.$router.push({ path: '/settings' });
-    }
+
+    this.$router.push({ path: '/dashboard' });
   }
 
   goToAssign(p: Project) {
@@ -466,7 +463,7 @@ export default class ProjectHome extends Vue {
     let rsp: any;
     try {
       this.createProjectInfo.extraInfo = new ProjectExtraInfo();
-      this.createProjectInfo.extraInfo.status = '立项申请';
+
       rsp = await ProjectService.createProject(this.createProjectInfo);
       this.$snack('创建成功');
       await UserService.getUserInfo(this.authorization.userID);

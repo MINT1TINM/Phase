@@ -17,7 +17,7 @@ import WorkflowService from '@/service/workflowService';
 import SheetService from '@/service/sheetService';
 import { Instance, ActionDefine, ActionInstance } from '@/types/workflow';
 import { Template } from '@/types/sheet';
-import ActionDefineComponent from '@/components/flow/action/ActionDefine.vue';
+import ActionDefineComponent from '@/components/flow/action/FindActionDefine.vue';
 
 @Component({
   components: {
