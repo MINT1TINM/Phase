@@ -55,7 +55,6 @@
                 class="mt-3"
                 block
                 text
-                color="white"
                 >手机验证码登录</v-btn
               >
               <!-- <v-divider class="my-3"></v-divider>
