@@ -33,7 +33,7 @@ import WorkflowService from '@/service/workflowService';
 import SheetService from '@/service/sheetService';
 import { Instance, ActionDefine, ActionInstance } from '@/types/workflow';
 import { Template } from '@/types/sheet';
-import ActionInstanceComponent from '@/components/flow/action/ActionInstance.vue';
+import ActionInstanceComponent from '@/components/flow/action/InstanceDetail.vue';
 
 const userModule = namespace('user');
 
