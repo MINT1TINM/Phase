@@ -21,7 +21,17 @@ const router = new Router({
           ]
         },
         { path: '/bind', component: () => import('@/views/flow/Bind.vue') },
-        { path: '/action', component: () => import('@/views/flow/Action.vue') }
+        {
+          path: '/action',
+          component: () => import('@/views/flow/Action.vue'),
+          children: [
+            {
+              path: '/action/:actionID',
+              component: () =>
+                import('@/components/flow/action/FindActionDefine.vue')
+            }
+          ]
+        }
       ]
     },
     {

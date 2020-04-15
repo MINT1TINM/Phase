@@ -35,6 +35,7 @@ export default class ActionInstanceComponent extends Vue {
     this.actionInstance = rsp.actionInstance;
     this.actionDefineID = this.actionInstance.actionDefineID;
   }
+
   async mounted() {
     await this.getActionInstance(this.actionInstanceID);
   }

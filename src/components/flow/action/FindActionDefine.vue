@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container fluid>
     <b>actionDefineID:{{ actionDefineID }}</b>
     <br />
     actionDefine:{{ actionDefine }}
@@ -7,7 +7,18 @@
     <b>workflowDefineID:{{ workflowDefineID }}</b>
     <br />
     workflowDefine:{{ workflowDefine }}
-  </div>
+
+    <div v-if="actionDefine.sheetTemplateID">
+      <v-toolbar dense color="transparent" flat>
+        <v-toolbar-title class="subtitle-1 font-weight-black"
+          >表单模版</v-toolbar-title
+        >
+      </v-toolbar>
+      <SheetTemplatePreview
+        :currentTemplateID="actionDefine.sheetTemplateID"
+      ></SheetTemplatePreview>
+    </div>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -17,10 +28,16 @@ import { namespace } from 'vuex-class';
 import { Authorization, UserInfo } from '@/types/user';
 import WorkflowService from '@/service/workflowService';
 import SheetService from '@/service/sheetService';
-import { ActionDefine } from '@/types/workflow';
+import { ActionDefine, Flow } from '@/types/workflow';
 import { Template } from '@/types/sheet';
 
-@Component
+import SheetTemplatePreview from '@/components/sheet/Preview.vue';
+
+@Component({
+  components: {
+    SheetTemplatePreview
+  }
+})
 export default class ActionDefineComponent extends Vue {
   @Prop({ default: () => '' }) actionDefineID!: string;
   @Prop({ default: () => '' }) workflowDefineID!: string;
@@ -34,6 +51,8 @@ export default class ActionDefineComponent extends Vue {
   async getWorkflowDefine(id: string) {
     // const rsp = await WorkflowService.getWorkflowDefine(id);
     // this.workflowDefine = rsp.workflowDefine;
+
+    this.workflowDefine = new Flow();
   }
 
   @Watch('actionDefineID', { immediate: true })

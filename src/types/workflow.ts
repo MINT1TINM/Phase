@@ -70,6 +70,7 @@ class ActionDefine {
     this.extraInfo = extraInfo;
   }
   id!: string;
+  name!: string;
   flowID!: string;
   sheetTemplateID!: string;
   groupList!: any[];
