@@ -28,7 +28,7 @@ const router = new Router({
             {
               path: '/action/:actionID',
               component: () =>
-                import('@/components/flow/action/FindActionDefine.vue')
+                import('@/components/flow/action/DefineDetail.vue')
             }
           ]
         }

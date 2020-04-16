@@ -57,12 +57,14 @@ class Event {
 
 class ActionDefine {
   constructor(
+    name: string,
     flowID: string,
     sheetTemplateID: string,
     userID: string,
     groupList: any[],
     extraInfo: any
   ) {
+    this.name = name;
     this.flowID = flowID;
     this.sheetTemplateID = sheetTemplateID;
     this.userID = userID;

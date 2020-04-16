@@ -31,7 +31,7 @@
         <v-container fluid>
           <v-row dense>
             <v-col cols="6">
-              <v-subheader>表单</v-subheader>
+              <v-subheader>表单模板</v-subheader>
               <v-list dense style="height: 400px" class="overflow-y-auto">
                 <v-list-item-group v-model="sheetTemplateID">
                   <template v-for="(item, i) in sheetTemplateList">
@@ -79,6 +79,21 @@
               </v-list>
             </v-col>
           </v-row>
+          <!-- <hr class="primary"> -->
+          <v-row dense>
+            <v-col cols="6">
+              <v-text-field
+                label="Action Name"
+                v-model="ActionName"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-select
+                label="Action Department"
+                v-model="ActionGroup"
+              ></v-select>
+            </v-col>
+          </v-row>
         </v-container>
         <v-card-actions class="justify-center">
           <v-btn rounded depressed @click="createActionDefine">确认</v-btn>
@@ -115,6 +130,8 @@ export default class ActionView extends Vue {
 
   workflowDefineID: string = '';
   sheetTemplateID: string = '';
+  ActionName: string = '';
+  ActionGroup: string[] = [];
   actionDefineList: ActionDefine[] = [];
   actionInstance: ActionInstance[] = [];
   sheetTemplateList: Template[] = [];
@@ -132,7 +149,7 @@ export default class ActionView extends Vue {
     this.actionDefineList = rsp.actionInstanceList;
   }
   async getWorkflowList() {
-    const rsp = await WorkflowService.getWorkflowList(1, 10, this.content);
+    const rsp = await WorkflowService.getWorkflowList(1, 1000, this.content);
     this.workflowList = rsp.flow;
   }
   async getSheetTemplateList() {
@@ -149,10 +166,11 @@ export default class ActionView extends Vue {
   async createActionDefine() {
     try {
       const ad = new ActionDefine(
+        this.ActionName,
         this.workflowDefineID,
         this.sheetTemplateID,
         this.authorization.userID,
-        [],
+        this.ActionGroup,
         {}
       );
       await this.updateActionDefine(ad);
