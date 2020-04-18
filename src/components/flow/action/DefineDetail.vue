@@ -1,21 +1,19 @@
 <template>
   <div>
     <v-toolbar dense color="transparent" flat>
-      <v-toolbar-title class="subtitle-1 font-weight-black">{{
+      <v-toolbar-title class="subtitle-1 font-weight-black">
+        {{
         actionDefine.name
-      }}</v-toolbar-title>
+        }}
+      </v-toolbar-title>
     </v-toolbar>
     <v-container fluid>
       {{ actionDefine }}
       <div v-if="actionDefine.sheetTemplateID">
         <v-toolbar dense color="transparent" flat>
-          <v-toolbar-title class="subtitle-1 font-weight-black"
-            >表单模版</v-toolbar-title
-          >
+          <v-toolbar-title class="subtitle-1 font-weight-black">表单模版</v-toolbar-title>
         </v-toolbar>
-        <SheetTemplatePreview
-          :currentTemplateID="actionDefine.sheetTemplateID"
-        ></SheetTemplatePreview>
+        <SheetTemplatePreview :currentTemplateID="actionDefine.sheetTemplateID"></SheetTemplatePreview>
       </div>
     </v-container>
   </div>
@@ -31,33 +29,34 @@ import SheetService from '@/service/sheetService';
 import { ActionDefine, Flow } from '@/types/workflow';
 import { Template } from '@/types/sheet';
 import SheetTemplatePreview from '@/components/sheet/Preview.vue';
+import FlowChartComponent from '@/components/flow/chart/FlowChart.vue';
 @Component({
   components: {
-    SheetTemplatePreview
+    SheetTemplatePreview,
+    FlowChartComponent
   }
 })
 export default class ActionDefineComponent extends Vue {
   @Prop({ default: () => '' }) actionDefineID!: string;
-  @Prop({ default: () => '' }) workflowDefineID!: string;
   actionDefine = new ActionDefine('', '', '', '', [], undefined);
   workflowDefine = new Flow();
-
+  workflowDefineID!: string;
   async getActionDefine(id: string) {
     const rsp = await WorkflowService.getActionDefine(id);
     this.actionDefine = rsp.actionDefine;
+    this.workflowDefineID = this.actionDefine.flowID;
   }
-  async getWorkflowDefine(id: string) {
-    // const rsp = await WorkflowService.getFlowDef(id);
-    // this.workflowDefine = rsp.workflowDefine;
-    this.workflowDefine = new Flow();
+  async getWorkflowDefine(id: number) {
+    this.workflowDefine = await WorkflowService.getFlowDef(id);
   }
   @Watch('actionDefineID', { immediate: true })
   onActionDefineIDChanged() {
-    this.getActionDefine(this.actionDefineID);
+    if (this.actionDefineID) this.getActionDefine(this.actionDefineID);
   }
   @Watch('workflowDefineID', { immediate: true })
   onWorkflowDefineIDChanged() {
-    this.getWorkflowDefine(this.workflowDefineID);
+    if (this.workflowDefineID)
+      this.getWorkflowDefine(Number(this.workflowDefineID));
   }
   async mounted() {
     // console.log('actionDefineID:', this.actionDefineID);

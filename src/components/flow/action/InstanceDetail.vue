@@ -4,7 +4,9 @@
     <br />
     actionInstance:{{ actionInstance }}
     <br />
-    <ActionDefineComponent :actionDefineID="actionDefineID" />
+    <FlowChartComponent :workflowDefine="workflowDefine" />
+
+    <!-- <ActionDefineComponent :actionDefineID="actionDefineID"/> -->
   </div>
 </template>
 
@@ -18,10 +20,12 @@ import SheetService from '@/service/sheetService';
 import { Instance, ActionDefine, ActionInstance } from '@/types/workflow';
 import { Template } from '@/types/sheet';
 import ActionDefineComponent from '@/components/flow/action/DefineDetail.vue';
+import FlowChartComponent from '@/components/flow/chart/FlowChart.vue';
 
 @Component({
   components: {
-    ActionDefineComponent
+    ActionDefineComponent,
+    FlowChartComponent
   }
 })
 export default class ActionInstanceComponent extends Vue {
@@ -29,11 +33,26 @@ export default class ActionInstanceComponent extends Vue {
 
   actionInstance: ActionInstance = new ActionInstance();
   actionDefineID: string = '';
+  workflowDefineID: number = -1;
+  actionDefine: any = {};
+  workflowDefine: any = {};
+
+  async getActionDefine(id: string) {
+    const rsp = await WorkflowService.getActionDefine(id);
+    this.actionDefine = rsp.actionDefine;
+    this.workflowDefineID = this.actionDefine.flowID;
+    this.getWorkflowDefine(this.workflowDefineID);
+  }
+
+  async getWorkflowDefine(id: number) {
+    this.workflowDefine = await WorkflowService.getFlowDef(id);
+  }
 
   async getActionInstance(id: string) {
     const rsp = await WorkflowService.getActionInstance(id);
     this.actionInstance = rsp.actionInstance;
     this.actionDefineID = this.actionInstance.actionDefineID;
+    this.getActionDefine(this.actionDefineID);
   }
 
   async mounted() {

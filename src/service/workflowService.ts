@@ -176,6 +176,7 @@ class WorkflowService {
     const rsp = await basicService.getRequest('/workflow/action/list', {});
     return rsp;
   }
+
   static async getActionDefine(id: string) {
     const rsp = await basicService.getRequest('/workflow/action', { id });
     return rsp;

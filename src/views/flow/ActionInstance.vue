@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <ActionInstanceComponent
-      :actionInstanceID="'5e6f9bff-c875-4c49-8b76-bb5d5e805ad7'"
+      :actionInstanceID="'51119541-137a-43a5-83aa-82316e885dd9'"
     />
   </v-container>
 </template>
@@ -16,12 +16,14 @@ import SheetService from '@/service/sheetService';
 import { Instance, ActionDefine, ActionInstance } from '@/types/workflow';
 import { Template } from '@/types/sheet';
 import ActionInstanceComponent from '@/components/flow/action/InstanceDetail.vue';
+import FlowChartComponent from '@/components/flow/chart/FlowChart.vue';
 
 const userModule = namespace('user');
 
 @Component({
   components: {
-    ActionInstanceComponent
+    ActionInstanceComponent,
+    FlowChartComponent
   }
 })
 export default class ActionView extends Vue {
