@@ -319,7 +319,7 @@ export default class SubTaskList extends Vue {
         ]
       },
       {
-        type: 'multi-select-no-data',
+        type: 'multi-select-no-wrap',
         title: '成员',
         name: 'member',
         chips: true,
@@ -520,6 +520,7 @@ export default class SubTaskList extends Vue {
 
   mounted() {
     // this.subTaskInfoContent[4].list = this.taskMember;
+    console.log(this.taskMember);
   }
 }
 </script>
