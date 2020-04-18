@@ -1,4 +1,12 @@
 class Process {
+  constructor() {
+    this.task = {
+      data: []
+    };
+    this.member = {
+      data: []
+    };
+  }
   id!: string;
   createAt!: number;
   updatedAt!: number;

@@ -23,8 +23,16 @@ const getters = {
 
     return processIDList;
   },
-  currentProcess: (s: State) => (processID: string) =>
-    s.currentProcessList.find((e: Process) => e.id === processID),
+  currentProcess: (s: State) => (processID: string) => {
+    if (s.currentProcessList) {
+      return (
+        s.currentProcessList.find((e: Process) => e.id === processID) ||
+        new Process()
+      );
+    }
+
+    return new Process();
+  },
   fullTaskList: (s: State) => {
     for (const item of s.fullTaskList) {
       item.startDate = item.startDate.slice(0, 10);

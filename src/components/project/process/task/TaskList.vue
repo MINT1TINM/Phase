@@ -201,9 +201,13 @@ export default class TaskList extends Vue {
   }
 
   getCurrentProcessFromProp() {
-    return this.currentProcessList.find(
-      (e: Process) => e.id === this.processID
-    );
+    if (this.currentProcessList && this.currentProcessList.length >= 1) {
+      return this.currentProcessList.find(
+        (e: Process) => e.id === this.processID
+      );
+    }
+
+    return new Process();
   }
 
   async toggleTaskStatus(taskID: string) {
@@ -240,7 +244,7 @@ export default class TaskList extends Vue {
   @Watch('currentProcessList', { immediate: true, deep: true })
   onCurrentProcessListChanged() {
     console.log('changed');
-    if (this.currentProcessList) {
+    if (this.currentProcessList && this.currentProcessList.length >= 1) {
       this.taskList = this.getCurrentProcessFromProp().task.data;
     }
     console.log('this.taskList:', this.taskList);
@@ -249,7 +253,9 @@ export default class TaskList extends Vue {
   @Watch('processID', { immediate: true })
   onProcessIDChanged() {
     console.log(this.processID);
-    this.taskList = this.getCurrentProcessFromProp().task.data;
+    if (this.processID) {
+      this.taskList = this.getCurrentProcessFromProp().task.data;
+    }
   }
 
   mounted() {

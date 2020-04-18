@@ -2,24 +2,32 @@
   <div>
     <v-row no-gutters>
       <v-col cols="3">
-        <v-toolbar color="transparent" flat dense>
-          <v-toolbar-title class="subtitle-1 font-weight-black"
-            >ACTION</v-toolbar-title
+        <v-card>
+          <v-toolbar color="transparent" flat dense>
+            <v-toolbar-title class="subtitle-1 font-weight-black"
+              >ACTION</v-toolbar-title
+            >
+            <v-spacer></v-spacer>
+            <v-btn icon @click="createActionDefineDialog = true">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-toolbar>
+          <v-list
+            color="transparent"
+            nav
+            dense
+            height="calc(100vh - 96px)"
+            class="overflow-y-auto"
           >
-          <v-spacer></v-spacer>
-          <v-btn icon @click="createActionDefineDialog = true">
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-list nav dense height="calc(100vh - 96px)" class="overflow-y-auto">
-          <v-list-item
-            :to="`/action/${item.id}`"
-            v-for="(item, i) in actionDefineList"
-            :key="`ad-${i}`"
-          >
-            <v-list-item-title>{{ item.name }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
+            <v-list-item
+              :to="`/action/${item.id}`"
+              v-for="(item, i) in actionDefineList"
+              :key="`ad-${i}`"
+            >
+              <v-list-item-title>{{ item.name }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-card>
       </v-col>
       <v-col cols="9" style="height:calc(100vh - 48px)" class="overflow-y-auto">
         <router-view :actionDefineID="$route.params.actionID"></router-view>
@@ -83,13 +91,19 @@
           <v-row dense>
             <v-col cols="6">
               <v-text-field
-                label="Action Name"
+                dense
+                outlined
+                hide-details
+                label="Action名称"
                 v-model="ActionName"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-select
-                label="Action Department"
+                dense
+                outlined
+                hide-details
+                label="所属部门"
                 v-model="ActionGroup"
               ></v-select>
             </v-col>

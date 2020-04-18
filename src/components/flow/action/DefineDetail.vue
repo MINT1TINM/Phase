@@ -1,23 +1,24 @@
 <template>
-  <v-container fluid>
-    <b>actionDefineID:{{ actionDefineID }}</b>
-    <br />
-    actionDefine:{{ actionDefine }}
-    <br />
-    <b>workflowDefineID:{{ workflowDefineID }}</b>
-    <br />
-    workflowDefine:{{ workflowDefine }}
-    <div v-if="actionDefine.sheetTemplateID">
-      <v-toolbar dense color="transparent" flat>
-        <v-toolbar-title class="subtitle-1 font-weight-black"
-          >表单模版</v-toolbar-title
-        >
-      </v-toolbar>
-      <SheetTemplatePreview
-        :currentTemplateID="actionDefine.sheetTemplateID"
-      ></SheetTemplatePreview>
-    </div>
-  </v-container>
+  <div>
+    <v-toolbar dense color="transparent" flat>
+      <v-toolbar-title class="subtitle-1 font-weight-black">{{
+        actionDefine.name
+      }}</v-toolbar-title>
+    </v-toolbar>
+    <v-container fluid>
+      {{ actionDefine }}
+      <div v-if="actionDefine.sheetTemplateID">
+        <v-toolbar dense color="transparent" flat>
+          <v-toolbar-title class="subtitle-1 font-weight-black"
+            >表单模版</v-toolbar-title
+          >
+        </v-toolbar>
+        <SheetTemplatePreview
+          :currentTemplateID="actionDefine.sheetTemplateID"
+        ></SheetTemplatePreview>
+      </div>
+    </v-container>
+  </div>
 </template>
 
 <script lang="ts">
@@ -38,14 +39,15 @@ import SheetTemplatePreview from '@/components/sheet/Preview.vue';
 export default class ActionDefineComponent extends Vue {
   @Prop({ default: () => '' }) actionDefineID!: string;
   @Prop({ default: () => '' }) workflowDefineID!: string;
-  actionDefine: any = {};
-  workflowDefine: any = {};
+  actionDefine = new ActionDefine('', '', '', '', [], undefined);
+  workflowDefine = new Flow();
+
   async getActionDefine(id: string) {
     const rsp = await WorkflowService.getActionDefine(id);
     this.actionDefine = rsp.actionDefine;
   }
   async getWorkflowDefine(id: string) {
-    // const rsp = await WorkflowService.getWorkflowDefine(id);
+    // const rsp = await WorkflowService.getFlowDef(id);
     // this.workflowDefine = rsp.workflowDefine;
     this.workflowDefine = new Flow();
   }

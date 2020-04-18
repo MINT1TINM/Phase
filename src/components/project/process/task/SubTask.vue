@@ -251,87 +251,91 @@ export default class SubTaskList extends Vue {
     一般: '#76CC49'
   };
   taskStatus = {};
-  subTaskInfoContent = [
-    {
-      type: 'select',
-      title: '状态',
-      name: 'status',
-      text: 'name',
-      value: 'name',
-      list: [
-        {
-          name: '未开始',
-          status: 0,
-          color: '#3A80E7'
-        },
-        {
-          name: '处理中',
-          status: 1,
-          color: '#EB8329'
-        },
-        {
-          name: '已完成',
-          status: 2,
-          color: '#7AC09E'
-        }
-      ]
-    },
-    {
-      type: 'text-field',
-      title: '任务名称',
-      name: 'name'
-    },
-    {
-      type: 'date-range',
-      title: '计划时间',
-      nameStart: 'startDate',
-      nameEnd: 'endDate'
-    },
-    {
-      type: 'select',
-      title: '任务等级',
-      name: 'color',
-      text: 'name',
-      value: 'name',
-      list: [
-        {
-          name: '非常紧急',
-          color: '#E53935'
-        },
-        {
-          name: '非常重要',
-          color: '#FB8C00'
-        },
-        {
-          name: '紧急',
-          color: '#F8CF5E'
-        },
-        {
-          name: '重要',
-          color: '#29B6F6'
-        },
-        {
-          name: '一般',
-          color: '#76CC49'
-        }
-      ]
-    },
-    {
-      type: 'multi-select-no-data',
-      title: '成员',
-      name: 'member',
-      chips: true,
-      text: 'nickName',
-      value: 'userID',
-      list: []
-    }
-  ];
-  @Watch('taskMember', { immediate: true, deep: true })
-  onTaskMemberChanged(newVal: any, oldVal: any) {
-    this.subTaskInfoContent[4].list = this.taskMember as any;
-    // console.log('this.taskMember:', this.taskMember);
-    // console.log('member:', this.currentSubTask.member);
+
+  get subTaskInfoContent() {
+    return [
+      {
+        type: 'select',
+        title: '状态',
+        name: 'status',
+        text: 'name',
+        value: 'name',
+        list: [
+          {
+            name: '未开始',
+            status: 0,
+            color: '#3A80E7'
+          },
+          {
+            name: '处理中',
+            status: 1,
+            color: '#EB8329'
+          },
+          {
+            name: '已完成',
+            status: 2,
+            color: '#7AC09E'
+          }
+        ]
+      },
+      {
+        type: 'text-field',
+        title: '任务名称',
+        name: 'name'
+      },
+      {
+        type: 'date-range',
+        title: '计划时间',
+        nameStart: 'startDate',
+        nameEnd: 'endDate'
+      },
+      {
+        type: 'select',
+        title: '任务等级',
+        name: 'color',
+        text: 'name',
+        value: 'name',
+        list: [
+          {
+            name: '非常紧急',
+            color: '#E53935'
+          },
+          {
+            name: '非常重要',
+            color: '#FB8C00'
+          },
+          {
+            name: '紧急',
+            color: '#F8CF5E'
+          },
+          {
+            name: '重要',
+            color: '#29B6F6'
+          },
+          {
+            name: '一般',
+            color: '#76CC49'
+          }
+        ]
+      },
+      {
+        type: 'multi-select-no-data',
+        title: '成员',
+        name: 'member',
+        chips: true,
+        text: 'nickName',
+        value: 'userID',
+        list: this.taskMember
+      }
+    ];
   }
+
+  // @Watch('taskMember', { immediate: true, deep: true })
+  // onTaskMemberChanged(newVal: any, oldVal: any) {
+  //   this.subTaskInfoContent[4].list = this.taskMember as any;
+  //   // console.log('this.taskMember:', this.taskMember);
+  //   // console.log('member:', this.currentSubTask.member);
+  // }
 
   getUserHeadImg(userid: string) {
     var headimg = '';
