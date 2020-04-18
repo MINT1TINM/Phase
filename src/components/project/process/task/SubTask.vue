@@ -319,7 +319,7 @@ export default class SubTaskList extends Vue {
         ]
       },
       {
-        type: 'multi-select-no-wrap',
+        type: 'multi-select-no-data',
         title: '成员',
         name: 'member',
         chips: true,
