@@ -15,6 +15,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import CompanyService from '@/service/companyService';
 import { namespace } from 'vuex-class';
 import { Authorization, UserInfo } from '@/types/user';
+import { Sheet } from '@/types/sheet';
 import WorkflowService from '@/service/workflowService';
 import SheetService from '@/service/sheetService';
 import { Instance, ActionDefine, ActionInstance } from '@/types/workflow';
@@ -36,6 +37,7 @@ export default class ActionInstanceComponent extends Vue {
   workflowDefineID: number = -1;
   actionDefine: any = {};
   workflowDefine: any = {};
+  sheetData: Sheet = new Sheet();
 
   async getActionDefine(id: string) {
     const rsp = await WorkflowService.getActionDefine(id);
@@ -46,6 +48,11 @@ export default class ActionInstanceComponent extends Vue {
 
   async getWorkflowDefine(id: number) {
     this.workflowDefine = await WorkflowService.getFlowDef(id);
+  }
+
+  async geSheetInfo(id: string) {
+    const rsp = await SheetService.getSheetInfo(id);
+    this.sheetData = rsp.sheet;
   }
 
   async getActionInstance(id: string) {

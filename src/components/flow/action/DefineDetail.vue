@@ -2,18 +2,21 @@
   <div>
     <v-toolbar dense color="transparent" flat>
       <v-toolbar-title class="subtitle-1 font-weight-black">
-        {{
-        actionDefine.name
-        }}
+        {{ actionDefine.name }}
       </v-toolbar-title>
     </v-toolbar>
     <v-container fluid>
-      {{ actionDefine }}
+      <!-- {{ actionDefine }} -->
+      <FlowChartComponent :workflowDefine="workflowDefine" />
       <div v-if="actionDefine.sheetTemplateID">
         <v-toolbar dense color="transparent" flat>
-          <v-toolbar-title class="subtitle-1 font-weight-black">表单模版</v-toolbar-title>
+          <v-toolbar-title class="subtitle-1 font-weight-black"
+            >表单模版</v-toolbar-title
+          >
         </v-toolbar>
-        <SheetTemplatePreview :currentTemplateID="actionDefine.sheetTemplateID"></SheetTemplatePreview>
+        <SheetTemplatePreview
+          :currentTemplateID="actionDefine.sheetTemplateID"
+        ></SheetTemplatePreview>
       </div>
     </v-container>
   </div>
@@ -45,6 +48,7 @@ export default class ActionDefineComponent extends Vue {
     const rsp = await WorkflowService.getActionDefine(id);
     this.actionDefine = rsp.actionDefine;
     this.workflowDefineID = this.actionDefine.flowID;
+    await this.getWorkflowDefine(Number(this.workflowDefineID));
   }
   async getWorkflowDefine(id: number) {
     this.workflowDefine = await WorkflowService.getFlowDef(id);
@@ -53,11 +57,11 @@ export default class ActionDefineComponent extends Vue {
   onActionDefineIDChanged() {
     if (this.actionDefineID) this.getActionDefine(this.actionDefineID);
   }
-  @Watch('workflowDefineID', { immediate: true })
-  onWorkflowDefineIDChanged() {
-    if (this.workflowDefineID)
-      this.getWorkflowDefine(Number(this.workflowDefineID));
-  }
+  // @Watch('workflowDefineID', { immediate: true })
+  // onWorkflowDefineIDChanged() {
+  //   if (this.workflowDefineID)
+  //     this.getWorkflowDefine(Number(this.workflowDefineID));
+  // }
   async mounted() {
     // console.log('actionDefineID:', this.actionDefineID);
   }

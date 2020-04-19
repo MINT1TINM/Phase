@@ -1,17 +1,21 @@
 <template>
   <div>
+    chart nodeList: {{ nodeList }}
     <transition appear appear-active-class="fade-up-enter">
       <v-card>
         <v-card-title class="subtitle-1 font-weight-black"
           >工作流 - {{ workflowDefine.name }}</v-card-title
         >
         <v-container fluid>
-          <v-stepper alt-labels :value="0">
+          <v-stepper alt-labels>
             <v-stepper-header>
               <template v-for="(node, i) in nodeList">
-                <v-stepper-step :step="i + 1" :key="`${i}-step`">{{
-                  node.name
-                }}</v-stepper-step>
+                <v-stepper-step
+                  :complete="currentNodeIndex >= i"
+                  :step="i + 1"
+                  :key="`${i}-step`"
+                  >{{ node.name }}</v-stepper-step
+                >
                 <v-divider
                   v-if="i + 1 !== (nodeList.length || 0)"
                   :key="i"
@@ -35,32 +39,23 @@ import SheetService from '@/service/sheetService';
 import { ActionDefine, Flow } from '@/types/workflow';
 
 @Component
-export default class FlowChartComponent extends Vue {
-  @Prop({ default: () => {} }) workflowDefine!: {};
+export default class TimeLineComponent extends Vue {
+  @Prop({ default: () => [] }) flowNode!: any[];
+  @Prop({ default: () => [] }) timeLine!: any[];
+  @Prop({ default: () => '' }) currentNodeID!: string;
 
   nodeList: any[] = [];
+  currentNodeIndex: number = -1;
 
-  getNodeIdList(procdef: any) {
-    var node = JSON.parse(procdef.resource || '{}');
-    var nodeIdList = [];
-    while (node) {
-      console.log(node);
-      nodeIdList.push({
-        name: node.name,
-        nodeID: node.nodeId,
-        type: node.type
-      });
-      node = node.childNode;
-    }
-    return nodeIdList;
+  @Watch('flowNode', { immediate: true })
+  @Watch('flowNode', { immediate: true })
+  onFlowNodeChanged() {
+    this.nodeList = this.flowNode;
   }
 
-  @Watch('workflowDefine', { immediate: true })
-  onWorkflowDefinChanged() {
-    this.nodeList = this.getNodeIdList(this.workflowDefine);
+  async mounted() {
+    // console.log('actionDefineID:', this.actionDefineID);
   }
-
-  async mounted() {}
 }
 </script>
 
