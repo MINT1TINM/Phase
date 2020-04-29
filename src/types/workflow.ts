@@ -29,6 +29,7 @@ class Instance {
 }
 
 class Flow {
+  constructor() {}
   id!: number;
   name!: string;
   version!: number;
@@ -93,15 +94,25 @@ class ActionInstance {
     this.status = status;
   }
   id!: string;
+  Name!: string;
+  Description!: string;
   status!: string;
   userID!: string;
   sheetDataID!: string;
   sheetData!: string;
-  flowInstanceID!: string;
+  flowInstanceID!: number;
   actionDefineID!: string;
   createdAt!: string;
   updatedAt!: string;
   deletedAt!: string;
 }
 
-export { Instance, Flow, Event, FlowLinkTask, ActionDefine, ActionInstance };
+export {
+  NodeInfo,
+  Instance,
+  Flow,
+  Event,
+  FlowLinkTask,
+  ActionDefine,
+  ActionInstance
+};

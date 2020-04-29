@@ -23,12 +23,23 @@ const router = new Router({
         { path: '/bind', component: () => import('@/views/flow/Bind.vue') },
         {
           path: '/action',
-          component: () => import('@/views/flow/Action.vue'),
+          component: () => import('@/views/flow/ActionList.vue'),
           children: [
             {
               path: '/action/:actionID',
               component: () =>
                 import('@/components/flow/action/DefineDetail.vue')
+            }
+          ]
+        },
+        {
+          path: '/instance',
+          component: () => import('@/views/flow/InstanceList.vue'),
+          children: [
+            {
+              path: '/instance/:instanceID',
+              component: () =>
+                import('@/components/flow/action/InstanceDetail.vue')
             }
           ]
         }

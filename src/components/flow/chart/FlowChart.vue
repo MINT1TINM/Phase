@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="flow_chart">
     <transition appear appear-active-class="fade-up-enter">
       <v-card>
         <v-card-title class="subtitle-1 font-weight-black"
@@ -9,9 +9,9 @@
           <v-stepper alt-labels :value="0">
             <v-stepper-header>
               <template v-for="(node, i) in nodeList">
-                <v-stepper-step :step="i + 1" :key="`${i}-step`">{{
-                  node.name
-                }}</v-stepper-step>
+                <v-stepper-step :step="i + 1" :key="`${i}-step`">
+                  {{ node.name }}
+                </v-stepper-step>
                 <v-divider
                   v-if="i + 1 !== (nodeList.length || 0)"
                   :key="i"
@@ -64,8 +64,10 @@ export default class FlowChartComponent extends Vue {
 }
 </script>
 
-<style>
-.v-stepper__step__step {
-  background: #79daed !important;
+<style lang="scss">
+#flow_chart {
+  .v-stepper__step__step {
+    background: #79daed !important;
+  }
 }
 </style>

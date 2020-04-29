@@ -5,7 +5,7 @@
         <v-card>
           <v-toolbar color="transparent" flat dense>
             <v-toolbar-title class="subtitle-1 font-weight-black"
-              >ACTION</v-toolbar-title
+              >事件</v-toolbar-title
             >
             <v-spacer></v-spacer>
             <v-btn icon @click="createActionDefineDialog = true">
@@ -94,7 +94,7 @@
                 dense
                 outlined
                 hide-details
-                label="Action名称"
+                label="事件名称"
                 v-model="ActionName"
               ></v-text-field>
             </v-col>

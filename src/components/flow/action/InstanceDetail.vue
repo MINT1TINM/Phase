@@ -1,12 +1,37 @@
 <template>
   <div>
-    <b>actionInstanceID:{{ actionInstanceID }}</b>
-    <br />
-    actionInstance:{{ actionInstance }}
-    <br />
-    <FlowChartComponent :workflowDefine="workflowDefine" />
+    <v-toolbar dense color="transparent" flat>
+      <v-toolbar-title class="subtitle-1 font-weight-black">{{
+        actionInstance.name
+      }}</v-toolbar-title>
 
-    <!-- <ActionDefineComponent :actionDefineID="actionDefineID"/> -->
+      <!-- <template v-if="flowTaskID!=-1"> -->
+      <template>
+        <v-btn @click="approvalResult = true">审批通过</v-btn>
+        <v-btn @click="approvalResult = false">审批不通过</v-btn>
+        res:{{ approvalResult }}
+        <v-btn @click="approveWorkflow()">approve</v-btn>
+        <!-- <v-text-field v-model="approvalCommand" label="留言"></v-text-field> -->
+      </template>
+    </v-toolbar>
+
+    <v-container fluid>
+      <!-- {{ actionDefine }} -->
+      <TimeLineComponent
+        :workflowDefine="workflowDefine"
+        :flowNode="flowNode"
+        :timeLine="timeLine"
+        :currentNodeID="currentNodeID"
+        :status="actionInstance.status"
+      />
+      <!-- <v-toolbar dense color="transparent" flat>
+        <v-toolbar-title class="subtitle-1 font-weight-black">表单模版</v-toolbar-title>
+      </v-toolbar>
+      <SheetTemplatePreview :currentTemplateID="actionDefine.sheetTemplateID"></SheetTemplatePreview>-->
+      表单展示 编辑权限={{
+        actionInstance.status == '未提交' && flowTaskID == -1
+      }}
+    </v-container>
   </div>
 </template>
 
@@ -18,27 +43,31 @@ import { Authorization, UserInfo } from '@/types/user';
 import { Sheet } from '@/types/sheet';
 import WorkflowService from '@/service/workflowService';
 import SheetService from '@/service/sheetService';
-import { Instance, ActionDefine, ActionInstance } from '@/types/workflow';
+import {
+  Instance,
+  ActionDefine,
+  ActionInstance,
+  Event,
+  NodeInfo,
+  Flow
+} from '@/types/workflow';
 import { Template } from '@/types/sheet';
 import ActionDefineComponent from '@/components/flow/action/DefineDetail.vue';
-import FlowChartComponent from '@/components/flow/chart/FlowChart.vue';
+import TimeLineComponent from '@/components/flow/chart/TimeLine.vue';
+const userModule = namespace('user');
 
 @Component({
   components: {
     ActionDefineComponent,
-    FlowChartComponent
+    TimeLineComponent
   }
 })
 export default class ActionInstanceComponent extends Vue {
   @Prop({ default: () => '' }) actionInstanceID!: string;
+  // @Prop({ default: () => false }) approvalRight!: boolean;
 
-  actionInstance: ActionInstance = new ActionInstance();
-  actionDefineID: string = '';
-  workflowDefineID: number = -1;
   actionDefine: any = {};
-  workflowDefine: any = {};
-  sheetData: Sheet = new Sheet();
-
+  workflowDefineID: number = -1;
   async getActionDefine(id: string) {
     const rsp = await WorkflowService.getActionDefine(id);
     this.actionDefine = rsp.actionDefine;
@@ -46,25 +75,70 @@ export default class ActionInstanceComponent extends Vue {
     this.getWorkflowDefine(this.workflowDefineID);
   }
 
+  workflowDefine: Flow = new Flow();
   async getWorkflowDefine(id: number) {
     this.workflowDefine = await WorkflowService.getFlowDef(id);
   }
 
+  workflowInstance: Instance = new Instance();
+  currentNodeID: string = '';
+  flowNode: NodeInfo[] = [];
+  async getWorkflowInstance(instance_id: number) {
+    this.workflowInstance = (
+      await WorkflowService.getWorkflowInstance(instance_id)
+    ).instance;
+    // console.log(this.workflowInstance);
+    this.flowNode = this.workflowInstance.node_infos;
+    this.currentNodeID = this.workflowInstance.nodeID;
+  }
+
+  timeLine: Event[] = [];
+  async getTimeLine(instance_id: number) {
+    this.timeLine = (await WorkflowService.getTimeline(instance_id)).timeline;
+  }
+
+  sheetData: Sheet = new Sheet();
   async geSheetInfo(id: string) {
     const rsp = await SheetService.getSheetInfo(id);
     this.sheetData = rsp.sheet;
   }
 
+  actionInstance: ActionInstance = new ActionInstance();
+  actionDefineID: string = '';
   async getActionInstance(id: string) {
-    const rsp = await WorkflowService.getActionInstance(id);
-    this.actionInstance = rsp.actionInstance;
+    this.actionInstance = (
+      await WorkflowService.getActionInstance(id)
+    ).actionInstance;
+    // console.log(this.actionInstance);
     this.actionDefineID = this.actionInstance.actionDefineID;
     this.getActionDefine(this.actionDefineID);
+    this.getWorkflowInstance(this.actionInstance.flowInstanceID);
+    this.getTimeLine(this.actionInstance.flowInstanceID);
   }
 
-  async mounted() {
-    await this.getActionInstance(this.actionInstanceID);
+  @Watch('actionInstanceID', { immediate: true })
+  onActionInstanceIDChanged() {
+    if (this.actionInstanceID) this.getActionInstance(this.actionInstanceID);
   }
+
+  approvalCommand: string = '';
+  approvalResult: boolean = true;
+  approvalCommandDialog: boolean = false;
+  @userModule.Getter('authorization') authorization!: Authorization;
+  @Prop({ default: () => -1 }) flowTaskID!: number;
+
+  approveWorkflow() {
+    WorkflowService.completeTask(
+      this.flowTaskID,
+      this.authorization.userID,
+      this.authorization.userID,
+      this.approvalResult,
+      this.workflowInstance.id,
+      this.approvalCommand
+    );
+  }
+
+  async mounted() {}
 }
 </script>
 

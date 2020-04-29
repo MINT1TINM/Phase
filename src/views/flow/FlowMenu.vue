@@ -34,15 +34,20 @@ export default class FlowMenu extends Vue {
         name: '待办事项',
         route: '/todo'
       },
+      // {
+      //   icon: 'mdi-link',
+      //   name: '事件绑定',
+      //   route: '/bind'
+      // },
       {
         icon: 'mdi-link',
-        name: '事件绑定',
-        route: '/bind'
+        name: '事件定义',
+        route: '/action'
       },
       {
         icon: 'mdi-link',
-        name: 'Action',
-        route: '/action'
+        name: '我的实例',
+        route: '/instance'
       }
     ];
   }

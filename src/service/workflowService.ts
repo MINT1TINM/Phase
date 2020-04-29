@@ -193,11 +193,42 @@ class WorkflowService {
     const rsp = await basicService.getRequest('/workflow/action/instance', {
       id
     });
-    return rsp;
+    return rsp as {
+      msg: string;
+      actionInstance: ActionInstance;
+    };
   }
   static async updateActionInstance(ai: ActionInstance) {
     const rsp = await basicService.putRequest('/workflow/action/instance', ai);
-    return rsp;
+    return rsp as {
+      msg: string;
+      actionInstance: ActionInstance;
+    };
+  }
+
+  static async completeTask(
+    taskID: number,
+    userID: string,
+    username: string,
+    pass: boolean,
+    procInstID: number,
+    comment: string,
+    flowID?: number,
+    nextCandidate?: string
+  ) {
+    const rsp = await basicService.putRequest('/workflow/task', {
+      taskID,
+      userID,
+      username,
+      pass,
+      procInstID,
+      comment,
+      nextCandidate
+    });
+    if (rsp.msg === 'success') {
+      return Promise.resolve();
+    }
+    return Promise.reject();
   }
 }
 
