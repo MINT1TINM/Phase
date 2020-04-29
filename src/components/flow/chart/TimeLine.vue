@@ -11,7 +11,9 @@
               <template v-for="(node, i) in nodeList">
                 <v-stepper-step
                   :complete="currentNodeIndex > i"
-                  :rules="[() => status != '已中止' || currentNodeIndex != i]"
+                  :rules="[
+                    () => status != '已中止' || currentNodeIndex != i + 1
+                  ]"
                   :step="i + 1"
                   :key="`${i}-step`"
                 >
@@ -83,6 +85,7 @@ export default class TimeLineComponent extends Vue {
         const node = this.nodeList[index];
         if (node.nodeId == this.currentNodeID) {
           this.currentNodeIndex = index;
+          this.currentNodeIndex += this.status == '已中止' ? 2 : 0;
           break;
         }
       }
