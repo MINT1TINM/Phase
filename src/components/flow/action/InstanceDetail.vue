@@ -5,13 +5,15 @@
         actionInstance.name
       }}</v-toolbar-title>
 
+      <v-spacer></v-spacer>
       <!-- <template v-if="flowTaskID!=-1"> -->
       <template>
-        <v-btn @click="approvalResult = true">审批通过</v-btn>
-        <v-btn @click="approvalResult = false">审批不通过</v-btn>
-        res:{{ approvalResult }}
-        <v-btn @click="approveWorkflow()">approve</v-btn>
-        <!-- <v-text-field v-model="approvalCommand" label="留言"></v-text-field> -->
+        <v-btn text color="success" @click="approveWorkflow()"
+          ><v-icon size="20" class="mr-2">mdi-check</v-icon>审批通过</v-btn
+        >
+        <v-btn text color="error" @click="rejectWorkflow()"
+          ><v-icon size="20" class="mr-2">mdi-close</v-icon>审批不通过</v-btn
+        >
       </template>
     </v-toolbar>
 
@@ -127,15 +129,36 @@ export default class ActionInstanceComponent extends Vue {
   @userModule.Getter('authorization') authorization!: Authorization;
   @Prop({ default: () => -1 }) flowTaskID!: number;
 
-  approveWorkflow() {
-    WorkflowService.completeTask(
-      this.flowTaskID,
-      this.authorization.userID,
-      this.authorization.userID,
-      this.approvalResult,
-      this.workflowInstance.id,
-      this.approvalCommand
-    );
+  async approveWorkflow() {
+    try {
+      await WorkflowService.completeTask(
+        this.flowTaskID,
+        this.authorization.userID,
+        this.authorization.userID,
+        true,
+        this.workflowInstance.id,
+        this.approvalCommand
+      );
+      this.$snack('操作成功', { color: 'success' });
+    } catch (_) {
+      this.$snack('操作失败', { color: 'error' });
+    }
+  }
+
+  async rejectWorkflow() {
+    try {
+      await WorkflowService.completeTask(
+        this.flowTaskID,
+        this.authorization.userID,
+        this.authorization.userID,
+        false,
+        this.workflowInstance.id,
+        this.approvalCommand
+      );
+      this.$snack('操作成功', { color: 'success' });
+    } catch (_) {
+      this.$snack('操作失败', { color: 'error' });
+    }
   }
 
   async mounted() {}

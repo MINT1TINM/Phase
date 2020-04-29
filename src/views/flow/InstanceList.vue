@@ -16,6 +16,7 @@
             color="transparent"
             nav
             dense
+            two-line
             height="calc(100vh - 96px)"
             class="overflow-y-auto"
           >
@@ -24,10 +25,17 @@
               v-for="(item, i) in actionInstanceList"
               :key="`ad-${i}`"
             >
-              <v-list-item-title
-                >[{{ item.name }}] {{ item.status }}
-                {{ item.createdAt | format('yyyy-MM-dd') }}</v-list-item-title
-              >
+              <v-list-item-content>
+                <v-list-item-subtitle>{{
+                  item.createdAt | format('yyyy-MM-dd')
+                }}</v-list-item-subtitle>
+                <v-list-item-title>
+                  {{ item.name }}
+                </v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-action-text>
+                {{ item.status }}
+              </v-list-item-action-text>
             </v-list-item>
           </v-list>
         </v-card>

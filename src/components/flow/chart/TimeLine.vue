@@ -2,9 +2,11 @@
   <div>
     <transition appear appear-active-class="fade-up-enter">
       <v-card>
-        <v-card-title class="subtitle-1 font-weight-black"
-          >工作流 - {{ workflowDefine.name }} - {{ status }}</v-card-title
-        >
+        <v-card-title class="subtitle-1 font-weight-black">
+          工作流 - {{ workflowDefine.name }}
+          <v-spacer></v-spacer>
+          {{ status }}
+        </v-card-title>
         <v-container fluid>
           <v-stepper alt-labels :value="currentNodeIndex">
             <v-stepper-header>
@@ -30,16 +32,35 @@
         </v-container>
       </v-card>
     </transition>
-    currentNodeID:{{ currentNodeID }}
-    <br />
-    currentNodeIndex:{{ currentNodeIndex }}
-    <br />
-    <div v-for="(item, i) in timeLine" :key="i">
-      {{ i }} {{ nodeList[item.step].name }} {{ item.comment }}
-      {{ item.updateTime }}
-      <!-- {{item}} -->
-      <br />
-    </div>
+
+    <v-card class="mt-3">
+      <v-card-title class="subtitle-1 font-weight-black">
+        时间轴
+      </v-card-title>
+      <v-container fluid>
+        <v-timeline dense clipped>
+          <v-timeline-item
+            v-for="(item, i) in timeLine"
+            :key="`tl-${i}`"
+            class="mb-4"
+            color="primary"
+            small
+          >
+            <v-list-item>
+              <v-list-item-title class="body-2">{{
+                nodeList[item.step].name
+              }}</v-list-item-title>
+              <v-list-item-title class="body-2">{{
+                item.comment
+              }}</v-list-item-title>
+              <v-list-item-title class="body-2 font-weight-black text-right"
+                >2020-03-40</v-list-item-title
+              >
+            </v-list-item>
+          </v-timeline-item>
+        </v-timeline>
+      </v-container>
+    </v-card>
   </div>
 </template>
 
