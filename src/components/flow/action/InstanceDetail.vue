@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-toolbar dense color="transparent" flat>
-      <v-toolbar-title class="subtitle-1 font-weight-black">
-        {{ actionInstance.name }}
-      </v-toolbar-title>
+      <v-toolbar-title class="subtitle-1 font-weight-black">{{
+        actionInstance.name
+      }}</v-toolbar-title>
 
       <template
         v-if="
@@ -133,6 +133,10 @@ export default class ActionInstanceComponent extends Vue {
     this.getTimeLine(this.actionInstance.flowInstanceID);
   }
 
+  refreshPage() {
+    this.onActionInstanceIDChanged();
+  }
+
   @Watch('actionInstanceID', { immediate: true })
   onActionInstanceIDChanged() {
     if (this.actionInstanceID) this.getActionInstance(this.actionInstanceID);
@@ -177,7 +181,7 @@ export default class ActionInstanceComponent extends Vue {
 
   async startActionInstance() {
     await WorkflowService.startActionInstance(this.actionInstanceID);
-    this.$router.go(0);
+    this.refreshPage();
   }
 
   async mounted() {}

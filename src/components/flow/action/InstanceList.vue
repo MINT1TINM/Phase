@@ -20,21 +20,23 @@
             height="calc(100vh - 96px)"
             class="overflow-y-auto"
           >
-            <v-list-item
-              v-for="(item, i) in actionInstanceList"
-              :key="`ad-${i}`"
-              @click="actionInstanceID = item.id"
-            >
-              <v-list-item-content>
-                <v-list-item-subtitle>
-                  {{ item.createdAt | format('yyyy-MM-dd') }}
-                </v-list-item-subtitle>
-                <v-list-item-title>{{ item.name }}</v-list-item-title>
-              </v-list-item-content>
-              <v-list-item-action-text>{{
-                item.status
-              }}</v-list-item-action-text>
-            </v-list-item>
+            <v-list-item-group v-model="activeItemIndex">
+              <v-list-item
+                v-for="(item, i) in actionInstanceList"
+                :key="`ad-${i}`"
+                @click="actionInstanceID = item.id"
+              >
+                <v-list-item-content>
+                  <v-list-item-subtitle>{{
+                    item.createdAt | format('yyyy-MM-dd')
+                  }}</v-list-item-subtitle>
+                  <v-list-item-title>{{ item.name }}</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action-text>
+                  {{ item.status }}
+                </v-list-item-action-text>
+              </v-list-item>
+            </v-list-item-group>
           </v-list>
         </v-card>
       </v-col>
@@ -73,6 +75,7 @@ export default class InstanceView extends Vue {
   @Prop({ default: () => [] }) actionInstanceList!: ActionInstance[];
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;
+  activeItemIndex: any = '';
 
   ActionName: string = '';
   ActionGroup: string[] = [];

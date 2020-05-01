@@ -19,13 +19,15 @@
             height="calc(100vh - 96px)"
             class="overflow-y-auto"
           >
-            <v-list-item
-              v-for="(item, i) in actionDefineList"
-              :key="`ad-${i}`"
-              @click="actionDefineID = item.id"
-            >
-              <v-list-item-title>{{ item.name }}</v-list-item-title>
-            </v-list-item>
+            <v-list-item-group v-model="activeItemIndex">
+              <v-list-item
+                v-for="(item, i) in actionDefineList"
+                :key="`ad-${i}`"
+                @click="actionDefineID = item.id"
+              >
+                <v-list-item-title>{{ item.name }}</v-list-item-title>
+              </v-list-item>
+            </v-list-item-group>
           </v-list>
         </v-card>
       </v-col>
@@ -37,7 +39,6 @@
         <!-- <router-view :actionDefineID="$route.params.actionID"></router-view> -->
       </v-col>
     </v-row>
-
     <v-dialog width="800" v-model="createActionDefineDialog">
       <v-card>
         <v-container fluid>
@@ -149,6 +150,7 @@ export default class ActionView extends Vue {
   @Prop({ default: () => [] }) sheetTemplateList!: Template[];
   @Prop({ default: () => [] }) workflowList!: any[];
   actionDefineID: string = '';
+  activeItemIndex: any = '';
 
   workflowDefineID: string = '';
   sheetTemplateID: string = '';

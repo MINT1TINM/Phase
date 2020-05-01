@@ -188,7 +188,7 @@ class WorkflowService {
   ) {
     const rsp = await basicService.getRequest(
       '/workflow/action/instance/list',
-      {}
+      { user_id, project_id }
     );
     return rsp;
   }
