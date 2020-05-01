@@ -1,19 +1,32 @@
 <template>
   <div>
     <v-toolbar dense color="transparent" flat>
-      <v-toolbar-title class="subtitle-1 font-weight-black">{{
-        actionInstance.name
-      }}</v-toolbar-title>
+      <v-toolbar-title class="subtitle-1 font-weight-black">
+        {{ actionInstance.name }}
+      </v-toolbar-title>
 
-      <v-spacer></v-spacer>
-      <!-- <template v-if="flowTaskID!=-1"> -->
-      <template>
-        <v-btn text color="success" @click="approveWorkflow()"
-          ><v-icon size="20" class="mr-2">mdi-check</v-icon>审批通过</v-btn
-        >
-        <v-btn text color="error" @click="rejectWorkflow()"
-          ><v-icon size="20" class="mr-2">mdi-close</v-icon>审批不通过</v-btn
-        >
+      <template
+        v-if="
+          actionInstance.status == '未提交' &&
+            authorization.userID == actionInstance.userID
+        "
+      >
+        <v-spacer></v-spacer>
+        <v-btn text color="success" @click="startActionInstance()">
+          <v-icon size="20" class="mr-2">mdi-check</v-icon>提交审批
+        </v-btn>
+      </template>
+      <template
+        v-if="actionInstance.status == '审批中' && approvalAuthority == true"
+      >
+        <v-spacer></v-spacer>
+        <!-- <template> -->
+        <v-btn text color="success" @click="approveWorkflow()">
+          <v-icon size="20" class="mr-2">mdi-check</v-icon>审批通过
+        </v-btn>
+        <v-btn text color="error" @click="rejectWorkflow()">
+          <v-icon size="20" class="mr-2">mdi-close</v-icon>审批不通过
+        </v-btn>
       </template>
     </v-toolbar>
 
@@ -31,8 +44,9 @@
       </v-toolbar>
       <SheetTemplatePreview :currentTemplateID="actionDefine.sheetTemplateID"></SheetTemplatePreview>-->
       表单展示 编辑权限={{
-        actionInstance.status == '未提交' && flowTaskID == -1
+        actionInstance.status == '未提交' && approvalAuthority == false
       }}
+      {{ this.authorization.userID }} {{ actionInstance.userID }}
     </v-container>
   </div>
 </template>
@@ -66,6 +80,7 @@ const userModule = namespace('user');
 })
 export default class ActionInstanceComponent extends Vue {
   @Prop({ default: () => '' }) actionInstanceID!: string;
+  @Prop({ default: () => false }) approvalAuthority!: boolean;
   // @Prop({ default: () => false }) approvalRight!: boolean;
 
   actionDefine: any = {};
@@ -123,16 +138,15 @@ export default class ActionInstanceComponent extends Vue {
     if (this.actionInstanceID) this.getActionInstance(this.actionInstanceID);
   }
 
-  approvalCommand: string = '';
+  approvalCommand: string = 'approval command';
   approvalResult: boolean = true;
   approvalCommandDialog: boolean = false;
   @userModule.Getter('authorization') authorization!: Authorization;
-  @Prop({ default: () => -1 }) flowTaskID!: number;
 
   async approveWorkflow() {
     try {
       await WorkflowService.completeTask(
-        this.flowTaskID,
+        this.workflowInstance.taskID,
         this.authorization.userID,
         this.authorization.userID,
         true,
@@ -148,7 +162,7 @@ export default class ActionInstanceComponent extends Vue {
   async rejectWorkflow() {
     try {
       await WorkflowService.completeTask(
-        this.flowTaskID,
+        this.workflowInstance.taskID,
         this.authorization.userID,
         this.authorization.userID,
         false,
@@ -159,6 +173,11 @@ export default class ActionInstanceComponent extends Vue {
     } catch (_) {
       this.$snack('操作失败', { color: 'error' });
     }
+  }
+
+  async startActionInstance() {
+    await WorkflowService.startActionInstance(this.actionInstanceID);
+    this.$router.go(0);
   }
 
   async mounted() {}

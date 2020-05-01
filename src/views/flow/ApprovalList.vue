@@ -21,6 +21,7 @@ const userModule = namespace('user');
   }
 })
 export default class InstanceView extends Vue {
+  @Prop({ default: () => 'todo' }) type!: string;
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;
 
@@ -32,10 +33,15 @@ export default class InstanceView extends Vue {
   createActionDefineDialog = false;
 
   async getActionInstanceList() {
-    const rsp = await WorkflowService.getActionInstanceList(
+    const rsp = await WorkflowService.getApprovalActionInstanceList(
       this.authorization.userID
     );
     this.actionInstanceList = rsp.actionInstanceList;
+  }
+
+  @Watch('sheetTemplateID')
+  onChanged(v: any) {
+    console.log(v);
   }
 
   async mounted() {

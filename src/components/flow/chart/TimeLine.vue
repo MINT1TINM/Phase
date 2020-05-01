@@ -33,26 +33,25 @@
       </v-card>
     </transition>
 
-    <v-card class="mt-3">
-      <v-card-title class="subtitle-1 font-weight-black">
-        时间轴
-      </v-card-title>
+    <v-card class="mt-3" v-if="timeLine.length">
+      <v-card-title class="subtitle-1 font-weight-black">时间轴</v-card-title>
       <v-container fluid>
         <v-timeline dense clipped>
           <v-timeline-item
             v-for="(item, i) in timeLine"
             :key="`tl-${i}`"
+            :rules="[() => status != '已中止' || timeLine.length != i + 1]"
             class="mb-4"
             color="primary"
             small
           >
             <v-list-item>
-              <v-list-item-title class="body-2">{{
-                nodeList[item.step].name
-              }}</v-list-item-title>
-              <v-list-item-title class="body-2">{{
-                item.comment
-              }}</v-list-item-title>
+              <v-list-item-title class="body-2">
+                {{ nodeList[item.step].name }}
+              </v-list-item-title>
+              <v-list-item-title class="body-2">
+                {{ item.comment }}
+              </v-list-item-title>
               <v-list-item-title class="body-2 font-weight-black text-right"
                 >2020-03-40</v-list-item-title
               >
@@ -88,7 +87,7 @@ export default class TimeLineComponent extends Vue {
     var node = JSON.parse(procdef.resource || '{}');
     var nodeIdList = [];
     while (node) {
-      console.log(node);
+      console.log('getNodeIdList', node);
       nodeIdList.push({
         name: node.name,
         nodeID: node.nodeId,
@@ -113,6 +112,13 @@ export default class TimeLineComponent extends Vue {
     }
   }
 
+  @Watch('workflowDefine')
+  onWorkflowDefineChanged() {
+    if (this.flowNode.length == 0) {
+      this.nodeList = this.getNodeIdList(this.workflowDefine);
+    }
+  }
+
   @Watch('flowNode', { immediate: true })
   onFlowNodeChanged() {
     this.currentNodeIndex = -1;
@@ -124,7 +130,7 @@ export default class TimeLineComponent extends Vue {
       }
       this.getCurrentNodeID();
     } else {
-      this.nodeList = this.getNodeIdList(this.workflowDefine);
+      this.onWorkflowDefineChanged();
     }
   }
 

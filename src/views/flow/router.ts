@@ -9,18 +9,10 @@ const router = new Router({
       path: '/',
       component: () => import('@/views/flow/FlowMenu.vue'),
       children: [
-        { path: '/todo', component: () => import('@/views/flow/Todo.vue') },
         {
-          path: '/todo/:instanceID',
-          component: () => import('@/views/flow/Timeline.vue'),
-          children: [
-            {
-              path: '/todo/:instanceID/:taskID',
-              component: () => import('@/views/flow/InstanceTaskInfo.vue')
-            }
-          ]
+          path: '/todo',
+          component: () => import('@/views/flow/ApprovalList.vue')
         },
-        { path: '/bind', component: () => import('@/views/flow/Bind.vue') },
         {
           path: '/action',
           component: () => import('@/views/flow/ActionList.vue'),
@@ -34,20 +26,9 @@ const router = new Router({
         },
         {
           path: '/instance',
-          component: () => import('@/views/flow/InstanceList.vue'),
-          children: [
-            {
-              path: '/instance/:instanceID',
-              component: () =>
-                import('@/components/flow/action/InstanceDetail.vue')
-            }
-          ]
+          component: () => import('@/views/flow/InstanceList.vue')
         }
       ]
-    },
-    {
-      path: '/instance',
-      component: () => import('@/views/flow/ActionInstance.vue')
     }
   ]
 });

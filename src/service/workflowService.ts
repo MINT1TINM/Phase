@@ -182,7 +182,10 @@ class WorkflowService {
     return rsp;
   }
 
-  static async getActionInstanceList() {
+  static async getActionInstanceList(
+    user_id: string = '',
+    project_id: string = ''
+  ) {
     const rsp = await basicService.getRequest(
       '/workflow/action/instance/list',
       {}
@@ -198,8 +201,26 @@ class WorkflowService {
       actionInstance: ActionInstance;
     };
   }
+  static async getApprovalActionInstanceList(user_id: string = '') {
+    const rsp = await basicService.getRequest(
+      '/workflow/action/instance/approval/list',
+      { user_id }
+    );
+    return rsp;
+  }
   static async updateActionInstance(ai: ActionInstance) {
     const rsp = await basicService.putRequest('/workflow/action/instance', ai);
+    return rsp as {
+      msg: string;
+      actionInstance: ActionInstance;
+    };
+  }
+
+  static async startActionInstance(id: string) {
+    const rsp = await basicService.getRequest(
+      '/workflow/action/instance/start',
+      { id }
+    );
     return rsp as {
       msg: string;
       actionInstance: ActionInstance;

@@ -84,17 +84,22 @@ class ActionDefine {
 class ActionInstance {
   constructor(
     userID: string = '',
-    sheetDataID: string = '',
     actionDefineID: string = '',
+    sheetDataID: string = '',
+    name: string = '',
     status: string = '未提交'
   ) {
+    this.id = '00000000-0000-0000-0000-000000000000';
     this.userID = userID;
-    this.sheetDataID = sheetDataID;
+    this.sheetDataID = sheetDataID
+      ? sheetDataID
+      : '00000000-0000-0000-0000-000000000000';
     this.actionDefineID = actionDefineID;
+    this.name = name;
     this.status = status;
   }
   id!: string;
-  Name!: string;
+  name!: string;
   Description!: string;
   status!: string;
   userID!: string;
