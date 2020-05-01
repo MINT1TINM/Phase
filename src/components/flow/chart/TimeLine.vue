@@ -42,19 +42,24 @@
             :key="`tl-${i}`"
             :rules="[() => status != '已中止' || timeLine.length != i + 1]"
             class="mb-4"
-            color="primary"
+            :color="
+              status == '已中止' && timeLine.length == i + 1 ? 'red' : 'primary'
+            "
             small
           >
             <v-list-item>
               <v-list-item-title class="body-2">
-                {{ nodeList[item.step].name }}
+                {{ nodeList[item.step].name }} {{ i }} {{ timeLine.length }}
+                {{
+                  status == '已中止' && timeLine.length == i + 1 ? 'purple' : ''
+                }}
               </v-list-item-title>
               <v-list-item-title class="body-2">
                 {{ item.comment }}
               </v-list-item-title>
-              <v-list-item-title class="body-2 font-weight-black text-right"
-                >2020-03-40</v-list-item-title
-              >
+              <v-list-item-title class="body-2 font-weight-black text-right">{{
+                item.updateTime | format('yyyy-MM-dd hh:mm')
+              }}</v-list-item-title>
             </v-list-item>
           </v-timeline-item>
         </v-timeline>

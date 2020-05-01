@@ -33,7 +33,18 @@
                   <v-list-item-title>{{ item.name }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action-text>
-                  {{ item.status }}
+                  <span v-if="item.status == '未提交'" class="secondary--text"
+                    >{{ item.status }}
+                  </span>
+                  <span v-else-if="item.status == '审批中'" class="info--text"
+                    >{{ item.status }}
+                  </span>
+                  <span
+                    v-else-if="item.status == '已结束'"
+                    class="success--text"
+                    >{{ item.status }}
+                  </span>
+                  <span v-else class="error--text">{{ item.status }} </span>
                 </v-list-item-action-text>
               </v-list-item>
             </v-list-item-group>
