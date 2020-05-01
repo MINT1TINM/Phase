@@ -3,33 +3,18 @@
     <v-toolbar dense color="transparent" flat>
       <v-toolbar-title class="subtitle-1 font-weight-black">
         {{ actionInstance.name }} 审批权限:{{
-          actionInstance.status == '审批中' &&
-            approvalAuthority == true &&
-            isApproved == false
+          INSTANCE_APPROVE_AUTHORITY
         }}
-        编辑权限:{{
-          actionInstance.status == '未提交' && approvalAuthority == false
-        }}
+        编辑权限:{{ INSTANCE_EDIT_AUTHORITY }}
       </v-toolbar-title>
 
-      <template
-        v-if="
-          actionInstance.status == '未提交' &&
-            authorization.userID == actionInstance.userID
-        "
-      >
+      <template v-if="INSTANCE_EDIT_AUTHORITY">
         <v-spacer></v-spacer>
         <v-btn text color="success" @click="startActionInstance()">
           <v-icon size="20" class="mr-2">mdi-check</v-icon>提交审批
         </v-btn>
       </template>
-      <template
-        v-if="
-          actionInstance.status == '审批中' &&
-            approvalAuthority == true &&
-            isApproved == false
-        "
-      >
+      <template v-if="INSTANCE_APPROVE_AUTHORITY">
         <v-spacer></v-spacer>
         <!-- <template> -->
         <v-btn text color="success" @click="approveWorkflow(true)">
@@ -54,10 +39,7 @@
         <v-toolbar-title class="subtitle-1 font-weight-black">表单模版</v-toolbar-title>
       </v-toolbar>
       <SheetTemplatePreview :currentTemplateID="actionDefine.sheetTemplateID"></SheetTemplatePreview>-->
-      表单展示 编辑权限={{
-        actionInstance.status == '未提交' && approvalAuthority == false
-      }}
-      {{ this.authorization.userID }} {{ actionInstance.userID }}
+      表单展示 编辑权限={{ INSTANCE_EDIT_AUTHORITY }}
     </v-container>
   </div>
 </template>
@@ -94,6 +76,20 @@ export default class ActionInstanceComponent extends Vue {
   @Prop({ default: () => false }) approvalAuthority!: boolean;
   // @Prop({ default: () => false }) approvalRight!: boolean;
   isApproved: boolean = false;
+
+  get INSTANCE_APPROVE_AUTHORITY(): boolean {
+    return (
+      this.actionInstance.status == '审批中' &&
+      this.approvalAuthority == true &&
+      this.isApproved == false
+    );
+  }
+  get INSTANCE_EDIT_AUTHORITY(): boolean {
+    return (
+      this.actionInstance.status == '未提交' &&
+      this.authorization.userID == this.actionInstance.userID
+    );
+  }
 
   actionDefine: any = {};
   workflowDefineID: number = -1;
