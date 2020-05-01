@@ -1,9 +1,16 @@
 <template>
   <div>
     <v-toolbar dense color="transparent" flat>
-      <v-toolbar-title class="subtitle-1 font-weight-black">{{
-        actionInstance.name
-      }}</v-toolbar-title>
+      <v-toolbar-title class="subtitle-1 font-weight-black">
+        {{ actionInstance.name }} 审批权限:{{
+          actionInstance.status == '审批中' &&
+            approvalAuthority == true &&
+            isApproved == false
+        }}
+        编辑权限:{{
+          actionInstance.status == '未提交' && approvalAuthority == false
+        }}
+      </v-toolbar-title>
 
       <template
         v-if="
@@ -17,14 +24,18 @@
         </v-btn>
       </template>
       <template
-        v-if="actionInstance.status == '审批中' && approvalAuthority == true"
+        v-if="
+          actionInstance.status == '审批中' &&
+            approvalAuthority == true &&
+            isApproved == false
+        "
       >
         <v-spacer></v-spacer>
         <!-- <template> -->
-        <v-btn text color="success" @click="approveWorkflow()">
+        <v-btn text color="success" @click="approveWorkflow(true)">
           <v-icon size="20" class="mr-2">mdi-check</v-icon>审批通过
         </v-btn>
-        <v-btn text color="error" @click="rejectWorkflow()">
+        <v-btn text color="error" @click="approveWorkflow(false)">
           <v-icon size="20" class="mr-2">mdi-close</v-icon>审批不通过
         </v-btn>
       </template>
@@ -82,6 +93,7 @@ export default class ActionInstanceComponent extends Vue {
   @Prop({ default: () => '' }) actionInstanceID!: string;
   @Prop({ default: () => false }) approvalAuthority!: boolean;
   // @Prop({ default: () => false }) approvalRight!: boolean;
+  isApproved: boolean = false;
 
   actionDefine: any = {};
   workflowDefineID: number = -1;
@@ -147,32 +159,18 @@ export default class ActionInstanceComponent extends Vue {
   approvalCommandDialog: boolean = false;
   @userModule.Getter('authorization') authorization!: Authorization;
 
-  async approveWorkflow() {
+  async approveWorkflow(pass: boolean) {
     try {
       await WorkflowService.completeTask(
         this.workflowInstance.taskID,
         this.authorization.userID,
         this.authorization.userID,
-        true,
+        pass,
         this.workflowInstance.id,
         this.approvalCommand
       );
-      this.$snack('操作成功', { color: 'success' });
-    } catch (_) {
-      this.$snack('操作失败', { color: 'error' });
-    }
-  }
-
-  async rejectWorkflow() {
-    try {
-      await WorkflowService.completeTask(
-        this.workflowInstance.taskID,
-        this.authorization.userID,
-        this.authorization.userID,
-        false,
-        this.workflowInstance.id,
-        this.approvalCommand
-      );
+      this.isApproved = true;
+      this.refreshPage();
       this.$snack('操作成功', { color: 'success' });
     } catch (_) {
       this.$snack('操作失败', { color: 'error' });

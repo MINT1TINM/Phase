@@ -1,5 +1,8 @@
 <template>
-  <ActionInstanceListComponent :actionInstanceList="actionInstanceList" />
+  <ActionInstanceListComponent
+    :actionInstanceList="actionInstanceList"
+    :approvalAuthority="true"
+  />
 </template>
 
 <script lang="ts">
