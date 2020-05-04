@@ -61,13 +61,11 @@ import {
   Flow
 } from '@/types/workflow';
 import { Template } from '@/types/sheet';
-import ActionDefineComponent from '@/components/flow/action/DefineDetail.vue';
 import TimeLineComponent from '@/components/flow/chart/TimeLine.vue';
 const userModule = namespace('user');
 
 @Component({
   components: {
-    ActionDefineComponent,
     TimeLineComponent
   }
 })
@@ -75,13 +73,13 @@ export default class ActionInstanceComponent extends Vue {
   @Prop({ default: () => '' }) actionInstanceID!: string;
   @Prop({ default: () => false }) approvalAuthority!: boolean;
   // @Prop({ default: () => false }) approvalRight!: boolean;
-  isApproved: boolean = false;
+  isApproved: string[] = [];
 
   get INSTANCE_APPROVE_AUTHORITY(): boolean {
     return (
       this.actionInstance.status == '审批中' &&
       this.approvalAuthority == true &&
-      this.isApproved == false
+      this.isApproved.indexOf(this.actionInstanceID) == -1
     );
   }
   get INSTANCE_EDIT_AUTHORITY(): boolean {
@@ -165,7 +163,7 @@ export default class ActionInstanceComponent extends Vue {
         this.workflowInstance.id,
         this.approvalCommand
       );
-      this.isApproved = true;
+      this.isApproved.push(this.actionInstanceID);
       this.refreshPage();
       this.$snack('操作成功', { color: 'success' });
     } catch (_) {

@@ -11,22 +11,25 @@ const router = new Router({
       children: [
         {
           path: '/todo',
-          component: () => import('@/views/flow/ApprovalList.vue')
+          component: () =>
+            import('@/components/flow/action/ApprovalListFrame.vue')
         },
         {
           path: '/action',
-          component: () => import('@/views/flow/ActionList.vue'),
-          children: [
-            {
-              path: '/action/:actionID',
-              component: () =>
-                import('@/components/flow/action/DefineDetail.vue')
-            }
-          ]
+          component: () =>
+            import('@/components/flow/action/ActionListFrame.vue')
+          // children: [
+          //   {
+          //     path: '/action/:actionID',
+          //     component: () =>
+          //       import('@/components/flow/action/ActionDefineDetail.vue')
+          //   }
+          // ]
         },
         {
           path: '/instance',
-          component: () => import('@/views/flow/InstanceList.vue')
+          component: () =>
+            import('@/components/flow/action/InstanceListFrame.vue')
         }
       ]
     }

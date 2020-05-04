@@ -112,6 +112,10 @@ class ActionInstance {
   deletedAt!: string;
 }
 
+class WorkflowDefine {
+  constructor() {}
+}
+
 export {
   NodeInfo,
   Instance,
@@ -119,5 +123,6 @@ export {
   Event,
   FlowLinkTask,
   ActionDefine,
-  ActionInstance
+  ActionInstance,
+  WorkflowDefine
 };

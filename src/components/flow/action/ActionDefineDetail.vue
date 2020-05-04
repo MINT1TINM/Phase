@@ -78,6 +78,7 @@ export default class ActionDefineComponent extends Vue {
       this.workflowDefine.name
     );
     WorkflowService.updateActionInstance(ai);
+    this.$router.push('./instance');
   }
 
   async mounted() {

@@ -21,6 +21,8 @@ const userModule = namespace('user');
   }
 })
 export default class InstanceView extends Vue {
+  @Prop({ default: () => '00000000-0000-0000-0000-000000000000' })
+  projectID!: string;
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;
 
@@ -33,7 +35,8 @@ export default class InstanceView extends Vue {
 
   async getActionInstanceList() {
     const rsp = await WorkflowService.getActionInstanceList(
-      this.authorization.userID
+      this.authorization.userID,
+      this.projectID
     );
     this.actionInstanceList = rsp.actionInstanceList;
   }

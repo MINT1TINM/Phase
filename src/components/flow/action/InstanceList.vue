@@ -27,24 +27,28 @@
                 @click="actionInstanceID = item.id"
               >
                 <v-list-item-content>
-                  <v-list-item-subtitle>{{
-                    item.createdAt | format('yyyy-MM-dd')
-                  }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>
+                    {{ item.createdAt | format('yyyy-MM-dd') }}
+                  </v-list-item-subtitle>
                   <v-list-item-title>{{ item.name }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action-text>
-                  <span v-if="item.status == '未提交'" class="secondary--text"
-                    >{{ item.status }}
-                  </span>
-                  <span v-else-if="item.status == '审批中'" class="info--text"
-                    >{{ item.status }}
-                  </span>
+                  <span
+                    v-if="item.status == '未提交'"
+                    class="secondary--text"
+                    >{{ item.status }}</span
+                  >
+                  <span
+                    v-else-if="item.status == '审批中'"
+                    class="info--text"
+                    >{{ item.status }}</span
+                  >
                   <span
                     v-else-if="item.status == '已结束'"
                     class="success--text"
-                    >{{ item.status }}
-                  </span>
-                  <span v-else class="error--text">{{ item.status }} </span>
+                    >{{ item.status }}</span
+                  >
+                  <span v-else class="error--text">{{ item.status }}</span>
                 </v-list-item-action-text>
               </v-list-item>
             </v-list-item-group>
@@ -86,14 +90,17 @@ export default class InstanceView extends Vue {
   @Prop({ default: () => [] }) actionInstanceList!: ActionInstance[];
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;
-  activeItemIndex: any = '';
+  activeItemIndex: any = 0;
 
   ActionName: string = '';
   ActionGroup: string[] = [];
-  actionInstance: ActionInstance[] = [];
   content: string = '';
 
-  actionInstanceID: string = '';
+  get actionInstanceID(): string {
+    if (this.actionInstanceList.length > 0)
+      return this.actionInstanceList[this.activeItemIndex].id;
+    return '';
+  }
 
   createActionDefineDialog = false;
 

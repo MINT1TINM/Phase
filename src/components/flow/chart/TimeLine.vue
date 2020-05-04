@@ -49,10 +49,7 @@
           >
             <v-list-item>
               <v-list-item-title class="body-2">
-                {{ nodeList[item.step].name }} {{ i }} {{ timeLine.length }}
-                {{
-                  status == '已中止' && timeLine.length == i + 1 ? 'purple' : ''
-                }}
+                {{ nodeList[item.step].name }}
               </v-list-item-title>
               <v-list-item-title class="body-2">
                 {{ item.comment }}

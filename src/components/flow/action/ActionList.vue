@@ -134,7 +134,7 @@ import WorkflowService from '@/service/workflowService';
 import SheetService from '@/service/sheetService';
 import { Instance, ActionDefine, ActionInstance } from '@/types/workflow';
 import { Template } from '@/types/sheet';
-import ActionDefineComponent from '@/components/flow/action/DefineDetail.vue';
+import ActionDefineComponent from '@/components/flow/action/ActionDefineDetail.vue';
 
 const userModule = namespace('user');
 
