@@ -39,6 +39,9 @@
         <v-toolbar-title class="subtitle-1 font-weight-black">表单模版</v-toolbar-title>
       </v-toolbar>
       <SheetTemplatePreview :currentTemplateID="actionDefine.sheetTemplateID"></SheetTemplatePreview>-->
+
+      <SheetContent :sheetID="actionDefine.sheetTemplateID"></SheetContent>
+
       表单展示 编辑权限={{ INSTANCE_EDIT_AUTHORITY }}
     </v-container>
   </div>
@@ -62,11 +65,13 @@ import {
 } from '@/types/workflow';
 import { Template } from '@/types/sheet';
 import TimeLineComponent from '@/components/flow/chart/TimeLine.vue';
+import SheetContent from '@/components/sheet/Content.vue';
 const userModule = namespace('user');
 
 @Component({
   components: {
-    TimeLineComponent
+    TimeLineComponent,
+    SheetContent
   }
 })
 export default class ActionInstanceComponent extends Vue {
