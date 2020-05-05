@@ -7,7 +7,6 @@
         }}
         编辑权限:{{ INSTANCE_EDIT_AUTHORITY }}
       </v-toolbar-title>
-
       <template v-if="INSTANCE_EDIT_AUTHORITY">
         <v-spacer></v-spacer>
         <v-btn text color="success" @click="startActionInstance()">
@@ -80,7 +79,7 @@ const userModule = namespace('user');
 export default class ActionInstanceComponent extends Vue {
   @Prop({ default: () => '' }) actionInstanceID!: string;
   @Prop({ default: () => false }) approvalAuthority!: boolean;
-  // @Prop({ default: () => false }) approvalRight!: boolean;
+  @Prop() refreshActionInstanceList!: any;
   isApproved: string[] = [];
 
   get INSTANCE_APPROVE_AUTHORITY(): boolean {
@@ -147,8 +146,9 @@ export default class ActionInstanceComponent extends Vue {
     this.getTimeLine(this.actionInstance.flowInstanceID);
   }
 
-  refreshPage() {
+  refreshComponent() {
     this.onActionInstanceIDChanged();
+    this.refreshActionInstanceList();
   }
 
   @Watch('actionInstanceID', { immediate: true })
@@ -172,7 +172,7 @@ export default class ActionInstanceComponent extends Vue {
         this.approvalCommand
       );
       this.isApproved.push(this.actionInstanceID);
-      this.refreshPage();
+      this.refreshComponent();
       this.$snack('操作成功', { color: 'success' });
     } catch (_) {
       this.$snack('操作失败', { color: 'error' });
@@ -181,7 +181,7 @@ export default class ActionInstanceComponent extends Vue {
 
   async startActionInstance() {
     await WorkflowService.startActionInstance(this.actionInstanceID);
-    this.refreshPage();
+    this.refreshComponent();
   }
 
   async mounted() {}

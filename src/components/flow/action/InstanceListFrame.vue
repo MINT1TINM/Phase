@@ -1,5 +1,8 @@
 <template>
-  <ActionInstanceListComponent :actionInstanceList="actionInstanceList" />
+  <ActionInstanceListComponent
+    :actionInstanceList="actionInstanceList"
+    :refreshActionInstanceList="getActionInstanceList"
+  />
 </template>
 
 <script lang="ts">
@@ -25,6 +28,10 @@ export default class InstanceView extends Vue {
   projectID!: string;
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;
+
+  get OUTER_PROJECT_MODE() {
+    return this.projectID == '00000000-0000-0000-0000-000000000000';
+  }
 
   // ActionName: string = '';
   // ActionGroup: string[] = [];

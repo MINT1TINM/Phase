@@ -39,6 +39,7 @@
         <ActionDefineComponent
           v-if="!!actionDefineID"
           :actionDefineID="actionDefineID"
+          :projectID="projectID"
         />
         <!-- <router-view :actionDefineID="$route.params.actionID"></router-view> -->
       </v-col>

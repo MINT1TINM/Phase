@@ -47,6 +47,8 @@ const userModule = namespace('user');
 })
 export default class ActionDefineComponent extends Vue {
   @Prop({ default: () => '' }) actionDefineID!: string;
+  @Prop({ default: () => '00000000-0000-0000-0000-000000000000' })
+  projectID!: string;
   @userModule.Getter('authorization') authorization!: Authorization;
   actionDefine = new ActionDefine();
   workflowDefine = new Flow();
@@ -75,7 +77,8 @@ export default class ActionDefineComponent extends Vue {
       this.authorization.userID,
       this.actionDefineID,
       '',
-      this.workflowDefine.name
+      this.workflowDefine.name,
+      this.projectID
     );
     WorkflowService.updateActionInstance(ai);
     this.$router.push('./instance');

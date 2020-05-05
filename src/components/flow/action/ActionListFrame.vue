@@ -30,6 +30,11 @@ export default class ActionView extends Vue {
   projectID!: string;
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;
+
+  get OUTER_PROJECT_MODE() {
+    return this.projectID == '00000000-0000-0000-0000-000000000000';
+  }
+
   actionDefineID: string = '';
 
   workflowDefineID: string = '';
@@ -44,16 +49,23 @@ export default class ActionView extends Vue {
   createActionDefineDialog = false;
 
   async getActionDefineList() {
-    const rsp = await WorkflowService.getActionDefineList();
+    const rsp = await WorkflowService.getActionDefineList(
+      [],
+      !this.OUTER_PROJECT_MODE
+    );
     this.actionDefineList = rsp.actionDefineList;
   }
   async getWorkflowList() {
-    const rsp = await WorkflowService.getWorkflowList(1, 1000, this.content);
-    this.workflowList = rsp.flow;
+    if (this.OUTER_PROJECT_MODE) {
+      const rsp = await WorkflowService.getWorkflowList(1, 1000, this.content);
+      this.workflowList = rsp.flow;
+    }
   }
   async getSheetTemplateList() {
-    const rsp = await SheetService.getSheetTemplateList('', '');
-    this.sheetTemplateList = rsp.template;
+    if (this.OUTER_PROJECT_MODE) {
+      const rsp = await SheetService.getSheetTemplateList('', '');
+      this.sheetTemplateList = rsp.template;
+    }
   }
 
   @Watch('sheetTemplateID')

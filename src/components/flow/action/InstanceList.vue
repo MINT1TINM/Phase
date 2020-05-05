@@ -23,12 +23,17 @@
             <v-list-item-group v-model="activeItemIndex">
               <v-list-item
                 v-for="(item, i) in actionInstanceList"
-                :key="`ad-${i}`"
+                :key="`ai-${i}`"
                 @click="actionInstanceID = item.id"
               >
                 <v-list-item-content>
                   <v-list-item-subtitle>
                     {{ item.createdAt | format('yyyy-MM-dd') }}
+                    {{
+                      isProjectAction(item.projectID)
+                        ? '项目内事件'
+                        : '项目外事件'
+                    }}
                   </v-list-item-subtitle>
                   <v-list-item-title>{{ item.name }}</v-list-item-title>
                 </v-list-item-content>
@@ -61,6 +66,7 @@
           v-if="!!actionInstanceID"
           :actionInstanceID="actionInstanceID"
           :approvalAuthority="approvalAuthority"
+          :refreshActionInstanceList="refreshActionInstanceList"
         />
       </v-col>
     </v-row>
@@ -88,6 +94,7 @@ const userModule = namespace('user');
 export default class InstanceView extends Vue {
   @Prop({ default: () => false }) approvalAuthority!: boolean;
   @Prop({ default: () => [] }) actionInstanceList!: ActionInstance[];
+  @Prop() refreshActionInstanceList: any;
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;
   activeItemIndex: any = 0;
@@ -95,6 +102,10 @@ export default class InstanceView extends Vue {
   ActionName: string = '';
   ActionGroup: string[] = [];
   content: string = '';
+
+  isProjectAction(pid: string) {
+    return pid != '00000000-0000-0000-0000-000000000000';
+  }
 
   get actionInstanceID(): string {
     if (this.actionInstanceList.length > 0)

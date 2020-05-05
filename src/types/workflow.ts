@@ -90,6 +90,7 @@ class ActionInstance {
     actionDefineID: string = '',
     sheetDataID: string = '',
     name: string = '',
+    projectID: string = '',
     status: string = '未提交'
   ) {
     this.id = '00000000-0000-0000-0000-000000000000';
@@ -100,12 +101,14 @@ class ActionInstance {
     this.actionDefineID = actionDefineID;
     this.name = name;
     this.status = status;
+    this.projectID = projectID;
   }
   id!: string;
   name!: string;
   Description!: string;
   status!: string;
   userID!: string;
+  projectID!: string;
   sheetDataID!: string;
   sheetData!: string;
   flowInstanceID!: number;

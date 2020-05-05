@@ -2,6 +2,7 @@
   <ActionInstanceListComponent
     :actionInstanceList="actionInstanceList"
     :approvalAuthority="true"
+    :refreshActionInstanceList="getActionInstanceList"
   />
 </template>
 

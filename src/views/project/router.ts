@@ -147,7 +147,7 @@ const router = new Router({
           component: () => import('@/views/project/action/ActionList.vue')
         },
         {
-          path: '/action/instance',
+          path: '/instance',
           meta: '事件实例',
           component: () => import('@/views/project/action/InstanceList.vue')
         }

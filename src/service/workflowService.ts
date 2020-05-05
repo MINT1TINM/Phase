@@ -172,8 +172,14 @@ class WorkflowService {
     return rsp;
   }
 
-  static async getActionDefineList() {
-    const rsp = await basicService.getRequest('/workflow/action/list', {});
+  static async getActionDefineList(
+    group_id: string[] = [],
+    is_project_action: boolean = false
+  ) {
+    const rsp = await basicService.getRequest('/workflow/action/list', {
+      group_id,
+      is_project_action
+    });
     return rsp;
   }
 
