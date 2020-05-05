@@ -5,6 +5,8 @@ class Field {
   disabled!: boolean;
   dense!: boolean;
   list!: [];
+  changeFunc: any;
+  downFunc: any;
 }
 
 class Template {

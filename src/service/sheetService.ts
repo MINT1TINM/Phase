@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 import basicService from '@/service/basicService';
 import store from '@/store/store';
-import { Template } from '@/types/sheet';
+import { Template, Sheet } from '@/types/sheet';
 import { encodeUnicode } from '@/utils/ConvertType';
 
 const vue = new Vue() as any;
@@ -47,7 +47,9 @@ class SheetService {
       id: templateID
     });
 
-    return rsp;
+    return rsp as {
+      template: Template;
+    };
   }
 
   static async getSheetTemplateList(templateName: string, userID: string) {
@@ -116,7 +118,7 @@ class SheetService {
       sheetID
     });
 
-    return rsp;
+    return rsp.sheet as Sheet;
   }
 
   static async updateSheet(

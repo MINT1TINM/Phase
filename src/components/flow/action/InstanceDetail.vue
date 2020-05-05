@@ -131,7 +131,7 @@ export default class ActionInstanceComponent extends Vue {
   sheetData: Sheet = new Sheet();
   async geSheetInfo(id: string) {
     const rsp = await SheetService.getSheetInfo(id);
-    this.sheetData = rsp.sheet;
+    this.sheetData = rsp;
   }
 
   actionInstance: ActionInstance = new ActionInstance();

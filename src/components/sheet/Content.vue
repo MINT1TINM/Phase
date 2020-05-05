@@ -4,17 +4,21 @@
       <v-text-field
         single-line
         hide-details
-        v-model="sheetInfoShow.name"
+        label="标题"
+        v-model="sheetInfo.name"
         class="subtitle-1 font-weight-black"
       ></v-text-field>
       <v-spacer></v-spacer>
+      <span class="caption">
+        {{ sheetInfo.createdAt | format('yyyy-MM-dd hh:mm') }}</span
+      >
     </v-toolbar>
 
     <!-- key -->
     <v-container class="pt-0" fluid v-if="templateInfo.type === `key`">
       <dim-form
         :formContent="formContent"
-        :target="sheetInfoShow.content"
+        :target="sheetInfo.content"
       ></dim-form>
     </v-container>
 
@@ -29,7 +33,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, i) in sheetInfoShow.content" :key="`c-${i}`">
+          <tr v-for="(item, i) in sheetInfo.content" :key="`c-${i}`">
             <td v-for="(field, i) in formContent" :key="`field-${i}`">
               <v-text-field
                 outlined
@@ -66,46 +70,39 @@ export default class FillSheet extends Vue {
   target = {};
   templateInfo: Template = new Template();
   sheetInfo: Sheet = new Sheet();
+  formContent: Field[] = [];
 
-  get formContent() {
-    const c = this.templateInfo.field.data;
+  @Watch('sheetID')
+  async onSheetIDChanged() {
+    this.sheetInfo = await SheetService.getSheetInfo(this.sheetID);
+    this.templateInfo = (
+      await SheetService.getSheetTemplate(this.sheetTemplateID)
+    ).template;
 
-    c.forEach((e: any) => {
-      if (e.type == 'file-input') {
-        e.changeFunc = async (v: any) => {
-          if (v) {
-            const rsp = await FileService.uploadFile(v, '', '');
-            this.sheetInfoShow.content[e.name] = rsp.path;
-          }
-        };
-        e.downFunc = () => {
-          FileService.downloadFileFromFs(this.sheetInfoShow.content[e.name]);
-        };
-      }
-    });
-    return c;
-  }
-
-  get sheetInfoShow() {
-    for (let i = 0; i < this.templateInfo.field.data.length; i++) {
-      const e = this.templateInfo.field.data[i];
-      if (e.type === 'multi-select') {
+    this.templateInfo.field.data.forEach(e => {
+      if (e.type == 'multi-select') {
         if (this.sheetInfo.content[e.name] === undefined) {
           this.sheetInfo.content[e.name] = {
             data: []
           };
         }
       }
-    }
-    return this.sheetInfo;
-  }
+    });
 
-  @Watch('sheetID')
-  async onSheetIDChanged() {
-    this.sheetInfo = await SheetService.getSheetInfo(this.sheetID);
-    this.templateInfo = await SheetService.getSheetTemplate(
-      this.sheetTemplateID
-    );
+    this.formContent = this.templateInfo.field.data.map(e => {
+      if (e.type == 'file-input') {
+        e.changeFunc = async (v: any) => {
+          if (v) {
+            const rsp = await FileService.uploadFile(v, '', '');
+            this.sheetInfo.content[e.name] = rsp.path;
+          }
+        };
+        e.downFunc = () => {
+          FileService.downloadFileFromFs(this.sheetInfo.content[e.name]);
+        };
+      }
+      return e;
+    });
   }
 
   mounted() {}
