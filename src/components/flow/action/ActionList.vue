@@ -187,7 +187,7 @@ export default class ActionView extends Vue {
     try {
       const ad = new ActionDefine(
         this.actionName,
-        this.workflowDefineID,
+        Number(this.workflowDefineID),
         this.sheetTemplateID,
         this.authorization.userID,
         this.actionGroup,

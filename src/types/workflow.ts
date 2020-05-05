@@ -58,10 +58,10 @@ class Event {
 
 class ActionDefine {
   constructor(
-    name: string,
-    flowID: number,
-    sheetTemplateID: string,
-    userID: string,
+    name: string = '',
+    flowID: number = -1,
+    sheetTemplateID: string = '',
+    userID: string = '',
     groupList: any[] = [],
     is_project_action: boolean = false,
     extraInfo: any = {}
