@@ -8,7 +8,11 @@
               >事件</v-toolbar-title
             >
             <v-spacer></v-spacer>
-            <v-btn icon @click="createActionDefineDialog = true">
+            <v-btn
+              icon
+              @click="createActionDefineDialog = true"
+              v-if="OUTER_PROJECT_MODE"
+            >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </v-toolbar>
@@ -94,24 +98,27 @@
           </v-row>
           <!-- <hr class="primary"> -->
           <v-row dense>
-            <v-col cols="6">
+            <v-col cols="5">
               <v-text-field
                 dense
                 outlined
                 hide-details
                 label="事件名称"
-                v-model="ActionName"
+                v-model="actionName"
               ></v-text-field>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="5">
               <v-select
                 dense
                 outlined
                 hide-details
                 label="所属部门"
-                v-model="ActionGroup"
+                v-model="actionGroup"
               ></v-select>
             </v-col>
+            <!-- <v-col cols="2">
+              <v-switch dense outlined hide-details label="项目事件" v-model="isProjectAction"></v-switch>
+            </v-col> -->
           </v-row>
         </v-container>
         <v-card-actions class="justify-center">
@@ -149,13 +156,21 @@ export default class ActionView extends Vue {
   @Prop({ default: () => [] }) actionDefineList!: ActionDefine[];
   @Prop({ default: () => [] }) sheetTemplateList!: Template[];
   @Prop({ default: () => [] }) workflowList!: any[];
+  @Prop({ default: () => '00000000-0000-0000-0000-000000000000' })
+  projectID!: string;
+
+  get OUTER_PROJECT_MODE() {
+    return this.projectID == '00000000-0000-0000-0000-000000000000';
+  }
+
   actionDefineID: string = '';
   activeItemIndex: any = '';
 
   workflowDefineID: string = '';
   sheetTemplateID: string = '';
-  ActionName: string = '';
-  ActionGroup: string[] = [];
+  actionName: string = '';
+  actionGroup: string[] = [];
+  isProjectAction: boolean = false;
   actionInstance: ActionInstance[] = [];
   content: string = '';
 
@@ -171,12 +186,12 @@ export default class ActionView extends Vue {
   async createActionDefine() {
     try {
       const ad = new ActionDefine(
-        this.ActionName,
+        this.actionName,
         this.workflowDefineID,
         this.sheetTemplateID,
         this.authorization.userID,
-        this.ActionGroup,
-        {}
+        this.actionGroup,
+        this.isProjectAction
       );
       await this.updateActionDefine(ad);
       this.$snack('创建成功', { color: 'success' });

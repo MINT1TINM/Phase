@@ -3,6 +3,7 @@
     :actionDefineList="actionDefineList"
     :sheetTemplateList="sheetTemplateList"
     :workflowList="workflowList"
+    :projectID="projectID"
   />
 </template>
 
@@ -25,6 +26,8 @@ const userModule = namespace('user');
   }
 })
 export default class ActionView extends Vue {
+  @Prop({ default: () => '00000000-0000-0000-0000-000000000000' })
+  projectID!: string;
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;
   actionDefineID: string = '';

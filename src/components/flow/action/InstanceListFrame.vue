@@ -34,6 +34,8 @@ export default class InstanceView extends Vue {
   createActionDefineDialog = false;
 
   async getActionInstanceList() {
+    console.log('projectID:', this.projectID);
+
     const rsp = await WorkflowService.getActionInstanceList(
       this.authorization.userID,
       this.projectID

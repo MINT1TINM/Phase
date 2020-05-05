@@ -62,22 +62,25 @@ class ActionDefine {
     flowID: string,
     sheetTemplateID: string,
     userID: string,
-    groupList: any[],
-    extraInfo: any
+    groupList: any[] = [],
+    is_project_action: boolean = false,
+    extraInfo: any = {}
   ) {
     this.name = name;
     this.flowID = flowID;
     this.sheetTemplateID = sheetTemplateID;
     this.userID = userID;
     this.groupList = groupList;
+    this.is_project_action = is_project_action;
     this.extraInfo = extraInfo;
   }
   id!: string;
   name!: string;
   flowID!: string;
   sheetTemplateID!: string;
-  groupList!: any[];
   userID!: string;
+  groupList!: any[];
+  is_project_action!: boolean;
   extraInfo!: any;
 }
 
