@@ -61,6 +61,7 @@ const projectModule = namespace('project');
 })
 export default class FillSheet extends Vue {
   @Prop({ default: {} }) sheetID!: string;
+  @Prop() sheetTemplateID!: string;
 
   target = {};
   templateInfo: Template = new Template();
@@ -103,7 +104,7 @@ export default class FillSheet extends Vue {
   async onSheetIDChanged() {
     this.sheetInfo = await SheetService.getSheetInfo(this.sheetID);
     this.templateInfo = await SheetService.getSheetTemplate(
-      this.sheetInfo.templateID
+      this.sheetTemplateID
     );
   }
 

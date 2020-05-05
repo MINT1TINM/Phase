@@ -59,7 +59,7 @@ class Event {
 class ActionDefine {
   constructor(
     name: string,
-    flowID: string,
+    flowID: number,
     sheetTemplateID: string,
     userID: string,
     groupList: any[],
@@ -74,7 +74,7 @@ class ActionDefine {
   }
   id!: string;
   name!: string;
-  flowID!: string;
+  flowID!: number;
   sheetTemplateID!: string;
   groupList!: any[];
   userID!: string;

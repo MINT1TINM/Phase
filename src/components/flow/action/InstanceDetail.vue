@@ -40,7 +40,10 @@
       </v-toolbar>
       <SheetTemplatePreview :currentTemplateID="actionDefine.sheetTemplateID"></SheetTemplatePreview>-->
 
-      <SheetContent :sheetID="actionDefine.sheetTemplateID"></SheetContent>
+      <SheetContent
+        :sheetTemplateID="actionDefine.sheetTemplateID"
+        :sheetID="actionInstance.sheetDataID"
+      ></SheetContent>
 
       表单展示 编辑权限={{ INSTANCE_EDIT_AUTHORITY }}
     </v-container>
@@ -50,7 +53,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import CompanyService from '@/service/companyService';
-import { namespace } from 'vuex-class';
+import { namespace, Action } from 'vuex-class';
 import { Authorization, UserInfo } from '@/types/user';
 import { Sheet } from '@/types/sheet';
 import WorkflowService from '@/service/workflowService';
@@ -94,7 +97,7 @@ export default class ActionInstanceComponent extends Vue {
     );
   }
 
-  actionDefine: any = {};
+  actionDefine: ActionDefine = new ActionDefine('', 0, '', '', [], {});
   workflowDefineID: number = -1;
   async getActionDefine(id: string) {
     const rsp = await WorkflowService.getActionDefine(id);
