@@ -27,17 +27,16 @@
                 @click="actionInstanceID = item.id"
               >
                 <v-list-item-content>
-                  <v-list-item-subtitle>
-                    {{ item.createdAt | format('yyyy-MM-dd') }}
-                    {{
-                      isProjectAction(item.projectID)
-                        ? '项目内事件'
-                        : '项目外事件'
-                    }}
-                  </v-list-item-subtitle>
+                  <v-list-item-subtitle>{{
+                    item.createdAt | format('yyyy-MM-dd')
+                  }}</v-list-item-subtitle>
                   <v-list-item-title>{{ item.name }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action-text>
+                  <span v-if="isProjectAction(item.projectID)"
+                    >项目事件&nbsp;</span
+                  >
+                  <!-- <span v-else>项目外事件&nbsp;</span> -->
                   <span
                     v-if="item.status == '未提交'"
                     class="secondary--text"
