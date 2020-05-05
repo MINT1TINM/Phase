@@ -115,7 +115,7 @@ export default class SheetInfo extends Vue {
   async getSheetInfo(sheetID: string) {
     this.sheetInfo = new Sheet();
     const rsp = await SheetService.getSheetInfo(sheetID);
-    this.sheetInfo = rsp.sheet;
+    this.sheetInfo = rsp;
   }
 
   async getTemplateInfo(templateID: string) {

@@ -167,17 +167,7 @@ export default class Login extends Vue {
 
         this.toggleFullScreenLoading(false);
 
-        const rsp = await this.$confirm('微信登录？', {
-          buttonTrueColor: 'success',
-          dark: this.$vuetify.theme.dark
-        });
-        if (rsp) {
-          this.wechatLogin();
-        } else {
-          window.location.href = '/home';
-        }
-
-        // window.location.href = '/home';
+        window.location.href = '/home';
       } catch (err) {
         this.toggleFullScreenLoading(false);
       }
