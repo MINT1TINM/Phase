@@ -7,6 +7,12 @@
         }}
         编辑权限:{{ INSTANCE_EDIT_AUTHORITY }}
       </v-toolbar-title>
+      <template v-if="INSTANCE_COPY_AUTHORITY">
+        <v-spacer></v-spacer>
+        <v-btn text color="info" @click="copyActionInstance()">
+          <v-icon size="20" class="mr-2">mdi-content-copy</v-icon>复制实例
+        </v-btn>
+      </template>
       <template v-if="INSTANCE_EDIT_AUTHORITY">
         <v-spacer></v-spacer>
         <v-btn text color="success" @click="startActionInstance()">
@@ -46,7 +52,6 @@
           :editable="INSTANCE_EDIT_AUTHORITY"
         ></SheetContent>
       </v-card>
-
       表单展示 编辑权限={{ INSTANCE_EDIT_AUTHORITY }}
     </v-container>
   </div>
@@ -83,18 +88,25 @@ export default class ActionInstanceComponent extends Vue {
   @Prop({ default: () => '' }) actionInstanceID!: string;
   @Prop({ default: () => false }) approvalAuthority!: boolean;
   @Prop() refreshActionInstanceList!: any;
-  isApproved: string[] = [];
+  @Prop() resetActiveItemIndex!: any;
+  approvedInstanceList: string[] = [];
 
   get INSTANCE_APPROVE_AUTHORITY(): boolean {
     return (
       this.actionInstance.status == '审批中' &&
       this.approvalAuthority == true &&
-      this.isApproved.indexOf(this.actionInstanceID) == -1
+      this.approvedInstanceList.indexOf(this.actionInstanceID) == -1
     );
   }
   get INSTANCE_EDIT_AUTHORITY(): boolean {
     return (
       this.actionInstance.status == '未提交' &&
+      this.authorization.userID == this.actionInstance.userID
+    );
+  }
+  get INSTANCE_COPY_AUTHORITY(): boolean {
+    return (
+      this.actionInstance.status == '已中止' &&
       this.authorization.userID == this.actionInstance.userID
     );
   }
@@ -159,6 +171,17 @@ export default class ActionInstanceComponent extends Vue {
     if (this.actionInstanceID) this.getActionInstance(this.actionInstanceID);
   }
 
+  async copyActionInstance() {
+    try {
+      await WorkflowService.copyActionInstance(this.actionInstanceID);
+      this.refreshComponent();
+      this.resetActiveItemIndex();
+      this.$snack('操作成功', { color: 'success' });
+    } catch (_) {
+      this.$snack('操作失败', { color: 'error' });
+    }
+  }
+
   approvalCommand: string = 'approval command';
   approvalResult: boolean = true;
   approvalCommandDialog: boolean = false;
@@ -174,7 +197,7 @@ export default class ActionInstanceComponent extends Vue {
         this.workflowInstance.id,
         this.approvalCommand
       );
-      this.isApproved.push(this.actionInstanceID);
+      this.approvedInstanceList.push(this.actionInstanceID);
       this.refreshComponent();
       this.$snack('操作成功', { color: 'success' });
     } catch (_) {

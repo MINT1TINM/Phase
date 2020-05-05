@@ -257,6 +257,17 @@ class WorkflowService {
     }
     return Promise.reject();
   }
+
+  static async copyActionInstance(id: string) {
+    const rsp = await basicService.getRequest(
+      '/workflow/action/instance/copy',
+      { id }
+    );
+    return rsp as {
+      msg: string;
+      actionInstance: ActionInstance;
+    };
+  }
 }
 
 export default WorkflowService;

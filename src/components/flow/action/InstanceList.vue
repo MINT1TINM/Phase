@@ -27,9 +27,9 @@
                 @click="actionInstanceID = item.id"
               >
                 <v-list-item-content>
-                  <v-list-item-subtitle>{{
-                    item.createdAt | format('yyyy-MM-dd')
-                  }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>
+                    {{ item.createdAt | format('yyyy-MM-dd') }}
+                  </v-list-item-subtitle>
                   <v-list-item-title>{{ item.name }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action-text>
@@ -66,6 +66,7 @@
           :actionInstanceID="actionInstanceID"
           :approvalAuthority="approvalAuthority"
           :refreshActionInstanceList="refreshActionInstanceList"
+          :resetActiveItemIndex="resetActiveItemIndex"
         />
       </v-col>
     </v-row>
@@ -96,7 +97,10 @@ export default class InstanceView extends Vue {
   @Prop() refreshActionInstanceList: any;
   @userModule.Getter('authorization') authorization!: Authorization;
   @userModule.Getter('userInfo') userInfo!: UserInfo;
-  activeItemIndex: any = 0;
+  activeItemIndex: number = 0;
+  resetActiveItemIndex() {
+    this.activeItemIndex = 0;
+  }
 
   ActionName: string = '';
   ActionGroup: string[] = [];
