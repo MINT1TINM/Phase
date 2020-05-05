@@ -100,7 +100,7 @@ export default class ActionInstanceComponent extends Vue {
     );
   }
 
-  actionDefine: ActionDefine = new ActionDefine('', 0, '', '', [], {});
+  actionDefine: ActionDefine = new ActionDefine();
   workflowDefineID: number = -1;
   async getActionDefine(id: string) {
     const rsp = await WorkflowService.getActionDefine(id);

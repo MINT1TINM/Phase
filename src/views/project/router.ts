@@ -140,6 +140,16 @@ const router = new Router({
           path: '/settings',
           meta: '项目设置',
           component: () => import('@/views/project/settings/Settings.vue')
+        },
+        {
+          path: '/action',
+          meta: '项目事件',
+          component: () => import('@/views/project/action/ActionList.vue')
+        },
+        {
+          path: '/action/instance',
+          meta: '事件实例',
+          component: () => import('@/views/project/action/InstanceList.vue')
         }
       ]
     },

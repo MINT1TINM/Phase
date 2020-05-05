@@ -58,26 +58,29 @@ class Event {
 
 class ActionDefine {
   constructor(
-    name: string,
-    flowID: number,
-    sheetTemplateID: string,
-    userID: string,
-    groupList: any[],
-    extraInfo: any
+    name: string = '',
+    flowID: number = -1,
+    sheetTemplateID: string = '',
+    userID: string = '',
+    groupList: any[] = [],
+    is_project_action: boolean = false,
+    extraInfo: any = {}
   ) {
     this.name = name;
     this.flowID = flowID;
     this.sheetTemplateID = sheetTemplateID;
     this.userID = userID;
     this.groupList = groupList;
+    this.is_project_action = is_project_action;
     this.extraInfo = extraInfo;
   }
   id!: string;
   name!: string;
   flowID!: number;
   sheetTemplateID!: string;
-  groupList!: any[];
   userID!: string;
+  groupList!: any[];
+  is_project_action!: boolean;
   extraInfo!: any;
 }
 

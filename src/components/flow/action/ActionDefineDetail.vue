@@ -48,13 +48,13 @@ const userModule = namespace('user');
 export default class ActionDefineComponent extends Vue {
   @Prop({ default: () => '' }) actionDefineID!: string;
   @userModule.Getter('authorization') authorization!: Authorization;
-  actionDefine = new ActionDefine('', '', '', '', [], undefined);
+  actionDefine = new ActionDefine();
   workflowDefine = new Flow();
   workflowDefineID!: string;
   async getActionDefine(id: string) {
     const rsp = await WorkflowService.getActionDefine(id);
     this.actionDefine = rsp.actionDefine;
-    this.workflowDefineID = this.actionDefine.flowID;
+    this.workflowDefineID = String(this.actionDefine.flowID);
     await this.getWorkflowDefine(Number(this.workflowDefineID));
   }
   async getWorkflowDefine(id: number) {
