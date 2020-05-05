@@ -39,10 +39,13 @@
       </v-toolbar>
       <SheetTemplatePreview :currentTemplateID="actionDefine.sheetTemplateID"></SheetTemplatePreview>-->
 
-      <SheetContent
-        :sheetTemplateID="actionDefine.sheetTemplateID"
-        :sheetID="actionInstance.sheetDataID"
-      ></SheetContent>
+      <v-card class="mt-3">
+        <SheetContent
+          :sheetTemplateID="actionDefine.sheetTemplateID"
+          :sheetID="actionInstance.sheetDataID"
+          :editable="INSTANCE_EDIT_AUTHORITY"
+        ></SheetContent>
+      </v-card>
 
       表单展示 编辑权限={{ INSTANCE_EDIT_AUTHORITY }}
     </v-container>

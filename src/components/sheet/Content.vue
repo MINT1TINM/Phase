@@ -3,14 +3,20 @@
     <v-toolbar color="transparent" flat>
       <v-text-field
         single-line
+        outlined
+        dense
         hide-details
         label="标题"
         v-model="sheetInfo.name"
         class="subtitle-1 font-weight-black"
       ></v-text-field>
       <v-spacer></v-spacer>
-      <span class="caption">
-        {{ sheetInfo.createdAt | format('yyyy-MM-dd hh:mm') }}</span
+      <span class="caption mr-5">
+        上次更新 {{ sheetInfo.updatedAt | format('yyyy-MM-dd hh:mm') }}
+      </span>
+      <v-btn @click="saveSheet" text
+        ><v-icon size="20" class="mr-2">mdi-content-save-outline</v-icon
+        >保存</v-btn
       >
     </v-toolbar>
 
@@ -19,6 +25,7 @@
       <dim-form
         :formContent="formContent"
         :target="sheetInfo.content"
+        :disabled="!editable"
       ></dim-form>
     </v-container>
 
@@ -39,6 +46,7 @@
                 outlined
                 single-line
                 hide-details
+                :readonly="!editable"
                 v-model="item[field.name]"
                 dense
               ></v-text-field>
@@ -46,6 +54,21 @@
           </tr>
         </tbody>
       </v-simple-table>
+
+      <v-layout justify-center class="mt-3">
+        <v-flex xs6>
+          <v-btn
+            block
+            @click="insertListElement"
+            depressed
+            outlined
+            rounded
+            color="primary"
+          >
+            <v-icon size="20">mdi-plus</v-icon>
+          </v-btn>
+        </v-flex>
+      </v-layout>
     </v-container>
   </div>
 </template>
@@ -66,11 +89,28 @@ const projectModule = namespace('project');
 export default class FillSheet extends Vue {
   @Prop({ default: {} }) sheetID!: string;
   @Prop() sheetTemplateID!: string;
+  @Prop() editable!: boolean;
 
   target = {};
   templateInfo: Template = new Template();
   sheetInfo: Sheet = new Sheet();
   formContent: Field[] = [];
+
+  async saveSheet() {
+    await SheetService.updateSheet(
+      this.sheetInfo.id,
+      this.sheetInfo.name,
+      this.sheetInfo.target,
+      this.sheetInfo.content
+    );
+  }
+
+  insertListElement() {
+    if (!this.sheetInfo.content) {
+      this.sheetInfo.content = [];
+    }
+    this.sheetInfo.content.push({});
+  }
 
   @Watch('sheetID')
   async onSheetIDChanged() {
