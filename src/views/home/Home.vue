@@ -650,7 +650,8 @@ export default class ComponentName extends Vue {
   }
 
   toFlow(ins: Instance) {
-    window.location.href = `/flow#/todo/${ins.id}`;
+    window.location.href = `/flow#/todo`;
+    // window.location.href = `/flow#/todo/${ins.id}`;
   }
 
   async mounted() {
