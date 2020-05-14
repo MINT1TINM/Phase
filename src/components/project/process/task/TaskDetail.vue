@@ -39,6 +39,13 @@
     >
       <transition appear appear-active-class="fade-up-enter">
         <v-container fluid>
+          <v-toolbar color="transparent" dense flat>
+            <v-spacer></v-spacer>
+            <v-btn @click="restoreSubTask" text
+              ><v-icon size="20" class="mr-2">mdi-restore </v-icon
+              >修复子任务</v-btn
+            >
+          </v-toolbar>
           <sub-task :subTask="currentTask.subTask || { data: [] }"></sub-task>
           <related-sheet
             :sheetIDList="currentTask.sheet.data"
@@ -230,6 +237,18 @@ export default class TaskDetail extends Vue {
 
     // sync task list
     this.syncTaskList();
+  }
+
+  async restoreSubTask() {
+    const res = await this.$confirm('此操作无法恢复', {
+      title: '确认还原?',
+      buttonTrueColor: 'primary',
+      dark: this.$vuetify.theme.dark
+    });
+    if (res) {
+      await TaskService.restoreSubTask(this.currentTask);
+      this.getTaskInfo();
+    }
   }
 
   private async syncTaskList() {

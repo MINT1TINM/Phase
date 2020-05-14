@@ -143,6 +143,11 @@ class TaskService {
     }
     return rsp;
   }
+
+  static async restoreSubTask(t: Task) {
+    const rsp = await basicService.postRequest('/task/subtask/restore', t);
+    return rsp;
+  }
 }
 
 export default TaskService;
