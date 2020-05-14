@@ -522,7 +522,7 @@ export default class SubTaskList extends Vue {
 
       return subTask;
     }
-    return [];
+    return { data: [] };
   }
 }
 </script>
