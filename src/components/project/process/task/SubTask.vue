@@ -493,7 +493,7 @@ export default class SubTaskList extends Vue {
   }
 
   private async downloadFile(item: any) {
-    window.open(`/api/file/download?sName=${item.sName}`, '_blank');
+    window.open(`/api/file/download?sName=${item.sName}&type=upload`, '_blank');
     // await FileService.downloadFile(item.sName);
   }
 
