@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row no-gutters>
-      <v-col cols="9">
+      <v-col cols="12">
         <v-container fluid>
           <v-card>
             <v-toolbar dense flat>
