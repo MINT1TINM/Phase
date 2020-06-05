@@ -35,48 +35,34 @@
 
     <v-container fluid pa-0 style="height:calc(100vh - 98px)">
       <v-layout fill-height>
-        <!-- file grid -->
-        <v-flex style="height:100%" v-on:click="clickBlank">
-          <v-container grid-list-md fluid>
-            <transition appear appear-active-class="fade-up-enter">
-              <v-layout row wrap>
-                <v-flex
-                  sm6
-                  md2
+        <v-flex style="height:100%">
+          <v-simple-table class="transparent">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th style="width:30px"></th>
+                  <th class="text-left">名称</th>
+                  <th class="text-left">创建日期</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
                   v-for="(item, i) in fileListShow"
                   :key="`file-${i}`"
-                  style="user-select:none"
+                  @click="showInfo(item, i)"
+                  @dblclick="openCatalog(item, i)"
                 >
-                  <v-hover v-slot:default="{ hover }">
-                    <v-card
-                      class="mx-auto"
-                      flat
-                      :color="hover ? `#30303017` : `transparent`"
-                      @click="showInfo(item, i)"
-                      @dblclick="openCatalog(item, i)"
-                      id="file-grid"
-                    >
-                      <div style="pointer-events:none">
-                        <v-layout justify-center class="pt-2">
-                          <doc-icon :item="item"></doc-icon>
-                        </v-layout>
-                        <v-card-text class="text-center pb-0 pt-1 body-2">{{
-                          item.name | cut
-                        }}</v-card-text>
-                        <v-card-text
-                          class="text-center pt-0 caption grey--text"
-                          >{{
-                            item.createdAt | format('yyyy-MM-dd')
-                          }}</v-card-text
-                        >
-                      </div>
-                    </v-card>
-                  </v-hover>
-                </v-flex>
-              </v-layout>
-            </transition>
-          </v-container>
+                  <td><doc-icon :size="30" :item="item"></doc-icon></td>
+                  <td>{{ item.name }}</td>
+                  <td>
+                    {{ item.createdAt | format('yyyy-MM-dd') }}
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
         </v-flex>
+
         <!-- file info -->
         <v-flex
           class="inner-sidebar-withoutpadding elevation-6"
